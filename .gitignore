@@ -5,6 +5,7 @@ build/*.exe
 build/*.obj
 build/*.pdb
 build/*.ilk
+build/*.map
 
 # Windows image file caches
 Thumbs.db

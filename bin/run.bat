@@ -2,6 +2,6 @@
 
 pushd "W:/assets"
 
-W:/build/OpenRPG.exe %*
+W:/build/Game.exe %*
 
 popd
