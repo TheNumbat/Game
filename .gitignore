@@ -1,3 +1,11 @@
+docs/html/
+docs/latex/
+
+build/*.exe
+build/*.obj
+build/*.pdb
+build/*.ilk
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
