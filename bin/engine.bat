@@ -10,7 +10,7 @@ set LinkFlags=/incremental:NO /NODEFAULTLIB:msvcrtd.lib /subsystem:console,5.01 
 set Files=w:\code\engine\main.cpp
 
 :: actually call cl
-cl /Fe:Game.exe %CompileFlags% %Files% /link %LinkFlags%
+cl /Fe:Engine.exe %CompileFlags% %Files% /link %LinkFlags%
 
 :: go back to wherever we were
 popd
