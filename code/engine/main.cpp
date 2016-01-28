@@ -2,12 +2,14 @@
 
 /**
 	@file main.cpp
-	@author Max Slater
 
 	@brief Contains main function of program, manages dynamic code reloading.
 	
-	<extensive explanation>
+	Loads the game code, allocates a state, and calls into the game logic
+	functions. Each frame it will test if the code needs to be reloaded and
+	will do so if needed.
 
+	@author Max Slater
 	@version 1.00 (27 August 2016)
         Created
 */
@@ -25,23 +27,39 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+/// Pointer type for gameLoop function
 typedef bool (*CreateGameLoop)();
+/// Pointer type for onLoad function
 typedef void (*CreateOnLoad)();
+/// Pointer type for onFree function
 typedef void (*CreateOnFree)();
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
-struct libData {
-	void* dllHandle;
-	std::string SFile;
+/**
+	@brief Holds neccessary data for reloading the game code, as well as pointers
+		   to the game code functions.
+*/
+struct libData 
+{
+	/// Pointer to SDL Object handle (Game code DLL)
+	void* dllHandle;	
+	/// Path to Game.dll	
+	std::string SFile;	
+	/// Path to be used for GameTemp.dll	
 	std::string DFile;
 
+	/// Pointer to gameLoop function
 	CreateGameLoop gameLoop;
-	CreateOnLoad onLoad;
-	CreateOnFree onFree;
+	/// Pointer to onLoad function	
+	CreateOnLoad onLoad;	
+	/// Pointer to onFree function	
+	CreateOnFree onFree;		
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
+
+bool reloadLib(libData& data);
 
 // Free function implementation  //////////////////////////////////////////////
 
@@ -57,12 +75,13 @@ struct libData {
 	
 	@return int sucess, 0 = successful.
 
-	@exception Will fail and quit if DLL or its functions fail to load properly
+	@exception Assertions will fail if DLL or its functions fail to load properly
 */
 int main(int argc, char** argv)
 {
 	libData data = {};
 
+	// Get file names
 	char buffer[MAX_PATH];
 	GetModuleFileName(NULL, buffer, sizeof(buffer));
 	data.SFile = buffer;
@@ -70,20 +89,81 @@ int main(int argc, char** argv)
 	data.DFile = data.SFile + "GameTemp.dll";
 	data.SFile = data.SFile + "Game.dll";
 
+	// Copy Game.dll to GameTemp.dll -- makes sure Game.dll is not locked so
+	// we can reload from it
 	assert(CopyFile(data.SFile.c_str(),data.DFile.c_str(),false));
 
+	// Load GameTemp.dll
 	data.dllHandle = SDL_LoadObject(data.DFile.c_str());
 	assert(data.dllHandle);
 
+	// Load functions
 	data.gameLoop = (CreateGameLoop)SDL_LoadFunction(data.dllHandle,"gameLoop");
 	data.onLoad = (CreateOnLoad)SDL_LoadFunction(data.dllHandle,"onLoad");
 	data.onFree = (CreateOnFree)SDL_LoadFunction(data.dllHandle,"onFree");
-
 	assert(data.gameLoop && data.onLoad && data.onFree);
 	
-	while((*data.gameLoop)()) {}
+	// Loaded
+	(*data.onLoad)();
+
+	// Run game loop
+	while((*data.gameLoop)()) {
+		reloadLib(data);
+	}
 
 	return 0;
+}
+
+/**
+	@brief Dynamically reloads game code
+	
+	Checks if the Game DLL has been written to since the last reload, and if
+	it has will reload the game DLL and functions.
+
+	@param[in] libData& contains needed data to reload code
+	
+	@return bool sucess
+
+	@exception Assertions will fail if DLL or its functions fail to load properly
+*/
+bool reloadLib(libData& data) {
+
+	// Find last write time to Game.dl
+	WIN32_FILE_ATTRIBUTE_DATA FData;
+	assert(GetFileAttributesEx(data.SFile.c_str(),GetFileExInfoStandard,&FData));
+	static FILETIME LastWriteTime = FData.ftLastWriteTime;
+
+	// If file has changed
+	if(CompareFileTime(&FData.ftLastWriteTime,&LastWriteTime) == 1) {
+
+		LastWriteTime = FData.ftLastWriteTime;
+
+		// Free DLL
+		(*data.onFree)();
+		SDL_UnloadObject(data.dllHandle);
+
+		// Copy to temp DLL
+		while(!CopyFile(data.SFile.c_str(),data.DFile.c_str(),false)) {
+			/// \todo make waiting for temp file to unlock better -- maybe generate
+			/// GameTemp + reloadNum.dll each time
+			SDL_Delay(1);
+		}
+
+		// Load new temp DLL
+		data.dllHandle = SDL_LoadObject(data.DFile.c_str());
+		assert(data.dllHandle);
+
+		// Load functions
+		data.gameLoop = (CreateGameLoop)SDL_LoadFunction(data.dllHandle,"gameLoop");
+		data.onLoad = (CreateOnLoad)SDL_LoadFunction(data.dllHandle,"onLoad");
+		data.onFree = (CreateOnFree)SDL_LoadFunction(data.dllHandle,"onFree");
+		assert(data.gameLoop && data.onLoad && data.onFree);
+
+		// Loaded
+		(*data.onLoad)();
+	}
+
+	return true;
 }
 
 // Class/Data Structure member implementations  ///////////////////////////////

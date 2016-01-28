@@ -17,6 +17,7 @@
 
 #pragma once
 
+/// Define a function to be exported in the game DLL
 #define DllExport extern "C" __declspec(dllexport)
 
 // Header files ///////////////////////////////////////////////////////////////
