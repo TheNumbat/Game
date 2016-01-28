@@ -9,6 +9,7 @@ build/*.map
 build/*.lib
 build/*.exp
 build/Game.dll
+build/GameTemp.dll
 
 # Windows image file caches
 Thumbs.db

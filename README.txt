@@ -7,6 +7,6 @@ cloc: count lines of code in a directory
 docs: compile doxygen docs
 edit: open sublime text to edit (Sublime)
 engine: build the engine (MSVC)
-game: buidl the game (MSVC)
+game: build the game (MSVC)
 run: run the game
 debug: run the debugger (MSVC)
