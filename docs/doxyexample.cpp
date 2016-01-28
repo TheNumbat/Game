@@ -1,18 +1,31 @@
+// Program Information ////////////////////////////////////////////////////////
 
 /**
 	@file doxyexample.cpp
 	@author Max Slater
-	@date 27 Jan 2016
+
 	@brief File containing example of doxygen usage for quick reference.
 
 	Here typically goes a more extensive explanation of what the header
 	defines. Doxygens tags are words preceeded by either a backslash @\
 	or by an at symbol @@.
 
+	@version 1.00 (27 August 2016)
+        Created
+
 	@see http://www.stack.nl/~dimitri/doxygen/docblocks.html
 	@see http://www.stack.nl/~dimitri/doxygen/commands.html
 */
 
+// Precompiler directives /////////////////////////////////////////////////////
+
+#pragma once
+
+// Header files ///////////////////////////////////////////////////////////////
+
+#include <iostream>
+
+// Class/Data Structure member implementations  ///////////////////////////////
 
 /**
 	@brief Use brief, otherwise the index won't have a brief explanation.
@@ -86,3 +99,5 @@ Box_The_Function_Name(BoxParamType1 param1, BoxParamType2 param2 /*, ...*/);
 */
 BOXEXPORT void *
 Box_The_Second_Function(void);
+
+// Terminating precompiler directives  ////////////////////////////////////////
