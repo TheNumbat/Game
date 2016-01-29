@@ -20,10 +20,15 @@
 
 // Header files ///////////////////////////////////////////////////////////////
 
+#include "engine_common.h"
+
+#include "log/logMgr.h"
+
 #include <windows.h>
 #include <SDL.h>
 #include <string>
-#include <assert.h>
+#include <iostream>
+        using namespace std;
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -55,6 +60,9 @@ struct libData
 	CreateOnLoad onLoad;	
 	/// Pointer to onFree function	
 	CreateOnFree onFree;		
+
+	/// Logger for game code reloading
+	logMgr logger;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
@@ -81,6 +89,9 @@ int main(int argc, char** argv)
 {
 	libData data = {};
 
+	data.logger.StartLog("MAIN",true);
+	data.logger.LogDefault("Hello world!");
+
 	// Get file names
 	char buffer[MAX_PATH];
 	GetModuleFileName(NULL, buffer, sizeof(buffer));
@@ -91,7 +102,8 @@ int main(int argc, char** argv)
 
 	// Copy Game.dll to GameTemp.dll -- makes sure Game.dll is not locked so
 	// we can reload from it
-	assert(CopyFile(data.SFile.c_str(),data.DFile.c_str(),false));
+	bool result = CopyFile(data.SFile.c_str(),data.DFile.c_str(),false);
+	assert(result);
 
 	// Load GameTemp.dll
 	data.dllHandle = SDL_LoadObject(data.DFile.c_str());
@@ -101,6 +113,7 @@ int main(int argc, char** argv)
 	data.gameLoop = (CreateGameLoop)SDL_LoadFunction(data.dllHandle,"gameLoop");
 	data.onLoad = (CreateOnLoad)SDL_LoadFunction(data.dllHandle,"onLoad");
 	data.onFree = (CreateOnFree)SDL_LoadFunction(data.dllHandle,"onFree");
+
 	assert(data.gameLoop && data.onLoad && data.onFree);
 	
 	// Loaded
@@ -128,9 +141,12 @@ int main(int argc, char** argv)
 */
 bool reloadLib(libData& data) {
 
-	// Find last write time to Game.dl
+	// Find last write time to Game.dll
 	WIN32_FILE_ATTRIBUTE_DATA FData;
-	assert(GetFileAttributesEx(data.SFile.c_str(),GetFileExInfoStandard,&FData));
+	
+	bool result = GetFileAttributesEx(data.SFile.c_str(),GetFileExInfoStandard,&FData);
+	assert(result);
+
 	static FILETIME LastWriteTime = FData.ftLastWriteTime;
 
 	// If file has changed
@@ -144,9 +160,8 @@ bool reloadLib(libData& data) {
 
 		// Copy to temp DLL
 		while(!CopyFile(data.SFile.c_str(),data.DFile.c_str(),false)) {
-			/// \todo make waiting for temp file to unlock better -- maybe generate
+			/// @todo make waiting for temp file to unlock better -- maybe generate
 			/// GameTemp + reloadNum.dll each time
-			SDL_Delay(1);
 		}
 
 		// Load new temp DLL
@@ -161,6 +176,8 @@ bool reloadLib(libData& data) {
 
 		// Loaded
 		(*data.onLoad)();
+
+		data.logger.LogInfo("Reloaded game code.");
 	}
 
 	return true;

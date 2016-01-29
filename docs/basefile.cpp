@@ -2,12 +2,13 @@
 
 /**
 	@file file.cpp
-	@author Max Slater
 
 	@brief File
 
 	Explanation
 
+	@author Max Slater
+	
 	@version 1.00 ()
         Created
 */

@@ -5,7 +5,7 @@ IF NOT EXIST W:\build mkdir w:\build
 pushd w:\build
 
 :: setup flags for cl.exe
-set CompileFlags=/I"W:\deps\include" /I"W:\code\include" /Od /Zi /w /MD /EHsc /Fm:mapfile /LD
+set CompileFlags=/I"W:\deps\include" /I"W:\code\include" /I"W:\code\game" /Od /Zi /w /MD /EHsc /Fm:mapfile /LD
 set LinkFlags=/incremental:NO /NODEFAULTLIB:msvcrtd.lib /subsystem:console,5.01 /PDB:Game_%random%.pdb
 set Files=w:\code\game\game.cpp
 

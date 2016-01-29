@@ -22,9 +22,6 @@
 
 // Header files ///////////////////////////////////////////////////////////////
 
-#include <iostream>
-using namespace std;
-
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Free function prototypes  //////////////////////////////////////////////////
@@ -44,7 +41,6 @@ DllExport void onFree() {
 }
 
 DllExport bool gameLoop() {
-	cout << "gameLoop" << endl;
 	return true;
 }
 
