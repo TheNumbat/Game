@@ -114,8 +114,10 @@ int main(int argc, char** argv)
 	data.onLoad = (CreateOnLoad)SDL_LoadFunction(data.dllHandle,"onLoad");
 	data.onFree = (CreateOnFree)SDL_LoadFunction(data.dllHandle,"onFree");
 
-	assert(data.gameLoop && data.onLoad && data.onFree);
-	
+	assert(data.gameLoop && data.onLoad && data.onFree	);
+
+	data.logger.LogInfo("Game code loaded.");
+
 	// Loaded
 	(*data.onLoad)();
 

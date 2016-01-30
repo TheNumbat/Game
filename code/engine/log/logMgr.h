@@ -25,6 +25,7 @@
 #include "engine_common.h"
 
 #include <string>
+#include <iostream>
 #include <cyanlogger2.h>
 
 // Global constant definitions  ///////////////////////////////////////////////
@@ -36,6 +37,14 @@ const int FATAL = 3;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
+/**
+	@brief Manges logging using Matt Bauer's logging system. 
+
+	Used by all other managers for their logging.
+
+	@note Matt's logging system is threaded, so do not depend on it for debugging
+	purposes. To log straight to "cout" use LogDebug()
+*/
 class logMgr
 {
 public:
@@ -46,6 +55,7 @@ public:
 
 	void LogMsg(const std::string& msg, int lvl);
 	void LogRaw(const std::string& msg);
+	void LogDebug(const std::string& msg);
 
 	void LogDefault(const std::string& msg);
 	void LogInfo(const std::string& msg);
@@ -57,6 +67,7 @@ public:
 
 private:
 	cl2::Log logger;
+	std::string defaultLevel;
 	bool init;
 };
 

@@ -39,7 +39,9 @@
 	
 	@note Must call StartLog() to actually begin logging.
 */
-logMgr::logMgr() {}
+logMgr::logMgr() {
+	init = false;
+}
 
 /**
 	@brief Destructor for logMgr
@@ -61,6 +63,8 @@ void logMgr::StartLog(const std::string& defaultLvl, bool header)
 {
 	if( !init )
 	{
+		defaultLevel = defaultLvl;
+
 		// Destinations based on debug_defines.h
 		#ifdef CONSOLE_LOG
 			logger.AddDest(cl2::fh_stdout());
@@ -72,11 +76,11 @@ void logMgr::StartLog(const std::string& defaultLvl, bool header)
 
 		// Set up logger
 		logger.SetMaxBuffSize(0);
-		logger.AddLvlEntry(DEFAULT, "[" + defaultLvl + "] ");
-		logger.AddLvlEntry(INFO, "[" + defaultLvl + "/INFO] ");
-		logger.AddLvlEntry(WARNING, "[" + defaultLvl + "/WARNING] ");
-		logger.AddLvlEntry(FATAL, "[" + defaultLvl + "/FATAL] ");
 		logger.EnableInput();
+		logger.AddLvlEntry(DEFAULT, "[" + defaultLevel + "] ");
+		logger.AddLvlEntry(INFO, "[" + defaultLevel + "/INFO] ");
+		logger.AddLvlEntry(WARNING, "[" + defaultLevel + "/WARNING] ");
+		logger.AddLvlEntry(FATAL, "[" + defaultLevel + "/FATAL] ");
 
 		if( header )
 		{
@@ -118,6 +122,22 @@ void logMgr::LogMsg(const std::string& msg, int lvl)
 void logMgr::LogRaw(const std::string& msg)
 {
 	logger.PutRawMsg(msg);
+}
+
+/**
+	@brief Logs a messages direclty to cout -- use for debugging purposes
+
+	@pre Log must be initlaized
+
+	@param[in] msg is the raw message string to log
+*/
+void logMgr::LogDebug(const std::string& msg)
+{
+	if(init)
+	{
+		std::cout << "         [" << defaultLevel << "/DEBUG] "
+				  << msg << std::endl;
+	}
 }
 
 /**
