@@ -27,8 +27,6 @@
 #include <windows.h>
 #include <SDL.h>
 #include <string>
-#include <iostream>
-        using namespace std;
 
 // Global constant definitions  ///////////////////////////////////////////////
 

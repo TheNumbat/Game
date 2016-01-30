@@ -40,7 +40,7 @@
 	@note Must call StartLog() to actually begin logging.
 */
 logMgr::logMgr() {
-	init = false;
+	good = false;
 }
 
 /**
@@ -61,7 +61,7 @@ logMgr::~logMgr() {}
 */
 void logMgr::StartLog(const std::string& defaultLvl, bool header)
 {
-	if( !init )
+	if( !good )
 	{
 		defaultLevel = defaultLvl;
 
@@ -95,7 +95,11 @@ void logMgr::StartLog(const std::string& defaultLvl, bool header)
 		logger.SetRawMessageFormat("%i%m\n"); // NO ENDLINE
 		logger.SetTimestampFormat("%H:%m:%s");
 
-		init = true;
+		good = true;
+	}
+	else
+	{
+		LogWarn("Attempting to reinitialize logging");
 	}
 }
 
@@ -133,11 +137,8 @@ void logMgr::LogRaw(const std::string& msg)
 */
 void logMgr::LogDebug(const std::string& msg)
 {
-	if(init)
-	{
-		std::cout << "         [" << defaultLevel << "/DEBUG] "
-				  << msg << std::endl;
-	}
+	std::cout << "         [" << defaultLevel << "/DEBUG] "
+			  << msg << std::endl;
 }
 
 /**

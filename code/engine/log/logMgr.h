@@ -68,7 +68,7 @@ public:
 private:
 	cl2::Log logger;
 	std::string defaultLevel;
-	bool init;
+	bool good;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

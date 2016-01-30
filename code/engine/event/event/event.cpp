@@ -32,4 +32,34 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
+/**
+	@brief event default/parameterized constructor.
+
+	@param[in] t event type. See event type constants in event.h
+	@param[in] v event value. See event type constants in event.h
+	@param[in] f event flags. See event type constants in event.h
+*/
+event::event(uint8 t, uint32 v, uint32 f)
+{
+	type = t;
+	value = v;
+	flags = f;
+}
+
+/**
+	@brief event destructor
+*/
+event::~event()
+{
+	
+}
+
+/**
+	@brief tests if event is valid
+*/
+event::operator bool()
+{
+	return type != EVT_BAD;
+}
+
 // Terminating precompiler directives  ////////////////////////////////////////
