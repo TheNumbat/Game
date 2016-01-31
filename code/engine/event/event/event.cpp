@@ -47,7 +47,7 @@ event::event(uint8 t, uint32 v, uint32 f)
 }
 
 /**
-	@brief event destructor
+	@brief event destructor (no detailed docs)
 */
 event::~event()
 {
@@ -56,6 +56,8 @@ event::~event()
 
 /**
 	@brief tests if event is valid
+
+	Specifically, tests if the type is not EVT_BAD
 */
 event::operator bool()
 {

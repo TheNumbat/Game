@@ -48,11 +48,11 @@ public:
 	bool getNextEvent(event& e);
 
 private:
-	event& translateEvent(void* e);
-	event& translateKeyboardEvent(void* e);
-	event& translateWindowEvent(void* e);
-	event& translateMouseEvent(void* e);
-	event& translateJoystickEvent(void* e);
+	event& translateEvent(void* SDL_ev);
+	event& translateKeyboardEvent(void* SDL_ev);
+	event& translateWindowEvent(void* SDL_ev);
+	event& translateMouseEvent(void* SDL_ev);
+	event& translateJoystickEvent(void* SDL_ev);
 
 	logMgr logger;
 	bool good;
