@@ -10,6 +10,7 @@ build/*.lib
 build/*.exp
 build/Game.dll
 build/GameTemp.dll
+build/Engine.dll
 
 # Windows image file caches
 Thumbs.db
@@ -55,4 +56,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-build/GameTemp.dll
+
