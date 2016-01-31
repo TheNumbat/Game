@@ -1,15 +1,16 @@
 // Program Information ////////////////////////////////////////////////////////
 
 /**
-	@file eventMgr.h
+	@file engine_state.h
 
-	@brief Declartion file for event manager class.
+	@brief Declartion file for state class.
 
-	Event manager stores and translates events.
+	state does not do anything in of itself, it just holds together all the
+	engine components for use in the game logic code.
 
 	@author Max Slater
 
-	@version 1.00 (28 Jan 2016)
+	@version 1.00 (30 Jan 2016)
         Created
 */
 
@@ -21,41 +22,27 @@
 
 #include "engine_common.h"
 
+#include "event/eventMgr.h"
 #include "log/logMgr.h"
-#include "event/event.h"
-
-// Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 /**
-	@brief Manges events by translating the SDL events system
+	@brief Collects engine modules together for use in the game code.
 
-	Used for all input.
+	Used so the game logic can call into the engine
 
-	@note Doesn't actually store events, just pulls and translates from the SDL
-		  event queue.
+	@note should only be created once, in the main function of the engine.
 */
-class eventMgr
+struct engine_state
 {
-public:
-	API eventMgr();
-	API ~eventMgr();
-
-	API bool init();
-	API bool kill();
-
-	API bool getNextEvent(event& e);
-
-private:
-	event& translateEvent(void* SDL_ev);
-	event& translateKeyboardEvent(void* SDL_ev);
-	event& translateWindowEvent(void* SDL_ev);
-	event& translateMouseEvent(void* SDL_ev);
-	event& translateJoystickEvent(void* SDL_ev);
-
+	eventMgr events;
+	// graphicMgr graphics;
 	logMgr logger;
-	bool good;
+	// mapMgr map;
+	// soundMgr audio;
+	// threadMgr threads;
+	// timeMgr timing;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

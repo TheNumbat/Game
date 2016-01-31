@@ -14,5 +14,6 @@ del *.lib > NUL 2> NUL
 del *.map > NUL 2> NUL
 del Game.dll > NUL 2> NUL
 del GameTemp.dll > NUL 2> NUL
+del Engine.dll > NUL 2> NUL
 
 popd

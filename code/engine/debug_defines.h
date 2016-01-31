@@ -1,4 +1,7 @@
 
+// DLL
+#define EXPORTS
+
 // DEBUG
 
 #define ASSERSIONS

@@ -23,6 +23,7 @@
 #include "engine_common.h"
 
 #include "log/logMgr.h"
+#include "engine_state.h"
 
 #include <windows.h>
 #include <SDL.h>
@@ -31,11 +32,9 @@
 // Global constant definitions  ///////////////////////////////////////////////
 
 /// Pointer type for gameLoop function
-typedef bool (*CreateGameLoop)();
-/// Pointer type for onLoad function
-typedef void (*CreateOnLoad)();
-/// Pointer type for onFree function
-typedef void (*CreateOnFree)();
+typedef bool (*CreateGameLoop)(engine_state*);
+/// Pointer type for startup function
+typedef void (*CreateStartup)(engine_state*);
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -54,13 +53,14 @@ struct libData
 
 	/// Pointer to gameLoop function
 	CreateGameLoop gameLoop;
-	/// Pointer to onLoad function	
-	CreateOnLoad onLoad;	
-	/// Pointer to onFree function	
-	CreateOnFree onFree;		
+	/// Pointer to startup function	
+	CreateStartup startup;			
 
 	/// Logger for game code reloading
 	logMgr logger;
+
+	/// The engine state
+	engine_state* engine;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
@@ -87,8 +87,9 @@ int main(int argc, char** argv)
 {
 	libData data = {};
 
+	/// @todo make this an intialize function
 	data.logger.StartLog("MAIN",true);
-	data.logger.LogDefault("Hello world!");
+	data.logger.LogDefault("Hello world -- engine startup");
 
 	// Get file names
 	char buffer[MAX_PATH];
@@ -109,20 +110,26 @@ int main(int argc, char** argv)
 
 	// Load functions
 	data.gameLoop = (CreateGameLoop)SDL_LoadFunction(data.dllHandle,"gameLoop");
-	data.onLoad = (CreateOnLoad)SDL_LoadFunction(data.dllHandle,"onLoad");
-	data.onFree = (CreateOnFree)SDL_LoadFunction(data.dllHandle,"onFree");
+	data.startup = (CreateStartup)SDL_LoadFunction(data.dllHandle,"startup");
 
-	assert(data.gameLoop && data.onLoad && data.onFree	);
+	assert(data.gameLoop && data.startup);
 
 	data.logger.LogInfo("Game code loaded.");
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+	data.engine = new engine_state;
+
 	// Loaded
-	(*data.onLoad)();
+	(*data.startup)(data.engine);
 
 	// Run game loop
-	while((*data.gameLoop)()) {
+	while((*data.gameLoop)(data.engine)) {
 		reloadLib(data);
 	}
+
+	SDL_UnloadObject(data.dllHandle);
+	delete data.engine;
 
 	return 0;
 }
@@ -155,7 +162,6 @@ bool reloadLib(libData& data) {
 		LastWriteTime = FData.ftLastWriteTime;
 
 		// Free DLL
-		(*data.onFree)();
 		SDL_UnloadObject(data.dllHandle);
 
 		// Copy to temp DLL
@@ -170,12 +176,8 @@ bool reloadLib(libData& data) {
 
 		// Load functions
 		data.gameLoop = (CreateGameLoop)SDL_LoadFunction(data.dllHandle,"gameLoop");
-		data.onLoad = (CreateOnLoad)SDL_LoadFunction(data.dllHandle,"onLoad");
-		data.onFree = (CreateOnFree)SDL_LoadFunction(data.dllHandle,"onFree");
-		assert(data.gameLoop && data.onLoad && data.onFree);
-
-		// Loaded
-		(*data.onLoad)();
+		data.startup = (CreateStartup)SDL_LoadFunction(data.dllHandle,"startup");
+		assert(data.gameLoop && data.startup);
 
 		data.logger.LogInfo("Reloaded game code.");
 	}

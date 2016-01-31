@@ -22,25 +22,23 @@
 
 // Header files ///////////////////////////////////////////////////////////////
 
+#include <engine_state.h>
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Free function prototypes  //////////////////////////////////////////////////
 
-DllExport void onLoad();
-DllExport void onFree();
-DllExport bool gameLoop();
+DllExport void startup(engine_state* engine);
+DllExport bool gameLoop(engine_state* engine);
 
 // Free function implementation  //////////////////////////////////////////////
 
-DllExport void onLoad() {
-
+DllExport void startup(engine_state* engine) {
+	engine->logger.StartLog("GAME");
+	engine->logger.LogDefault("Hello world -- game logic startup");
 }
 
-DllExport void onFree() {
-
-}
-
-DllExport bool gameLoop() {
+DllExport bool gameLoop(engine_state* engine) {
 	return true;
 }
 
