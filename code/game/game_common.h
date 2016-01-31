@@ -14,7 +14,7 @@
 
 #pragma once
 
-#include "engine_defines.h"
+#include "game_defines.h"
 #include <stdint.h>
 
 #ifdef ASSERSIONS
@@ -24,10 +24,10 @@
     #define assert(a)
 #endif
 
-#ifdef ENGINE_EXPORTS
-#define ENGINE_API __declspec(dllexport)
+#ifdef GAME_EXPORTS
+#define GAME_API extern "C" __declspec(dllexport)
 #else
-#define ENGINE_API __declspec(dllimport)
+#define GAME_API __declspec(dllimport)
 #endif
 
 // Typedefs ///////////////////////////////////////////////////////////////////

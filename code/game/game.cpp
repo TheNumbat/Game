@@ -17,28 +17,28 @@
 
 #pragma once
 
-/// Define a function to be exported in the game DLL
-#define DllExport extern "C" __declspec(dllexport)
-
 // Header files ///////////////////////////////////////////////////////////////
 
+#include "game_common.h"
+
+/// @todo is it possible for this not inlucde engine_common.h?
 #include <engine_state.h>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Free function prototypes  //////////////////////////////////////////////////
 
-DllExport void startup(engine_state* engine);
-DllExport bool gameLoop(engine_state* engine);
+GAME_API void startup(engine_state* engine);
+GAME_API bool gameLoop(engine_state* engine);
 
 // Free function implementation  //////////////////////////////////////////////
 
-DllExport void startup(engine_state* engine) {
+GAME_API void startup(engine_state* engine) {
 	engine->logger.StartLog("GAME");
 	engine->logger.LogDefault("Hello world -- game logic startup");
 }
 
-DllExport bool gameLoop(engine_state* engine) {
+GAME_API bool gameLoop(engine_state* engine) {
 	return true;
 }
 

@@ -39,13 +39,13 @@
 class eventMgr
 {
 public:
-	API eventMgr();
-	API ~eventMgr();
+	ENGINE_API eventMgr();
+	ENGINE_API ~eventMgr();
 
-	API bool init();
-	API bool kill();
+	ENGINE_API bool init();
+	ENGINE_API bool kill();
 
-	API bool getNextEvent(event& e);
+	ENGINE_API bool getNextEvent(event& e);
 
 private:
 	event& translateEvent(void* SDL_ev);

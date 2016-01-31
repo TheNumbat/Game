@@ -48,22 +48,22 @@ const int FATAL = 3;
 class logMgr
 {
 public:
-	API logMgr();
-	API ~logMgr();
+	ENGINE_API logMgr();
+	ENGINE_API ~logMgr();
 
-	API void StartLog(const std::string& defaultLvl, bool header = false);
+	ENGINE_API void StartLog(const std::string& defaultLvl, bool header = false);
 
-	API void LogMsg(const std::string& msg, int lvl);
-	API void LogRaw(const std::string& msg);
-	API void LogDebug(const std::string& msg);
+	ENGINE_API void LogMsg(const std::string& msg, int lvl);
+	ENGINE_API void LogRaw(const std::string& msg);
+	ENGINE_API void LogDebug(const std::string& msg);
 
-	API void LogDefault(const std::string& msg);
-	API void LogInfo(const std::string& msg);
-	API void LogWarn(const std::string& msg);
-	API void LogFatal(const std::string& msg);
+	ENGINE_API void LogDefault(const std::string& msg);
+	ENGINE_API void LogInfo(const std::string& msg);
+	ENGINE_API void LogWarn(const std::string& msg);
+	ENGINE_API void LogFatal(const std::string& msg);
 
-	API void EnterSec();
-	API void ExitSec();
+	ENGINE_API void EnterSec();
+	ENGINE_API void ExitSec();
 
 private:
 	cl2::Log logger;
