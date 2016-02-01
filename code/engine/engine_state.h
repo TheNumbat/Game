@@ -39,14 +39,16 @@
 */
 struct engine_state
 {
+	// MUST INIT SDL FIRST
 	sdlMgr sdl;
+	
+	logMgr logger;
 	eventMgr events;
 	graphicMgr graphics;
-	logMgr logger;
-	// mapMgr map;
 	// soundMgr audio;
 	// threadMgr threads;
 	// timeMgr timing;
+	// mapMgr map;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

@@ -50,7 +50,7 @@ eventMgr::eventMgr()
 */
 eventMgr::~eventMgr()
 {
-
+	kill();
 }
 
 /**
@@ -70,6 +70,8 @@ bool eventMgr::init()
 			logger.LogFatal("Failed to initialize SDL events");
 			return false;
 		}
+
+		logger.LogInfo("Events initialized");
 
 		good = true;
 		return true;
@@ -92,8 +94,9 @@ bool eventMgr::kill()
 		// Quit SDL events
 		SDL_QuitSubSystem(SDL_INIT_EVENTS);
 
-		good = false;
+		logger.LogInfo("Events uninitialized");
 
+		good = false;
 		return true;
 	}
 	else

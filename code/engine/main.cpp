@@ -105,6 +105,8 @@ int main(int argc, char** argv)
 		}
 	}
 
+	data.logger.LogInfo("Shutting down...");
+
 	SDL_UnloadObject(data.dllHandle);
 	delete data.engine;
 
@@ -125,7 +127,6 @@ int main(int argc, char** argv)
 bool initializeLib(libData& data)
 {
 	data.logger.StartLog("MAIN",true);
-	data.logger.LogDefault("Hello world -- engine startup");
 
 	// Get exe file path
 	char buffer[MAX_PATH];
@@ -172,7 +173,7 @@ bool initializeLib(libData& data)
 		return false;
 	}
 
-	data.logger.LogInfo("Game code loaded.");
+	data.logger.LogInfo("Main engine program initialized");
 }
 
 /**

@@ -117,6 +117,8 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 		return false;
 	}
 
+	logger.LogInfo("Graphics initialized");
+
 	// Success
 	good = true;
 	return true;
@@ -145,6 +147,8 @@ bool graphicMgr::kill()
 
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	IMG_Quit();
+
+	logger.LogInfo("Graphics uninitialized");
 
 	good = false;
 	return true;

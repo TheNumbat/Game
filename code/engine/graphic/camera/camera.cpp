@@ -39,6 +39,7 @@
 camera::camera()
 	: pos(0,0,0,0,0,0), following(NULL)
 {
+	logger.StartLog("CAMERA");
 	zoom = 1;
 }
 
@@ -49,7 +50,7 @@ camera::camera()
 */
 camera::~camera()
 {
-	logger.StartLog("CAMERA");
+	
 }
 
 /**

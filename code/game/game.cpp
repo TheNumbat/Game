@@ -35,7 +35,7 @@ GAME_API bool gameLoop(engine_state* engine);
 
 GAME_API void startup(engine_state* engine) {
 	engine->logger.StartLog("GAME");
-	engine->logger.LogDefault("Hello world -- game logic startup");
+	engine->logger.LogDefault("Game code initialized");
 
 	engine->sdl.init();
 	engine->graphics.init("Game");
