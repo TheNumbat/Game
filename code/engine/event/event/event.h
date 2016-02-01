@@ -206,18 +206,17 @@ const uint32 FLAG_WINDOW_CLOSE = 1<<12;
 	@note value and flags mean different things depending on the type of event,
 		  see constants above.
 */
-class event
+struct event
 {
-	event(uint8 t = EVT_BAD, uint32 v = 0, uint32 f = 0);
-	~event();
+	ENGINE_API event(uint8 t = EVT_BAD, uint32 v = 0, uint32 f = 0);
+	ENGINE_API ~event();
+
+	ENGINE_API operator bool() const;
+	ENGINE_API event& operator=(const event& src);
 
 	uint8 type;
 	uint64 value;
 	uint32 flags;
-
-	operator bool();
-
-	friend class eventMgr;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

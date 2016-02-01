@@ -59,9 +59,23 @@ event::~event()
 
 	Specifically, tests if the type is not EVT_BAD
 */
-event::operator bool()
+event::operator bool() const
 {
 	return type != EVT_BAD;
+}
+
+/**
+	@brief overloaded assignment operator
+
+	assigns one event to another.
+*/
+event& event::operator=(const event& src)
+{
+	type = src.type;
+	value = src.value;
+	flags = src.flags;
+
+	return *this;
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

@@ -2,6 +2,6 @@
 
 pushd "W:/assets"
 
-W:/build/Engine.exe %*
+W:/build/Run.exe %*
 
 popd

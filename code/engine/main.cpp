@@ -213,8 +213,7 @@ bool reloadLib(libData& data) {
 
 		// Copy to temp DLL
 		while(!CopyFile(data.SFile.c_str(),data.DFile.c_str(),false)) {
-			/// @todo make waiting for temp file to unlock better -- maybe generate
-			/// GameTemp + reloadNum.dll each time
+			/// @todo make waiting for temp file to unlock better
 		}
 
 		// Load new temp DLL

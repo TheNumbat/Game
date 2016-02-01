@@ -15,7 +15,7 @@ set Files=%Files% w:\code\engine\thread\threadMgr.cpp w:\code\engine\time\timer\
 
 :: actually call cl
 cl /Fe:Engine.dll /LD %CompileFlags% %Files% /link %LinkFlags%
-cl /Fe:Engine.exe %CompileFlags% w:\code\engine\main.cpp /link %LinkFlags% w:\build\Engine.lib
+cl /Fe:Run.exe %CompileFlags% w:\code\engine\main.cpp /link %LinkFlags% w:\build\Engine.lib
 
 :: go back to wherever we were
 popd

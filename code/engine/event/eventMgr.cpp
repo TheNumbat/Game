@@ -119,17 +119,20 @@ bool eventMgr::getNextEvent(event& e)
 		// Get next event from SDL
 		if( SDL_PollEvent(&sdlE) == 0 )
 		{
-			return event(EVT_BAD);
+			e = event(EVT_BAD);
+			return false;
 		}
 		else
 		{
 			// Translate event
-			return translateEvent(&sdlE);
+			e = translateEvent(&sdlE);
+			return true;
 		}
 	}
 	else
 	{
 		logger.LogWarn( "Uniniitialized -- trying to get next event" );
+		return false;
 	}
 }
 
