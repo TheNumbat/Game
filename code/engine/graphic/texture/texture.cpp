@@ -76,7 +76,7 @@ bool texture::load(const std::string& path, void* sdl_renderer)
 
 	SDL_Surface* temp = IMG_Load(path.c_str());
 	assert(temp);
-	if( !temp )
+	if(!temp)
 	{
 		return false;
 	}
@@ -85,7 +85,7 @@ bool texture::load(const std::string& path, void* sdl_renderer)
 	SDL_FreeSurface(temp);
 
 	assert(sdl_texture);
-	if( !sdl_texture )
+	if(!sdl_texture)
 	{
 		return false;
 	}
@@ -105,7 +105,7 @@ bool texture::load(const std::string& path, void* sdl_renderer)
 */
 bool texture::free()
 {
-	if( good )
+	if(good)
 	{
 		SDL_DestroyTexture((SDL_Texture*)sdl_texture);
 		sdl_texture = NULL;

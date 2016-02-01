@@ -76,13 +76,13 @@ bool camera::set(const map_position& newPos)
 */
 bool camera::set(std::shared_ptr<entity> e)
 {
-	if( !e )
+	if(!e)
 	{
 		logger.LogWarn("Trying to set camera position on NULL entity");
 		return false;
 	}
 
-	if( !e->hasComponent(ctype_position) )
+	if(!e->hasComponent(ctype_position))
 	{
 		logger.LogWarn("Trying to set camera position on entity without position");
 		return false;
@@ -128,7 +128,7 @@ bool camera::updateFollow()
 */
 bool camera::setFollowing(std::shared_ptr<entity> e)
 {
-	if( !e->hasComponent(ctype_position) )
+	if(!e->hasComponent(ctype_position))
 	{
 		logger.LogWarn("Trying to set camera following entity without position");
 		return false;

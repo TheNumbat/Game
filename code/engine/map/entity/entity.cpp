@@ -100,7 +100,7 @@ bool entity::hasComponent(component_type c)
 {
 	for(std::shared_ptr<component> comp : components)
 	{
-		if( comp->type = c )
+		if(comp->type = c)
 		{
 			return true;
 		}
@@ -119,7 +119,7 @@ bool entity::hasComponent(component_type c)
 */
 std::shared_ptr<component>& entity::addComponent(component_type c)
 {
-	if( hasComponent(c) )
+	if(hasComponent(c))
 	{
 		return getComponent(c);
 	}
@@ -144,7 +144,7 @@ std::shared_ptr<component>& entity::getComponent(component_type c)
 {
 	for(std::shared_ptr<component> comp : components)
 	{
-		if( comp->type = c )
+		if(comp->type = c)
 		{
 			return comp;
 		}

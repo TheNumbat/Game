@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 {
 	libData data = {};
 
-	if( !initializeLib(data) )
+	if(!initializeLib(data))
 	{
 		return 1;
 	}
@@ -99,7 +99,7 @@ int main(int argc, char** argv)
 
 	while((*data.gameLoop)(data.engine)) 
 	{
-		if( !reloadLib(data) )
+		if(!reloadLib(data))
 		{
 			break;
 		}
@@ -131,8 +131,8 @@ bool initializeLib(libData& data)
 	// Get exe file path
 	char buffer[MAX_PATH];
 	int result = GetModuleFileName(NULL, buffer, sizeof(buffer));
-	assert( result != 0 );
-	if( result == 0 )
+	assert( result != 0);
+	if(result == 0)
 	{
 		data.logger.LogFatal("Failed to get module file name!");
 		return false;
@@ -147,8 +147,8 @@ bool initializeLib(libData& data)
 	// Copy Game.dll to GameTemp.dll -- makes sure Game.dll is not locked so
 	// we can reload from it
 	result = CopyFile(data.SFile.c_str(),data.DFile.c_str(),false);
-	assert( result != 0 );
-	if( result == 0 )
+	assert( result != 0);
+	if(result == 0)
 	{
 		data.logger.LogFatal("Failed to copy source DLL!");
 		return false;
@@ -157,7 +157,7 @@ bool initializeLib(libData& data)
 	// Load GameTemp.dll
 	data.dllHandle = SDL_LoadObject(data.DFile.c_str());
 	assert(data.dllHandle);
-	if( !data.dllHandle )
+	if(!data.dllHandle)
 	{
 		data.logger.LogFatal("Failed to load DLL!");
 		return false;
@@ -167,7 +167,7 @@ bool initializeLib(libData& data)
 	data.gameLoop = (CreateGameLoop)SDL_LoadFunction(data.dllHandle,"gameLoop");
 	data.startup = (CreateStartup)SDL_LoadFunction(data.dllHandle,"startup");
 	assert(data.gameLoop && data.startup);
-	if( !(data.gameLoop && data.startup) )
+	if(!(data.gameLoop && data.startup))
 	{
 		data.logger.LogFatal("Failed to load functions!");
 		return false;
@@ -189,14 +189,15 @@ bool initializeLib(libData& data)
 
 	@exception Assertions will fail if DLL or its functions fail to load properly
 */
-bool reloadLib(libData& data) {
+bool reloadLib(libData& data) 
+{
 
 	// Find last write time to Game.dll
 	WIN32_FILE_ATTRIBUTE_DATA FData;
 	
 	bool result = GetFileAttributesEx(data.SFile.c_str(),GetFileExInfoStandard,&FData);
 	assert(result);
-	if( !result ) 
+	if(!result) 
 	{
 		data.logger.LogFatal("Failed to get dll file attributes!");
 		return false;
@@ -205,7 +206,8 @@ bool reloadLib(libData& data) {
 	static FILETIME LastWriteTime = FData.ftLastWriteTime;
 
 	// If file has changed
-	if(CompareFileTime(&FData.ftLastWriteTime,&LastWriteTime) == 1) {
+	if(CompareFileTime(&FData.ftLastWriteTime,&LastWriteTime) == 1) 
+	{
 
 		LastWriteTime = FData.ftLastWriteTime;
 
@@ -213,14 +215,15 @@ bool reloadLib(libData& data) {
 		SDL_UnloadObject(data.dllHandle);
 
 		// Copy to temp DLL
-		while(!CopyFile(data.SFile.c_str(),data.DFile.c_str(),false)) {
+		while(!CopyFile(data.SFile.c_str(),data.DFile.c_str(),false)) 
+		{
 			/// @todo make waiting for temp file to unlock better
 		}
 
 		// Load new temp DLL
 		data.dllHandle = SDL_LoadObject(data.DFile.c_str());
 		assert(data.dllHandle);
-		if( !data.dllHandle ) 
+		if(!data.dllHandle) 
 		{
 			data.logger.LogFatal("Failed to load dll!");
 			return false;
@@ -230,7 +233,7 @@ bool reloadLib(libData& data) {
 		data.gameLoop = (CreateGameLoop)SDL_LoadFunction(data.dllHandle,"gameLoop");
 		data.startup = (CreateStartup)SDL_LoadFunction(data.dllHandle,"startup");
 		assert(data.gameLoop && data.startup);
-		if( !(data.gameLoop && data.startup) )
+		if(!(data.gameLoop && data.startup))
 		{
 			data.logger.LogFatal("Failed to load functions!");
 			return false;

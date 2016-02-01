@@ -61,7 +61,7 @@ logMgr::~logMgr() {}
 */
 void logMgr::StartLog(const std::string& defaultLvl, bool header)
 {
-	if( !good )
+	if(!good)
 	{
 		defaultLevel = defaultLvl;
 
@@ -82,7 +82,7 @@ void logMgr::StartLog(const std::string& defaultLvl, bool header)
 		logger.AddLvlEntry(WARNING, "[" + defaultLevel + "/WARNING] ");
 		logger.AddLvlEntry(FATAL, "[" + defaultLevel + "/FATAL] ");
 
-		if( header )
+		if(header)
 		{
 			// Print Log Header
 			logger.SetMessageFormat("----- Game Design Log - %t -----\n\n");

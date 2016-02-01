@@ -60,7 +60,7 @@ sdlMgr::~sdlMgr()
 */
 bool sdlMgr::init()
 {
-	if( good )
+	if(good)
 	{
 		logger.LogWarn("Trying to reinitialize SDL!");
 		return false;
@@ -68,7 +68,7 @@ bool sdlMgr::init()
 
 	bool result = SDL_Init(0) == 0;
 	assert(result);
-	if( !result )
+	if(!result)
 	{
 		logger.LogFatal((std::string)"Failed to intialize SDL! SDL Error: " + SDL_GetError());
 		return false;
@@ -87,7 +87,7 @@ bool sdlMgr::init()
 */
 bool sdlMgr::kill()
 {
-	if( !good )
+	if(!good)
 	{
 		logger.LogWarn("Trying to kill already dead SDL!");
 		return false;

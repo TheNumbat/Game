@@ -73,7 +73,7 @@ graphicMgr::~graphicMgr()
 */
 bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 {
-	if( good )
+	if(good)
 	{
 		logger.LogWarn("Trying to reintialize graphics system");
 		return false;
@@ -82,7 +82,7 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 	// Init video
 	bool result = SDL_InitSubSystem(SDL_INIT_VIDEO) == 0;
 	assert(result);
-	if( !result )
+	if(!result)
 	{
 		logger.LogFatal((std::string)"Failed to intialize sdl video subsystem! SDL Error: " + SDL_GetError());
 		return false;
@@ -91,7 +91,7 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 	// Init images
 	result = IMG_Init(IMG_INIT_PNG|IMG_INIT_JPG);
 	assert(result);
-	if( !result )
+	if(!result)
 	{
 		logger.LogFatal((std::string)"Failed to intialize sdl image system! SDL Error: " + SDL_GetError());
 		return false;	
@@ -100,7 +100,7 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 	// Create window
 	sdl_window = SDL_CreateWindow(winTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sw, sh, SDL_WINDOW_SHOWN);
 	assert(sdl_window);
-	if( !sdl_window )
+	if(!sdl_window)
 	{
 		logger.LogFatal((std::string)"Failed to create SDL window! SDL Error: " + SDL_GetError());
 		return false;
@@ -109,7 +109,7 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 	// Create renderer
 	sdl_renderer = SDL_CreateRenderer((SDL_Window*)sdl_window, -1, SDL_RENDERER_ACCELERATED);
 	assert(sdl_renderer);
-	if( !sdl_renderer )
+	if(!sdl_renderer)
 	{
 		logger.LogFatal((std::string)"Failed to create SDL accelerated renderer! SDL Error: " + SDL_GetError());
 		SDL_DestroyWindow((SDL_Window*)sdl_window);
@@ -133,7 +133,7 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 */
 bool graphicMgr::kill()
 {
-	if( !good )
+	if(!good)
 	{
 		logger.LogWarn("Trying to kill dead graphics");
 		return false;

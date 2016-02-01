@@ -60,12 +60,12 @@ eventMgr::~eventMgr()
 */
 bool eventMgr::init()
 {
-	if( !good )
+	if(!good)
 	{
 		// Set up SDL events
 		int result = SDL_InitSubSystem(SDL_INIT_EVENTS);
 		assert(result == 0);
-		if( result < 0 )
+		if(result < 0)
 		{
 			logger.LogFatal("Failed to initialize SDL events");
 			return false;
@@ -89,7 +89,7 @@ bool eventMgr::init()
 */
 bool eventMgr::kill()
 {
-	if( good )
+	if(good)
 	{
 		// Quit SDL events
 		SDL_QuitSubSystem(SDL_INIT_EVENTS);
@@ -115,12 +115,12 @@ bool eventMgr::kill()
 */
 bool eventMgr::getNextEvent(event& e)
 {
-	if( good )
+	if(good)
 	{
 		SDL_Event sdlE;
 
 		// Get next event from SDL
-		if( SDL_PollEvent(&sdlE) == 0 )
+		if(SDL_PollEvent(&sdlE) == 0)
 		{
 			e = event(EVT_BAD);
 			return false;
@@ -134,7 +134,7 @@ bool eventMgr::getNextEvent(event& e)
 	}
 	else
 	{
-		logger.LogWarn( "Uniniitialized -- trying to get next event" );
+		logger.LogWarn( "Uniniitialized -- trying to get next event");
 		return false;
 	}
 }
@@ -190,7 +190,7 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 	event ret(EVT_WINDOW);
 
 	// Get event type
-	switch( e->window.event )
+	switch(e->window.event)
 	{
 		case SDL_WINDOWEVENT_SHOWN: ret.flags |= FLAG_WINDOW_SHOWN; break;
 		case SDL_WINDOWEVENT_HIDDEN: ret.flags |= FLAG_WINDOW_HIDDEN; break;
@@ -266,15 +266,15 @@ event& eventMgr::translateMouseEvent(void* SDL_ev)
 	event ret(EVT_MOUSE);
 
 	// Get type of event
-	if( e->type == SDL_MOUSEBUTTONDOWN )
+	if(e->type == SDL_MOUSEBUTTONDOWN)
 	{
 		ret.flags |= FLAG_MOUSE_PRESS;
 	}
-	else if( e->type == SDL_MOUSEBUTTONUP )
+	else if(e->type == SDL_MOUSEBUTTONUP)
 	{
 		ret.flags |= FLAG_MOUSE_RELEASE;
 	}
-	else if( e->type == SDL_MOUSEWHEEL )
+	else if(e->type == SDL_MOUSEWHEEL)
 	{
 		ret.flags |= FLAG_MOUSE_WHEEL;
 
@@ -311,7 +311,7 @@ event& eventMgr::translateMouseEvent(void* SDL_ev)
 	}
 
 	// Finally, check if double click
-	if( e->button.clicks == 2 )
+	if(e->button.clicks == 2)
 	{
 		ret.flags |= FLAG_MOUSE_DOUBLE;
 	}
@@ -333,59 +333,59 @@ event& eventMgr::translateKeyboardEvent(void* SDL_ev)
 	event ret(EVT_KEY);
 
 	// Set up modifiers
-	if( e->key.state == SDL_PRESSED )
+	if(e->key.state == SDL_PRESSED)
 	{
 		ret.flags |= FLAG_KEY_PRESS;
 	}
-	else if( e->key.state == SDL_RELEASED )
+	else if(e->key.state == SDL_RELEASED)
 	{
 		ret.flags |= FLAG_KEY_RELEASE;
 	}
-	if( e->key.repeat )
+	if(e->key.repeat)
 	{
 		ret.flags |= FLAG_KEY_REPEAT;
 	}
-	if( e->key.keysym.mod & KMOD_LSHIFT )
+	if(e->key.keysym.mod & KMOD_LSHIFT)
 	{
 		ret.flags |= FLAG_KEY_LSHIFT;
 	}
-	if( e->key.keysym.mod & KMOD_RSHIFT )
+	if(e->key.keysym.mod & KMOD_RSHIFT)
 	{
 		ret.flags |= FLAG_KEY_RSHIFT;
 	}
-	if( e->key.keysym.mod & KMOD_LCTRL )
+	if(e->key.keysym.mod & KMOD_LCTRL)
 	{
 		ret.flags |= FLAG_KEY_LCTRL;
 	}
-	if( e->key.keysym.mod & KMOD_RCTRL )
+	if(e->key.keysym.mod & KMOD_RCTRL)
 	{
 		ret.flags |= FLAG_KEY_RCTRL;
 	}
-	if( e->key.keysym.mod & KMOD_LALT )
+	if(e->key.keysym.mod & KMOD_LALT)
 	{
 		ret.flags |= FLAG_KEY_LALT;
 	}
-	if( e->key.keysym.mod & KMOD_RALT )
+	if(e->key.keysym.mod & KMOD_RALT)
 	{
 		ret.flags |= FLAG_KEY_RALT;
 	}
-	if( e->key.keysym.mod & KMOD_LGUI )
+	if(e->key.keysym.mod & KMOD_LGUI)
 	{
 		ret.flags |= FLAG_KEY_LGUI;
 	}
-	if( e->key.keysym.mod & KMOD_RGUI )
+	if(e->key.keysym.mod & KMOD_RGUI)
 	{
 		ret.flags |= FLAG_KEY_RGUI;
 	}
-	if( e->key.keysym.mod & KMOD_NUM )
+	if(e->key.keysym.mod & KMOD_NUM)
 	{
 		ret.flags |= FLAG_KEY_NUMLOCK;
 	}
-	if( e->key.keysym.mod & KMOD_CAPS )
+	if(e->key.keysym.mod & KMOD_CAPS)
 	{
 		ret.flags |= FLAG_KEY_CAPSLOCK;
 	}
-	if( e->key.keysym.mod & KMOD_MODE )
+	if(e->key.keysym.mod & KMOD_MODE)
 	{
 		ret.flags |= FLAG_KEY_ALTGR;
 	}
