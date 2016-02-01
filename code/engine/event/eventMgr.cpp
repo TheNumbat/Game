@@ -73,13 +73,14 @@ bool eventMgr::init()
 
 		logger.LogInfo("Events initialized");
 
+		// Success
 		good = true;
 		return true;
 	}
-	else
-	{
-		logger.LogWarn("Trying to reinitialize events");
-	}
+
+	// Failure
+	logger.LogWarn("Trying to reinitialize events");
+	return false;
 }
 
 /**
@@ -99,10 +100,10 @@ bool eventMgr::kill()
 		good = false;
 		return true;
 	}
-	else
-	{
-		logger.LogWarn("Trying to kill uninitialized events");
-	}
+
+	// Failure
+	logger.LogWarn("Trying to kill uninitialized events");
+	return false;
 }
 
 /**
@@ -132,11 +133,10 @@ bool eventMgr::getNextEvent(event& e)
 			return true;
 		}
 	}
-	else
-	{
-		logger.LogWarn( "Uniniitialized -- trying to get next event");
-		return false;
-	}
+
+	// Failure
+	logger.LogWarn( "Uniniitialized -- trying to get next event");
+	return false;
 }
 
 /**
@@ -153,18 +153,23 @@ event& eventMgr::translateEvent(void* SDL_ev)
 	// Translate based on type
 	switch(e->type)
 	{
+		// Quit
 		case SDL_QUIT:
 			return event(EVT_QUIT);
+		// Window
 		case SDL_WINDOWEVENT:
 			return translateWindowEvent(e);
+		// Keyboard
 		case SDL_KEYDOWN:
 		case SDL_KEYUP:
 			return translateKeyboardEvent(e);
+		// Mouse
 		case SDL_MOUSEMOTION:
 		case SDL_MOUSEBUTTONDOWN:
 		case SDL_MOUSEBUTTONUP:
 		case SDL_MOUSEWHEEL:
 			return translateMouseEvent(e);
+		// Joystick
 		case SDL_JOYAXISMOTION:
 		case SDL_JOYBALLMOTION:
 		case SDL_JOYHATMOTION:
@@ -173,6 +178,9 @@ event& eventMgr::translateEvent(void* SDL_ev)
 		case SDL_JOYDEVICEADDED:
 		case SDL_JOYDEVICEREMOVED:
 			return translateJoystickEvent(e);
+		// Other
+		default:
+			return event(EVT_BAD);
 	}
 }
 
@@ -192,6 +200,7 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 	// Get event type
 	switch(e->window.event)
 	{
+		// Regular window events
 		case SDL_WINDOWEVENT_SHOWN: ret.flags |= FLAG_WINDOW_SHOWN; break;
 		case SDL_WINDOWEVENT_HIDDEN: ret.flags |= FLAG_WINDOW_HIDDEN; break;
 		case SDL_WINDOWEVENT_EXPOSED: ret.flags |= FLAG_WINDOW_EXPOSED; break;
@@ -204,7 +213,7 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 		case SDL_WINDOWEVENT_FOCUS_LOST: ret.flags |= FLAG_WINDOW_UNFOCUSED; break;
 		case SDL_WINDOWEVENT_CLOSE: ret.flags |= FLAG_WINDOW_CLOSE; break;
 
-		// Get window movement
+		// Window movement
 		case SDL_WINDOWEVENT_MOVED:
 			ret.flags |= FLAG_WINDOW_MOVED;
 
@@ -214,6 +223,7 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 
 			break;
 
+		// Window size change
 		case SDL_WINDOWEVENT_RESIZED:
 		case SDL_WINDOWEVENT_SIZE_CHANGED:
 			ret.flags |= FLAG_WINDOW_RESIZED;
@@ -224,6 +234,7 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 
 			break;
 
+		// Other
 		default:
 			logger.LogWarn("Could not translate window event " + e->window.event);
 			ret.value = KEY_BAD;
@@ -285,7 +296,7 @@ event& eventMgr::translateMouseEvent(void* SDL_ev)
 
 		return ret;
 	}
-	else
+	else if(e->type == SDL_MOUSEMOTION)
 	{
 		ret.flags |= FLAG_MOUSE_MOTION;
 
@@ -294,6 +305,11 @@ event& eventMgr::translateMouseEvent(void* SDL_ev)
 		ret.value |= (uint64)e->motion.x;
 		ret.value |= (uint64)e->motion.y << 32;
 
+		return ret;
+	}
+	else
+	{
+		ret.value = KEY_BAD;
 		return ret;
 	}
 

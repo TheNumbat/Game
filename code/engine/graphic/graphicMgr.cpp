@@ -139,17 +139,20 @@ bool graphicMgr::kill()
 		return false;
 	}
 
+	// Destory SDL stuff
 	SDL_DestroyRenderer((SDL_Renderer*)sdl_renderer);
 	SDL_DestroyWindow((SDL_Window*)sdl_window);
 
 	sdl_renderer = NULL;
 	sdl_window = NULL;
 
+	// Quit
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	IMG_Quit();
 
 	logger.LogInfo("Graphics uninitialized");
 
+	// Success
 	good = false;
 	return true;
 }

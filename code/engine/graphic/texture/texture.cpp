@@ -74,6 +74,7 @@ bool texture::load(const std::string& path, void* sdl_renderer)
 {
 	free();
 
+	// Load image file
 	SDL_Surface* temp = IMG_Load(path.c_str());
 	assert(temp);
 	if(!temp)
@@ -81,6 +82,7 @@ bool texture::load(const std::string& path, void* sdl_renderer)
 		return false;
 	}
 
+	// Create texture
 	sdl_texture = SDL_CreateTextureFromSurface((SDL_Renderer*)sdl_renderer, temp);
 	SDL_FreeSurface(temp);
 
@@ -90,6 +92,7 @@ bool texture::load(const std::string& path, void* sdl_renderer)
 		return false;
 	}
 
+	// Success
 	good = true;
 	return true;
 }

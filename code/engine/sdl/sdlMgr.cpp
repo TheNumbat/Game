@@ -66,6 +66,7 @@ bool sdlMgr::init()
 		return false;
 	}
 
+	// Init SDl
 	bool result = SDL_Init(0) == 0;
 	assert(result);
 	if(!result)
@@ -76,6 +77,7 @@ bool sdlMgr::init()
 
 	logger.LogInfo("SDL initialized");
 
+	// Success
 	good = true;
 	return true;
 }
@@ -93,10 +95,12 @@ bool sdlMgr::kill()
 		return false;
 	}
 
+	// Quit
 	SDL_Quit();
 
 	logger.LogInfo("SDL uninitialized");
 
+	// Success
 	good = false;
 	return true;
 }
