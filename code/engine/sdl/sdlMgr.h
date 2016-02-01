@@ -1,11 +1,11 @@
 // Program Information ////////////////////////////////////////////////////////
 
 /**
-	@file texture.h
+	@file graphicMgr.h
 
-	@brief Declartion file for texture class
+	@brief Implementaiton file for graphicMgr class
 
-	Texture stores information needed to display a texture
+	graphicMgr manages all things graphical
 
 	@author Max Slater
 
@@ -21,35 +21,29 @@
 
 #include "engine_common.h"
 
-#include "vector.h"
-#include <string>
+#include "log/logMgr.h"
 
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 /**
-	@brief Abtracts an SDL image
+	@brief Manages opening/closing SDL
 
-	Can also move to an entity and follow an entity.
-
-	Used by graphicMgr.
+	SDL Must be initalized before any other subsystems
 */
-class texture
+class sdlMgr
 {
 public:
-	texture();
-	~texture();
+	ENGINE_API sdlMgr();
+	ENGINE_API ~sdlMgr();
+
+	ENGINE_API bool init();
+	ENGINE_API bool kill();
 
 private:
-	bool load(const std::string& path, void* sdl_renderer);
-	bool free();
-
-	/// @note I don't want to put a logger in here but it would help
-	void* sdl_texture;
+	logMgr logger;
 	bool good;
-
-	friend class graphicMgr;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

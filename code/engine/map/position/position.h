@@ -26,9 +26,10 @@
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 /**
-	@brief Describes a floating point position
+	@brief Describes a position
 
-	Used for defining position within a chunk
+	Used to make poth real32 per-chunk positions and aboslute chunk
+	positions
 
 	Used by mapMgr and elsewhere.
 */

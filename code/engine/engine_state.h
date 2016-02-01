@@ -24,6 +24,8 @@
 
 #include "event/eventMgr.h"
 #include "log/logMgr.h"
+#include "graphic/graphicMgr.h"
+#include "sdl/sdlMgr.h"
 
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -37,8 +39,9 @@
 */
 struct engine_state
 {
+	sdlMgr sdl;
 	eventMgr events;
-	// graphicMgr graphics;
+	graphicMgr graphics;
 	logMgr logger;
 	// mapMgr map;
 	// soundMgr audio;

@@ -36,9 +36,23 @@ GAME_API bool gameLoop(engine_state* engine);
 GAME_API void startup(engine_state* engine) {
 	engine->logger.StartLog("GAME");
 	engine->logger.LogDefault("Hello world -- game logic startup");
+
+	engine->sdl.init();
+	engine->graphics.init("Game");
+	engine->events.init();
 }
 
 GAME_API bool gameLoop(engine_state* engine) {
+	
+	event e;
+	while(engine->events.getNextEvent(e))
+	{
+		if(e.type == EVT_QUIT)
+		{
+			return false;
+		}
+	}
+
 	return true;
 }
 

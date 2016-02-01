@@ -49,6 +49,7 @@ public:
 	ENGINE_API std::shared_ptr<component>& getComponent(component_type c);
 
 private:
+	/// @todo mutex stuff
 	std::vector<std::shared_ptr<component>> components;
 	uint64 UID;
 	uint32 lastUpdate;
