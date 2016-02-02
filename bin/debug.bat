@@ -1,3 +1,3 @@
 @echo off
 
-devenv "W:\build\Engine.exe"
+devenv "W:\build\Run.exe"

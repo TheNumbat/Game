@@ -159,7 +159,29 @@ bool graphicMgr::kill()
 
 bool graphicMgr::displayFrame(bool clearAfter)
 {
-	return false;
+	if(!good)
+	{
+		logger.LogWarn("Cannot display frame, graphics not initialized");
+		return false;
+	}
+
+	// Swap buffers
+	SDL_RenderPresent((SDL_Renderer*)sdl_renderer);
+
+	// Clear backbuffer
+	if(clearAfter)
+	{
+		bool result = SDL_RenderClear((SDL_Renderer*)sdl_renderer);
+		assert(result);
+		if(!result)
+		{
+			logger.LogWarn((std::string)"Failed to clear renderer. SDL Error: " + SDL_GetError());
+			return false;
+		}
+	}
+
+	// Success
+	return true;
 }
 
 bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
