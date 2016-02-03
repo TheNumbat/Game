@@ -23,6 +23,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <dirent.h>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -205,7 +206,27 @@ bool graphicMgr::displayFrame(bool clearAfter)
 */
 bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 {
-	return false;
+	std::unique_ptr<texture> newTexture = std::make_unique<texture>();
+
+	// Load
+	if(!newTexture->load(path))
+	{
+		logger.LogWarn("Failed to load texture " + ID + " from " + path);
+		return false;
+	}
+
+	// Success
+	if(ID == "")
+	{
+		textures.insert({path.substr(path.find_last_of('\\') + 1,path.find_last_of('.')),newTexture});
+	}
+	else
+	{
+		textures.insert({ID,newTexture});	
+	}
+	
+	logger.LogInfo("Loaded texture " + ID + " from " + path);
+	return true;
 }
 
 /**
@@ -219,7 +240,45 @@ bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 */
 bool graphicMgr::loadTextureRec(const std::string& path)
 {
-	return false;
+	DIR *directory;
+	struct dirent *entry;
+
+	// Open directory
+	directory = opendir(path.c_str());
+	assert(directory);
+	if(!directory)
+	{
+		logger.LogWarn("Failed to open texture directory at " + path);
+		return false;
+	}
+
+	logger.LogInfo("Loading texture directory at " + path);
+	logger.EnterSec();
+
+	// Read directory
+	while(entry = readdir(directory))
+	{
+		std::string entryName = entry->d_name;
+
+		if(name != ".." && name != ".")
+		{
+			// Load texture or load another directory
+			/// @todo make this better, it just tests for a .extension
+			if(name[name.size() - 4] == '.')
+			{
+				loadTexture(path + name);
+			}
+			else
+			{
+				loadTextureRec(path + name + '\\');
+			}
+		}
+	}
+
+	logger.ExitSec();
+
+	// Success
+	return true;
 }
 
 /**
@@ -270,9 +329,9 @@ bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_r
 
 	@exception
 */
-bool renderTextureEx(const std::string& ID, const rect2<int32>& dest_rect,
- 					 const rect2<int32>& src_rect, const v2<int32>& rot_point
-					 real32 rot, uint32 flip)
+bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest_rect,
+ 								 const rect2<int32>& src_rect, const v2<int32>& rot_point
+					 			 real32 rot, uint32 flip)
 {
 	return false;
 }
