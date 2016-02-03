@@ -157,6 +157,15 @@ bool graphicMgr::kill()
 	return true;
 }
 
+/**
+	@brief Renders backbuffer to screen
+
+	May also clear the buffer afterward
+
+	@param[in] clearAfter whether or not to clear the buffer after it is rendered
+
+	@return success
+*/
 bool graphicMgr::displayFrame(bool clearAfter)
 {
 	if(!good)
@@ -184,22 +193,86 @@ bool graphicMgr::displayFrame(bool clearAfter)
 	return true;
 }
 
+/**
+	@brief Loads a texture from file into texture map
+
+	@param[in] path file path of image file
+	@param[in] ID of texture to load, if empty will use file name
+
+	@return success
+
+	@exception couldn't load texture, does nothing, returns false
+*/
 bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 {
 	return false;
 }
 
+/**
+	@brief Loads all image files from a folder (and subfolders) into textute map
+
+	Will just use file name for texture IDs
+
+	@param[in] path file path of image file
+
+	@return success -- always true
+*/
 bool graphicMgr::loadTextureRec(const std::string& path)
 {
 	return false;
 }
 
+/**
+	@brief Unloads a texture from the texture map
+
+	@param[in] ID of texture to unload
+
+	@return success
+
+	@exception couldn't find texture, no change, return false
+*/
 bool graphicMgr::freeTexture(const std::string& ID)
 {
 	return false;
 }
 
+/**
+	@brief Renders a texture to the backbuffer
+
+	Only renders an entire texture into destination rect, use renderTextureEx 
+	for more options.
+
+	@param[in] ID of texture to render
+	@param[in] dest_rect rectangle on the backbuffer to render into
+
+	@return success
+
+	@exception
+*/
 bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_rect)
+{
+	return false;
+}
+
+/**
+	@brief Renders a texture to the backbuffer
+
+	Renders texture with more options
+
+	@param[in] ID of texture to render
+	@param[in] dest_rect rectangle on the backbuffer to render into
+	@param[in] src_rect rectangle to take from the texture to render
+	@param[in] rot_point point to rotate texture around
+	@param[in] rotation amount (in degrees)
+	@param[in] flip horizontal/verticle flip (use constants in graphicMgr.h)
+
+	@return success
+
+	@exception
+*/
+bool renderTextureEx(const std::string& ID, const rect2<int32>& dest_rect,
+ 					 const rect2<int32>& src_rect, const v2<int32>& rot_point
+					 real32 rot, uint32 flip)
 {
 	return false;
 }

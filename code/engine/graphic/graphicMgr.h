@@ -33,6 +33,9 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+const uint32 FLIP_HORZ = 1<<0;
+const uint32 FLIP_VERT = 1<<1;
+
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 /**
@@ -51,12 +54,14 @@ public:
 	
 	ENGINE_API bool displayFrame(bool clearAfter = true);
 
-	ENGINE_API bool loadTexture(const std::string& path, const std::string& ID);
+	ENGINE_API bool loadTexture(const std::string& path, const std::string& ID = "");
 	ENGINE_API bool loadTextureRec(const std::string& path);
 	ENGINE_API bool freeTexture(const std::string& ID);
 
-	/// @todo support for rotation and source rect
 	ENGINE_API bool renderTexture(const std::string& ID, const rect2<int32>& dest_rect);
+	ENGINE_API bool renderTextureEx(const std::string& ID, const rect2<int32>& dest_rect,
+									const rect2<int32>& src_rect, const v2<int32>& rot_point
+									real32 rot, uint32 flip);
 
 private:
 	logMgr logger;
