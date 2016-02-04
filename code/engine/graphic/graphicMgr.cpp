@@ -209,7 +209,7 @@ bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 	std::unique_ptr<texture> newTexture = std::make_unique<texture>();
 
 	// Load
-	if(!newTexture->load(path))
+	if(!newTexture->load(path,sdl_renderer))
 	{
 		logger.LogWarn("Failed to load texture " + ID + " from " + path);
 		return false;
@@ -218,11 +218,11 @@ bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 	// Success
 	if(ID == "")
 	{
-		textures.insert({path.substr(path.find_last_of('\\') + 1,path.find_last_of('.')),newTexture});
+		textures.insert({path.substr(path.find_last_of('\\') + 1,path.find_last_of('.')),std::move(newTexture)});
 	}
 	else
 	{
-		textures.insert({ID,newTexture});	
+		textures.insert({ID,std::move(newTexture)});	
 	}
 	
 	logger.LogInfo("Loaded texture " + ID + " from " + path);
@@ -260,17 +260,17 @@ bool graphicMgr::loadTextureRec(const std::string& path)
 	{
 		std::string entryName = entry->d_name;
 
-		if(name != ".." && name != ".")
+		if(entryName != ".." && entryName != ".")
 		{
 			// Load texture or load another directory
 			/// @todo make this better, it just tests for a .extension
-			if(name[name.size() - 4] == '.')
+			if(entryName[entryName.size() - 4] == '.')
 			{
-				loadTexture(path + name);
+				loadTexture(path + entryName);
 			}
 			else
 			{
-				loadTextureRec(path + name + '\\');
+				loadTextureRec(path + entryName + '\\');
 			}
 		}
 	}
@@ -330,7 +330,7 @@ bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_r
 	@exception
 */
 bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest_rect,
- 								 const rect2<int32>& src_rect, const v2<int32>& rot_point
+ 								 const rect2<int32>& src_rect, const v2<int32>& rot_point,
 					 			 real32 rot, uint32 flip)
 {
 	return false;

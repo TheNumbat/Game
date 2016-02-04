@@ -60,7 +60,7 @@ public:
 
 	ENGINE_API bool renderTexture(const std::string& ID, const rect2<int32>& dest_rect);
 	ENGINE_API bool renderTextureEx(const std::string& ID, const rect2<int32>& dest_rect,
-									const rect2<int32>& src_rect, const v2<int32>& rot_point
+									const rect2<int32>& src_rect, const v2<int32>& rot_point,
 									real32 rot, uint32 flip);
 
 private:
