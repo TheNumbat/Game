@@ -88,7 +88,7 @@ bool camera::set(std::shared_ptr<entity> e)
 		return false;
 	}
 
-	pos = std::static_pointer_cast<component_position>(e->getComponent(ctype_position))->pos;
+	pos = std::static_pointer_cast<component_position>(e->getComponent(ctype_position).lock())->pos;
 	return true;
 }
 

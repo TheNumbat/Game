@@ -207,25 +207,27 @@ bool graphicMgr::displayFrame(bool clearAfter)
 bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 {
 	std::unique_ptr<texture> newTexture = std::make_unique<texture>();
+	std::string texID;
+
+	if(!ID.size())
+	{
+		texID = path.substr(path.find_last_of("/\\") + 1, path.find_last_of(".") - path.find_last_of("/\\") - 1);
+	}
+	else
+	{
+		texID = ID;
+	}
 
 	// Load
 	if(!newTexture->load(path,sdl_renderer))
 	{
-		logger.LogWarn("Failed to load texture " + ID + " from " + path);
+		logger.LogWarn("Failed to load texture ID: " + texID + " from " + path);
 		return false;
 	}
 
 	// Success
-	if(ID == "")
-	{
-		textures.insert({path.substr(path.find_last_of('\\') + 1,path.find_last_of('.')),std::move(newTexture)});
-	}
-	else
-	{
-		textures.insert({ID,std::move(newTexture)});	
-	}
-	
-	logger.LogInfo("Loaded texture " + ID + " from " + path);
+	textures.insert({texID,std::move(newTexture)});
+	logger.LogInfo("Loaded texture ID: " + texID + " from " + path);
 	return true;
 }
 
@@ -236,23 +238,31 @@ bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 
 	@param[in] path file path of image file
 
+	@note uses dirent.h
+
 	@return success -- always true
 */
 bool graphicMgr::loadTextureRec(const std::string& path)
 {
 	DIR *directory;
 	struct dirent *entry;
+	std::string dirPath = path;
+
+	if(dirPath.back() != '/' && dirPath.back() != '\\')
+	{
+		dirPath.append("/");
+	} 
 
 	// Open directory
-	directory = opendir(path.c_str());
+	directory = opendir(dirPath.c_str());
 	assert(directory);
 	if(!directory)
 	{
-		logger.LogWarn("Failed to open texture directory at " + path);
+		logger.LogWarn("Failed to open texture directory at " + dirPath);
 		return false;
 	}
 
-	logger.LogInfo("Loading texture directory at " + path);
+	logger.LogInfo("Loading texture directory at " + dirPath);
 	logger.EnterSec();
 
 	// Read directory
@@ -266,11 +276,11 @@ bool graphicMgr::loadTextureRec(const std::string& path)
 			/// @todo make this better, it just tests for a .extension
 			if(entryName[entryName.size() - 4] == '.')
 			{
-				loadTexture(path + entryName);
+				loadTexture(dirPath + entryName);
 			}
 			else
 			{
-				loadTextureRec(path + entryName + '\\');
+				loadTextureRec(dirPath + entryName + '/');
 			}
 		}
 	}
@@ -292,7 +302,18 @@ bool graphicMgr::loadTextureRec(const std::string& path)
 */
 bool graphicMgr::freeTexture(const std::string& ID)
 {
-	return false;
+	auto tex = textures.find(ID);
+	if(tex == textures.end())
+	{
+		logger.LogWarn("Can't free texture ID: " + ID + ", could not find");
+		return false;
+	}
+
+	textures.erase(tex);
+
+	// Success
+	logger.LogInfo("Freed texture ID: " + ID);
+	return true;
 }
 
 /**

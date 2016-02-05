@@ -117,7 +117,7 @@ bool entity::hasComponent(component_type c)
 
 	@exception if entity already has component return it
 */
-std::shared_ptr<component>& entity::addComponent(component_type c)
+std::weak_ptr<component>& entity::addComponent(component_type c)
 {
 	if(hasComponent(c))
 	{
@@ -128,7 +128,7 @@ std::shared_ptr<component>& entity::addComponent(component_type c)
 
 	components.push_back(newC);
 
-	return newC;
+	return std::weak_ptr<component>(newC);
 }
 
 /**
@@ -136,20 +136,20 @@ std::shared_ptr<component>& entity::addComponent(component_type c)
 
 	@param[in] c component type to get
 
-	@return component found
+	@return component found, or weak_ptr with no managed obejct if not found
 
 	@exception if entity does not have component return NULL
 */
-std::shared_ptr<component>& entity::getComponent(component_type c)
+std::weak_ptr<component>& entity::getComponent(component_type c)
 {
 	for(std::shared_ptr<component> comp : components)
 	{
 		if(comp->type = c)
 		{
-			return comp;
+			return std::weak_ptr<component>(comp);
 		}
 	}
-	return std::shared_ptr<component>(NULL);
+	return std::weak_ptr<component>();
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////
