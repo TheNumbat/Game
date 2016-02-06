@@ -182,8 +182,8 @@ bool graphicMgr::displayFrame(bool clearAfter)
 	if(clearAfter)
 	{
 		bool result = SDL_RenderClear((SDL_Renderer*)sdl_renderer);
-		assert(result);
-		if(!result)
+		assert(!result);
+		if(result)
 		{
 			logger.LogWarn((std::string)"Failed to clear renderer. SDL Error: " + SDL_GetError());
 			return false;
@@ -352,6 +352,12 @@ bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_r
 	sdl_dest_rect.h = dest_rect.h;
 
 	bool result = SDL_RenderCopy((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,NULL,&sdl_dest_rect);
+	assert(!result);
+	if(result)
+	{
+		logger.LogWarn("Failed to Render texture ID: " + ID + ", SDL_Error: " + SDL_GetError());
+		return false;
+	}
 
 	return true;
 }
@@ -376,7 +382,60 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
  								 const rect2<int32>& src_rect, const v2<int32>& rot_point,
 					 			 real32 rot, uint32 flip)
 {
-	return false;
+	if(!good)
+	{
+		logger.LogWarn("Can't display texture, graphics log initialized");
+		return false;
+	}
+
+	auto textureItem = textures.find(ID);
+
+	if(textureItem == textures.end())
+	{
+		logger.LogWarn("Can't display texture, could not find loaded texture with ID: " + ID);
+		return false;
+	}
+
+	SDL_Rect sdl_dest_rect;
+	sdl_dest_rect.x = dest_rect.x;
+	sdl_dest_rect.y = dest_rect.y;
+	sdl_dest_rect.w = dest_rect.w;
+	sdl_dest_rect.h = dest_rect.h;
+
+	SDL_Rect sdl_src_rect;
+	sdl_src_rect.x = src_rect.x;
+	sdl_src_rect.y = src_rect.y;
+	sdl_src_rect.w = src_rect.w;
+	sdl_src_rect.h = src_rect.h;
+
+	SDL_Point sdl_rot_point;
+	sdl_rot_point.x = rot_point.x;
+	sdl_rot_point.y = rot_point.y;
+
+	SDL_RendererFlip sdl_flip = SDL_FLIP_NONE;
+	if(flip & FLIP_HORZ && flip & FLIP_VERT)
+	{
+		sdl_flip = (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
+	}
+	else if(flip & FLIP_HORZ)
+	{
+		sdl_flip = (SDL_RendererFlip)SDL_FLIP_HORIZONTAL;
+	}
+	else if(flip & FLIP_VERT)
+	{
+		sdl_flip = (SDL_RendererFlip)SDL_FLIP_VERTICAL;
+	}
+
+	bool result = SDL_RenderCopyEx((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,
+								   &sdl_src_rect,&sdl_dest_rect,rot,&sdl_rot_point,sdl_flip);
+	assert(!result);
+	if(result)
+	{
+		logger.LogWarn("Failed to Render texture ID: " + ID + ", SDL_Error: " + SDL_GetError());
+		return false;
+	}
+
+	return true;
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

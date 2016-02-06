@@ -33,6 +33,7 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+const uint32 FLIP_NONE = 0;
 const uint32 FLIP_HORZ = 1<<0;
 const uint32 FLIP_VERT = 1<<1;
 

@@ -43,8 +43,6 @@ GAME_API void startup(engine_state* engine)
 	engine->events.init();
 
 	engine->graphics.loadTextureRec("art");
-	engine->graphics.renderTexture("yeti",rect2<int32>(50,50,20,40));
-	engine->graphics.displayFrame(false);
 }
 
 GAME_API bool gameLoop(engine_state* engine) 
@@ -61,6 +59,9 @@ GAME_API bool gameLoop(engine_state* engine)
 			engine->logger.LogInfo("Key Pressed");
 		}
 	}
+
+	engine->graphics.renderTextureEx("yeti",rect2<int32>(50,50,64,64),rect2<int32>(0,0,32,32),v2<int32>(0,0),0,FLIP_NONE);
+	engine->graphics.displayFrame();
 
 	return true;
 }
