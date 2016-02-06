@@ -23,6 +23,7 @@
 
 #include "vector.h"
 #include <string>
+#include <memory>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -37,11 +38,9 @@
 */
 class texture
 {
-public:
 	texture();
 	~texture();
 
-private:
 	bool load(const std::string& path, void* sdl_renderer);
 	bool free();
 
@@ -50,6 +49,8 @@ private:
 	bool good;
 
 	friend class graphicMgr;
+	friend class std::default_delete<texture>;
+	friend std::unique_ptr<texture> std::make_unique<texture>();
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
