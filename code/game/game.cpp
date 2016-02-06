@@ -33,7 +33,8 @@ GAME_API bool gameLoop(engine_state* engine);
 
 // Free function implementation  //////////////////////////////////////////////
 
-GAME_API void startup(engine_state* engine) {
+GAME_API void startup(engine_state* engine) 
+{
 	engine->logger.StartLog("GAME");
 	engine->logger.LogInfo("Game code initialized");
 
@@ -44,8 +45,8 @@ GAME_API void startup(engine_state* engine) {
 	engine->graphics.loadTextureRec("art");
 }
 
-GAME_API bool gameLoop(engine_state* engine) {
-	
+GAME_API bool gameLoop(engine_state* engine) 
+{	
 	event e;
 	while(engine->events.getNextEvent(e))
 	{
@@ -53,10 +54,9 @@ GAME_API bool gameLoop(engine_state* engine) {
 		{
 			return false;
 		}
-		else if (e.type == EVT_KEY){
-
-			engine->logger.LogInfo("Key Pressed")
-
+		else if (e.type == EVT_KEY)
+		{
+			engine->logger.LogInfo("Key Pressed");
 		}
 	}
 
