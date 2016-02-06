@@ -43,6 +43,8 @@ GAME_API void startup(engine_state* engine)
 	engine->events.init();
 
 	engine->graphics.loadTextureRec("art");
+	engine->graphics.renderTexture("yeti",rect2<int32>(50,50,20,40));
+	engine->graphics.displayFrame(false);
 }
 
 GAME_API bool gameLoop(engine_state* engine) 

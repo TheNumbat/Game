@@ -331,7 +331,29 @@ bool graphicMgr::freeTexture(const std::string& ID)
 */
 bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_rect)
 {
-	return false;
+	if(!good)
+	{
+		logger.LogWarn("Can't display texture, graphics log initialized");
+		return false;
+	}
+
+	auto textureItem = textures.find(ID);
+
+	if(textureItem == textures.end())
+	{
+		logger.LogWarn("Can't display texture, could not find loaded texture with ID: " + ID);
+		return false;
+	}
+
+	SDL_Rect sdl_dest_rect;
+	sdl_dest_rect.x = dest_rect.x;
+	sdl_dest_rect.y = dest_rect.y;
+	sdl_dest_rect.w = dest_rect.w;
+	sdl_dest_rect.h = dest_rect.h;
+
+	bool result = SDL_RenderCopy((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,NULL,&sdl_dest_rect);
+
+	return true;
 }
 
 /**
