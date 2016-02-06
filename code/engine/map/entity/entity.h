@@ -24,6 +24,7 @@
 #include "map\component\component.h"
 #include <memory>
 #include <vector>
+#include <mutex>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -49,8 +50,10 @@ public:
 	ENGINE_API std::weak_ptr<component>& getComponent(component_type c);
 
 private:
-	/// @todo mutex stuff
+	/// @todo use the mutex stuff
 	std::vector<std::shared_ptr<component>> components;
+	std::mutex locked;
+
 	uint64 UID;
 	uint32 lastUpdate;
 };
