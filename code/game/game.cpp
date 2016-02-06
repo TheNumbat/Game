@@ -53,6 +53,11 @@ GAME_API bool gameLoop(engine_state* engine) {
 		{
 			return false;
 		}
+		else if (e.type == EVT_KEY){
+
+			engine->logger.LogInfo("Key Pressed")
+
+		}
 	}
 
 	return true;

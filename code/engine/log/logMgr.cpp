@@ -54,7 +54,7 @@ logMgr::~logMgr() {}
 	@brief Sets up and starts the logging system
 
 	@param[in] defaultLvl is the text that will be used when logging
-			   default level messgaes. Should pertain to who is doing
+			   default level messages. Should pertain to who is doing
 			   the logging.
 	@param[in] header defaulted to false, marks wether or not to display
 			   the header and time stamp when the log is started.
