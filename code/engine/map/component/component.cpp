@@ -30,7 +30,7 @@
 
 // Free function implementation  //////////////////////////////////////////////
 
-std::shared_ptr<component>& createComponent(component_type c)
+const std::shared_ptr<component>& createComponent(component_type c)
 {
 	switch(c)
 	{

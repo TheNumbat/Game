@@ -37,7 +37,7 @@
 	Sets position to 0,0,0,0,0, zoom to 1, following to NULL
 */
 camera::camera()
-	: pos(0,0,0,0,0,0), following(NULL)
+	: pos(0,0,0,0,0,0)
 {
 	logger.StartLog("CAMERA");
 	zoom = 1;
@@ -74,21 +74,21 @@ bool camera::set(const map_position& newPos)
 	@exception e NULL, will not update
 	@exception e doesn't have position component, will not update
 */
-bool camera::set(std::shared_ptr<entity> e)
+bool camera::set(const std::weak_ptr<entity>& e)
 {
-	if(!e)
+	if(e.expired())
 	{
-		logger.LogWarn("Trying to set camera position on NULL entity");
+		logger.LogWarn("Trying to set camera position on nonexistant entity");
 		return false;
 	}
 
-	if(!e->hasComponent(ctype_position))
+	if(e.lock()->hasComponent(ctype_position))
 	{
 		logger.LogWarn("Trying to set camera position on entity without position");
 		return false;
 	}
 
-	pos = std::static_pointer_cast<component_position>(e->getComponent(ctype_position).lock())->pos;
+	pos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock())->pos;
 	return true;
 }
 
@@ -114,21 +114,32 @@ bool camera::move(const map_position& offset)
 */
 bool camera::updateFollow()
 {
-	return set(following);
+	if(!following.expired())
+	{
+		return set(following);
+	}
+
+	logger.LogWarn("Cannot update follow, followed entity does not exist");
+	return false;
 }
 
 /**
-	@brief Updates camera position based on followed entity
+	@brief Sets the camera following an entity
 
-	Adds offset to position.
+	@param[in] e is pointer to new entity to follow, or nothing to clear it
 
-	@param[in] e is pointer to new entity to follow, or NULL to clear it
-
-	@note calls set
+	@exception e does not have a position component, does nothing
 */
-bool camera::setFollowing(std::shared_ptr<entity> e)
+bool camera::setFollowing(const std::weak_ptr<entity>& e)
 {
-	if(!e->hasComponent(ctype_position))
+	if(e.expired())
+	{
+		logger.LogInfo("Clearing camera follow entity");
+		following = std::weak_ptr<entity>();
+		return true;
+	}
+
+	if(e.lock()->hasComponent(ctype_position))
 	{
 		logger.LogWarn("Trying to set camera following entity without position");
 		return false;

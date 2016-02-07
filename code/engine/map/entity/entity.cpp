@@ -96,7 +96,7 @@ bool entity::setLastUpdate(uint32 time)
 
 	@return bool contains component
 */
-bool entity::hasComponent(component_type c)
+bool entity::hasComponent(component_type c) const
 {
 	for(std::shared_ptr<component> comp : components)
 	{
@@ -117,7 +117,7 @@ bool entity::hasComponent(component_type c)
 
 	@exception if entity already has component return it
 */
-std::weak_ptr<component>& entity::addComponent(component_type c)
+const std::weak_ptr<component>& entity::addComponent(component_type c)
 {
 	if(hasComponent(c))
 	{
@@ -140,7 +140,7 @@ std::weak_ptr<component>& entity::addComponent(component_type c)
 
 	@exception if entity does not have component return NULL
 */
-std::weak_ptr<component>& entity::getComponent(component_type c)
+const std::weak_ptr<component>& entity::getComponent(component_type c) const
 {
 	for(std::shared_ptr<component> comp : components)
 	{

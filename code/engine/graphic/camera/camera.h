@@ -44,15 +44,15 @@ class camera
 	~camera();
 
 	bool set(const map_position& newPos);
-	bool set(std::shared_ptr<entity> e);
+	bool set(const std::weak_ptr<entity>& e);
 	bool move(const map_position& offset);
 
 	bool updateFollow();
-	bool setFollowing(std::shared_ptr<entity> e = std::shared_ptr<entity>(NULL));
+	bool setFollowing(const std::weak_ptr<entity>& e = std::weak_ptr<entity>());
 
 	map_position pos;
 	real32 zoom;
-	std::shared_ptr<entity> following;
+	std::weak_ptr<entity> following;
 	logMgr logger;
 
 	friend class graphicMgr;
