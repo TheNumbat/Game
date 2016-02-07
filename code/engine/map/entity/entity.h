@@ -34,11 +34,15 @@
 	@brief Holds components to represent an entity.
 
 	Used by mapMgr and elsewhere.
+
+	@note ALWAYS ALWAYS ALWAYS lock the mutex member when reading OR writing to
+		  the entity. ALSO remember not to interfere with locking in functions
+		  and stuch.
 */
 class entity
 {
 public:
-	ENGINE_API entity(uint64 _UID, uint32 time);
+	ENGINE_API entity(uint32 _UID, uint32 time);
 	ENGINE_API ~entity();
 
 	ENGINE_API uint64 getUID() const;
@@ -49,12 +53,12 @@ public:
 	ENGINE_API const std::weak_ptr<component>& addComponent(component_type c);
 	ENGINE_API const std::weak_ptr<component>& getComponent(component_type c) const;
 
+	std::mutex lock;
+	
 private:
-	/// @todo use the mutex stuff
 	std::vector<std::shared_ptr<component>> components;
-	std::mutex locked;
 
-	uint64 UID;
+	uint32 UID;
 	uint32 lastUpdate;
 };
 

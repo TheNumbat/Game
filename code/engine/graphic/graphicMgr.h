@@ -43,6 +43,9 @@ const uint32 FLIP_VERT = 1<<1;
 	@brief Manages graphical display
 
 	See function docuemtnation
+
+	@todo do we want this to render entities? Probably not, that would be too tightly 
+		  coupled
 */
 class graphicMgr
 {

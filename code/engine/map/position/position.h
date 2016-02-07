@@ -21,6 +21,8 @@
 
 #include "engine_common.h"
 
+#include <functional>
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -89,6 +91,28 @@ struct map_position
 	real_position realPos;
 	chunk_position chunkPos;
 };
+
+/**
+	@brief Hash function for chunk_position
+
+	Used for sparsely storing "chunks" (see mapMgr)
+*/
+namespace std
+{
+	template<> 
+	struct hash<chunk_position>
+	{
+		uint64 operator()(const chunk_position& hash_pos)
+		{
+			/// @todo do we need to call the other hash functors?
+            uint64 h1 = std::hash<int32>()(hash_pos.x);
+            uint64 h2 = std::hash<int32>()(hash_pos.y);
+            uint64 h3 = std::hash<int32>()(hash_pos.z);
+
+            return h1 ^ ((h2 ^ (h3 << 1)) << 1);
+		}
+	};
+}
 
 // Free function prototypes  //////////////////////////////////////////////////
 

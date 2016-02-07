@@ -37,6 +37,9 @@
 	Can also move to an entity and follow an entity.
 
 	Used by graphicMgr.
+
+	@todo this is rather tightly coupled to the entity system -- should it be
+		  decoupled?
 */
 class camera
 {

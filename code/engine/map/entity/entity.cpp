@@ -36,7 +36,7 @@
 
 	Assigns values, starts with no components
 */
-entity::entity(uint64 _UID, uint32 time)
+entity::entity(uint32 _UID, uint32 time)
 {
 	UID = _UID;
 	lastUpdate = time;

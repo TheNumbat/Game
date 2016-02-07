@@ -76,6 +76,8 @@ bool camera::set(const map_position& newPos)
 */
 bool camera::set(const std::weak_ptr<entity>& e)
 {
+	std::lock_guard<std::mutex> lock(e.lock()->lock);
+
 	if(e.expired())
 	{
 		logger.LogWarn("Trying to set camera position on nonexistant entity");
@@ -114,6 +116,8 @@ bool camera::move(const map_position& offset)
 */
 bool camera::updateFollow()
 {
+	std::lock_guard<std::mutex> lock(following.lock()->lock);
+
 	if(!following.expired())
 	{
 		return set(following);
@@ -132,6 +136,8 @@ bool camera::updateFollow()
 */
 bool camera::setFollowing(const std::weak_ptr<entity>& e)
 {
+	std::lock_guard<std::mutex> lock(e.lock()->lock);
+	
 	if(e.expired())
 	{
 		logger.LogInfo("Clearing camera follow entity");
