@@ -22,7 +22,6 @@
 #include "engine_common.h"
 
 #include "texture\texture.h"
-#include "camera\camera.h"
 #include "log\logMgr.h"
 
 #include "rect.h"
@@ -71,7 +70,6 @@ private:
 	logMgr logger;
 
 	std::map<std::string,std::unique_ptr<texture>> textures;
-	camera cam;
 
 	void* sdl_renderer;
 	void* sdl_window;

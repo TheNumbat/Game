@@ -38,20 +38,178 @@
 template<typename T>
 struct base_position
 {
-	ENGINE_API base_position(T _x = 0, T _y = 0, T _z = 0);
-	ENGINE_API base_position(const base_position& src);
-	ENGINE_API ~base_position();
+	/**
+		@brief base position constructor
 
-	ENGINE_API base_position& set(T _x, T _y, T _z);
-	ENGINE_API base_position& move(T _x, T _y, T _z);
+		Assigns values
+		
+		@param[in] _x x value
+		@param[in] _y y value
+		@param[in] _z z value
+	*/
+	ENGINE_API base_position(T _x = 0, T _y = 0, T _z = 0)
+	{
+		x = _x;
+		y = _y;
+		z = _z;
+	}
 
-	ENGINE_API bool operator==(const base_position& comp);
-	ENGINE_API base_position& operator=(const base_position& src);
+	/**
+		@brief base position constructor
 
-	ENGINE_API base_position& operator+(const base_position& src);
-	ENGINE_API base_position& operator+=(const base_position& src);
-	ENGINE_API base_position& operator-(const base_position& src);
-	ENGINE_API base_position& operator-=(const base_position& src);
+		Assigns values
+
+		@param[in] src position to copy
+	*/
+	ENGINE_API base_position(const base_position<T>& src)
+	{
+		x = src.x;
+		y = src.y;
+		z = src.z;
+	}
+
+	/**
+		@brief base position constructor
+
+		Does nothing
+	*/
+	ENGINE_API ~base_position()
+	{
+
+	}
+
+	/**
+		@brief set base position
+
+		Assigns values
+
+		@param[in] _x x value
+		@param[in] _y y value
+		@param[in] _z z value
+
+		@return self for chaining
+	*/
+	ENGINE_API base_position<T>& set(T _x, T _y, T _z)
+	{
+		x = _x;
+		y = _y;
+		z = _z;
+		return *this;
+	}
+
+	/**
+		@brief Move base position
+
+		Adds values
+
+		@param[in] _x x value
+		@param[in] _y y value
+		@param[in] _z z value
+
+		@return self for chaining
+	*/
+	ENGINE_API base_position<T>& move(T _x, T _y, T _z)
+	{
+		x += _x;
+		y += _y;
+		z += _z;
+		return *this;
+	}
+
+	/**
+		@brief compares base positions
+
+		Compares values
+
+		@param[in] comp position to compare to
+
+		@return bool equal
+	*/
+	ENGINE_API bool operator==(const base_position<T>& comp) const
+	{
+		return x == comp.x &&
+			   y == comp.y &&
+			   z == comp.z;
+	}
+
+	/**
+		@brief assigns base positions
+
+		Assigns values
+
+		@param[in] src position to assign
+
+		@return self for chaining
+	*/
+	ENGINE_API base_position<T>& operator=(const base_position<T>& src)
+	{
+		x = src.x;
+		y = src.y;
+		z = src.z;
+		return *this;
+	}
+
+	/**
+		@brief adds base positions
+
+		Adds values
+
+		@param[in] src position to add
+
+		@return new added position
+	*/
+	ENGINE_API base_position<T>& operator+(const base_position<T>& src) const
+	{
+		return base_position(x + src.x, y + src.y, z + src.z);
+	}
+
+	/**
+		@brief adds base positions
+
+		Adds values
+
+		@param[in] src position to add
+
+		@return self for chaining
+	*/
+	ENGINE_API base_position<T>& operator+=(const base_position<T>& src)
+	{
+		x += src.x;
+		y += src.y;
+		z += src.z;
+		return *this;
+	}
+
+	/**
+		@brief subtracts base positions
+
+		Subtracts values
+
+		@param[in] src position to subtract
+
+		@return new subtracted position
+	*/
+	ENGINE_API base_position<T>& operator-(const base_position<T>& src) const
+	{
+		return base_position(x - src.x, y - src.y, z - src.z);
+	}
+
+	/**
+		@brief subtracts base positions
+
+		Subtracts values
+
+		@param[in] src position to subtract
+
+		@return self for chaining
+	*/
+	ENGINE_API base_position<T>& operator-=(const base_position<T>& src)
+	{
+		x -= src.x;
+		y -= src.y;
+		z -= src.z;
+		return *this;
+	}
 
 	T x;
 	T y;
@@ -78,18 +236,19 @@ struct map_position
 	ENGINE_API map_position(const map_position& src);
 	ENGINE_API ~map_position();
 
-	ENGINE_API bool operator==(const map_position& comp);
+	ENGINE_API bool operator==(const map_position& comp) const;
 	ENGINE_API map_position& operator=(const map_position& src);
 
-	/// @todo do we still want these to move around the chunk pos
-	/// if realPos is out of bounds? Then we need chunkDiff again
-	ENGINE_API map_position& operator+(const map_position& src);
+	ENGINE_API map_position& operator+(const map_position& src) const;
 	ENGINE_API map_position& operator+=(const map_position& src);
-	ENGINE_API map_position& operator-(const map_position& src);
+	ENGINE_API map_position& operator-(const map_position& src) const;
 	ENGINE_API map_position& operator-=(const map_position& src);
+
+	ENGINE_API void clamp();
 
 	real_position realPos;
 	chunk_position chunkPos;
+	chunk_position realChunkOffset;
 };
 
 /**
@@ -102,7 +261,7 @@ namespace std
 	template<> 
 	struct hash<chunk_position>
 	{
-		uint64 operator()(const chunk_position& hash_pos)
+		uint64 operator()(const chunk_position& hash_pos) const
 		{
 			/// @todo do we need to call the other hash functors?
             uint64 h1 = std::hash<int32>()(hash_pos.x);

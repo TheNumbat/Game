@@ -20,10 +20,9 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "engine_common.h"
-
 #include "map\component\component.h"
 #include <memory>
-#include <vector>
+#include <map>
 #include <mutex>
 
 // Global constant definitions  ///////////////////////////////////////////////
@@ -56,7 +55,7 @@ public:
 	std::mutex lock;
 	
 private:
-	std::vector<std::shared_ptr<component>> components;
+	std::map<component_type,std::shared_ptr<component>> components;
 
 	uint32 UID;
 	uint32 lastUpdate;

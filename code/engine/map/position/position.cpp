@@ -32,190 +32,6 @@
 // Class/Data Structure member implementations  ///////////////////////////////
 
 /**
-	@brief base position constructor
-
-	Assigns values
-	
-	@param[in] _x x value
-	@param[in] _y y value
-	@param[in] _z z value
-*/
-template<typename T>
-base_position<T>::base_position(T _x, T _y, T _z)
-{
-	x = _x;
-	y = _y;
-	z = _z;
-}
-
-/**
-	@brief base position constructor
-
-	Assigns values
-
-	@param[in] src position to copy
-*/
-template<typename T>
-base_position<T>::base_position(const base_position& src)
-{
-	x = src.x;
-	y = src.y;
-	z = src.z;
-}
-
-/**
-	@brief base position constructor
-
-	Does nothing
-*/
-template<typename T>
-base_position<T>::~base_position()
-{
-
-}
-
-/**
-	@brief set base position
-
-	Assigns values
-
-	@param[in] _x x value
-	@param[in] _y y value
-	@param[in] _z z value
-
-	@return self for chaining
-*/
-template<typename T>
-base_position<T>& base_position<T>::set(T _x, T _y, T _z)
-{
-	x = _x;
-	y = _y;
-	z = _z;
-	return *this;
-}
-
-/**
-	@brief Move base position
-
-	Adds values
-
-	@param[in] _x x value
-	@param[in] _y y value
-	@param[in] _z z value
-
-	@return self for chaining
-*/
-template<typename T>
-base_position<T>& base_position<T>::move(T _x, T _y, T _z)
-{
-	x += _x;
-	y += _y;
-	z += _z;
-	return *this;
-}
-
-/**
-	@brief compares base positions
-
-	Compares values
-
-	@param[in] comp position to compare to
-
-	@return bool equal
-*/
-template<typename T>	
-bool base_position<T>::operator==(const base_position<T>& comp)
-{
-	return x == comp.x &&
-		   y == comp.y &&
-		   z == comp.z;
-}
-
-/**
-	@brief assigns base positions
-
-	Assigns values
-
-	@param[in] src position to assign
-
-	@return self for chaining
-*/
-template<typename T>
-base_position<T>& base_position<T>::operator=(const base_position<T>& src)
-{
-	x = src.x;
-	y = src.y;
-	z = src.z;
-	return *this;
-}
-
-/**
-	@brief adds base positions
-
-	Adds values
-
-	@param[in] src position to add
-
-	@return new added position
-*/
-template<typename T>
-base_position<T>& base_position<T>::operator+(const base_position<T>& src)
-{
-	return base_position(x + src.x, y + src.y, z + src.z);
-}
-
-/**
-	@brief adds base positions
-
-	Adds values
-
-	@param[in] src position to add
-
-	@return self for chaining
-*/
-template<typename T>
-base_position<T>& base_position<T>::operator+=(const base_position<T>& src)
-{
-	x += src.x;
-	y += src.y;
-	z += src.z;
-	return *this;
-}
-
-/**
-	@brief subtracts base positions
-
-	Subtracts values
-
-	@param[in] src position to subtract
-
-	@return new subtracted position
-*/
-template<typename T>
-base_position<T>& base_position<T>::operator-(const base_position<T>& src)
-{
-	return base_position(x - src.x, y - src.y, z - src.z);
-}
-
-/**
-	@brief subtracts base positions
-
-	Subtracts values
-
-	@param[in] src position to subtract
-
-	@return self for chaining
-*/
-template<typename T>
-base_position<T>& base_position<T>::operator-=(const base_position<T>& src)
-{
-	x -= src.x;
-	y -= src.y;
-	z -= src.z;
-	return *this;
-}
-
-/**
 	@brief map position constructor
 
 	Assigns values
@@ -272,6 +88,33 @@ map_position::~map_position()
 }
 
 /**
+	@brief adjusts chunkPos/offset if realPos is OOB
+*/
+void map_position::clamp()
+{
+	while(realPos.x < 0) {
+		realPos.x += CHUNK_SIZE_METERS;
+		chunkPos.x--;
+		realChunkOffset.x--;
+	} 
+	while(realPos.x > CHUNK_SIZE_METERS) {
+		realPos.x -= CHUNK_SIZE_METERS;
+		chunkPos.x++;
+		realChunkOffset.x++;
+	}
+	while(realPos.y < 0) {
+		realPos.y += CHUNK_SIZE_METERS;
+		chunkPos.y--;
+		realChunkOffset.y--;
+	}
+	while(realPos.y > CHUNK_SIZE_METERS) {
+		realPos.y -= CHUNK_SIZE_METERS;
+		chunkPos.y++;
+		realChunkOffset.y++;
+	}
+}
+
+/**
 	@brief compares map positions
 	
 	Compares values
@@ -280,7 +123,7 @@ map_position::~map_position()
 
 	@return bool positions equal
 */
-bool map_position::operator==(const map_position& comp)
+bool map_position::operator==(const map_position& comp) const
 {
 	return realPos == comp.realPos &&
 		   chunkPos == comp.chunkPos;
@@ -299,6 +142,7 @@ map_position& map_position::operator=(const map_position& src)
 {
 	realPos = src.realPos;
 	chunkPos = src.chunkPos;
+	realChunkOffset = src.realChunkOffset;
 	return *this;
 }
 
@@ -311,11 +155,13 @@ map_position& map_position::operator=(const map_position& src)
 
 	@return new added position
 */
-map_position& map_position::operator+(const map_position& src)
+map_position& map_position::operator+(const map_position& src) const
 {
 	map_position ret = *this;
 	ret.realPos += src.realPos;
 	ret.chunkPos += src.chunkPos;
+	ret.realChunkOffset += src.chunkPos;
+	ret.clamp();
 	return ret;
 }
 
@@ -332,6 +178,8 @@ map_position& map_position::operator+=(const map_position& src)
 {
 	realPos += src.realPos;
 	chunkPos += src.chunkPos;
+	realChunkOffset += src.chunkPos;
+	clamp();
 	return *this;
 }
 
@@ -344,12 +192,14 @@ map_position& map_position::operator+=(const map_position& src)
 
 	@return self for chaining
 */
-map_position& map_position::operator-(const map_position& src)
+map_position& map_position::operator-(const map_position& src) const
 {
 	map_position ret;
 	ret = *this;
 	ret.realPos -= src.realPos;
 	ret.chunkPos -= src.chunkPos;
+	ret.realChunkOffset -= src.chunkPos;
+	ret.clamp();
 	return ret;
 }
 
@@ -366,6 +216,8 @@ map_position& map_position::operator-=(const map_position& src)
 {
 	realPos -= src.realPos;
 	chunkPos -= src.chunkPos;
+	realChunkOffset -= src.chunkPos;
+	clamp();
 	return *this;
 }
 

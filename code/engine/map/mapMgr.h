@@ -22,8 +22,8 @@
 #include "engine_common.h"
 
 #include "log/logMgr.h"
-#include "map/position/position.h"
 #include "entity/entity.h"
+#include "map/position/position.h"
 
 #include <vector>
 #include <memory>
@@ -70,15 +70,14 @@ public:
 	// Chunk operations
 	ENGINE_API const std::weak_ptr<chunk>& addChunk(const chunk_position& pos);
 	ENGINE_API const std::weak_ptr<chunk>& getChunk(const chunk_position& pos);
+	ENGINE_API bool removeChunk(const chunk_position& pos);
 	ENGINE_API const std::weak_ptr<chunk>& getChunkFromEntity(const std::weak_ptr<entity>& e);
 
 private:
-	std::unordered_map<chunk_position,chunk> map;
+	std::unordered_map<chunk_position,std::shared_ptr<chunk>> map;
 	std::map<std::string,std::weak_ptr<entity>> players;
 
-	real32 chunk_side_meters;
 	uint32 nextUnusedID;
-
 	logMgr logger;
 
 	static const uint32 MAX_ENTITIES = 1000000;

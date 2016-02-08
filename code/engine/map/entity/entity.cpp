@@ -98,12 +98,10 @@ bool entity::setLastUpdate(uint32 time)
 */
 bool entity::hasComponent(component_type c) const
 {
-	for(std::shared_ptr<component> comp : components)
+	auto compEntry = components.find(c);
+	if(compEntry == components.end())
 	{
-		if(comp->type = c)
-		{
-			return true;
-		}
+		return false;
 	}
 	return false;
 }
@@ -126,7 +124,7 @@ const std::weak_ptr<component>& entity::addComponent(component_type c)
 
 	std::shared_ptr<component> newC = createComponent(c);
 
-	components.push_back(newC);
+	components.insert({c,newC});
 
 	return std::weak_ptr<component>(newC);
 }
@@ -142,12 +140,10 @@ const std::weak_ptr<component>& entity::addComponent(component_type c)
 */
 const std::weak_ptr<component>& entity::getComponent(component_type c) const
 {
-	for(std::shared_ptr<component> comp : components)
+	auto compEntry = components.find(c);
+	if(compEntry == components.end())
 	{
-		if(comp->type = c)
-		{
-			return std::weak_ptr<component>(comp);
-		}
+		return compEntry->second;
 	}
 	return std::weak_ptr<component>();
 }
