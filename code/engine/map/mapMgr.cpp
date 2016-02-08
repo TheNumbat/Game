@@ -84,6 +84,11 @@ const std::weak_ptr<entity>& mapMgr::addEntity(const map_position& pos, uint32 c
 		chunkEntry.lock()->insert(newEntity);
 
 		// Success
+		#ifdef VERBOSE_MAP
+			logger.LogInfo("Added entity UID: " + std::to_string(nextUnusedID) + " at chunk x: " + std::to_string(pos.chunkPos.x) + 
+						   " y: " + std::to_string(pos.chunkPos.y) + " z: " + std::to_string(pos.chunkPos.z));
+		#endif
+
 		nextUnusedID++;
 		return std::weak_ptr<entity>(newEntity);
 	}
@@ -118,6 +123,10 @@ const std::weak_ptr<entity>& mapMgr::addPlayer(const std::string& ID, const map_
 	if(!newPlayer.expired())
 	{
 		players.insert({ID,newPlayer});
+
+		#ifdef VERBOSE_MAP
+			logger.LogInfo("Added player ID: " + ID);
+		#endif
 	}
 
 	return newPlayer;
@@ -142,6 +151,10 @@ const std::weak_ptr<entity>& mapMgr::getPlayerByID(const std::string& ID)
 		logger.LogWarn("Could not get player ID: " + ID + ", does not exist");
 		return std::weak_ptr<entity>();
 	}
+
+	#ifdef VERBOSE_MAP
+		logger.LogInfo("Got player ID: " + ID);
+	#endif
 
 	// Success, return player
 	return playerItem->second;
@@ -173,6 +186,10 @@ const std::weak_ptr<entity>& mapMgr::getEntityByUID_SLOW(uint32 UID)
 			if(e->getUID() == UID)
 			{
 				// Success
+				#ifdef VERBOSE_MAP
+					logger.LogInfo("Got entity UID: " + std::to_string(UID));
+				#endif
+
 				return std::weak_ptr<entity>(e);
 			}
 		}
@@ -204,6 +221,10 @@ bool mapMgr::removePlayer(const std::string& ID)
 		logger.LogWarn("Could not remove player ID: " + ID + ", does not exist");
 		return false;
 	}
+
+	#ifdef VERBOSE_MAP
+		logger.LogInfo("Removed player ID: " + ID);
+	#endif
 
 	// Remove player 
 	players.erase(playerItem);
@@ -243,6 +264,10 @@ bool mapMgr::removeEntity(const std::weak_ptr<entity>& e)
 		logger.LogWarn("Cannot remove entity ID: " + std::to_string(e.lock()->getUID()) + ", references nonexistant chunk");
 		return false;
 	}
+
+	#ifdef VERBOSE_MAP
+		logger.LogInfo("Removed entity UID: " + e.lock()->getUID());
+	#endif
 
 	// Success, remove entity
 	chunkEntry.lock()->erase(e.lock());
@@ -323,6 +348,10 @@ bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 	oldChunk.lock()->erase(e.lock());
 	newChunk.lock()->insert(e.lock());
 
+	#ifdef VERBOSE_MAP
+		logger.LogInfo("Updated chunk position of entity UID: " + std::to_string(e.lock()->getUID()));
+	#endif
+
 	// Success
 	entityPos.lock()->pos.realChunkOffset = chunk_position(0,0,0);
 	return true;
@@ -351,6 +380,11 @@ const std::weak_ptr<chunk>& mapMgr::addChunk(const chunk_position& pos)
 	// Create new chunk
 	std::shared_ptr<chunk> newChunk = std::make_shared<chunk>();
 	map.insert({pos,newChunk});
+
+	#ifdef VERBOSE_MAP
+		logger.LogInfo("Added chunk at x: " + std::to_string(pos.x) + " y: " + std::to_string(pos.y) + " z: " + std::to_string(pos.z));
+	#endif
+
 	return std::weak_ptr<chunk>(newChunk);
 }
 
@@ -377,6 +411,11 @@ bool mapMgr::removeChunk(const chunk_position& pos)
 
 	// Success
 	map.erase(chunkEntry);
+
+	#ifdef VERBOSE_MAP
+		logger.LogInfo("Removed chunk at x: " + std::to_string(pos.x) + " y: " + std::to_string(pos.y) + " z: " + std::to_string(pos.z));
+	#endif
+
 	return true;
 }
 

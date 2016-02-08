@@ -124,12 +124,19 @@ bool eventMgr::getNextEvent(event& e)
 		if(SDL_PollEvent(&sdlE) == 0)
 		{
 			e = event(EVT_BAD);
+			#ifdef VERBOSE_EVENTS
+				logger.LogInfo("Did not get new event!");
+			#endif
 			return false;
 		}
 		else
 		{
 			// Translate event
 			e = translateEvent(&sdlE);
+			#ifdef VERBOSE_EVENTS
+				logger.LogInfo("Got new event type: " + std::to_string(e.type) + " value: " + 
+							   std::to_string(e.value) + " flags: " + std::to_string(e.flags));
+			#endif
 			return true;
 		}
 	}

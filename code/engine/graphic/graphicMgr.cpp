@@ -178,6 +178,10 @@ bool graphicMgr::displayFrame(bool clearAfter)
 	// Swap buffers
 	SDL_RenderPresent((SDL_Renderer*)sdl_renderer);
 
+	#ifdef VERBOSE_GRAPHICS
+		logger.LogInfo("Displayed frame");
+	#endif
+
 	// Clear backbuffer
 	if(clearAfter)
 	{
@@ -188,6 +192,10 @@ bool graphicMgr::displayFrame(bool clearAfter)
 			logger.LogWarn((std::string)"Failed to clear renderer. SDL Error: " + SDL_GetError());
 			return false;
 		}
+
+		#ifdef VERBOSE_GRAPHICS
+			logger.LogInfo("Cleared renderer");
+		#endif
 	}
 
 	// Success
@@ -359,6 +367,10 @@ bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_r
 		return false;
 	}
 
+	#ifdef VERBOSE_GRAPHICS
+		logger.LogInfo("Rendered texture ID: " + ID);
+	#endif
+
 	return true;
 }
 
@@ -435,6 +447,10 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
 		return false;
 	}
 
+	#ifdef VERBOSE_GRAPHICS
+		logger.LogInfo("Rendered texture ID: " + ID);
+	#endif
+		
 	return true;
 }
 
