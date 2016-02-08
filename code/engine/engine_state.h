@@ -26,6 +26,7 @@
 #include "log/logMgr.h"
 #include "graphic/graphicMgr.h"
 #include "sdl/sdlMgr.h"
+#include "map/mapMgr.h"
 
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -48,7 +49,7 @@ struct engine_state
 	// soundMgr audio;
 	// threadMgr threads;
 	// timeMgr timing;
-	// mapMgr map;
+	mapMgr map;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

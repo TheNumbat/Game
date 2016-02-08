@@ -43,6 +43,8 @@ GAME_API void startup(engine_state* engine)
 	engine->events.init();
 
 	engine->graphics.loadTextureRec("art");
+
+	engine->map.addPlayer("p1",map_position(0,0,0,0,0,0),0);
 }
 
 GAME_API bool gameLoop(engine_state* engine) 
