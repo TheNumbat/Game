@@ -32,7 +32,7 @@
 /**
 	@brief Abtracts an SDL image
 
-	Can also move to an entity and follow an entity.
+	Holds data for an sdl texture, and can load itself
 
 	Used by graphicMgr.
 */
@@ -44,11 +44,12 @@ class texture
 	bool load(const std::string& path, void* sdl_renderer);
 	bool free();
 
-	/// @note I don't want to put a logger in here but it would help
 	void* sdl_texture;
 	bool good;
 
 	friend class graphicMgr;
+
+	/// @note Friendship for smart pointers
 	friend class std::default_delete<texture>;
 	friend std::unique_ptr<texture> std::make_unique<texture>();
 };

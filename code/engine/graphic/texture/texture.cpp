@@ -55,7 +55,7 @@ texture::~texture()
 }
 
 /**
-	@brief texture constructor
+	@brief loads texture
 
 	Loads image file using SDL_Image
 

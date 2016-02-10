@@ -335,7 +335,9 @@ bool graphicMgr::freeTexture(const std::string& ID)
 
 	@return success
 
-	@exception
+	@exception could not find texture, returns false
+	@exception could not render texture, returns false
+	@exception graphics not intialized, returns false
 */
 bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_rect)
 {
@@ -388,11 +390,13 @@ bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_r
 
 	@return success
 
-	@exception
+	@exception could not find texture, returns false
+	@exception could not render texture, returns false
+	@exception graphics not intialized, returns false
 */
 bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest_rect,
  								 const rect2<int32>& src_rect, const v2<int32>& rot_point,
-					 			 real32 rot, uint32 flip)
+					 			 real32 rotation, uint32 flip)
 {
 	if(!good)
 	{

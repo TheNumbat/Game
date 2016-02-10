@@ -44,7 +44,9 @@ GAME_API void startup(engine_state* engine)
 
 	engine->graphics.loadTextureRec("art");
 
-	engine->map.addPlayer("p1",map_position(0,0,0,0,0,0),0);
+	std::weak_ptr<entity> player1 = engine->map.addPlayer("p1",map_position(0,0,0,0,0,0),0);
+	std::weak_ptr<entity> player2 = engine->map.getEntityByUID_SLOW(1);
+	assert(player1.lock() == player2.lock());
 }
 
 GAME_API bool gameLoop(engine_state* engine) 

@@ -118,7 +118,7 @@ int main(int argc, char** argv)
 	
 	Finds the correct files, initalizes libData struct, and loads game code
 
-	@param[out] libData contains file and function information
+	@param[out] data contains file and function information
 	
 	@return bool sucess
 
@@ -182,8 +182,8 @@ bool initializeLib(libData& data)
 	Checks if the Game DLL has been written to since the last reload, and if
 	it has will reload the game DLL and functions.
 
-	@param[in/out] libData& contains needed data to reload code and pointers
-				   to reloaded code
+	@param libData& contains needed data to reload code and pointers
+		   to reloaded code
 	
 	@return bool sucess
 
