@@ -104,7 +104,7 @@ struct component_texture : public component
 
 // Free function prototypes  //////////////////////////////////////////////////
 
-const std::shared_ptr<component>& createComponent(component_type c);
+std::shared_ptr<component> createComponent(component_type c);
 
 // Free function implementation  //////////////////////////////////////////////
 

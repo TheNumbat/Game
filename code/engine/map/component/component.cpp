@@ -30,18 +30,18 @@
 
 // Free function implementation  //////////////////////////////////////////////
 
-const std::shared_ptr<component>& createComponent(component_type c)
+std::shared_ptr<component> createComponent(component_type c)
 {
 	switch(c)
 	{
 		case ctype_position:
-			return std::move(std::static_pointer_cast<component>(std::make_shared<component_position>()));
+			return std::static_pointer_cast<component>(std::make_shared<component_position>());
 			break;
 		case ctype_movement:
-			return std::move(std::static_pointer_cast<component>(std::make_shared<component_movement>()));
+			return std::static_pointer_cast<component>(std::make_shared<component_movement>());
 			break;
 		case ctype_texture:
-			return std::move(std::static_pointer_cast<component>(std::make_shared<component_texture>()));
+			return std::static_pointer_cast<component>(std::make_shared<component_texture>());
 			break;
 	}
 }

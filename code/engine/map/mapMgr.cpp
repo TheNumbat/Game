@@ -64,7 +64,7 @@ mapMgr::~mapMgr()
 
 	@exception max entities exceeded, fatal error, returns weak_ptr to nothing
 */
-const std::weak_ptr<entity>& mapMgr::addEntity(const map_position& pos, uint32 currentTimeMS)
+std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, uint32 currentTimeMS)
 {
 	assert(nextUnusedID <= MAX_ENTITIES);
 	if(nextUnusedID <= MAX_ENTITIES)
@@ -114,7 +114,7 @@ const std::weak_ptr<entity>& mapMgr::addEntity(const map_position& pos, uint32 c
 
 	@note calls addEntity()
 */
-const std::weak_ptr<entity>& mapMgr::addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS)
+std::weak_ptr<entity> mapMgr::addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS)
 {
 	// Add entity
 	std::weak_ptr<entity> newPlayer = addEntity(pos,currentTimeMS);
@@ -141,7 +141,7 @@ const std::weak_ptr<entity>& mapMgr::addPlayer(const std::string& ID, const map_
 
 	@exception player does not exist, returns weak_ptr to nothing
 */
-const std::weak_ptr<entity>& mapMgr::getPlayerByID(const std::string& ID)
+std::weak_ptr<entity> mapMgr::getPlayerByID(const std::string& ID)
 {
 	// Find player
 	auto playerItem = players.find(ID);
@@ -171,7 +171,7 @@ const std::weak_ptr<entity>& mapMgr::getPlayerByID(const std::string& ID)
 
 	@exception entity does not exist, returns weak_ptr to nothing
 */
-const std::weak_ptr<entity>& mapMgr::getEntityByUID_SLOW(uint32 UID)
+std::weak_ptr<entity> mapMgr::getEntityByUID_SLOW(uint32 UID)
 {
 	// Loop through chunks
 	for(auto chunkEntry : map)
@@ -368,7 +368,7 @@ bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 
 	@note if chunk already exists, it will be returned
 */
-const std::weak_ptr<chunk>& mapMgr::addChunk(const chunk_position& pos)
+std::weak_ptr<chunk> mapMgr::addChunk(const chunk_position& pos)
 {
 	// If chunk already exists, return it
 	std::weak_ptr<chunk> testChunk = getChunk(pos);
@@ -430,7 +430,7 @@ bool mapMgr::removeChunk(const chunk_position& pos)
 
 	@exception if chunk does not exist, return pointer to nothing
 */
-const std::weak_ptr<chunk>& mapMgr::getChunk(const chunk_position& pos)
+std::weak_ptr<chunk> mapMgr::getChunk(const chunk_position& pos)
 {
 	auto chunkEntry = map.find(pos);
 	if(chunkEntry == map.end())
@@ -455,7 +455,7 @@ const std::weak_ptr<chunk>& mapMgr::getChunk(const chunk_position& pos)
 	@exception chunk does not exist, return pointer to nothing
 	@exception found chunk does not actually include entity, return pointer to nothing
 */
-const std::weak_ptr<chunk>& mapMgr::getChunkFromEntity(const std::weak_ptr<entity>& e)
+std::weak_ptr<chunk> mapMgr::getChunkFromEntity(const std::weak_ptr<entity>& e)
 {
 	std::lock_guard<std::mutex> lock(e.lock()->lock);
 

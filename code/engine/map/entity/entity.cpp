@@ -114,14 +114,14 @@ bool entity::hasComponent(component_type c) const
 
 	@exception if entity already has component return it
 */
-const std::weak_ptr<component>& entity::addComponent(component_type c)
+std::weak_ptr<component> entity::addComponent(component_type c)
 {
 	if(hasComponent(c))
 	{
 		return getComponent(c);
 	}
 
-	std::shared_ptr<component> newC = std::move(createComponent(c));
+	std::shared_ptr<component> newC = createComponent(c);
 
 	components.insert({c,newC});
 
@@ -137,14 +137,14 @@ const std::weak_ptr<component>& entity::addComponent(component_type c)
 
 	@exception if entity does not have component return NULL
 */
-const std::weak_ptr<component>& entity::getComponent(component_type c) const
+std::weak_ptr<component> entity::getComponent(component_type c) const
 {
 	auto compEntry = components.find(c);
 	if(compEntry == components.end())
 	{
-		return std::weak_ptr<component>(compEntry->second);
+		return std::weak_ptr<component>();
 	}
-	return std::weak_ptr<component>();
+	return std::weak_ptr<component>(compEntry->second);
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

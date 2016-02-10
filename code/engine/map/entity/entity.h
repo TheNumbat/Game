@@ -49,8 +49,8 @@ public:
 	ENGINE_API bool setLastUpdate(uint32 time);
 
 	ENGINE_API bool hasComponent(component_type c) const;
-	ENGINE_API const std::weak_ptr<component>& addComponent(component_type c);
-	ENGINE_API const std::weak_ptr<component>& getComponent(component_type c) const;
+	ENGINE_API std::weak_ptr<component> addComponent(component_type c);
+	ENGINE_API std::weak_ptr<component> getComponent(component_type c) const;
 
 	std::mutex lock;
 	

@@ -56,10 +56,10 @@ public:
 	ENGINE_API ~mapMgr();
 
 	// Entity operations
-	ENGINE_API const std::weak_ptr<entity>& addEntity(const map_position& pos, uint32 currentTimeMS);
-	ENGINE_API const std::weak_ptr<entity>& addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS);
-	ENGINE_API const std::weak_ptr<entity>& getPlayerByID(const std::string& ID);
-	ENGINE_API const std::weak_ptr<entity>& getEntityByUID_SLOW(uint32 UID);
+	ENGINE_API std::weak_ptr<entity> addEntity(const map_position& pos, uint32 currentTimeMS);
+	ENGINE_API std::weak_ptr<entity> addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS);
+	ENGINE_API std::weak_ptr<entity> getPlayerByID(const std::string& ID);
+	ENGINE_API std::weak_ptr<entity> getEntityByUID_SLOW(uint32 UID);
 
 	ENGINE_API bool removePlayer(const std::string& ID);
 	ENGINE_API bool removeEntity(const std::weak_ptr<entity>& e);
@@ -68,10 +68,10 @@ public:
 	ENGINE_API bool updateEntityMapPos(const std::weak_ptr<entity>& e);
 
 	// Chunk operations
-	ENGINE_API const std::weak_ptr<chunk>& addChunk(const chunk_position& pos);
-	ENGINE_API const std::weak_ptr<chunk>& getChunk(const chunk_position& pos);
+	ENGINE_API std::weak_ptr<chunk> addChunk(const chunk_position& pos);
+	ENGINE_API std::weak_ptr<chunk> getChunk(const chunk_position& pos);
 	ENGINE_API bool removeChunk(const chunk_position& pos);
-	ENGINE_API const std::weak_ptr<chunk>& getChunkFromEntity(const std::weak_ptr<entity>& e);
+	ENGINE_API std::weak_ptr<chunk> getChunkFromEntity(const std::weak_ptr<entity>& e);
 
 private:
 	std::unordered_map<chunk_position,std::shared_ptr<chunk>> map;
