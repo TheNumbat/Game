@@ -443,7 +443,7 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
 	}
 
 	bool result = SDL_RenderCopyEx((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,
-								   &sdl_src_rect,&sdl_dest_rect,rot,&sdl_rot_point,sdl_flip);
+								   &sdl_src_rect,&sdl_dest_rect,rotation,&sdl_rot_point,sdl_flip);
 	assert(!result);
 	if(result)
 	{

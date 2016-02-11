@@ -24,6 +24,10 @@
 
 #include "sound/sound.h"
 
+#include <string>
+#include <memory>
+#include <map>
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////

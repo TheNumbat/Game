@@ -21,6 +21,9 @@
 
 #include "engine_common.h"
 
+#include <string>
+#include <memory>
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////
