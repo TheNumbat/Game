@@ -42,6 +42,7 @@
 threadMgr::threadMgr()
 {
 	logger.StartLog("THREAD");
+	logger.LogInfo("Threading initialized");
 }
 
 /**
@@ -52,6 +53,7 @@ threadMgr::threadMgr()
 threadMgr::~threadMgr()
 {
 	waitAll();
+	logger.LogInfo("Threading deinitialized");
 }
 
 /**
@@ -79,7 +81,9 @@ bool threadMgr::add(const std::string& ID, int (*threadFunction)(void*), void* d
 
 	// Success
 	threads.insert({ID,newT});
-	logger.LogInfo("Added thread ID " + ID);
+	#ifdef VERBOSE_THREAD
+		logger.LogInfo("Added thread ID " + ID);
+	#endif
 	return true;
 }
 
@@ -107,7 +111,9 @@ bool threadMgr::wait(const std::string& ID, int* returned)
 	}
 
 	// Wait thread
-	logger.LogInfo("Waiting on thread ID " + ID);	
+	#ifdef VERBOSE_THREAD
+		logger.LogInfo("Waiting on thread ID " + ID);	
+	#endif
 	SDL_WaitThread((SDL_Thread*)entry->second, returned);
 
 	// Success
@@ -139,7 +145,9 @@ bool threadMgr::detach(const std::string& ID)
 
 	// Detach thread
 	SDL_DetachThread((SDL_Thread*)entry->second);
-	logger.LogInfo("Detached thread ID " + ID);	
+	#ifdef VERBOSE_THREAD
+		logger.LogInfo("Detached thread ID " + ID);	
+	#endif
 
 	// Success
 	threads.erase(entry);
@@ -155,10 +163,19 @@ bool threadMgr::detach(const std::string& ID)
 */
 bool threadMgr::waitAll()
 {
+	#ifdef VERBOSE_THREAD
+		logger.LogInfo("Waiting on all threads");
+		logger.EnterSec();
+	#endif
+
 	while(threads.size())
 	{
 		wait(threads.begin()->first);
 	}
+
+	#ifdef VERBOSE_THREAD
+		logger.ExitSec();
+	#endif
 
 	return true;
 }
@@ -172,10 +189,19 @@ bool threadMgr::waitAll()
 */
 bool threadMgr::detachAll()
 {
+	#ifdef VERBOSE_THREAD
+		logger.LogInfo("Detaching all threads");
+		logger.EnterSec();
+	#endif
+
 	while(threads.size())
 	{
 		detach(threads.begin()->first);
 	}
+
+	#ifdef VERBOSE_THREAD
+		logger.ExitSec();
+	#endif
 
 	return true;
 }

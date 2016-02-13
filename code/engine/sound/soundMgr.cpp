@@ -239,6 +239,9 @@ bool soundMgr::freeSound(const std::string& ID)
 
 	// Success
 	sounds.erase(entry);
+	#ifdef VERBOSE_SOUND
+		logger.LogInfo("Freed sound ID: " + ID);
+	#endif
 	return true;
 }
 
@@ -251,6 +254,9 @@ bool soundMgr::freeSound(const std::string& ID)
 bool soundMgr::pauseAll() 
 {
 	Mix_Pause(-1);
+	#ifdef VERBOSE_SOUND
+		logger.LogInfo("Paused all sounds");
+	#endif
 	return true;
 }
 
@@ -262,6 +268,9 @@ bool soundMgr::pauseAll()
 bool soundMgr::resumeAll() 
 {
 	Mix_Resume(-1);
+	#ifdef VERBOSE_SOUND
+		logger.LogInfo("Resumed all sounds");
+	#endif
 	return true;
 }
 
@@ -276,6 +285,9 @@ bool soundMgr::resumeAll()
 bool soundMgr::stopAll(int timeout) 
 {
 	Mix_ExpireChannel(-1,timeout);
+	#ifdef VERBOSE_SOUND
+		logger.LogInfo("Stopped or began timeout of all sounds");
+	#endif
 	return true;
 }
 
@@ -302,7 +314,9 @@ bool soundMgr::pause(const std::string& ID)
 
 	// Success
 	Mix_Pause(entry->second->channel);
-	logger.LogWarn("Paused sound: " + ID);
+	#ifdef VERBOSE_SOUND
+		logger.LogWarn("Paused sound: " + ID);
+	#endif
 	return true;
 }
 
@@ -339,7 +353,9 @@ bool soundMgr::play(const std::string& ID, int loop, int timeout)
 	}
 
 	entry->second->channel = result;
-	logger.LogInfo("Playing sound ID: " + ID);
+	#ifdef VERBOSE_SOUND
+		logger.LogInfo("Playing sound ID: " + ID);
+	#endif
 	return true;
 }
 
@@ -365,7 +381,9 @@ bool soundMgr::resume(const std::string& ID)
 
 	// Success
 	Mix_Resume(entry->second->channel);
-	logger.LogWarn("Resumed sound: " + ID);
+	#ifdef VERBOSE_SOUND
+		logger.LogWarn("Resumed sound: " + ID);
+	#endif
 	return true;
 }
 
@@ -393,7 +411,9 @@ bool soundMgr::stop(const std::string& ID, int timeout)
 
 	// Success
 	Mix_ExpireChannel(entry->second->channel,timeout);
-	logger.LogWarn("Stopped sound: " + ID);
+	#ifdef VERBOSE_SOUND
+		logger.LogWarn("Stopped sound: " + ID);
+	#endif
 	return true;
 }
 
