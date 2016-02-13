@@ -28,7 +28,7 @@
 #include "sdl/sdlMgr.h"
 #include "map/mapMgr.h"
 #include "sound/soundMgr.h"
-
+#include "thread/threadMgr.h"
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -47,7 +47,7 @@ struct engine_state
 	graphicMgr graphics;
 	soundMgr audio;
 	mapMgr map;
-	// threadMgr threads;
+	threadMgr threads;
 	// timeMgr timing;
 };
 
