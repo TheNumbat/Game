@@ -22,6 +22,7 @@
 
 #include "engine_common.h"
 
+#include "log/logMgr.h"
 #include "sound/sound.h"
 
 #include <string>
@@ -38,25 +39,25 @@
 */
 class soundMgr
 {
+public:
 	ENGINE_API soundMgr();
 	ENGINE_API ~soundMgr();
 
 	ENGINE_API bool init();
 	ENGINE_API bool kill();
 
-	ENGINE_API bool loadSound(const std::string& path, int repeat_, const std::string& ID = "");
+	ENGINE_API bool loadSound(const std::string& path, const std::string& ID = "");
 	ENGINE_API bool loadSoundRec(const std::string& path);
 	ENGINE_API bool freeSound(const std::string& ID);
 
 	ENGINE_API bool pauseAll();
-	ENGINE_API bool playAll();
-	ENGINE_API bool playpauseAll();
-	ENGINE_API bool stopAll();
+	ENGINE_API bool stopAll(int timeout = 0);
+	ENGINE_API bool resumeAll();
 
 	ENGINE_API bool pause(const std::string& ID);
-	ENGINE_API bool play(const std::string& ID);
-	ENGINE_API bool playpause(const std::string& ID);
-	ENGINE_API bool stop(const std::string& ID);
+	ENGINE_API bool play(const std::string& ID, int loop = 0, int timeout = -1);
+	ENGINE_API bool resume(const std::string& ID);
+	ENGINE_API bool stop(const std::string& ID, int timeout = 0);
 
 private:
 	logMgr logger;

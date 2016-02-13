@@ -41,7 +41,6 @@
 sound::sound()
 {
 	sdl_mixchunk = NULL;
-	repeat = 0;
 	channel = -1;
 	good = false;
 }
@@ -72,16 +71,14 @@ sound::~sound()
 
 	@todo make this log or return some indication of the error
 */
-bool sound::load(const std::string& path, int repeat_)
+bool sound::load(const std::string& path)
 {
 	free();
 
-	mixchunk = Mix_LoadWAV(path.c_str());
+	sdl_mixchunk = Mix_LoadWAV(path.c_str());
 
-	if(mixchunk) 
+	if(sdl_mixchunk) 
 	{
-		repeat = repeat_;
-
 		good = true;
 		return true;
 	} 

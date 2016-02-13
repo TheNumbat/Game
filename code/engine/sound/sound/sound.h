@@ -40,11 +40,10 @@ class sound
 	sound();
 	~sound();
 
-	bool load(const std::string& path, int repeat_);
+	bool load(const std::string& path);
 	bool free();
 
 	void* sdl_mixchunk;
-	int repeat; /// -1 to loop until stopped
 	int channel; /// used by soundMgr
 	bool good;
 

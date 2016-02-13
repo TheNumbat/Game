@@ -214,6 +214,12 @@ bool graphicMgr::displayFrame(bool clearAfter)
 */
 bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 {
+	if(textures.find(ID) != textures.end())
+	{
+		logger.LogWarn("Texture ID " + ID + " already taken!");
+		return false;
+	}
+
 	std::unique_ptr<texture> newTexture = std::make_unique<texture>();
 	std::string texID;
 
@@ -229,7 +235,7 @@ bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 	// Load
 	if(!newTexture->load(path,sdl_renderer))
 	{
-		logger.LogWarn("Failed to load texture ID: " + texID + " from " + path);
+		logger.LogWarn("Failed to load texture ID: " + texID + " from " + path + " Img_error: " + IMG_GetError());
 		return false;
 	}
 

@@ -27,6 +27,7 @@
 #include "graphic/graphicMgr.h"
 #include "sdl/sdlMgr.h"
 #include "map/mapMgr.h"
+#include "sound/soundMgr.h"
 
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -40,16 +41,14 @@
 */
 struct engine_state
 {
-	// MUST INIT SDL FIRST
-	sdlMgr sdl;
-	
+	sdlMgr sdl;	
 	logMgr logger;
 	eventMgr events;
 	graphicMgr graphics;
-	// soundMgr audio;
+	soundMgr audio;
+	mapMgr map;
 	// threadMgr threads;
 	// timeMgr timing;
-	mapMgr map;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

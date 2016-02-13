@@ -41,8 +41,12 @@ GAME_API void startup(engine_state* engine)
 	engine->sdl.init();
 	engine->graphics.init("Game");
 	engine->events.init();
+	engine->audio.init();
 
 	engine->graphics.loadTextureRec("art");
+	engine->audio.loadSoundRec("music");
+
+	engine->audio.play("song1");
 
 	std::weak_ptr<entity> player1 = engine->map.addPlayer("p1",map_position(0,0,0,0,0,0),0);
 	std::weak_ptr<entity> player2 = engine->map.getEntityByUID_SLOW(1);
