@@ -42,6 +42,7 @@ GAME_API void startup(engine_state* engine)
 	engine->graphics.init("Game");
 	engine->events.init();
 	engine->audio.init();
+	engine->time.init();
 
 	engine->graphics.loadTextureRec("art");
 	engine->audio.loadSoundRec("music");

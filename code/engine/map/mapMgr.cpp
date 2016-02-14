@@ -40,6 +40,7 @@ mapMgr::mapMgr()
 {
 	nextUnusedID = 1;
 	logger.StartLog("MAP");
+	logger.LogInfo("Map initialized");
 }
 
 /**

@@ -29,6 +29,7 @@
 #include "map/mapMgr.h"
 #include "sound/soundMgr.h"
 #include "thread/threadMgr.h"
+#include "time/timeMgr.h"
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -48,7 +49,7 @@ struct engine_state
 	soundMgr audio;
 	mapMgr map;
 	threadMgr threads;
-	// timeMgr timing;
+	timeMgr time;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

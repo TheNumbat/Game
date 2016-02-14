@@ -36,7 +36,7 @@
 // Class/Data Structure member implementations  ///////////////////////////////
 
 /**
-	@brief soundMgr constructur
+	@brief soundMgr constructor
 
 	Defaults values and starts log
 	Call init() to set up sound
@@ -48,7 +48,7 @@ soundMgr::soundMgr()
 }
 
 /**
-	@brief soundMgr denstructur
+	@brief soundMgr denstructor
 
 	Calls kill()
 */
@@ -106,6 +106,8 @@ bool soundMgr::kill()
 		logger.LogWarn("Cannot re-destroy sound!");
 		return false;
 	}
+
+	stopAll();
 
 	// Success
 	Mix_Quit();
