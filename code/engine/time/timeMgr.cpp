@@ -331,7 +331,7 @@ bool timeMgr::pause(const std::string& ID)
 	}
 
 	// Success
-	entry->second->pause = getTimeSinceStart();
+	entry->second->pause = getTimeSinceStart() - entry->second->start - entry->second->lag;
 	#ifdef VERBOSE_TIME
 		logger.LogInfo("Paused timer ID " + ID);
 	#endif
@@ -368,7 +368,7 @@ bool timeMgr::resume(const std::string& ID)
 	}
 
 	// Success
-	entry->second->lag = getTimeSinceStart() - entry->second->pause;
+	entry->second->lag = getTimeSinceStart() - entry->second->pause - entry->second->start;
 	entry->second->pause = 0;
 	#ifdef VERBOSE_TIME
 		logger.LogInfo("Resumed timer ID " + ID);
