@@ -21,9 +21,9 @@
 
 #include "engine_common.h"
 
-#include "log\logMgr.h"
-#include "map\position\position.h"
-#include "map\entity\entity.h"
+#include <log\logMgr.h>
+#include <map\position\position.h>
+#include <map\entity\entity.h>
 
 #include <memory>
 
@@ -53,7 +53,7 @@ class camera
 	std::weak_ptr<entity> following;
 	logMgr logger;
 
-	friend class graphicMgr;
+	friend class game_state;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

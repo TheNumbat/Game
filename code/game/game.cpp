@@ -28,15 +28,16 @@
 
 // Free function prototypes  //////////////////////////////////////////////////
 
-GAME_API void startup(engine_state* engine);
-GAME_API bool gameLoop(engine_state* engine);
+GAME_API game_state* startup(engine_state* engine);
+GAME_API bool gameLoop(engine_state* engine, game_state* game);
 
 // Free function implementation  //////////////////////////////////////////////
 
-GAME_API void startup(engine_state* engine) 
+GAME_API game_state* startup(engine_state* engine) 
 {
-	engine->logger.StartLog("GAME");
-	engine->logger.LogInfo("Game code initialized");
+	game_state* game = new game_state;
+	game->logger.StartLog("GAME");
+	game->logger.LogInfo("Game code initialized");
 
 	engine->sdl.init();
 	engine->graphics.init("Game");
@@ -46,9 +47,11 @@ GAME_API void startup(engine_state* engine)
 
 	engine->graphics.loadTextureRec("art");
 	engine->audio.loadSoundRec("music");
+
+	return game;
 }
 
-GAME_API bool gameLoop(engine_state* engine) 
+GAME_API bool gameLoop(engine_state* engine, game_state* game) 
 {	
 	event e;
 	while(engine->events.getNextEvent(e))
