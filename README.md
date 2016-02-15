@@ -6,10 +6,10 @@ Game Development Project, currently unnamed.
 
 SDL 2.0  
 SDL_Image  
+SDL_Mixer  
 Dirent  
 cyanlogger2  
 
-Will be using SDL_Mixer  
 May want to use SDL_Net
 
 # Bin
