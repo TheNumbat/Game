@@ -1,10 +1,11 @@
 // Program Information ////////////////////////////////////////////////////////
 
 /**
-	@file game.cpp
+	@file game_main.cpp
 	@author Max Slater
 
-	@brief "main" for the game code, contains main game loop
+	@brief "main" for the game code, contains main game loop, startup, and reload
+		   functions
 
 	The engine's main function calls into this to run the actual game loop,
 	as well as anything that must be done when the game code is loaded or freed
@@ -20,15 +21,36 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "game_common.h"
-
-/// @todo is it possible for this not inlucde engine_common.h?
 #include <engine_state.h>
+
+#include "events.cpp"
+#include "rendering.cpp"
 
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Free function prototypes  //////////////////////////////////////////////////
 
+/**
+	@brief Starts up the game, initializes the engine
+	
+	Initializes all engine components and creates a game state
+
+	@param[in] engine pointer to the engine state
+	
+	@return pointer to the new game state
+*/
 GAME_API game_state* startup(engine_state* engine);
+
+/**
+	@brief Runs a frame, it's the main game loop
+	
+	Runs everything.
+
+	@param[in] engine pointer to the engine state
+	@param[in] game pointer to the game state
+	
+	@return whether or not to continue
+*/
 GAME_API bool gameLoop(engine_state* engine, game_state* game);
 
 // Free function implementation  //////////////////////////////////////////////
@@ -48,28 +70,16 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->graphics.loadTextureRec("art");
 	engine->audio.loadSoundRec("music");
 
+	game->running = true;
 	return game;
 }
 
 GAME_API bool gameLoop(engine_state* engine, game_state* game) 
 {	
-	event e;
-	while(engine->events.getNextEvent(e))
-	{
-		if(e.type == EVT_QUIT)
-		{
-			return false;
-		}
-		else if (e.type == EVT_KEY)
-		{
+	eventLoop(engine,game);
+	render(engine,game);
 
-		}
-	}
-
-	engine->graphics.renderTexture("yeti",rect2<int32>(50,50,64,64));
-	engine->graphics.displayFrame();
-
-	return true;
+	return game->running;
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

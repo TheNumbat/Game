@@ -201,7 +201,7 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 
 		// Other
 		default:
-			logger.LogWarn("Could not translate window event " + e->window.event);
+			logger.LogWarn("Could not translate window event");
 			ret.value = KEY_BAD;
 			break;
 	}
@@ -267,7 +267,7 @@ event& eventMgr::translateMouseEvent(void* SDL_ev)
 		case SDL_BUTTON_X1: ret.value = VAL_MOUSE_X1; break;
 		case SDL_BUTTON_X2: ret.value = VAL_MOUSE_X2; break;
 		default:
-			logger.LogWarn("Could not translate mouse button " + e->button.button);
+			logger.LogWarn("Could not translate mouse button");
 			ret.value = KEY_BAD;
 			break;
 	}
@@ -449,7 +449,7 @@ event& eventMgr::translateKeyboardEvent(void* SDL_ev)
 		case SDLK_SPACE: ret.value = KEY_SPACE; break;
 		case SDLK_TAB: ret.value = KEY_TAB; break;
 		default: 
-			logger.LogWarn("Could not translate key value " + e->key.keysym.sym);
+			logger.LogWarn("Could not translate key value");
 			ret.value = KEY_BAD; 
 			break;
 	}

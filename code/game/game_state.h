@@ -30,6 +30,7 @@ struct game_state
 
 	camera cam;
 	logMgr logger;
+	bool running;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
