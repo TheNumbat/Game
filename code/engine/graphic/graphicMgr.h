@@ -3,7 +3,7 @@
 /**
 	@file graphicMgr.h
 
-	@brief Implementaiton file for graphicMgr class
+	@brief Declaration file for graphicMgr class
 
 	graphicMgr manages all things graphical
 

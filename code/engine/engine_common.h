@@ -4,7 +4,7 @@
 	@file engine_common.h
 	@author Max Slater
 
-	@brief Common header containing global typedefs, macros, etc
+	@brief Common engine header containing global typedefs, macros, etc
 
 	@version 1.00 (28 Jan 2016)
         Created

@@ -3,7 +3,7 @@
 /**
 	@file component.h
 
-	@brief Declartion file for coponent classes
+	@brief Declartion file for component classes
 
 	Components are held within entities
 

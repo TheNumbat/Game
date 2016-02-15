@@ -33,8 +33,7 @@
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 /**
-	@brief Manges the outout of time, simalarly to how graphicMgr manages the output
-	of textures.
+	@brief Manges timing, performance counting, and callbacks
 */
 class timeMgr
 {

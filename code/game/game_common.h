@@ -1,10 +1,10 @@
 // Program Information ////////////////////////////////////////////////////////
 
 /**
-	@file engine_common.h
+	@file game_common.h
 	@author Max Slater
 
-	@brief Common header containing global typedefs, macros, etc
+	@brief Common header for the game logic containing global typedefs, macros, etc
 
 	@version 1.00 (28 Jan 2016)
         Created
@@ -18,6 +18,7 @@
 #include "game_state.h"
 #include <stdint.h>
 
+#undef assert(a)
 #ifdef GAME_ASSERSIONS
 	#include <assert.h>
 #else

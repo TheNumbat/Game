@@ -1,15 +1,15 @@
 // Program Information ////////////////////////////////////////////////////////
 
 /**
-	@file graphicMgr.h
+	@file sdlMgr.h
 
-	@brief Implementaiton file for graphicMgr class
+	@brief Header file for the sdlMgr class
 
-	graphicMgr manages all things graphical
+	sdlMgr simply manages initializing and destroying SDL
 
 	@author Max Slater
 
-	@version 1.00 (31 Jan 2016)
+	@version 1.00 (15 Feb 2016)
         Created
 */
 

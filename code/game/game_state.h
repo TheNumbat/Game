@@ -23,6 +23,12 @@
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
+/**
+	@brief Describes the overall game state -- used to store any information
+	used within the game logic but not the engine.
+
+	@note should only be created once, in the main function of the game.
+*/
 struct game_state
 {
 	game_state() : cam() {};
