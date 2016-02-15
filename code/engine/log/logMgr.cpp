@@ -23,6 +23,9 @@
 #include "logMgr.h"
 #include <iostream>
 
+#undef LogWarn
+#undef LogFatal
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////

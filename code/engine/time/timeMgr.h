@@ -46,9 +46,11 @@ public:
 	ENGINE_API bool kill();
 
 	ENGINE_API bool addTimer(const std::string& ID, bool startPaused = false);
-	ENGINE_API bool addCallback(uint32 (*callback)(uint32,void*), uint32 delay, void* param);
-	ENGINE_API bool addPerfCounter(const std::string& ID);
+	ENGINE_API bool addPerfCounter(const std::string& ID, bool startPaused = false);
 	ENGINE_API bool remove(const std::string& ID);
+
+	ENGINE_API bool addCallback(uint32 (*callback)(uint32,void*), uint32 delay, void* param, bool save = false, const std::string& ID = "");
+	ENGINE_API bool removeCallback(const std::string& ID);
 
 	ENGINE_API bool pause(const std::string& ID);
 	ENGINE_API bool resume(const std::string& ID);
@@ -61,6 +63,7 @@ private:
 	logMgr logger;
 
 	std::map<std::string,std::unique_ptr<timer>> timers;
+	std::map<std::string,uint32> callbacks;
 	
 	bool good;
 };

@@ -29,10 +29,10 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
-const int DEFAULT = 0;
-const int INFO = 1;
-const int WARNING = 2;
-const int FATAL = 3;
+const int32 DEFAULT = 0;
+const int32 INFO = 1;
+const int32 WARNING = 2;
+const int32 FATAL = 3;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -69,6 +69,11 @@ private:
 	std::string defaultLevel;
 	bool good;
 };
+
+/// Add file and line number to warning messages
+#define LogWarn(a) LogWarn(((std::string)__FILE__).substr(((std::string)__FILE__).find_last_of("\\/") + 1,((std::string)__FILE__).find_last_of("\\/") - ((std::string)__FILE__).length()) + ", in " + (std::string)__func__ + "(), line " + std::to_string(__LINE__) + ": " + (a))
+/// Add file and line number to error messages
+#define LogFatal(a) LogFatal(((std::string)__FILE__).substr(((std::string)__FILE__).find_last_of("\\/") + 1,((std::string)__FILE__).find_last_of("\\/") - ((std::string)__FILE__).length()) + ", in " + (std::string)__func__ + "(), line " + std::to_string(__LINE__) + ": " + (a))
 
 // Free function prototypes  //////////////////////////////////////////////////
 

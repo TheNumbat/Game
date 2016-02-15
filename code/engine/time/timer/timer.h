@@ -34,18 +34,20 @@
 */
 class timer
 {
-	timer(uint64 s, uint64 p);
+	timer(uint64 s, uint64 p, bool pC);
 	~timer();
 
 	uint64 start;
 	uint64 pause;
 	uint64 lag;
 
+	bool perfCounter; // used by timeMgr to signify that it's a performance counter
+
 	friend class timeMgr;
 
 	// For memory
 	friend class std::default_delete<timer>;
-	friend std::unique_ptr<timer> std::make_unique<timer,uint64&,uint64>(uint64&,uint64&&);
+	friend std::unique_ptr<timer> std::make_unique<timer,uint64&,uint64,bool>(uint64&,uint64&&,bool&&);
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
