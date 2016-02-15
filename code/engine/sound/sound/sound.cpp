@@ -62,7 +62,6 @@ sound::~sound()
 	Loads WAVE, AIFF, RIFF, OGG, and VOC files
 
 	@param[in] path is the file path of the sound file
-	@param[in] repeat is the number of times to loop, or -1 to loop until stopped
 
 	@return success
 

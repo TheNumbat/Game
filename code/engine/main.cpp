@@ -182,7 +182,7 @@ bool initializeLib(libData& data)
 	Checks if the Game DLL has been written to since the last reload, and if
 	it has will reload the game DLL and functions.
 
-	@param libData& contains needed data to reload code and pointers
+	@param data contains needed data to reload code and pointers
 		   to reloaded code
 	
 	@return bool sucess

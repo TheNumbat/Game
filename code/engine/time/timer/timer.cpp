@@ -32,7 +32,7 @@
 // Class/Data Structure member implementations  ///////////////////////////////
 
 /**
-	@breif Timer constructor
+	@brief Timer constructor
 
 	Sets up values
 
@@ -49,7 +49,7 @@ timer::timer(uint64 s, uint64 p, bool pC)
 }
 
 /**
-	@breif Timer denstructor
+	@brief Timer denstructor
 
 	Does nothing
 */

@@ -246,6 +246,7 @@ ENGINE_API bool timeMgr::removeCallback(const std::string& ID)
 	dependant.
 
 	@param[in] ID for new performance counter
+	@param[in] startPaused whether or not to start the perf counter paused
 
 	@return success
 
@@ -380,6 +381,7 @@ bool timeMgr::resume(const std::string& ID)
 	@brief Gets the value from a timer or performance counter
 
 	@param[in] ID of timer/perfCounter to retrieve time from
+	@param[out] time value gotten from timer/perf counter
 
 	@return success
 

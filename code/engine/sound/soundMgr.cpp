@@ -120,8 +120,6 @@ bool soundMgr::kill()
 	@brief Loads a sound from a file
 
 	@param[in] path to sound file to load
-	@param[in] repeat_ number of times to repeat sound (when played), 
-			   or -1 to loop until stopped.
 	@param[in] ID of sound
 
 	@return success
@@ -326,7 +324,7 @@ bool soundMgr::pause(const std::string& ID)
 	@brief Plays a loaded sound
 
 	@param[in] ID of sound to play
-	@param[in] number of times to loop. Default is 0 = play once,
+	@param[in] loop number of times to loop. Default is 0 = play once,
 			   -1 to loop unitl stopped
 	@param[in] timeout time to stop playing sound in milliseconds.
 			   Default is -1 = play until finished
