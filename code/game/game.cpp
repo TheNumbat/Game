@@ -46,13 +46,6 @@ GAME_API void startup(engine_state* engine)
 
 	engine->graphics.loadTextureRec("art");
 	engine->audio.loadSoundRec("music");
-
-	engine->time.addTimer("lmao");
-	engine->audio.play("song1");
-
-	std::weak_ptr<entity> player1 = engine->map.addPlayer("p1",map_position(0,0,0,0,0,0),0);
-	std::weak_ptr<entity> player2 = engine->map.getEntityByUID_SLOW(1);
-	assert(player1.lock() == player2.lock());
 }
 
 GAME_API bool gameLoop(engine_state* engine) 
@@ -66,23 +59,12 @@ GAME_API bool gameLoop(engine_state* engine)
 		}
 		else if (e.type == EVT_KEY)
 		{
-			if(e.value == KEY_Q)
-			{
-				engine->time.pause("lmao");
-			}
-			else if(e.value == KEY_W)
-			{
-				engine->time.resume("lmao");
-			}
+
 		}
 	}
 
-	engine->graphics.renderTextureEx("yeti",rect2<int32>(50,50,64,64),rect2<int32>(0,0,32,32),v2<int32>(0,0),0,FLIP_NONE);
+	engine->graphics.renderTexture("yeti",rect2<int32>(50,50,64,64));
 	engine->graphics.displayFrame();
-
-	uint64 counter;
-	engine->time.get("lmao",counter);
-	engine->logger.LogInfo(std::to_string(counter));
 
 	return true;
 }
