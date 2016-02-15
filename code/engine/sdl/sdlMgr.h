@@ -35,10 +35,32 @@
 class sdlMgr
 {
 public:
+	/**
+		@brief sdlMgr constructor
+
+		Sets up log and defaults everything to null and not good
+	*/
 	ENGINE_API sdlMgr();
+
+	/**
+		@brief sdlMgr destructor
+
+		calls kill()
+	*/
 	ENGINE_API ~sdlMgr();
 
+	/**
+		@brief initializes SDL
+
+		@exception failed to intialize sdl - return false and do nothing
+	*/
 	ENGINE_API bool init();
+
+	/**
+		@brief deinitializes SDL
+
+		Quits everything, calling SDL_Quit
+	*/
 	ENGINE_API bool kill();
 
 private:

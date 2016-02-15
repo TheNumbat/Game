@@ -31,71 +31,34 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief entity constructor
-
-	Assigns values, starts with no components
-*/
 entity::entity(uint32 _UID, uint32 time)
 {
 	UID = _UID;
 	lastUpdate = time;
 }
 
-/**
-	@brief entity destructor
-
-	Does nothing
-
-	@note the shared_ptr to componenets will delete themselves UNLESS
-		  they are still accessable somewhere else, in which case they
-		  will delete when all copies go out of scope
-*/
 entity::~entity()
 {
 
 }
 
-/**
-	@brief gets entity UID
-
-	@return entity UID
-*/
 uint64 entity::getUID() const
 {
 	return UID;
 }
 
-/**
-	@brief gets entity lastUpdate
 
-	@return entity lastUpdate in milliseconds
-*/
 uint32 entity::getLastUpdate() const
 {
 	return lastUpdate;
 }
 
-/**
-	@brief sets entity lastUpdate
-
-	@param[in] time new update time
-
-	@return sucess
-*/
 bool entity::setLastUpdate(uint32 time)
 {
 	lastUpdate = time;
 	return true;
 }
 
-/**
-	@brief tests if entity contains component type
-
-	@param[in] c component type to test for
-
-	@return bool contains component
-*/
 bool entity::hasComponent(component_type c) const
 {
 	if(components.find(c) == components.end())
@@ -105,15 +68,6 @@ bool entity::hasComponent(component_type c) const
 	return true;
 }
 
-/**
-	@brief adds a component to an entity
-
-	@param[in] c component type to add
-
-	@return component found/added
-
-	@exception if entity already has component return it
-*/
 std::weak_ptr<component> entity::addComponent(component_type c)
 {
 	if(hasComponent(c))
@@ -128,15 +82,6 @@ std::weak_ptr<component> entity::addComponent(component_type c)
 	return std::weak_ptr<component>(newC);
 }
 
-/**
-	@brief gets a component from an entity
-
-	@param[in] c component type to get
-
-	@return component found, or weak_ptr with no managed obejct if not found
-
-	@exception if entity does not have component return NULL
-*/
 std::weak_ptr<component> entity::getComponent(component_type c) const
 {
 	auto compEntry = components.find(c);

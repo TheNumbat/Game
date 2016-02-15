@@ -31,15 +31,6 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief Timer constructor
-
-	Sets up values
-
-	@param[in] s start time in time units (ms for normal timer)
-	@param[in] p pause time if starting paused (ms for normal timer)
-	@param[in] pC wheter or not the timer is a performance counter
-*/
 timer::timer(uint64 s, uint64 p, bool pC)
 {
 	start = s;
@@ -48,15 +39,9 @@ timer::timer(uint64 s, uint64 p, bool pC)
 	lag = 0;
 }
 
-/**
-	@brief Timer denstructor
-
-	Does nothing
-*/
 timer::~timer()
 {
 
 }
-
 
 // Terminating precompiler directives  ////////////////////////////////////////

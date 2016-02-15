@@ -1,226 +1,264 @@
 // Program Information ////////////////////////////////////////////////////////
 
-/**
-	@file vector.h
-
-	@brief Vectors
-
-	@todo DOCUMENT THIS
-
-	@author Max Slater
-
-	@version 1.00 (31 Jan 2016)
-        Created
-*/
+// Precompiler directives /////////////////////////////////////////////////////
 
 #pragma once
 
-//TODO: dot product, etc
 #include <cmath>
 
+// Header files ///////////////////////////////////////////////////////////////
+
+// Global constant definitions  ///////////////////////////////////////////////
+
+// Class/Struct definitions  //////////////////////////////////////////////////
+
 template <typename T>
-class v2 {
-public:
-	v2() {
+struct v2 
+{
+	v2() 
+	{
 		x = (T)0;
 		y = (T)0;
 	}
-	v2(T first, T second) {
+	v2(T first, T second) 
+	{
 		x = first;
 		y = second;
 	}
 
-	union {
+	union 
+	{
 		T x;
 		T a;
 	};
-	union {
+
+	union 
+	{
 		T y;
 		T b;
 	};
 
-	T length() {
+	T length() 
+	{
 		return (T)sqrt(x*x + y*y);
 	}
 
-	v2& normal() {
+	v2& normal() 
+	{
 		return v2<T>(x / length(), y / length());
 	}
 
-	void normalize() {
+	void normalize() 
+	{
 		x /= length();
 		y /= length();
 		z /= length();
 	}
 
-	v2 rotated(double angle) {
+	v2 rotated(double angle) 
+	{
 		return v2<T>(length() * cos(angle + angle()), length() * sin(angle + angle()));
 	}
 
-	void rotate(double angle) {
+	void rotate(double angle) 
+	{
 		x = length() * cos(angle + angle());
 		y = length() * sin(angle + angle());
 	}
 
-	double angle() {
+	double angle() 
+	{
 		return arctan(y/x);
 	}
 
-	T operator*(const v2& src) const {
+	T operator*(const v2& src) const 
+	{
 		return (x * src.x + y * src.y);
 	}
 
-	v2& operator=(const v2& src) {
+	v2& operator=(const v2& src) 
+	{
 		x = src.x;
 		y = src.y;
 		return *this;
 	}
 
-	bool operator==(const v2& comp) const {
+	bool operator==(const v2& comp) const 
+	{
 		return (x == comp.x && y == comp.y);
 	}
 
-	bool operator!=(const v2& comp) const {
+	bool operator!=(const v2& comp) const 
+	{
 		return !(x == comp.x && y == comp.y)
 	}
 
-	v2 operator+(const v2& src) const {
+	v2 operator+(const v2& src) const 
+	{
 		return v2(x + src.x, y + src.y);
 	}
 
-	v2& operator+=(const v2& src) {
+	v2& operator+=(const v2& src) 
+	{
 		x += src.x;
 		y += src.y;
 		return *this;	
 	}
 
-	v2 operator-(const v2& src) const {
+	v2 operator-(const v2& src) const 
+	{
 		return v2(x - src.x, y - src.y);
 	}
 
-	v2& operator-=(const v2& src) {
+	v2& operator-=(const v2& src) 
+	{
 		x -= src.x;
 		y -= src.y;
 		return *this;
 	}
 
-	v2 operator*(const T& src) const {
+	v2 operator*(const T& src) const 
+	{
 		return v2(x * src, y * src);
 	}
 
-	v2& operator*=(const T& src) {
+	v2& operator*=(const T& src) 
+	{
 		x *= src;
 		y *= src;
 		return *this;
 	}
 
 	template <typename S>
-	v2 operator*(const S& src) const {
+	v2 operator*(const S& src) const 
+	{
 		return v2(x * src, y * src);
 	}
 
 	template <typename S>
-	v2& operator*=(const S& src) {
+	v2& operator*=(const S& src) 
+	{
 		x *= src;
 		y *= src;
 		return *this;
 	}
 
-	//NOTE: will return 0 if all values are 0
-	operator bool() const {
+	operator bool() const 
+	{
 		return x && y;
 	}
 };
 
 template <typename T>
-class v3 {
-	v3() {
+struct v3 
+{
+	v3() 
+	{
 		x = (T)0;
 		y = (T)0;
 		z = (T)0;
 	}
-	v3(T first, T second, T third) {
+	v3(T first, T second, T third) 
+	{
 		x = first;
 		y = second;
 		z = third;
 	}
 
-	union {
+	union 
+	{
 		T x;
 		T a;
 		T r;
 	};
-	union {
+
+	union 
+	{
 		T y;
 		T b;
 		T g;
 	};
-	union {
+
+	union 
+	{
 		T z;
 		T c;
 		T b;
 	};
 
-	T length() {
+	T length() 
+	{
 		return (T)sqrt(x*x + y*y + z*z);
 	}
 
-	v3& normal() {
+	v3& normal() 
+	{
 		return v3<T>(x / length(), y / length(), z / length());
 	}
 
-	void normalize() {
+	void normalize() 
+	{
 		x /= length();
 		y /= length();
 		z /= length();
 	}
 
-	T operator*(const v3& src) const {
+	T operator*(const v3& src) const 
+	{
 		return (x * src.x + y * src.y + z * src.z);
 	}
 
-	v3& operator=(const v3& src) {
+	v3& operator=(const v3& src) 
+	{
 		x = src.x;
 		y = src.y;
 		z = src.z;
 		return *this;
 	}
 
-	bool operator==(const v3& comp) const {
+	bool operator==(const v3& comp) const 
+	{
 		return (x == src.x && y == src.y && z == src.z);
 	}
 
-	bool operator!=(const v3& comp) const {
+	bool operator!=(const v3& comp) const 
+	{
 		return !(x == src.x && y == src.y && z == src.z);
 	}
 
-	v3 operator+(const v3& src) const {
+	v3 operator+(const v3& src) const 
+	{
 		return v3(x + src.x, y + src.y, z + src.z);
 	}
 
-	v3& operator+=(const v3& src) {
+	v3& operator+=(const v3& src) 
+	{
 		x += src.x;
 		y += src.y;
 		z += src.z;
 		return *this;
 	}
 
-	v3 operator-(const v3& src) const {
+	v3 operator-(const v3& src) const 
+	{
 		return v3(x - src.x, y - src.y, z - src.z);
 	}
 
-	v3& operator-=(const v3& src) {
+	v3& operator-=(const v3& src) 
+	{
 		x -= src.x;
 		y -= src.y;
 		z -= src.z;
 		return *this;
 	}
 
-	v3 operator*(const T& src) const {
+	v3 operator*(const T& src) const 
+	{
 		return v3(x * src, y * src, z * src);
 	}
 
-	v3& operator*=(const T& src) {
+	v3& operator*=(const T& src) 
+	{
 		x *= src;
 		y *= src;
 		z *= src;
@@ -228,80 +266,97 @@ class v3 {
 	}
 
 	template <typename S>
-	v3 operator*(const S& src) const {
+	v3 operator*(const S& src) const 
+	{
 		return v3(x * src, y * src, z * src);
 	}
 
 	template <typename S>
-	v3& operator*=(const S& src) {
+	v3& operator*=(const S& src) 
+	{
 		x *= src;
 		y *= src;
 		z *= src;
 		return *this;
 	}
 
-	//NOTE: will return 0 if all values are 0
-	operator bool() const {
+	operator bool() const 
+	{
 		return x && y && z;
 	}
 };
 
 template <typename T>
-class v4 {
-	v4() {
+struct v4 
+{
+	v4() 
+	{
 		x = (T)0;
 		y = (T)0;
 		z = (T)0;
 		w = (T)0;
 	}
-	v4(T first, T second, T third, T fourth) {
+	v4(T first, T second, T third, T fourth) 
+	{
 		x = first;
 		y = second;
 		z = third;
 		w = fourth;
 	}
 
-	union {
+	union 
+	{
 		T x;
 		T a;
 		T r;
 	};
-	union {
+
+	union 
+	{
 		T y;
 		T b;
 		T g;
 	};
-	union {
+
+	union 
+	{
 		T z;
 		T c;
 		T b;
 	};
-	union {
+
+	union 
+	{
 		T w;
 		T d;
 		T a;
 	};
 
-	T length() {
+	T length() 
+	{
 		return (T)sqrt(x*x + y*y + z*z + w*w);
 	}
 
-	v4& normal() {
+	v4& normal() 
+	{
 		return v4<T>(x / length(), y / length(), z / length(), w / length());
 	}
 
-	void normalize() {
+	void normalize() 
+	{
 		x /= length();
 		y /= length();
 		z /= length();
 		w /= length();
 	}
 
-	T operator*(const v3& src) const {
+	T operator*(const v3& src) const 
+	{
 		return (x * src.x + y * src.y + z * src.z + w * src.w);
 	}
 
-	v4& operator=(const v4& src) {
+	v4& operator=(const v4& src) 
+	{
 		x = src.x;
 		y = src.y;
 		z = src.z;
@@ -309,19 +364,23 @@ class v4 {
 		return *this;
 	}
 
-	bool operator==(const v4& comp) const {
+	bool operator==(const v4& comp) const 
+	{
 		return (x == src.x && y == src.y && z == src.z && w == src.w);
 	}
 
-	bool operator!=(const v4& comp) const {
+	bool operator!=(const v4& comp) const 
+	{
 		return !(x == src.x && y == src.y && z == src.z && w == src.w);
 	}
 
-	v4 operator+(const v4& src) const {
+	v4 operator+(const v4& src) const 
+	{
 		return v4(x + src.x, y + src.y, z + src.z, w + src.w);
 	}
 
-	v4& operator+=(const v4& src) {
+	v4& operator+=(const v4& src) 
+	{
 		x += src.x;
 		y += src.y;
 		z += src.z;
@@ -329,11 +388,13 @@ class v4 {
 		return *this;
 	}
 
-	v4 operator-(const v4& src) const {
+	v4 operator-(const v4& src) const 
+	{
 		return v4(x - src.x, y - src.y, z - src.z, w - src.w);
 	}
 
-	v4& operator-=(const v4& src) {
+	v4& operator-=(const v4& src) 
+	{
 		x -= src.x;
 		y -= src.y;
 		z -= src.z;
@@ -341,11 +402,13 @@ class v4 {
 		return *this;	
 	}
 
-	v4 operator*(const T& src) const {
+	v4 operator*(const T& src) const 
+	{
 		return v4(x * src, y * src, z * src, w * src);
 	}
 
-	v4& operator*=(const T& src) {
+	v4& operator*=(const T& src) 
+	{
 		x *= src;
 		y *= src;
 		z *= src;
@@ -354,12 +417,14 @@ class v4 {
 	}
 
 	template <typename S>
-	v4 operator*(const S& src) const {
+	v4 operator*(const S& src) const 
+	{
 		return v4(x * src, y * src, z * src, w * src);
 	}
 
 	template <typename S>
-	v4& operator*=(const S& src) {
+	v4& operator*=(const S& src) 
+	{
 		x *= src;
 		y *= src;
 		z *= src;
@@ -367,8 +432,16 @@ class v4 {
 		return *this;
 	}
 
-	//NOTE: will return 0 if all values are 0
-	operator bool() const {
+	operator bool() const 
+	{
 		return x && y && z && w;
 	}
 };
+
+// Free function prototypes  //////////////////////////////////////////////////
+
+// Free function implementation  //////////////////////////////////////////////
+
+// Class/Data Structure member implementations  ///////////////////////////////
+
+// Terminating precompiler directives  ////////////////////////////////////////

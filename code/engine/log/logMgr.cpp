@@ -36,33 +36,16 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief Constructor for logMgr
-
-	Sets initlized to false.
-	
-	@note Must call StartLog() to actually begin logging.
-*/
-logMgr::logMgr() {
+logMgr::logMgr() 
+{
 	good = false;
 }
 
-/**
-	@brief Destructor for logMgr
+logMgr::~logMgr() 
+{
 
-	cl2 logger will destruct itself.
-*/
-logMgr::~logMgr() {}
+}
 
-/**
-	@brief Sets up and starts the logging system
-
-	@param[in] defaultLvl is the text that will be used when logging
-			   default level messages. Should pertain to who is doing
-			   the logging.
-	@param[in] header defaulted to false, marks wether or not to display
-			   the header and time stamp when the log is started.
-*/
 void logMgr::StartLog(const std::string& defaultLvl, bool header)
 {
 	if(!good)
@@ -107,113 +90,47 @@ void logMgr::StartLog(const std::string& defaultLvl, bool header)
 	}
 }
 
-/**
-	@brief Logs a messages at specified alert level.
-
-	@param[in] msg is the message string to log
-	@param[in] lvl is the alert level 
-
-	@see alert levels in logMgr.h
-*/
 void logMgr::LogMsg(const std::string& msg, int lvl)
 {
 	logger.PutMsg(msg, lvl);
 }
 
-/**
-	@brief Logs a raw message
-
-	@param[in] msg is the raw message string to log
-
-	@see Ask Matt Bauer about the formatting, or see cyanlogger2.h
-*/
 void logMgr::LogRaw(const std::string& msg)
 {
 	logger.PutRawMsg(msg);
 }
 
-/**
-	@brief Logs a messages direclty to cout -- use for debugging purposes
-
-	@pre Log must be initlaized
-
-	@param[in] msg is the raw message string to log
-*/
 void logMgr::LogDebug(const std::string& msg)
 {
 	std::cout << "         [" << defaultLevel << "/DEBUG] "
 			  << msg << std::endl;
 }
 
-/**
-	@brief Logs a messages at the default level
-
-	Default level specifed by StartLog()
-
-	@param[in] msg is the message string to log
-
-	@note Calls LogMsg
-*/
 void logMgr::LogDefault(const std::string& msg)
 {
 	LogMsg(msg, DEFAULT);
 }
 
-/**
-	@brief Logs a messages at the info level
-
-	Info level is deafult level + /INFO
-
-	@param[in] msg is the message string to log
-
-	@note Calls LogMsg
-*/
 void logMgr::LogInfo(const std::string& msg)
 {
 	LogMsg(msg, INFO);
 }
 
-/**
-	@brief Logs a messages at the warning level
-
-	Warning level is deafult level + /WARNING
-
-	@param[in] msg is the message string to log
-
-	@note Calls LogMsg
-*/
 void logMgr::LogWarn(const std::string& msg)
 {
 	LogMsg(msg, WARNING);
 }
 
-/**
-	@brief Logs a messages at the fatal level
-
-	Fatal level is deafult level + /FATAL
-
-	@param[in] msg is the message string to log
-
-	@note Calls LogMsg
-*/
 void logMgr::LogFatal(const std::string& msg)
 {
 	LogMsg(msg, FATAL);
 }
 
-/**
-	@brief Enters an indentation section for logging
-
-	@note Must call ExitSec() to leave the section
-*/
 void logMgr::EnterSec()
 {
 	logger.EnterSec();
 }
 
-/**
-	@brief Exits an indentation section for logging
-*/
 void logMgr::ExitSec()
 {
 	logger.ExitSec();

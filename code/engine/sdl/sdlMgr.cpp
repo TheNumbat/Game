@@ -32,32 +32,17 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief sdlMgr constructor
-
-	Sets up log and defaults everything to null and not good
-*/
 sdlMgr::sdlMgr()
 {
 	good = false;
 	logger.StartLog("SDL");
 }
 
-/**
-	@brief sdlMgr destructor
-
-	Kills SDL if not already dead
-*/
 sdlMgr::~sdlMgr()
 {
 	kill();
 }
 
-/**
-	@brief initializes SDL
-
-	@exception failed to intialize sdl - return false and do nothing
-*/
 bool sdlMgr::init()
 {
 	if(good)
@@ -82,11 +67,6 @@ bool sdlMgr::init()
 	return true;
 }
 
-/**
-	@brief initializes SDL
-
-	@exception failed to intialize sdl - return false and do nothing
-*/
 bool sdlMgr::kill()
 {
 	if(!good)

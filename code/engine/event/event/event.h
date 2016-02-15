@@ -208,14 +208,39 @@ const uint32 FLAG_WINDOW_CLOSE = 1<<12;
 */
 struct event
 {
+	/**
+		@brief event default/parameterized constructor.
+
+		@param[in] t event type. See event type constants in event.h
+		@param[in] v event value. See event type constants in event.h
+		@param[in] f event flags. See event type constants in event.h
+	*/
 	ENGINE_API event(uint8 t = EVT_BAD, uint32 v = 0, uint32 f = 0);
+
+	/**
+		@brief event destructor (no detailed docs)
+	*/
 	ENGINE_API ~event();
 
+	/**
+		@brief tests if event is valid
+
+		Specifically, tests if the type is not EVT_BAD
+	*/
 	ENGINE_API operator bool() const;
+
+	/**
+		@brief overloaded assignment operator
+
+		assigns one event to another.
+	*/
 	ENGINE_API event& operator=(const event& src);
 
+	/// event type, see EVT_type
 	uint8 type;
+	/// event value, see KEY_key or VAL_MOUSE_button or whatever
 	uint64 value;
+	/// event flag, see FLAG_KEY_modifier or whatever
 	uint32 flags;
 };
 

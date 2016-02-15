@@ -32,13 +32,6 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief event default/parameterized constructor.
-
-	@param[in] t event type. See event type constants in event.h
-	@param[in] v event value. See event type constants in event.h
-	@param[in] f event flags. See event type constants in event.h
-*/
 event::event(uint8 t, uint32 v, uint32 f)
 {
 	type = t;
@@ -46,29 +39,16 @@ event::event(uint8 t, uint32 v, uint32 f)
 	flags = f;
 }
 
-/**
-	@brief event destructor (no detailed docs)
-*/
 event::~event()
 {
 	
 }
 
-/**
-	@brief tests if event is valid
-
-	Specifically, tests if the type is not EVT_BAD
-*/
 event::operator bool() const
 {
 	return type != EVT_BAD;
 }
 
-/**
-	@brief overloaded assignment operator
-
-	assigns one event to another.
-*/
 event& event::operator=(const event& src)
 {
 	type = src.type;

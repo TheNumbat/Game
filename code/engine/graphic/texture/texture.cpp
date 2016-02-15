@@ -33,43 +33,17 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief texture constructor
-
-	Sets texture to uninititialized
-*/
 texture::texture()
 {
 	sdl_texture = NULL;
 	good = false;
 }
 
-/**
-	@brief texture destructor
-
-	Frees the texture
-*/
 texture::~texture()
 {
 	free();
 }
 
-/**
-	@brief loads texture
-
-	Loads image file using SDL_Image
-
-	@param[in] path is the file path of the image file
-	@param[in] sdl_renderer is the renderer used to create the texture
-
-	@return success
-
-	@exception SDL_Image not initialized, will fail and return false
-	@exception Unable to load image, will fail and return false
-	@exception Unable to create texture, will fail and return false
-
-	@todo make this log or return some indication of the error
-*/
 bool texture::load(const std::string& path, void* sdl_renderer)
 {
 	free();
@@ -97,15 +71,6 @@ bool texture::load(const std::string& path, void* sdl_renderer)
 	return true;
 }
 
-/**
-	@brief Frees texture
-
-	Deallocates texture
-
-	@return success
-
-	@exception if texture is already freed does nothing, returns false
-*/
 bool texture::free()
 {
 	if(good)

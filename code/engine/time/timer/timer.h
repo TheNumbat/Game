@@ -34,7 +34,22 @@
 */
 class timer
 {
+	/**
+		@brief Timer constructor
+
+		Sets up values
+
+		@param[in] s start time in time units (ms for normal timer)
+		@param[in] p pause time if starting paused (ms for normal timer)
+		@param[in] pC wheter or not the timer is a performance counter
+	*/
 	timer(uint64 s, uint64 p, bool pC);
+
+	/**
+		@brief Timer denstructor
+
+		Does nothing
+	*/
 	~timer();
 
 	uint64 start;

@@ -230,20 +230,116 @@ typedef base_position<int32> chunk_position;
 */
 struct map_position
 {
+	/**
+		@brief map position constructor
+
+		Assigns values
+
+		@param[in] x x real value
+		@param[in] y y real value
+		@param[in] z z real value
+		@param[in] cx x chunk value
+		@param[in] cy y chunk value
+		@param[in] cz z chunk value
+	*/
 	ENGINE_API map_position(int32 x = 0, int32 y = 0, int32 z = 0,
 							real32 cx = 0, real32 cy = 0, real32 cz = 0);
+
+	/**
+		@brief map position constructor
+
+		Assigns values
+
+		@param[in] r real position
+		@param[in] c chunk position
+	*/
 	ENGINE_API map_position(const real_position& r, const chunk_position& c);
+
+	/**
+		@brief map position constructor
+
+		Assigns values
+
+		@param[in] src position to copy
+	*/
 	ENGINE_API map_position(const map_position& src);
+
+	/**
+		@brief map position destructor
+
+		Does nothing
+	*/
 	ENGINE_API ~map_position();
 
+	/**
+		@brief compares map positions
+		
+		Compares values
+
+		@param[in] comp position to compare
+
+		@return bool positions equal
+	*/
 	ENGINE_API bool operator==(const map_position& comp) const;
+
+	/**
+		@brief assigns map positions
+
+		Assigns values
+
+		@param[in] src position to assign
+
+		@return self for chaining
+	*/
 	ENGINE_API map_position& operator=(const map_position& src);
 
+	/**
+		@brief adds map positions
+
+		Adds values
+
+		@param[in] src position to add
+
+		@return new added position
+	*/
 	ENGINE_API map_position& operator+(const map_position& src) const;
+
+	/**
+		@brief adds map positions
+
+		Adds values
+
+		@param[in] src position to add
+
+		@return self for chaining
+	*/
 	ENGINE_API map_position& operator+=(const map_position& src);
+
+	/**
+		@brief Subtracts map positions
+		
+		Subtracts values
+
+		@param[in] src position to subtract
+
+		@return self for chaining
+	*/
 	ENGINE_API map_position& operator-(const map_position& src) const;
+
+	/**
+		@brief Subtracts map positions
+
+		Subtracts values
+
+		@param[in] src position to subtract
+
+		@return self for chaining
+	*/
 	ENGINE_API map_position& operator-=(const map_position& src);
 
+	/**
+		@brief adjusts chunkPos/offset if realPos is out of bounds
+	*/
 	ENGINE_API void clamp();
 
 	real_position realPos;
@@ -252,18 +348,20 @@ struct map_position
 };
 
 /**
-	@brief Hash function for chunk_position
-
-	Used for sparsely storing "chunks" (see mapMgr)
+	@brief Currently only used to add hash function for chunk_position
 */
 namespace std
 {
+	/**
+		@brief Hash function for chunk_position
+
+		Used for sparsely storing "chunks" (see mapMgr)
+	*/
 	template<> 
 	struct hash<chunk_position>
 	{
 		uint64 operator()(const chunk_position& hash_pos) const
 		{
-			/// @todo do we need to call the other hash functors?
             uint64 h1 = std::hash<int32>()(hash_pos.x);
             uint64 h2 = std::hash<int32>()(hash_pos.y);
             uint64 h3 = std::hash<int32>()(hash_pos.z);

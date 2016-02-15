@@ -48,57 +48,28 @@ std::shared_ptr<component> createComponent(component_type c)
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief component_position constructor
-
-	@param[in] _pos initial position
-*/
 component_position::component_position(const map_position& _pos)
 {
 	type = ctype_position;
 	pos = _pos;
 }
 
-/**
-	@brief component_position destructor
-
-	Does nothing
-*/
 component_position::~component_position()
 {
 
 }
 
-/**
-	@brief component_movement constructor
-
-	@param[in] vel initial velocity
-	@param[in] acc initial acceleration
-*/
 component_movement::component_movement(const v2<real32>& vel, const v2<real32>& acc)
 {
 	velocity = vel;
 	acceleration = acc;
 }
 
-/**
-	@brief component_movement destructor
-
-	Does nothing
-*/
 component_movement::~component_movement()
 {
 
 }
 
-/**
-	@brief component_texture constructor
-
-	@param[in] top force texture to render on top
-	@param[in] bot force texture to render on bottom
-
-	@exception if both top and bot are set, neither will be set
-*/
 component_texture::component_texture(bool top, bool bot)
 {
 	if(!(top && bot))
@@ -108,25 +79,11 @@ component_texture::component_texture(bool top, bool bot)
 	}
 }
 
-/**
-	@brief component_texture destructor
-
-	Does nothing
-*/
 component_texture::~component_texture()
 {
 
 }
 
-/**
-	@brief adds a texture to the texture component
-
-	@param[in] ID of texture to use
-	@param[in] pos position of TLC of texture relative to entity position in meters
-	@param[in] dim dimension of texture in meters
-
-	@return success (always true)
-*/
 bool component_texture::addTexture(const std::string& ID, const v2<real32>& pos, const v2<real32>& dim)
 {
 	textureIDs.push_back(ID);
@@ -136,13 +93,6 @@ bool component_texture::addTexture(const std::string& ID, const v2<real32>& pos,
 	return true;
 }
 
-/**
-	@brief removes a texture from the component
-
-	@param[in] ID of texture to remove
-
-	@return success
-*/
 bool component_texture::removeTexture(const std::string& ID)
 {
 	auto texture = std::find(textureIDs.begin(),textureIDs.end(),ID);

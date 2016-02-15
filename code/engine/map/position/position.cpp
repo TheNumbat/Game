@@ -31,18 +31,6 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief map position constructor
-
-	Assigns values
-
-	@param[in] x x real value
-	@param[in] y y real value
-	@param[in] z z real value
-	@param[in] cx x chunk value
-	@param[in] cy y chunk value
-	@param[in] cz z chunk value
-*/
 map_position::map_position(int32 x, int32 y, int32 z,
 						   real32 cx, real32 cy, real32 cz)
 	: realPos(x,y,z), chunkPos(cx,cy,cy)
@@ -50,46 +38,23 @@ map_position::map_position(int32 x, int32 y, int32 z,
 
 }
 
-/**
-	@brief map position constructor
-
-	Assigns values
-
-	@param[in] r real position
-	@param[in] c chunk position
-*/
 map_position::map_position(const real_position& r, const chunk_position& c)
 	: realPos(r), chunkPos(c)
 {
 
 }
 
-/**
-	@brief map position constructor
-
-	Assigns values
-
-	@param[in] src position to copy
-*/
 map_position::map_position(const map_position& src)
 	: realPos(src.realPos), chunkPos(src.chunkPos)
 {
 
 }
 
-/**
-	@brief map position destructor
-
-	Does nothing
-*/
 map_position::~map_position()
 {
 
 }
 
-/**
-	@brief adjusts chunkPos/offset if realPos is OOB
-*/
 void map_position::clamp()
 {
 	while(realPos.x < 0) {
@@ -114,30 +79,12 @@ void map_position::clamp()
 	}
 }
 
-/**
-	@brief compares map positions
-	
-	Compares values
-
-	@param[in] comp position to compare
-
-	@return bool positions equal
-*/
 bool map_position::operator==(const map_position& comp) const
 {
 	return realPos == comp.realPos &&
 		   chunkPos == comp.chunkPos;
 }
 
-/**
-	@brief assigns map positions
-
-	Assigns values
-
-	@param[in] src position to assign
-
-	@return self for chaining
-*/
 map_position& map_position::operator=(const map_position& src)
 {
 	realPos = src.realPos;
@@ -146,15 +93,6 @@ map_position& map_position::operator=(const map_position& src)
 	return *this;
 }
 
-/**
-	@brief adds map positions
-
-	Adds values
-
-	@param[in] src position to add
-
-	@return new added position
-*/
 map_position& map_position::operator+(const map_position& src) const
 {
 	map_position ret = *this;
@@ -165,15 +103,6 @@ map_position& map_position::operator+(const map_position& src) const
 	return ret;
 }
 
-/**
-	@brief adds map positions
-
-	Adds values
-
-	@param[in] src position to add
-
-	@return self for chaining
-*/
 map_position& map_position::operator+=(const map_position& src)
 {
 	realPos += src.realPos;
@@ -183,15 +112,6 @@ map_position& map_position::operator+=(const map_position& src)
 	return *this;
 }
 
-/**
-	@brief Subtracts map positions
-	
-	Subtracts values
-
-	@param[in] src position to subtract
-
-	@return self for chaining
-*/
 map_position& map_position::operator-(const map_position& src) const
 {
 	map_position ret;
@@ -203,15 +123,6 @@ map_position& map_position::operator-(const map_position& src) const
 	return ret;
 }
 
-/**
-	@brief Subtracts map positions
-
-	Subtracts values
-
-	@param[in] src position to subtract
-
-	@return self for chaining
-*/
 map_position& map_position::operator-=(const map_position& src)
 {
 	realPos -= src.realPos;

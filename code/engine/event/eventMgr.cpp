@@ -32,32 +32,17 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief eventMgr constructor
-
-	Sets up logging.
-*/
 eventMgr::eventMgr()
 {
 	good = false;
 	logger.StartLog("EVENTS");
 }
 
-/**
-	@brief eventMgr destructor
-
-	Does literally nothing.
-*/
 eventMgr::~eventMgr()
 {
 	kill();
 }
 
-/**
-	@brief initializes events system
-
-	Sets up SDL events 
-*/
 bool eventMgr::init()
 {
 	if(!good)
@@ -83,11 +68,6 @@ bool eventMgr::init()
 	return false;
 }
 
-/**
-	@brief kills events system
-
-	Sets up SDL events 
-*/
 bool eventMgr::kill()
 {
 	if(good)
@@ -106,14 +86,6 @@ bool eventMgr::kill()
 	return false;
 }
 
-/**
-	@brief takes and translates next event from the queue
-
-	Takes an event from the SDL event queue, translates and 
-	returns
-
-	@param[out] e translated event. EVT_BAD if no events were available
-*/
 bool eventMgr::getNextEvent(event& e)
 {
 	if(good)
@@ -146,13 +118,6 @@ bool eventMgr::getNextEvent(event& e)
 	return false;
 }
 
-/**
-	@brief translates SDL_Event to event using specific translate functions
-
-	@param[in] SDL_ev SDL_Event to translate
-
-	@return translated event from individualed translate functions
-*/
 event& eventMgr::translateEvent(void* SDL_ev)
 {
 	SDL_Event* e = (SDL_Event*)SDL_ev;
@@ -191,13 +156,6 @@ event& eventMgr::translateEvent(void* SDL_ev)
 	}
 }
 
-/**
-	@brief translates window SDL_Event to event
-
-	@param[in] SDL_ev SDL_Event to translate
-
-	@return translated event
-*/
 event& eventMgr::translateWindowEvent(void* SDL_ev)
 {
 	SDL_Event* e = (SDL_Event*)SDL_ev;
@@ -251,15 +209,6 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 	return ret;
 }
 
-/**
-	@brief translates joystick SDL_Event to event
-
-	@param[in] SDL_ev SDL_Event to translate
-
-	@return translated event
-
-	@todo implement this, it does nothing
-*/
 event& eventMgr::translateJoystickEvent(void* SDL_ev)
 {
 	event ret(EVT_JOYSTICK);
@@ -267,16 +216,6 @@ event& eventMgr::translateJoystickEvent(void* SDL_ev)
 	return ret;
 }
 
-/**
-	@brief translates mouse SDL_Event to event
-
-	@param[in] SDL_ev SDL_Event to translate
-
-	@return translated event
-
-	@note for mouse motion, the new absolute x/y (relative to window) is returned
-		  rather than the relative movement
-*/
 event& eventMgr::translateMouseEvent(void* SDL_ev)
 {
 	SDL_Event* e = (SDL_Event*)SDL_ev;
@@ -342,13 +281,6 @@ event& eventMgr::translateMouseEvent(void* SDL_ev)
 	return ret;
 }
 
-/**
-	@brief translates keyboard SDL_Event to event
-
-	@param[in] SDL_ev SDL_Event to translate
-
-	@return translated event
-*/
 event& eventMgr::translateKeyboardEvent(void* SDL_ev)
 {
 	SDL_Event* e = (SDL_Event*)SDL_ev;

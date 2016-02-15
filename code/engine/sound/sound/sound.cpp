@@ -33,11 +33,6 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief sound constructor
-
-	Sets sound to uninititialized
-*/
 sound::sound()
 {
 	sdl_mixchunk = NULL;
@@ -45,31 +40,11 @@ sound::sound()
 	good = false;
 }
 
-/**
-	@brief sound destructor
-
-	Frees the sound
-*/
 sound::~sound()
 {
 	free();
 }
 
-/**
-	@brief loads a sound
-
-	Loads sound file using SDL_Mixer.
-	Loads WAVE, AIFF, RIFF, OGG, and VOC files
-
-	@param[in] path is the file path of the sound file
-
-	@return success
-
-	@exception SDL_Mixer not initialized, will fail and return false
-	@exception Unable to load sound, will fail and return false
-
-	@todo make this log or return some indication of the error
-*/
 bool sound::load(const std::string& path)
 {
 	free();
@@ -87,15 +62,6 @@ bool sound::load(const std::string& path)
 	}
 }
 
-/**
-	@brief Frees sound
-
-	Deallocates sound
-
-	@return success
-
-	@exception if sound is already freed does nothing, returns false
-*/
 bool sound::free()
 {
 	if(good)

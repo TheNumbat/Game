@@ -40,14 +40,78 @@
 class threadMgr 
 {
 public:
+	/**
+		@brief threadMgr constructur
+
+		Starts log
+	*/
 	ENGINE_API threadMgr();
+
+	/**
+		@brief threadMgr deconstructur
+
+		Make sure your threads will exit before destroying the manager!!!
+	*/
 	ENGINE_API ~threadMgr();
 
+	/**
+		@brief adds a thread
+
+		Make sure your threads will exit before waiting on them!!!
+
+		@param[in] ID of thread to add
+		@param[in] threadFunction function to turn into a thread
+		@param[in] data to pass to thread, MAKE SURE THIS INCLUDES A WAY TO END THE THREAD
+
+		@return success
+
+		@exception could not create thread -- returns false
+	*/
 	ENGINE_API bool add(const std::string& ID, int (*threadFunction)(void*), void* data);
+
+	/**
+		@brief waits on and removes a thread
+
+		Make sure your threads will exit before waiting on them!!!
+
+		@param[in] ID of thread to wait
+		@param[out] returned value from thread. Default NULL to not capture return.
+
+		@return success 
+
+		@exception could not find thread -- returns false
+	*/
 	ENGINE_API bool wait(const std::string& ID, int* returned = NULL);
+
+	/**
+		@brief detaches a thread, relies on it to end itself
+
+		The manager will no longer have access to it, so be sure it will behave.
+
+		@param[in] ID of thread to detach
+
+		@return success 
+
+		@exception could not find thread -- returns false
+	*/
 	ENGINE_API bool detach(const std::string& ID);
 
+	/**
+		@brief waits on all threads
+
+		@return success -- always true
+
+		@note see wait()
+	*/
 	ENGINE_API bool waitAll();
+
+	/**
+		@brief detaches all threads
+
+		@return success -- always true
+
+		@note see detach()
+	*/
 	ENGINE_API bool detachAll();
 
 private:

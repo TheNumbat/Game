@@ -31,11 +31,6 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief mapMgr constructor
-
-	Sets up log and starts entity IDs
-*/
 mapMgr::mapMgr()
 {
 	nextUnusedID = 1;
@@ -43,28 +38,11 @@ mapMgr::mapMgr()
 	logger.LogInfo("Map initialized");
 }
 
-/**
-	@brief mapMgr denstructor
-
-	Does noting, entire map will delete itself
-*/
 mapMgr::~mapMgr()
 {
 	logger.LogInfo("Map uninitialized");
 }
 
-/**
-	@brief creates a new entity
-
-	Creates a new entity with only a position
-
-	@param[in] pos position to add entity
-	@param[in] currentTimeMS time to start the new entitie's lastUpdate at
-
-	@return weak_ptr to new entity or nothing if failure
-
-	@exception max entities exceeded, fatal error, returns weak_ptr to nothing
-*/
 std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, uint32 currentTimeMS)
 {
 	assert(nextUnusedID <= MAX_ENTITIES);
@@ -99,22 +77,6 @@ std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, uint32 currentT
 	return std::weak_ptr<entity>();
 }
 
-/**
-	@brief creates a new player entity
-
-	Exact same as normally creating an entity, except it's added to the player
-	storage for easy access.
-
-	@param[in] ID of player to add
-	@param[in] pos position to add player
-	@param[in] currentTimeMS time to start the new player's lastUpdate at
-
-	@return weak_ptr to new player or nothing if failure
-
-	@exception see addEntity()
-
-	@note calls addEntity()
-*/
 std::weak_ptr<entity> mapMgr::addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS)
 {
 	// Add entity
@@ -133,15 +95,6 @@ std::weak_ptr<entity> mapMgr::addPlayer(const std::string& ID, const map_positio
 	return newPlayer;
 }
 
-/**
-	@brief gets a player by it's ID (string name specificed on creation)
-
-	@param[in] ID of player to return
-
-	@return weak_ptr to player or nothing if not found
-
-	@exception player does not exist, returns weak_ptr to nothing
-*/
 std::weak_ptr<entity> mapMgr::getPlayerByID(const std::string& ID)
 {
 	// Find player
@@ -161,17 +114,6 @@ std::weak_ptr<entity> mapMgr::getPlayerByID(const std::string& ID)
 	return playerItem->second;
 }
 
-/**
-	@brief gets an entity by its UID -- searches through everything, very slow
-
-	Don't use this except for debugging
-
-	@param[in] UID of entity to find
-
-	@return weak_ptr to entity or nothing if not found
-
-	@exception entity does not exist, returns weak_ptr to nothing
-*/
 std::weak_ptr<entity> mapMgr::getEntityByUID_SLOW(uint32 UID)
 {
 	// Loop through chunks
@@ -201,17 +143,6 @@ std::weak_ptr<entity> mapMgr::getEntityByUID_SLOW(uint32 UID)
 	return std::weak_ptr<entity>();
 }
 
-/**
-	@brief removes a player and its entity
-
-	@param[in] ID of player to remove
-
-	@return success (bool)
-
-	@exception player does not exist, returns false
-
-	@note calls removeEntity()
-*/
 bool mapMgr::removePlayer(const std::string& ID)
 {
 	// Find player
@@ -232,15 +163,6 @@ bool mapMgr::removePlayer(const std::string& ID)
 	return removeEntity(playerItem->second);
 }
 
-/**
-	@brief removes an entity
-
-	@param[in] e pointer to entity to remove
-
-	@return success (bool)
-
-	@exception entity does not exist, returns false
-*/
 bool mapMgr::removeEntity(const std::weak_ptr<entity>& e)
 {
 	// Lock entity
@@ -275,17 +197,6 @@ bool mapMgr::removeEntity(const std::weak_ptr<entity>& e)
 	return true;
 }
 
-/**
-	@brief removes an entity by its UID -- searches through everything, very slow
-
-	Don't use this except for debugging
-
-	@param[in] UID of entity to remove
-
-	@return success (bool)
-
-	@exception entity does not exist, returns false
-*/
 bool mapMgr::removeEntityByUID_SLOW(uint32 UID)
 {
 	// Loop through chunks
@@ -312,15 +223,6 @@ bool mapMgr::removeEntityByUID_SLOW(uint32 UID)
 	return false;
 }
 
-/**
-	@brief updates an entity's position in the chunk map
-
-	@param[in] e pointer to entity to update
-
-	@return success
-
-	@exception e does not have a position component, return false
-*/
 bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 {
 	std::lock_guard<std::mutex> lock(e.lock()->lock);
@@ -358,17 +260,6 @@ bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 	return true;
 }
 
-/**
-	@brief creates a new chunk or returns one already in existance
-
-	Call when you need to get a chunk no matter what
-
-	@param[in] pos of chunk to add/get
-
-	@return pointer to new/existing chunk
-
-	@note if chunk already exists, it will be returned
-*/
 std::weak_ptr<chunk> mapMgr::addChunk(const chunk_position& pos)
 {
 	// If chunk already exists, return it
@@ -389,17 +280,6 @@ std::weak_ptr<chunk> mapMgr::addChunk(const chunk_position& pos)
 	return std::weak_ptr<chunk>(newChunk);
 }
 
-/**
-	@brief removes a chunk - USE WITH CARE!
-
-	Will remove a chunk and all entities contained within
-
-	@param[in] pos of chunk to remove
-
-	@return success (bool)
-
-	@exception if chunk does not exist, return false
-*/
 bool mapMgr::removeChunk(const chunk_position& pos)
 {
 	auto chunkEntry = map.find(pos);
@@ -420,17 +300,6 @@ bool mapMgr::removeChunk(const chunk_position& pos)
 	return true;
 }
 
-/**
-	@brief gets a chunk 
-
-	Call when you need to get a chunk but don't want to add one
-
-	@param[in] pos of chunk to get
-
-	@return pointer to existing chunk or nothing
-
-	@exception if chunk does not exist, return pointer to nothing
-*/
 std::weak_ptr<chunk> mapMgr::getChunk(const chunk_position& pos)
 {
 	auto chunkEntry = map.find(pos);
@@ -444,18 +313,6 @@ std::weak_ptr<chunk> mapMgr::getChunk(const chunk_position& pos)
 	return std::weak_ptr<chunk>(chunkEntry->second);
 }
 
-/**
-	@brief returns a chunk that an entity (says its) in 
-
-
-	@param[in] e pointer to entity to use
-
-	@return pointer to chunk
-
-	@exception entity does not have position component, return pointer to nothing
-	@exception chunk does not exist, return pointer to nothing
-	@exception found chunk does not actually include entity, return pointer to nothing
-*/
 std::weak_ptr<chunk> mapMgr::getChunkFromEntity(const std::weak_ptr<entity>& e)
 {
 	std::lock_guard<std::mutex> lock(e.lock()->lock);

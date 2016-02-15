@@ -41,17 +41,79 @@
 class entity
 {
 public:
+	/**
+		@brief entity constructor
+
+		Assigns values, starts with no components
+	*/
 	ENGINE_API entity(uint32 _UID, uint32 time);
+
+	/**
+		@brief entity destructor
+
+		Does nothing
+
+		@note the shared_ptr to componenets will delete themselves UNLESS
+			  they are still accessable somewhere else, in which case they
+			  will delete when all copies go out of scope
+	*/
 	ENGINE_API ~entity();
 
+	/**
+		@brief gets entity UID
+
+		@return entity UID
+	*/
 	ENGINE_API uint64 getUID() const;
+
+	/**
+		@brief gets entity lastUpdate
+
+		@return entity lastUpdate in milliseconds
+	*/
 	ENGINE_API uint32 getLastUpdate() const;
+
+	/**
+		@brief sets entity lastUpdate
+
+		@param[in] time new update time
+
+		@return sucess
+	*/
 	ENGINE_API bool setLastUpdate(uint32 time);
 
+	/**
+		@brief tests if entity contains component type
+
+		@param[in] c component type to test for
+
+		@return bool contains component
+	*/
 	ENGINE_API bool hasComponent(component_type c) const;
+
+	/**
+		@brief adds a component to an entity
+
+		@param[in] c component type to add
+
+		@return component found/added
+
+		@exception if entity already has component return it
+	*/
 	ENGINE_API std::weak_ptr<component> addComponent(component_type c);
+
+	/**
+		@brief gets a component from an entity
+
+		@param[in] c component type to get
+
+		@return component found, or weak_ptr with no managed obejct if not found
+
+		@exception if entity does not have component return NULL
+	*/
 	ENGINE_API std::weak_ptr<component> getComponent(component_type c) const;
 
+	/// Mutex used to signify the entity is in use -- USE IT
 	std::mutex lock;
 	
 private:

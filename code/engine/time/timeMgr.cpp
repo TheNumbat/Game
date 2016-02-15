@@ -33,40 +33,17 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief timeMgr constructor
-
-	Defaults values and starts log
-	Call init() to set up time
-*/
 timeMgr::timeMgr()
 {
 	good = false;
 	logger.StartLog("TIME");
 }
 
-/**
-	@brief timeMgr destructor
-
-	Kills timer system, removes all timers
-	Calls kill()
-*/
 timeMgr::~timeMgr()
 {
 	kill();
 }
 
-/**
-	@brief initializes time system
-
-	Sets up SDL timer system, etc.
-	Call kill() to uninitialize
-
-	@return success
-
-	@exception already initialized, returns false
-	@execption could not initialize SDL timer subsystem, resturns false 
-*/
 bool timeMgr::init()
 {
 	if(good) 
@@ -90,15 +67,6 @@ bool timeMgr::init()
 	return true;
 }
 
-/**
-	@brief deinitializes time system
-
-	Kills SDL timer system
-
-	@return success
-
-	@exception already deinitialized, returns false
-*/
 bool timeMgr::kill()
 {
 	if(!good)
@@ -114,16 +82,6 @@ bool timeMgr::kill()
 	return true;
 }
 
-/**
-	@brief adds a timer
-	
-	@param[in] ID of new timer
-	@param[in] startPaused wether or not to start the timer paused
-
-	@return success
-
-	@exception ID already taken, returns false
-*/
 bool timeMgr::addTimer(const std::string& ID, bool startPaused)
 {
 	// Test ID
@@ -145,34 +103,6 @@ bool timeMgr::addTimer(const std::string& ID, bool startPaused)
 	return true;
 }
 
-/**
-	@brief adds a callback function to be called after a certain amount of time
-	
-	Callback functions must have the signature of uint32 callback(uint32 interval, void* parameter)
-	where interval is "delay" in this function, and the return is the number of millisecons to wait until
-	calling the callback funciton again, or 0 to not call it again. Make sure that the function
-	will at some point return zero if you don't want it to infinitely run on an interval.
-
-	The callback function may be run in a new thread, so to call back into the normal
-	thread one should use SDL_PushEvent within the callback and actually process the callback
-	in the event loop
-
-	Finally, if your callback funtion will run forever and you need to be able to remove it, pass "true" to
-	paramter save. If you leave it out or pass "false," your callback will not be saved in timeMgr and cannot
-	be removed. Hence, if your callback will end itself don't save it, if you need to manually end it, save it.
-
-	@param[in] callback pointer to callback function
-	@param[in] delay to wait before calling the callback (in millisecons)
-	@param[in] param to give to the callback function when it is called
-	@param[in] save wheter or not to save callback in timeMgr (meaning it can be removed later)
-	@param[in] ID for new callback -- only needed if saving the callback (save = true)
-
-	@return success
-
-	@exception ID already in use, returns false
-	@exception failed to create callback, returns false
-	@exception save = true but no ID, returns false does nothing
-*/
 bool timeMgr::addCallback(uint32 (*callback)(uint32,void*), uint32 delay, void* param, bool save, const std::string& ID)
 {
 	if(save && ID == "")
@@ -205,18 +135,6 @@ bool timeMgr::addCallback(uint32 (*callback)(uint32,void*), uint32 delay, void* 
 	return true;
 }
 
-/**
-	@brief removes a callback function
-
-	The callback may have already ended, but it will still be stored in the callback table,
-	so remove your callbacks when you're done with them.
-
-	@param[in] ID of callback to remove
-
-	@return success
-
-	@exception ID not found, returns false
-*/
 ENGINE_API bool timeMgr::removeCallback(const std::string& ID)
 {
 	auto entry = callbacks.find(ID);
@@ -239,19 +157,6 @@ ENGINE_API bool timeMgr::removeCallback(const std::string& ID)
 	return true;
 }
 
-/**
-	@brief adds a performance counter, which is basically a much higher-fidelity timer
-
-	Call getPerfFreq() for the number of increments per second, as it is platform
-	dependant.
-
-	@param[in] ID for new performance counter
-	@param[in] startPaused whether or not to start the perf counter paused
-
-	@return success
-
-	@exception ID already in use, returns false
-*/
 bool timeMgr::addPerfCounter(const std::string& ID, bool startPaused)
 {
 	// Test ID
@@ -274,15 +179,6 @@ bool timeMgr::addPerfCounter(const std::string& ID, bool startPaused)
 	return true;
 }
 
-/**
-	@brief removes a timer or performance counter
-
-	@param[in] ID of timer/perfCounter to remove
-
-	@return success
-
-	@exception ID not found, returns false
-*/
 bool timeMgr::remove(const std::string& ID)
 {
 	// Get timer
@@ -302,16 +198,6 @@ bool timeMgr::remove(const std::string& ID)
 	return true;
 }
 
-/**
-	@brief Pauses a timer or performance counter
-
-	@param[in] ID of timer/perfCounter to pause
-
-	@return success
-
-	@exception ID not found, returns false
-	@exception timer arleady paused, returns false
-*/
 bool timeMgr::pause(const std::string& ID)
 {
 	// Get timer
@@ -339,16 +225,6 @@ bool timeMgr::pause(const std::string& ID)
 	return true;
 }
 
-/**
-	@brief Resumes a timer or performance counter
-
-	@param[in] ID of timer/perfCounter to resume
-
-	@return success
-
-	@exception ID not found, returns false
-	@exception timer arleady playing, returns false
-*/
 bool timeMgr::resume(const std::string& ID)
 {
 	// Get timer
@@ -377,16 +253,6 @@ bool timeMgr::resume(const std::string& ID)
 	return true;
 }
 
-/**
-	@brief Gets the value from a timer or performance counter
-
-	@param[in] ID of timer/perfCounter to retrieve time from
-	@param[out] time value gotten from timer/perf counter
-
-	@return success
-
-	@exception ID not found, returns false
-*/
 bool timeMgr::get(const std::string& ID, uint64& time)
 {
 	// Get timer
@@ -411,23 +277,11 @@ bool timeMgr::get(const std::string& ID, uint64& time)
 	return true;
 }
 
-/**
-	@brief Gets the system-specific performance counter frequency
-
-	Returns number of increments per second
-
-	@return perf counter requency
-*/
 uint64 timeMgr::getPerfFreq()
 {
 	return SDL_GetPerformanceFrequency();
 }
 
-/**
-	@brief Gets the time in milliseconds since SDL was initialized
-
-	@return time in milliseconds since SDL was initialized
-*/
 uint32 timeMgr::getTimeSinceStart()
 {
 	return SDL_GetTicks();

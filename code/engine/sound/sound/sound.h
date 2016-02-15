@@ -37,10 +37,44 @@
 */
 class sound
 {
+	/**
+		@brief sound constructor
+
+		Sets sound to uninititialized
+	*/
 	sound();
+
+	/**
+		@brief sound destructor
+
+		Calls free()
+	*/
 	~sound();
 
+	/**
+		@brief loads a sound
+
+		Loads sound file using SDL_Mixer.
+		Loads WAVE, AIFF, RIFF, OGG, and VOC files
+
+		@param[in] path is the file path of the sound file
+
+		@return success
+
+		@exception SDL_Mixer not initialized, will fail and return false
+		@exception Unable to load sound, will fail and return false
+	*/
 	bool load(const std::string& path);
+
+	/**
+		@brief Frees sound
+
+		Deallocates sound
+
+		@return success
+
+		@exception if sound is already freed does nothing, returns false
+	*/
 	bool free();
 
 	void* sdl_mixchunk;
