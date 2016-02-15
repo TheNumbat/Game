@@ -17,7 +17,7 @@
 #include "engine_defines.h"
 #include <stdint.h>
 
-#ifdef ASSERSIONS
+#ifdef ENGINE_ASSERSIONS
 	#include <assert.h>
 #else
     /// Compile out assertions if ASSERTIONS not defined

@@ -1,9 +1,6 @@
 
-// DLL
-#define ENGINE_EXPORTS
-
 // DEBUG
-#define ASSERSIONS
+#define ENGINE_ASSERSIONS
 
 // Logging
 #define CONSOLE_LOG

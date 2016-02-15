@@ -17,7 +17,7 @@
 #include "game_defines.h"
 #include <stdint.h>
 
-#ifdef ASSERSIONS
+#ifdef GAME_ASSERSIONS
 	#include <assert.h>
 #else
     /// Compile out assertions if ASSERTIONS not defined

@@ -1,9 +1,6 @@
 
-// DLL
-#define GAME_EXPORTS
-
 // DEBUG
-#define ASSERSIONS
+#define GAME_ASSERSIONS
 
 // RENDERING
 #define METERS_TO_PIXELS 32.0f
