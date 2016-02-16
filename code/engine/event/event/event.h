@@ -77,7 +77,7 @@ const uint64 KEY_MINUS = '-';
 const uint64 KEY_COMMA = ',';
 const uint64 KEY_SLASH = '/';
 const uint64 KEY_SPACE = ' ';
-const uint64 KEY_EQUALS = '=';
+const uint64 KEY_PLUS = '+';
 const uint64 KEY_ENTER = '\n';
 const uint64 KEY_PERIOD = '.';
 const uint64 KEY_RBRACKET = ']';

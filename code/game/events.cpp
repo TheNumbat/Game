@@ -46,7 +46,14 @@ void eventLoop(engine_state* engine, game_state* game)
 		}
 		else if (e.type == EVT_KEY)
 		{
-			
+			if(e.value == KEY_MINUS && e.flags & FLAG_KEY_PRESS)
+			{
+				game->cam.zoom /= 2;
+			}
+			else if(e.value == KEY_PLUS && e.flags & FLAG_KEY_PRESS)
+			{
+				game->cam.zoom *= 2;
+			}
 		}
 	}
 }

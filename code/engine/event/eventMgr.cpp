@@ -298,6 +298,7 @@ event& eventMgr::translateKeyboardEvent(void* SDL_ev)
 	}
 	if(e->key.repeat)
 	{
+		ret.flags = 0;
 		ret.flags |= FLAG_KEY_REPEAT;
 	}
 	if(e->key.keysym.mod & KMOD_LSHIFT)
@@ -395,7 +396,7 @@ event& eventMgr::translateKeyboardEvent(void* SDL_ev)
 		case SDLK_LEFT: ret.value = KEY_LEFT; break;
 		case SDLK_RIGHT: ret.value = KEY_RIGHT; break;
 		case SDLK_END: ret.value = KEY_END; break;
-		case SDLK_EQUALS: ret.value = KEY_EQUALS; break;
+		case SDLK_EQUALS: ret.value = KEY_PLUS; break;
 		case SDLK_ESCAPE: ret.value = KEY_ESCAPE; break;
 		case SDLK_F1: ret.value = KEY_F1; break;
 		case SDLK_F2: ret.value = KEY_F2; break;

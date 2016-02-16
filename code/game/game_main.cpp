@@ -68,11 +68,12 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->time.init();
 
 	engine->graphics.loadTextureRec("art");
+	engine->graphics.loadTextureRec("debug");
 	engine->audio.loadSoundRec("music");
 
 	std::weak_ptr<entity> player = engine->map.addPlayer("p1",map_position(0,0,0,0,0,0),0);
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
-	texture.lock()->addTexture("yeti",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
+	texture.lock()->addTexture("dankdude_front",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
 
 	game->running = true;
 	return game;
