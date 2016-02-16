@@ -38,22 +38,80 @@
 */
 class camera
 {
+public:
+	/**
+		@brief Default camera constructor.
+
+		Sets position to 0,0,0,0,0, zoom to 1, following to NULL
+	*/
 	camera();
+
+	/**
+		@brief Camera destructor.
+
+		Does nothing
+	*/
 	~camera();
 
+	/**
+		@brief Sets position to a new place
+
+		@param[in] newPos new position to set to
+	*/
 	bool set(const map_position& newPos);
+
+	/**
+		@brief Sets camera position to an entity
+
+		Gets the position from the entity and uses it.
+
+		@param[in] e pointer to entity to use. Should have position component
+
+		@exception e NULL, will not update
+		@exception e doesn't have position component, will not update
+	*/
 	bool set(const std::weak_ptr<entity>& e);
+
+	/**
+		@brief Moves camera position by an offset
+
+		Adds offset to position.
+
+		@param[in] offset the movement to do
+	*/
 	bool move(const map_position& offset);
 
+	/**
+		@brief Gets the camera position
+
+		@return where the camera is positioned
+	*/
+	map_position getCenter();
+
+	/**
+		@brief Updates camera position based on followed entity
+
+		Adds offset to position.
+
+		@note calls set
+	*/
 	bool updateFollow();
+
+	/**
+		@brief Sets the camera following an entity
+
+		@param[in] e is pointer to new entity to follow, or nothing to clear it
+
+		@exception e does not have a position component, does nothing
+	*/
 	bool setFollowing(const std::weak_ptr<entity>& e = std::weak_ptr<entity>());
 
-	map_position pos;
 	real32 zoom;
+
+private:
+	map_position pos;
 	std::weak_ptr<entity> following;
 	logMgr logger;
-
-	friend class game_state;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

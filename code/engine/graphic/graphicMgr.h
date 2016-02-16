@@ -97,6 +97,18 @@ public:
 	ENGINE_API bool displayFrame(bool clearAfter = true);
 
 	/**
+		@brief Returns the dimensions of the current window
+
+		@param[out] w width of window
+		@param[out] h height of window
+
+		@return success
+
+		@exception window does not exist -- returns false
+	*/
+	ENGINE_API bool getWinDim(int32& w, int32& h);
+
+	/**
 		@brief Loads a texture from file into texture map
 
 		@param[in] path file path of image file

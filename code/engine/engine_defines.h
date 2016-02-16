@@ -22,3 +22,7 @@
 #define VERBOSE_SOUND
 #define VERBOSE_THREAD
 #define VERBOSE_TIME
+
+/// Map
+#define CHUNK_SIZE_METERS 25.0f
+        

@@ -31,11 +31,6 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-/**
-	@brief Default camera constructor.
-
-	Sets position to 0,0,0,0,0, zoom to 1, following to NULL
-*/
 camera::camera()
 	: pos(0,0,0,0,0,0)
 {
@@ -43,37 +38,17 @@ camera::camera()
 	zoom = 1;
 }
 
-/**
-	@brief Camera destructor.
-
-	Sets up logging.
-*/
 camera::~camera()
 {
 	
 }
 
-/**
-	@brief Sets position to a new place
-
-	@param[in] newPos new position to set to
-*/
 bool camera::set(const map_position& newPos)
 {
 	pos = newPos;
 	return true;
 }
 
-/**
-	@brief Sets camera position to an entity
-
-	Gets the position from the entity and uses it.
-
-	@param[in] e pointer to entity to use. Should have position component
-
-	@exception e NULL, will not update
-	@exception e doesn't have position component, will not update
-*/
 bool camera::set(const std::weak_ptr<entity>& e)
 {
 	std::lock_guard<std::mutex> lock(e.lock()->lock);
@@ -94,26 +69,17 @@ bool camera::set(const std::weak_ptr<entity>& e)
 	return true;
 }
 
-/**
-	@brief Moves camera position by an offset
-
-	Adds offset to position.
-
-	@param[in] offset the movement to do
-*/
 bool camera::move(const map_position& offset)
 {
 	pos += offset;
 	return true;
 }
 
-/**
-	@brief Updates camera position based on followed entity
+map_position camera::getCenter()
+{
+	return pos;
+}
 
-	Adds offset to position.
-
-	@note calls set
-*/
 bool camera::updateFollow()
 {
 	std::lock_guard<std::mutex> lock(following.lock()->lock);
@@ -127,13 +93,6 @@ bool camera::updateFollow()
 	return false;
 }
 
-/**
-	@brief Sets the camera following an entity
-
-	@param[in] e is pointer to new entity to follow, or nothing to clear it
-
-	@exception e does not have a position component, does nothing
-*/
 bool camera::setFollowing(const std::weak_ptr<entity>& e)
 {
 	std::lock_guard<std::mutex> lock(e.lock()->lock);

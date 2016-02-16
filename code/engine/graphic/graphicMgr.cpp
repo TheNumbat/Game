@@ -162,6 +162,20 @@ bool graphicMgr::displayFrame(bool clearAfter)
 	return true;
 }
 
+bool graphicMgr::getWinDim(int32& w, int32& h)
+{
+	// Test window
+	if(!sdl_window)
+	{
+		logger.LogWarn("Cannot get window dimension, window does not exist!");
+		return false;
+	}
+
+	// Get window size
+	SDL_GetWindowSize((SDL_Window*)sdl_window,&w,&h);
+	return true;
+}
+
 bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 {
 	if(textures.find(ID) != textures.end())

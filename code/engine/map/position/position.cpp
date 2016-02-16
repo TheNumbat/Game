@@ -31,23 +31,40 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-map_position::map_position(int32 x, int32 y, int32 z,
-						   real32 cx, real32 cy, real32 cz)
-	: realPos(x,y,z), chunkPos(cx,cy,cy)
+map_position::map_position(int32 cx, int32 cy, int32 cz,
+						   real32 x, real32 y, real32 z)
 {
-
+	realPos.x = x;
+	realPos.y = y;
+	realPos.z = z;
+	chunkPos.x = cx;
+	chunkPos.y = cy;
+	chunkPos.z = cz;
+	realChunkOffset.x = 0;
+	realChunkOffset.y = 0;
+	realChunkOffset.z = 0;
 }
 
-map_position::map_position(const real_position& r, const chunk_position& c)
-	: realPos(r), chunkPos(c)
+map_position::map_position(const chunk_position& c, const real_position& r)
 {
-
+	realPos = r;
+	chunkPos = c;
+	realChunkOffset.x = 0;
+	realChunkOffset.y = 0;
+	realChunkOffset.z = 0;
 }
 
 map_position::map_position(const map_position& src)
-	: realPos(src.realPos), chunkPos(src.chunkPos)
 {
-
+	realPos.x = src.realPos.x;
+	realPos.y = src.realPos.y;
+	realPos.z = src.realPos.z;
+	chunkPos.x = src.chunkPos.x;
+	chunkPos.y = src.chunkPos.y;
+	chunkPos.z = src.chunkPos.z;
+	realChunkOffset.x = src.realChunkOffset.x;
+	realChunkOffset.y = src.realChunkOffset.y;
+	realChunkOffset.z = src.realChunkOffset.z;
 }
 
 map_position::~map_position()
@@ -57,22 +74,26 @@ map_position::~map_position()
 
 void map_position::clamp()
 {
-	while(realPos.x < 0) {
+	while(realPos.x < 0) 
+	{
 		realPos.x += CHUNK_SIZE_METERS;
 		chunkPos.x--;
 		realChunkOffset.x--;
 	} 
-	while(realPos.x > CHUNK_SIZE_METERS) {
+	while(realPos.x > CHUNK_SIZE_METERS) 
+	{
 		realPos.x -= CHUNK_SIZE_METERS;
 		chunkPos.x++;
 		realChunkOffset.x++;
 	}
-	while(realPos.y < 0) {
+	while(realPos.y < 0) 
+	{
 		realPos.y += CHUNK_SIZE_METERS;
 		chunkPos.y--;
 		realChunkOffset.y--;
 	}
-	while(realPos.y > CHUNK_SIZE_METERS) {
+	while(realPos.y > CHUNK_SIZE_METERS) 
+	{
 		realPos.y -= CHUNK_SIZE_METERS;
 		chunkPos.y++;
 		realChunkOffset.y++;
@@ -85,7 +106,7 @@ bool map_position::operator==(const map_position& comp) const
 		   chunkPos == comp.chunkPos;
 }
 
-map_position& map_position::operator=(const map_position& src)
+map_position map_position::operator=(const map_position& src)
 {
 	realPos = src.realPos;
 	chunkPos = src.chunkPos;
@@ -93,7 +114,7 @@ map_position& map_position::operator=(const map_position& src)
 	return *this;
 }
 
-map_position& map_position::operator+(const map_position& src) const
+map_position map_position::operator+(const map_position& src) const
 {
 	map_position ret = *this;
 	ret.realPos += src.realPos;
@@ -103,19 +124,19 @@ map_position& map_position::operator+(const map_position& src) const
 	return ret;
 }
 
-map_position& map_position::operator+=(const map_position& src)
+map_position map_position::operator+=(const map_position& src)
 {
 	realPos += src.realPos;
 	chunkPos += src.chunkPos;
-	realChunkOffset += src.chunkPos;
+	realChunkOffset -= src.chunkPos;
 	clamp();
 	return *this;
 }
 
-map_position& map_position::operator-(const map_position& src) const
+
+map_position map_position::operator-(const map_position& src) const
 {
-	map_position ret;
-	ret = *this;
+	map_position ret = *this;
 	ret.realPos -= src.realPos;
 	ret.chunkPos -= src.chunkPos;
 	ret.realChunkOffset -= src.chunkPos;
@@ -123,11 +144,11 @@ map_position& map_position::operator-(const map_position& src) const
 	return ret;
 }
 
-map_position& map_position::operator-=(const map_position& src)
+map_position map_position::operator-=(const map_position& src)
 {
 	realPos -= src.realPos;
 	chunkPos -= src.chunkPos;
-	realChunkOffset -= src.chunkPos;
+	realChunkOffset += src.chunkPos;
 	clamp();
 	return *this;
 }

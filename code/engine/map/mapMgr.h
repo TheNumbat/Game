@@ -33,6 +33,7 @@
 // Global constant definitions  ///////////////////////////////////////////////
 
 /// Chunk concept
+/// @todo should this be an actual class
 typedef std::set<std::shared_ptr<entity>> chunk;
 
 // Class/Struct definitions  //////////////////////////////////////////////////

@@ -12,5 +12,8 @@
 #define GAME_ASSERSIONS
 
 /// Rendering defines
-#define METERS_TO_PIXELS 32.0f
-#define PIXELS_TO_METERS (1/METERS_TO_PIXELS)
+#define METERS_TO_PIXELS 64.0f
+
+#define DRAW_CHUNK_BOUNDS
+#define DRAW_POSITIONS
+#define DRAW_COLLISION_VOLUMES
