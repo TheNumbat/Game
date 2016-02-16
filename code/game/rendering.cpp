@@ -102,6 +102,8 @@ void renderMap(engine_state* engine, game_state* game)
 	int32 relChunkYMin = TLCpos.realChunkOffset.y;
 	int32 relChunkYMax = BRCpos.realChunkOffset.y;
 
+	game->logger.LogInfo(std::to_string(relChunkXMin) + " " + std::to_string(relChunkXMax) + " " + std::to_string(relChunkYMin) + " " + std::to_string(relChunkYMax));
+
 	// Iterate through region of chunks
 	for(int32 relX = relChunkXMin; relX <= relChunkXMax; relX++)
 	{
@@ -117,9 +119,19 @@ void renderMap(engine_state* engine, game_state* game)
 			{
 				// Debug: draw chunk boundry
 				#ifdef DRAW_CHUNK_BOUNDS
+				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, map_position( currentChunkPos, real_position(0,0,0) ), camZoom );
 					rect2<int32> pixelChunk( floor(pixelPos.x), floor(pixelPos.y), ceil(CHUNK_SIZE_PIXELS * camZoom), ceil(CHUNK_SIZE_PIXELS * camZoom) );
 					engine->graphics.renderTexture("chunkbounds", pixelChunk);
+				}
+				#endif
+
+				#ifdef DRAW_CAMERA 
+				{
+					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, centerPos, camZoom );
+					rect2<int32> pixelChunk( floor(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), floor(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), ceil(METERS_TO_PIXELS * camZoom), ceil(METERS_TO_PIXELS * camZoom) );
+					engine->graphics.renderTexture("camera", pixelChunk);
+				}
 				#endif
 
 				for(std::weak_ptr<entity> e : *currentChunk.lock())

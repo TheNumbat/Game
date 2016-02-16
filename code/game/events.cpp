@@ -54,6 +54,22 @@ void eventLoop(engine_state* engine, game_state* game)
 			{
 				game->cam.zoom *= 2;
 			}
+			else if(e.value == KEY_LEFT && e.flags & FLAG_KEY_PRESS)
+			{
+				game->cam.move(map_position(0,0,0,-1,0,0));
+			}
+			else if(e.value == KEY_RIGHT && e.flags & FLAG_KEY_PRESS)
+			{
+				game->cam.move(map_position(0,0,0,1,0,0));
+			}
+			else if(e.value == KEY_UP && e.flags & FLAG_KEY_PRESS)
+			{
+				game->cam.move(map_position(0,0,0,0,-1,0));
+			}
+			else if(e.value == KEY_DOWN && e.flags & FLAG_KEY_PRESS)
+			{
+				game->cam.move(map_position(0,0,0,0,1,0));
+			}
 		}
 	}
 }

@@ -72,6 +72,7 @@ bool camera::set(const std::weak_ptr<entity>& e)
 bool camera::move(const map_position& offset)
 {
 	pos += offset;
+	pos.realChunkOffset = chunk_position(0,0,0);
 	return true;
 }
 
