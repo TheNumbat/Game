@@ -102,8 +102,6 @@ void renderMap(engine_state* engine, game_state* game)
 	int32 relChunkYMin = TLCpos.realChunkOffset.y;
 	int32 relChunkYMax = BRCpos.realChunkOffset.y;
 
-	game->logger.LogInfo(std::to_string(relChunkXMin) + " " + std::to_string(relChunkXMax) + " " + std::to_string(relChunkYMin) + " " + std::to_string(relChunkYMax));
-
 	// Iterate through region of chunks
 	for(int32 relX = relChunkXMin; relX <= relChunkXMax; relX++)
 	{
