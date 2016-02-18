@@ -213,7 +213,6 @@ public:
 	/**
 		@brief returns a chunk that an entity (says its) in 
 
-
 		@param[in] e pointer to entity to use
 
 		@return pointer to chunk
@@ -224,9 +223,19 @@ public:
 	*/
 	ENGINE_API std::weak_ptr<chunk> getChunkFromEntity(const std::weak_ptr<entity>& e);
 
+	/**
+		@brief returns the next chunk for a simluation thread to run on.
+
+		@return pointer to chunk
+
+		@exception map is empty, return nullptr
+	*/
+	ENGINE_API std::weak_ptr<chunk> getNextChunkForSim();
+
 private:
 	std::unordered_map<chunk_position,std::shared_ptr<chunk>> map;
 	std::map<std::string,std::weak_ptr<entity>> players;
+	std::mutex getNextChunkMutex;
 
 	uint32 nextUnusedID;
 	logMgr logger;

@@ -25,6 +25,7 @@
 
 #include "events.cpp"
 #include "rendering.cpp"
+#include "sim.cpp"
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -70,6 +71,7 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->graphics.loadTextureRec("art");
 	engine->graphics.loadTextureRec("debug");
 	engine->audio.loadSoundRec("music");
+	engine->time.addTimer("sim");
 
 	std::weak_ptr<entity> player = engine->map.addPlayer("p1",map_position(0,0,0,3,3,0),0);
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());

@@ -344,4 +344,29 @@ std::weak_ptr<chunk> mapMgr::getChunkFromEntity(const std::weak_ptr<entity>& e)
 	return chunkEntry;
 }
 
+std::weak_ptr<chunk> mapMgr::getNextChunkForSim()
+{
+	std::lock_guard<std::mutex> lock(getNextChunkMutex);
+
+	// Test map
+	if(map.empty())
+	{
+		return std::weak_ptr<chunk>();
+	}
+
+	static auto nextEntry = map.begin();
+
+	// Get chunk
+	std::weak_ptr<chunk> result = nextEntry->second;
+	nextEntry++;
+
+	// Wrap 
+	if(nextEntry == map.end())
+	{
+		nextEntry = map.begin();
+	}
+
+	return result;
+}
+
 // Terminating precompiler directives  ////////////////////////////////////////
