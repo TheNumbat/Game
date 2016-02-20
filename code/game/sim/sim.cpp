@@ -18,6 +18,8 @@
 
 #include "sim.h"
 
+#include "game_state.h"
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -38,19 +40,34 @@ int simulate(void* data)
 
 		if(!simChunk.expired())
 		{
-			for(std::weak_ptr<entity> e : *simChunk.lock())
+			auto entry = simChunk.lock()->begin();
+			while(entry != simChunk.lock()->end())
 			{
-				std::lock_guard<std::mutex> lock(e.lock()->lock);
+				std::weak_ptr<entity> e = *entry;
 
-				if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_movement))
+				if(!e.expired())
 				{
-					std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
-					std::weak_ptr<component_movement> eMov = std::static_pointer_cast<component_movement>(e.lock()->getComponent(ctype_movement).lock());
+					std::lock_guard<std::mutex> lock(e.lock()->lock);
 
-					uint64 dT = engine->time.get(timerID) - e.lock()->getLastUpdate();
+					if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_movement))
+					{
+						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
+						std::weak_ptr<component_movement> eMov = std::static_pointer_cast<component_movement>(e.lock()->getComponent(ctype_movement).lock());
 
+						uint64 current = engine->time.get(timerID);
+						uint64 dT = current - e.lock()->getLastUpdate();
 
+						eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
+						v2<real32> offset = eMov.lock()->velocity * (dT / 1000.0f);
+						ePos.lock()->position += map_position(0,0,0,offset.x,offset.y,0);
+
+						game->map.updateEntityMapPos(e);
+
+						e.lock()->setLastUpdate(current);
+					}
 				}
+
+				entry++;
 			}
 		}
 	}

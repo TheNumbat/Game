@@ -21,6 +21,8 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "game_common.h"
+
+#include "game_state.h"
 #include <engine_state.h>
 
 #include <algorithm>

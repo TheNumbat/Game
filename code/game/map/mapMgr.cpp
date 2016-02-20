@@ -56,7 +56,7 @@ std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, uint32 currentT
 
 		// Set up position component
 		std::weak_ptr<component_position> newEntityPos = std::static_pointer_cast<component_position>(newEntity->addComponent(ctype_position).lock());
-		newEntityPos.lock()->pos = pos;
+		newEntityPos.lock()->position = pos;
 
 		// Add entity to chunk
 		std::weak_ptr<chunk> chunkEntry = addChunk(pos.chunkPos);
@@ -225,7 +225,7 @@ bool mapMgr::removeEntityByUID_SLOW(uint32 UID)
 
 bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 {
-	std::lock_guard<std::mutex> lock(e.lock()->lock);
+	// std::lock_guard<std::mutex> lock(e.lock()->lock);
 
 	// Check that entity has component
 	if(!e.lock()->hasComponent(ctype_position))
@@ -237,26 +237,27 @@ bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 
 	std::weak_ptr<component_position> entityPos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
 
-	if(entityPos.lock()->pos.realChunkOffset == chunk_position(0,0,0))
+	if(entityPos.lock()->position.realChunkOffset == chunk_position(0,0,0))
 	{
-		logger.LogWarn("Cannot update chunk position of entity UID: " + std::to_string(e.lock()->getUID()) + " - entity has not moved chunks!");
+		// logger.LogWarn("Cannot update chunk position of entity UID: " + std::to_string(e.lock()->getUID()) + " - entity has not moved chunks!");
 		return false;
 	}
 
 	// Get old/new chunks
-	std::weak_ptr<chunk> oldChunk = getChunk(entityPos.lock()->pos.chunkPos - entityPos.lock()->pos.realChunkOffset);
-	std::weak_ptr<chunk> newChunk = addChunk(entityPos.lock()->pos.chunkPos);
+	std::weak_ptr<chunk> oldChunk = getChunk(entityPos.lock()->position.chunkPos - entityPos.lock()->position.realChunkOffset);
+	std::weak_ptr<chunk> newChunk = addChunk(entityPos.lock()->position.chunkPos);
 
 	// Move entity
-	oldChunk.lock()->erase(e.lock());
-	newChunk.lock()->insert(e.lock());
+	std::shared_ptr<entity> ePtr = e.lock();
+	oldChunk.lock()->erase(ePtr);
+	newChunk.lock()->insert(ePtr);
 
 	#ifdef VERBOSE_MAP
 		logger.LogInfo("Updated chunk position of entity UID: " + std::to_string(e.lock()->getUID()));
 	#endif
 
 	// Success
-	entityPos.lock()->pos.realChunkOffset = chunk_position(0,0,0);
+	entityPos.lock()->position.realChunkOffset = chunk_position(0,0,0);
 	return true;
 }
 
@@ -326,7 +327,7 @@ std::weak_ptr<chunk> mapMgr::getChunkFromEntity(const std::weak_ptr<entity>& e)
 	}
 
 	// Get chunk
-	std::weak_ptr<chunk> chunkEntry = getChunk(std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock())->pos.chunkPos);
+	std::weak_ptr<chunk> chunkEntry = getChunk(std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock())->position.chunkPos);
 
 	// assures that the enity is in the correct chunk; that the chunk position corresponds to the actual chunk it's in
 	if(chunkEntry.expired() || chunkEntry.lock()->find(e.lock()) == chunkEntry.lock()->end())

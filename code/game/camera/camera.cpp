@@ -65,7 +65,7 @@ bool camera::set(const std::weak_ptr<entity>& e)
 		return false;
 	}
 
-	pos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock())->pos;
+	pos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock())->position;
 	return true;
 }
 

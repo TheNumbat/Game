@@ -46,7 +46,7 @@ struct engine_state
 	eventMgr events;
 	graphicMgr graphics;
 	soundMgr audio;
-	threadMgr threads;
+	threadMgr thread;
 	timeMgr time;
 };
 

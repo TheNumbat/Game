@@ -43,6 +43,16 @@
 GAME_API game_state* startup(engine_state* engine);
 
 /**
+	@brief Ends the game, deletes the state
+	
+	Initializes all engine components and creates a game state
+
+	@param[in] engine pointer to the engine state
+	@param[in] game pointer to the game state
+*/
+GAME_API void shutdown(engine_state* engine, game_state* game);
+
+/**
 	@brief Runs a frame, it's the main game loop
 	
 	Runs everything.
@@ -74,8 +84,20 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->time.addTimer("sim");
 
 	std::weak_ptr<entity> player = game->map.addPlayer("p1",map_position(0,0,0,3,3,0),0);
+
+	std::lock_guard<std::mutex> lock(player.lock()->lock);
+
+	std::weak_ptr<component_movement> mov = std::static_pointer_cast<component_movement>(player.lock()->addComponent(ctype_movement).lock());
+	mov.lock()->velocity = v2<real32>(5,0);
+
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
 	texture.lock()->addTexture("dankdude_front",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
+
+	game->sim.exit = false;
+	game->sim.game = game;
+	game->sim.engine = engine;
+	game->sim.timerID = "sim";
+	engine->thread.add("sim1",&simulate,&game->sim);
 
 	game->running = true;
 	return game;
@@ -89,6 +111,13 @@ GAME_API bool gameLoop(engine_state* engine, game_state* game)
 	engine->graphics.displayFrame();
 
 	return game->running;
+}
+
+GAME_API void shutdown(engine_state* engine, game_state* game)
+{
+	game->sim.exit = true;
+	engine->thread.wait("sim1");
+	delete game;
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

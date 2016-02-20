@@ -51,7 +51,7 @@ std::shared_ptr<component> createComponent(component_type c)
 component_position::component_position(const map_position& _pos)
 {
 	type = ctype_position;
-	pos = _pos;
+	position = _pos;
 }
 
 component_position::~component_position()

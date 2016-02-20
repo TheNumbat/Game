@@ -108,7 +108,7 @@ void renderMap(engine_state* engine, game_state* game)
 
 							// Map the texture into pixel space (against TLC of window)
 							/// @todo z-space
-							v2<real32> entityPixelPos = mapIntoPixelSpace(TLCpos,ePosition.lock()->pos,camZoom);
+							v2<real32> entityPixelPos = mapIntoPixelSpace(TLCpos,ePosition.lock()->position,camZoom);
 							v2<real32> texPixelPos = entityPixelPos + ( texPos * METERS_TO_PIXELS * camZoom);
 
 							// Create new raw texture to render

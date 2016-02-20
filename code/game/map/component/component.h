@@ -76,7 +76,7 @@ struct component_position : public component
 	~component_position();
 
 	/// position
-	map_position pos;
+	map_position position;
 };
 
 /**

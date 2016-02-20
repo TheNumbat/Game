@@ -35,6 +35,8 @@
 typedef bool (*CreateGameLoop)(engine_state*, void*);
 /// Pointer type for startup function
 typedef void* (*CreateStartup)(engine_state*);
+/// Pointer type for shutdown function
+typedef void (*CreateShutdown)(engine_state*, void*);
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -54,13 +56,12 @@ struct libData
 	/// Pointer to gameLoop function
 	CreateGameLoop gameLoop;
 	/// Pointer to startup function	
-	CreateStartup startup;			
+	CreateStartup startup;
+	/// Pointer to shutdown function
+	CreateShutdown shutdown;
 
 	/// Logger for game code reloading
 	logMgr logger;
-
-	/// The engine state
-	engine_state* engine;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
@@ -93,11 +94,11 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	
-	data.engine = new engine_state;
+	engine_state* engine = new engine_state;
 
-	void* game = (*data.startup)(data.engine);
+	void* game = (*data.startup)(engine);
 
-	while((*data.gameLoop)(data.engine,game)) 
+	while((*data.gameLoop)(engine,game)) 
 	{
 		if(!reloadLib(data))
 		{
@@ -105,10 +106,12 @@ int main(int argc, char** argv)
 		}
 	}
 
+	(*data.shutdown)(engine,game);
+
 	data.logger.LogInfo("Shutting down...");
 
 	SDL_UnloadObject(data.dllHandle);
-	delete data.engine;
+	delete engine;
 
 	return 0;
 }
@@ -166,14 +169,16 @@ bool initializeLib(libData& data)
 	// Load functions
 	data.gameLoop = (CreateGameLoop)SDL_LoadFunction(data.dllHandle,"gameLoop");
 	data.startup = (CreateStartup)SDL_LoadFunction(data.dllHandle,"startup");
-	assert(data.gameLoop && data.startup);
-	if(!(data.gameLoop && data.startup))
+	data.shutdown = (CreateShutdown)SDL_LoadFunction(data.dllHandle,"shutdown");
+	assert(data.gameLoop && data.startup && data.shutdown);
+	if(!(data.gameLoop && data.startup && data.shutdown))
 	{
 		data.logger.LogFatal("Failed to load functions!");
 		return false;
 	}
 
 	data.logger.LogInfo("Main engine program initialized");
+	return true;
 }
 
 /**
@@ -232,8 +237,9 @@ bool reloadLib(libData& data)
 		// Load functions
 		data.gameLoop = (CreateGameLoop)SDL_LoadFunction(data.dllHandle,"gameLoop");
 		data.startup = (CreateStartup)SDL_LoadFunction(data.dllHandle,"startup");
-		assert(data.gameLoop && data.startup);
-		if(!(data.gameLoop && data.startup))
+		data.shutdown = (CreateShutdown)SDL_LoadFunction(data.dllHandle,"shutdown");
+		assert(data.gameLoop && data.startup && data.shutdown);
+		if(!(data.gameLoop && data.startup && data.shutdown))
 		{
 			data.logger.LogFatal("Failed to load functions!");
 			return false;
