@@ -42,25 +42,29 @@ entity::~entity()
 
 }
 
-uint64 entity::getUID() const
+uint64 entity::getUID() 
 {
+	std::lock_guard<std::recursive_mutex> mutLock(lock);
 	return UID;
 }
 
 
-uint32 entity::getLastUpdate() const
+uint32 entity::getLastUpdate() 
 {
+	std::lock_guard<std::recursive_mutex> mutLock(lock);
 	return lastUpdate;
 }
 
 bool entity::setLastUpdate(uint32 time)
 {
+	std::lock_guard<std::recursive_mutex> mutLock(lock);
 	lastUpdate = time;
 	return true;
 }
 
-bool entity::hasComponent(component_type c) const
+bool entity::hasComponent(component_type c) 
 {
+	std::lock_guard<std::recursive_mutex> mutLock(lock);
 	if(components.find(c) == components.end())
 	{
 		return false;
@@ -70,6 +74,7 @@ bool entity::hasComponent(component_type c) const
 
 std::weak_ptr<component> entity::addComponent(component_type c)
 {
+	std::lock_guard<std::recursive_mutex> mutLock(lock);
 	if(hasComponent(c))
 	{
 		return getComponent(c);
@@ -82,8 +87,9 @@ std::weak_ptr<component> entity::addComponent(component_type c)
 	return std::weak_ptr<component>(newC);
 }
 
-std::weak_ptr<component> entity::getComponent(component_type c) const
+std::weak_ptr<component> entity::getComponent(component_type c) 
 {
+	std::lock_guard<std::recursive_mutex> mutLock(lock);
 	auto compEntry = components.find(c);
 	if(compEntry == components.end())
 	{

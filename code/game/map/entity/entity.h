@@ -23,7 +23,7 @@
 #include "map\component\component.h"
 #include <memory>
 #include <map>
-// #include <mutex>
+#include <mutex>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -64,14 +64,14 @@ public:
 
 		@return entity UID
 	*/
-	uint64 getUID() const;
+	uint64 getUID();
 
 	/**
 		@brief gets entity lastUpdate
 
 		@return entity lastUpdate in milliseconds
 	*/
-	uint32 getLastUpdate() const;
+	uint32 getLastUpdate();
 
 	/**
 		@brief sets entity lastUpdate
@@ -89,7 +89,7 @@ public:
 
 		@return bool contains component
 	*/
-	bool hasComponent(component_type c) const;
+	bool hasComponent(component_type c);
 
 	/**
 		@brief adds a component to an entity
@@ -111,11 +111,10 @@ public:
 
 		@exception if entity does not have component return NULL
 	*/
-	std::weak_ptr<component> getComponent(component_type c) const;
+	std::weak_ptr<component> getComponent(component_type c);
 
-	/// Mutex used to signify the entity is in use -- USE IT
-	// std::mutex lock;
-	
+	std::recursive_mutex lock;
+
 private:
 	std::map<component_type,std::shared_ptr<component>> components;
 

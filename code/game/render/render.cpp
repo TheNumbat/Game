@@ -35,6 +35,8 @@ void renderMap(engine_state* engine, game_state* game)
 {
 	std::vector<rawTexture> textures;
 
+	game->cam.updateFollow();
+
 	// Get window size
 	int32 winW, winH;
 	engine->graphics.getWinDim(winW,winH);
@@ -70,6 +72,7 @@ void renderMap(engine_state* engine, game_state* game)
 			// If chunk exists
 			if(!currentChunk.expired())
 			{
+				std::lock_guard<std::recursive_mutex> lock(currentChunk.lock()->lock);
 
 				// Debug: draw chunk boundry
 				#ifdef DRAW_CHUNK_BOUNDS
@@ -92,6 +95,8 @@ void renderMap(engine_state* engine, game_state* game)
 				{
 					if(!e.expired())
 					{
+						std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
+
 						// Test if entity can be rendered
 						if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_texture))
 						{

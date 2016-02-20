@@ -91,6 +91,8 @@ GAME_API game_state* startup(engine_state* engine)
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
 	texture.lock()->addTexture("dankdude_front",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
 
+	game->cam.setFollowing(player.lock());
+
 	game->sim.exit = false;
 	game->sim.game = game;
 	game->sim.engine = engine;

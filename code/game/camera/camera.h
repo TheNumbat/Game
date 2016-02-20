@@ -70,7 +70,7 @@ public:
 		@exception e NULL, will not update
 		@exception e doesn't have position component, will not update
 	*/
-	bool set(const std::weak_ptr<entity>& e);
+	bool set(std::weak_ptr<entity> e);
 
 	/**
 		@brief Moves camera position by an offset
@@ -104,7 +104,7 @@ public:
 
 		@exception e does not have a position component, does nothing
 	*/
-	bool setFollowing(const std::weak_ptr<entity>& e = std::weak_ptr<entity>());
+	bool setFollowing(std::weak_ptr<entity> e = std::weak_ptr<entity>());
 
 	real32 zoom;
 

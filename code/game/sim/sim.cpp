@@ -40,18 +40,21 @@ int simulate(void* data)
 
 		if(!simChunk.expired())
 		{
+			std::lock_guard<std::recursive_mutex> lock(simChunk.lock()->lock);
 
-			for(std::weak_ptr<entity> e : simChunk.lock()->entities)
+			for(std::shared_ptr<entity> e : simChunk.lock()->entities)
 			{
-				if(!e.expired())
+				if(e)
 				{
-					if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_movement))
+					std::lock_guard<std::recursive_mutex> lock(e->lock);
+
+					if(e->hasComponent(ctype_position) && e->hasComponent(ctype_movement))
 					{
-						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
-						std::weak_ptr<component_movement> eMov = std::static_pointer_cast<component_movement>(e.lock()->getComponent(ctype_movement).lock());
+						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e->getComponent(ctype_position).lock());
+						std::weak_ptr<component_movement> eMov = std::static_pointer_cast<component_movement>(e->getComponent(ctype_movement).lock());
 
 						uint64 current = engine->time.get(timerID);
-						uint64 dT = current - e.lock()->getLastUpdate();
+						uint64 dT = current - e->getLastUpdate();
 
 						eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
 						v2<real32> offset = eMov.lock()->velocity * (dT / 1000.0f);
@@ -59,11 +62,14 @@ int simulate(void* data)
 
 						game->map.updateEntityMapPos(e);
 
-						e.lock()->setLastUpdate(current);
+						e->setLastUpdate(current);
 					}
 				}
 
-				if(simChunk.expired()) break;
+				if(!simChunk.lock()->entities.size())
+				{
+					break;
+				}
 			}
 		}
 	}

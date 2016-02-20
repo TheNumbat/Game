@@ -49,7 +49,7 @@ bool camera::set(const map_position& newPos)
 	return true;
 }
 
-bool camera::set(const std::weak_ptr<entity>& e)
+bool camera::set(std::weak_ptr<entity> e)
 {
 	if(e.expired())
 	{
@@ -57,7 +57,9 @@ bool camera::set(const std::weak_ptr<entity>& e)
 		return false;
 	}
 
-	if(e.lock()->hasComponent(ctype_position))
+	std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
+
+	if(!e.lock()->hasComponent(ctype_position))
 	{
 		logger.LogWarn("Trying to set camera position on entity without position");
 		return false;
@@ -90,7 +92,7 @@ bool camera::updateFollow()
 	return false;
 }
 
-bool camera::setFollowing(const std::weak_ptr<entity>& e)
+bool camera::setFollowing(std::weak_ptr<entity> e)
 {
 	if(e.expired())
 	{
@@ -99,7 +101,9 @@ bool camera::setFollowing(const std::weak_ptr<entity>& e)
 		return true;
 	}
 
-	if(e.lock()->hasComponent(ctype_position))
+	std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
+
+	if(!e.lock()->hasComponent(ctype_position))
 	{
 		logger.LogWarn("Trying to set camera following entity without position");
 		return false;

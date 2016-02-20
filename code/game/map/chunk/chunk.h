@@ -22,7 +22,7 @@
 
 #include <set>
 #include <memory>
-// #include <mutex>
+#include <mutex>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -40,7 +40,7 @@ struct chunk
 	chunk();
 	~chunk();
 
-	// std::mutex lock;
+	std::recursive_mutex lock;
 	std::set<std::shared_ptr<entity>> entities;
 };
 
