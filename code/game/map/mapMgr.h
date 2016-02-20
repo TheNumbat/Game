@@ -21,6 +21,7 @@
 
 #include "engine_common.h"
 
+#include "chunk/chunk.h"
 #include "log/logMgr.h"
 #include "entity/entity.h"
 #include "map/position/position.h"
@@ -31,10 +32,6 @@
 #include <unordered_map>
 
 // Global constant definitions  ///////////////////////////////////////////////
-
-/// Chunk concept
-/// @todo should this be an actual class
-typedef std::set<std::shared_ptr<entity>> chunk;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 

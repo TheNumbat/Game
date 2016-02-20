@@ -51,16 +51,13 @@ std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, uint32 currentT
 		// Allocate entity
 		std::shared_ptr<entity> newEntity = std::make_shared<entity>(nextUnusedID,currentTimeMS);
 
-		// Lock entity
-		std::lock_guard<std::mutex> lock(newEntity->lock);
-
 		// Set up position component
 		std::weak_ptr<component_position> newEntityPos = std::static_pointer_cast<component_position>(newEntity->addComponent(ctype_position).lock());
 		newEntityPos.lock()->position = pos;
 
 		// Add entity to chunk
 		std::weak_ptr<chunk> chunkEntry = addChunk(pos.chunkPos);
-		chunkEntry.lock()->insert(newEntity);
+		chunkEntry.lock()->entities.insert(newEntity);
 
 		// Success
 		#ifdef VERBOSE_MAP
@@ -120,13 +117,10 @@ std::weak_ptr<entity> mapMgr::getEntityByUID_SLOW(uint32 UID)
 	for(auto chunkEntry : map)
 	{
 		// Loop through entities
-		for(std::shared_ptr<entity> e : *chunkEntry.second)
+		for(std::weak_ptr<entity> e : chunkEntry.second->entities)
 		{
-			// Lock entity
-			std::lock_guard<std::mutex> lock(e->lock);
-
 			// Test entity
-			if(e->getUID() == UID)
+			if(e.lock()->getUID() == UID)
 			{
 				// Success
 				#ifdef VERBOSE_MAP
@@ -165,9 +159,6 @@ bool mapMgr::removePlayer(const std::string& ID)
 
 bool mapMgr::removeEntity(const std::weak_ptr<entity>& e)
 {
-	// Lock entity
-	std::lock_guard<std::mutex> lock(e.lock()->lock);
-
 	// Test for position
 	if(!e.lock()->hasComponent(ctype_position))
 	{
@@ -193,7 +184,7 @@ bool mapMgr::removeEntity(const std::weak_ptr<entity>& e)
 	#endif
 
 	// Success, remove entity
-	chunkEntry.lock()->erase(e.lock());
+	chunkEntry.lock()->entities.erase(e.lock());
 	return true;
 }
 
@@ -203,15 +194,11 @@ bool mapMgr::removeEntityByUID_SLOW(uint32 UID)
 	for(auto chunkEntry : map)
 	{
 		// Loop through entities
-		for(std::shared_ptr<entity> e : *chunkEntry.second)
+		for(std::shared_ptr<entity> e : chunkEntry.second->entities)
 		{
-			e->lock.lock();
-
 			// Test entity
 			if(e->getUID() == UID)
 			{
-				e->lock.unlock();
-
 				// Success
 				return removeEntity(std::weak_ptr<entity>(e));
 			}
@@ -225,8 +212,6 @@ bool mapMgr::removeEntityByUID_SLOW(uint32 UID)
 
 bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 {
-	// std::lock_guard<std::mutex> lock(e.lock()->lock);
-
 	// Check that entity has component
 	if(!e.lock()->hasComponent(ctype_position))
 	{
@@ -249,8 +234,8 @@ bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 
 	// Move entity
 	std::shared_ptr<entity> ePtr = e.lock();
-	oldChunk.lock()->erase(ePtr);
-	newChunk.lock()->insert(ePtr);
+	oldChunk.lock()->entities.erase(ePtr);
+	newChunk.lock()->entities.insert(ePtr);
 
 	#ifdef VERBOSE_MAP
 		logger.LogInfo("Updated chunk position of entity UID: " + std::to_string(e.lock()->getUID()));
@@ -272,6 +257,7 @@ std::weak_ptr<chunk> mapMgr::addChunk(const chunk_position& pos)
 
 	// Create new chunk
 	std::shared_ptr<chunk> newChunk = std::make_shared<chunk>();
+
 	map.insert({pos,newChunk});
 
 	#ifdef VERBOSE_MAP
@@ -283,8 +269,8 @@ std::weak_ptr<chunk> mapMgr::addChunk(const chunk_position& pos)
 
 bool mapMgr::removeChunk(const chunk_position& pos)
 {
-	auto chunkEntry = map.find(pos);
-	if(chunkEntry == map.end())
+	std::weak_ptr<chunk> chunkEntry = getChunk(pos);
+	if(chunkEntry.expired())
 	{
 		// Failure
 		logger.LogWarn("Cannot remove chunk at pos: " + std::to_string(pos.x) + " " + std::to_string(pos.y) + " " + std::to_string(pos.z) + ", does not exist");
@@ -292,7 +278,7 @@ bool mapMgr::removeChunk(const chunk_position& pos)
 	}
 
 	// Success
-	map.erase(chunkEntry);
+	map.erase(pos);
 
 	#ifdef VERBOSE_MAP
 		logger.LogInfo("Removed chunk at x: " + std::to_string(pos.x) + " y: " + std::to_string(pos.y) + " z: " + std::to_string(pos.z));
@@ -304,6 +290,7 @@ bool mapMgr::removeChunk(const chunk_position& pos)
 std::weak_ptr<chunk> mapMgr::getChunk(const chunk_position& pos)
 {
 	auto chunkEntry = map.find(pos);
+
 	if(chunkEntry == map.end())
 	{
 		// Failure
@@ -316,8 +303,6 @@ std::weak_ptr<chunk> mapMgr::getChunk(const chunk_position& pos)
 
 std::weak_ptr<chunk> mapMgr::getChunkFromEntity(const std::weak_ptr<entity>& e)
 {
-	std::lock_guard<std::mutex> lock(e.lock()->lock);
-
 	// Check that entity has component
 	if(!e.lock()->hasComponent(ctype_position))
 	{
@@ -330,7 +315,7 @@ std::weak_ptr<chunk> mapMgr::getChunkFromEntity(const std::weak_ptr<entity>& e)
 	std::weak_ptr<chunk> chunkEntry = getChunk(std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock())->position.chunkPos);
 
 	// assures that the enity is in the correct chunk; that the chunk position corresponds to the actual chunk it's in
-	if(chunkEntry.expired() || chunkEntry.lock()->find(e.lock()) == chunkEntry.lock()->end())
+	if(chunkEntry.expired() || chunkEntry.lock()->entities.find(e.lock()) == chunkEntry.lock()->entities.end())
 	{
 		// Failure
 		logger.LogWarn("Updating chunk position of entity UID: " + e.lock()->getUID());
@@ -347,8 +332,6 @@ std::weak_ptr<chunk> mapMgr::getChunkFromEntity(const std::weak_ptr<entity>& e)
 
 std::weak_ptr<chunk> mapMgr::getNextChunkForSim()
 {
-	std::lock_guard<std::mutex> lock(getNextChunkMutex);
-
 	// Test map
 	if(map.empty())
 	{

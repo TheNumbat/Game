@@ -40,15 +40,11 @@ int simulate(void* data)
 
 		if(!simChunk.expired())
 		{
-			auto entry = simChunk.lock()->begin();
-			while(entry != simChunk.lock()->end())
-			{
-				std::weak_ptr<entity> e = *entry;
 
+			for(std::weak_ptr<entity> e : simChunk.lock()->entities)
+			{
 				if(!e.expired())
 				{
-					std::lock_guard<std::mutex> lock(e.lock()->lock);
-
 					if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_movement))
 					{
 						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
@@ -67,7 +63,7 @@ int simulate(void* data)
 					}
 				}
 
-				entry++;
+				if(simChunk.expired()) break;
 			}
 		}
 	}

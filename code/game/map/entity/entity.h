@@ -23,7 +23,7 @@
 #include "map\component\component.h"
 #include <memory>
 #include <map>
-#include <mutex>
+// #include <mutex>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -114,7 +114,7 @@ public:
 	std::weak_ptr<component> getComponent(component_type c) const;
 
 	/// Mutex used to signify the entity is in use -- USE IT
-	std::mutex lock;
+	// std::mutex lock;
 	
 private:
 	std::map<component_type,std::shared_ptr<component>> components;

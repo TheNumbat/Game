@@ -70,6 +70,7 @@ void renderMap(engine_state* engine, game_state* game)
 			// If chunk exists
 			if(!currentChunk.expired())
 			{
+
 				// Debug: draw chunk boundry
 				#ifdef DRAW_CHUNK_BOUNDS
 				{
@@ -87,39 +88,40 @@ void renderMap(engine_state* engine, game_state* game)
 				}
 				#endif
 
-				for(std::weak_ptr<entity> e : *currentChunk.lock())
+				for(std::weak_ptr<entity> e : currentChunk.lock()->entities)
 				{
-					std::lock_guard<std::mutex> lock(e.lock()->lock);
-
-					// Test if entity can be rendered
-					if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_texture))
+					if(!e.expired())
 					{
-						// Get components
-						std::weak_ptr<component_position> ePosition = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
-						std::weak_ptr<component_texture> eTexture = std::static_pointer_cast<component_texture>(e.lock()->getComponent(ctype_texture).lock());
-
-						// Get each texture from the entity
-						for(int32 texIndex = 0; texIndex < eTexture.lock()->textureIDs.size(); texIndex++)
+						// Test if entity can be rendered
+						if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_texture))
 						{
-							// Get texture information
-							std::string texID = eTexture.lock()->textureIDs[texIndex];
-							v2<real32> texPos = eTexture.lock()->texturePositions[texIndex];
-							v2<real32> texDim = eTexture.lock()->textureDimensions[texIndex];
+							// Get components
+							std::weak_ptr<component_position> ePosition = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
+							std::weak_ptr<component_texture> eTexture = std::static_pointer_cast<component_texture>(e.lock()->getComponent(ctype_texture).lock());
 
-							// Map the texture into pixel space (against TLC of window)
-							/// @todo z-space
-							v2<real32> entityPixelPos = mapIntoPixelSpace(TLCpos,ePosition.lock()->position,camZoom);
-							v2<real32> texPixelPos = entityPixelPos + ( texPos * METERS_TO_PIXELS * camZoom);
+							// Get each texture from the entity
+							for(int32 texIndex = 0; texIndex < eTexture.lock()->textureIDs.size(); texIndex++)
+							{
+								// Get texture information
+								std::string texID = eTexture.lock()->textureIDs[texIndex];
+								v2<real32> texPos = eTexture.lock()->texturePositions[texIndex];
+								v2<real32> texDim = eTexture.lock()->textureDimensions[texIndex];
 
-							// Create new raw texture to render
-							rawTexture texture;
-							texture.ID = texID;
-							texture.pixelPos = texPixelPos;
-							texture.pixelDim = texDim * METERS_TO_PIXELS * camZoom;
-							texture.forceTop = eTexture.lock()->forceTop;
-							texture.forceBot = eTexture.lock()->forceBot;
+								// Map the texture into pixel space (against TLC of window)
+								/// @todo z-space
+								v2<real32> entityPixelPos = mapIntoPixelSpace(TLCpos,ePosition.lock()->position,camZoom);
+								v2<real32> texPixelPos = entityPixelPos + ( texPos * METERS_TO_PIXELS * camZoom);
 
-							textures.push_back(texture);
+								// Create new raw texture to render
+								rawTexture texture;
+								texture.ID = texID;
+								texture.pixelPos = texPixelPos;
+								texture.pixelDim = texDim * METERS_TO_PIXELS * camZoom;
+								texture.forceTop = eTexture.lock()->forceTop;
+								texture.forceBot = eTexture.lock()->forceBot;
+
+								textures.push_back(texture);
+							}
 						}
 					}
 				}
