@@ -253,7 +253,7 @@ bool timeMgr::resume(const std::string& ID)
 	return true;
 }
 
-bool timeMgr::get(const std::string& ID, uint64& time)
+uint64 timeMgr::get(const std::string& ID)
 {
 	// Get timer
 	auto entry = timers.find(ID);
@@ -261,20 +261,18 @@ bool timeMgr::get(const std::string& ID, uint64& time)
 	{
 		// Failure
 		logger.LogWarn("Timer / perf counter to get ID " + ID + " not found");
-		return false;
+		return 0;
 	}
 
 	// Test paused
 	if(entry->second->pause)
 	{
 		// Success
-		time = entry->second->pause;
-		return true;
+		return entry->second->pause;
 	}
 
 	// Success
-	time = getTimeSinceStart() - entry->second->start - entry->second->lag;
-	return true;
+	return getTimeSinceStart() - entry->second->start - entry->second->lag;
 }
 
 uint64 timeMgr::getPerfFreq()

@@ -23,9 +23,9 @@
 #include "game_common.h"
 #include <engine_state.h>
 
-#include "events.cpp"
-#include "rendering.cpp"
-#include "sim.cpp"
+#include "event/event.h"
+#include "render/render.h"
+#include "sim/sim.h"
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -73,7 +73,7 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->audio.loadSoundRec("music");
 	engine->time.addTimer("sim");
 
-	std::weak_ptr<entity> player = engine->map.addPlayer("p1",map_position(0,0,0,3,3,0),0);
+	std::weak_ptr<entity> player = game->map.addPlayer("p1",map_position(0,0,0,3,3,0),0);
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
 	texture.lock()->addTexture("dankdude_front",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
 

@@ -58,14 +58,14 @@ public:
 
 		Sets up log and starts entity IDs
 	*/
-	ENGINE_API mapMgr();
+	mapMgr();
 
 	/**
 		@brief mapMgr denstructor
 
 		Does noting, entire map will delete itself
 	*/
-	ENGINE_API ~mapMgr();
+	~mapMgr();
 	
 	/**
 		@brief creates a new entity
@@ -79,7 +79,7 @@ public:
 
 		@exception max entities exceeded, fatal error, returns weak_ptr to nothing
 	*/
-	ENGINE_API std::weak_ptr<entity> addEntity(const map_position& pos, uint32 currentTimeMS);
+	std::weak_ptr<entity> addEntity(const map_position& pos, uint32 currentTimeMS);
 
 	/**
 		@brief creates a new player entity
@@ -97,7 +97,7 @@ public:
 
 		@note calls addEntity()
 	*/
-	ENGINE_API std::weak_ptr<entity> addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS);
+	std::weak_ptr<entity> addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS);
 
 	/**
 		@brief gets a player by it's ID (string name specificed on creation)
@@ -108,7 +108,7 @@ public:
 
 		@exception player does not exist, returns weak_ptr to nothing
 	*/
-	ENGINE_API std::weak_ptr<entity> getPlayerByID(const std::string& ID);
+	std::weak_ptr<entity> getPlayerByID(const std::string& ID);
 
 	/**
 		@brief gets an entity by its UID -- searches through everything, very slow
@@ -121,7 +121,7 @@ public:
 
 		@exception entity does not exist, returns weak_ptr to nothing
 	*/
-	ENGINE_API std::weak_ptr<entity> getEntityByUID_SLOW(uint32 UID);
+	std::weak_ptr<entity> getEntityByUID_SLOW(uint32 UID);
 
 	/**
 		@brief removes a player and its entity
@@ -134,7 +134,7 @@ public:
 
 		@note calls removeEntity()
 	*/
-	ENGINE_API bool removePlayer(const std::string& ID);
+	bool removePlayer(const std::string& ID);
 
 	/**
 		@brief removes an entity
@@ -145,7 +145,7 @@ public:
 
 		@exception entity does not exist, returns false
 	*/
-	ENGINE_API bool removeEntity(const std::weak_ptr<entity>& e);
+	bool removeEntity(const std::weak_ptr<entity>& e);
 
 	/**
 		@brief removes an entity by its UID -- searches through everything, very slow
@@ -158,7 +158,7 @@ public:
 
 		@exception entity does not exist, returns false
 	*/
-	ENGINE_API bool removeEntityByUID_SLOW(uint32 UID);
+	bool removeEntityByUID_SLOW(uint32 UID);
 
 	/**
 		@brief updates an entity's position in the chunk map
@@ -169,7 +169,7 @@ public:
 
 		@exception e does not have a position component, return false
 	*/
-	ENGINE_API bool updateEntityMapPos(const std::weak_ptr<entity>& e);
+	bool updateEntityMapPos(const std::weak_ptr<entity>& e);
 
 	/**
 		@brief creates a new chunk or returns one already in existance
@@ -182,7 +182,7 @@ public:
 
 		@note if chunk already exists, it will be returned
 	*/
-	ENGINE_API std::weak_ptr<chunk> addChunk(const chunk_position& pos);
+	std::weak_ptr<chunk> addChunk(const chunk_position& pos);
 
 	/**
 		@brief removes a chunk - USE WITH CARE!
@@ -195,7 +195,7 @@ public:
 
 		@exception if chunk does not exist, return false
 	*/
-	ENGINE_API std::weak_ptr<chunk> getChunk(const chunk_position& pos);
+	std::weak_ptr<chunk> getChunk(const chunk_position& pos);
 
 	/**
 		@brief gets a chunk 
@@ -208,7 +208,7 @@ public:
 
 		@exception if chunk does not exist, return pointer to nothing
 	*/
-	ENGINE_API bool removeChunk(const chunk_position& pos);
+	bool removeChunk(const chunk_position& pos);
 
 	/**
 		@brief returns a chunk that an entity (says its) in 
@@ -221,7 +221,7 @@ public:
 		@exception chunk does not exist, return pointer to nothing
 		@exception found chunk does not actually include entity, return pointer to nothing
 	*/
-	ENGINE_API std::weak_ptr<chunk> getChunkFromEntity(const std::weak_ptr<entity>& e);
+	std::weak_ptr<chunk> getChunkFromEntity(const std::weak_ptr<entity>& e);
 
 	/**
 		@brief returns the next chunk for a simluation thread to run on.
@@ -230,7 +230,7 @@ public:
 
 		@exception map is empty, return nullptr
 	*/
-	ENGINE_API std::weak_ptr<chunk> getNextChunkForSim();
+	std::weak_ptr<chunk> getNextChunkForSim();
 
 private:
 	std::unordered_map<chunk_position,std::shared_ptr<chunk>> map;

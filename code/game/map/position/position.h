@@ -242,7 +242,7 @@ struct map_position
 		@param[in] cy y chunk value
 		@param[in] cz z chunk value
 	*/
-	ENGINE_API map_position(int32 cx = 0, int32 cy = 0, int32 cz = 0,
+	map_position(int32 cx = 0, int32 cy = 0, int32 cz = 0,
 							real32 x = 0, real32 y = 0, real32 z = 0);
 
 	/**
@@ -253,7 +253,7 @@ struct map_position
 		@param[in] r real position
 		@param[in] c chunk position
 	*/
-	ENGINE_API map_position(const chunk_position& c, const real_position& r);
+	map_position(const chunk_position& c, const real_position& r);
 
 	/**
 		@brief map position constructor
@@ -262,14 +262,14 @@ struct map_position
 
 		@param[in] src position to copy
 	*/
-	ENGINE_API map_position(const map_position& src);
+	map_position(const map_position& src);
 
 	/**
 		@brief map position destructor
 
 		Does nothing
 	*/
-	ENGINE_API ~map_position();
+	~map_position();
 
 	/**
 		@brief compares map positions
@@ -280,7 +280,7 @@ struct map_position
 
 		@return bool positions equal
 	*/
-	ENGINE_API bool operator==(const map_position& comp) const;
+	bool operator==(const map_position& comp) const;
 
 	/**
 		@brief assigns map positions
@@ -291,7 +291,7 @@ struct map_position
 
 		@return self for chaining
 	*/
-	ENGINE_API map_position operator=(const map_position& src);
+	map_position operator=(const map_position& src);
 
 	/**
 		@brief adds map positions
@@ -302,7 +302,7 @@ struct map_position
 
 		@return new added position
 	*/
-	ENGINE_API map_position operator+(const map_position& src) const;
+	map_position operator+(const map_position& src) const;
 
 	/**
 		@brief adds map positions
@@ -313,7 +313,7 @@ struct map_position
 
 		@return self for chaining
 	*/
-	ENGINE_API map_position operator+=(const map_position& src);
+	map_position operator+=(const map_position& src);
 
 	/**
 		@brief Subtracts map positions
@@ -324,7 +324,7 @@ struct map_position
 
 		@return self for chaining
 	*/
-	ENGINE_API map_position operator-(const map_position& src) const;
+	map_position operator-(const map_position& src) const;
 
 	/**
 		@brief Subtracts map positions
@@ -335,12 +335,12 @@ struct map_position
 
 		@return self for chaining
 	*/
-	ENGINE_API map_position operator-=(const map_position& src);
+	map_position operator-=(const map_position& src);
 
 	/**
 		@brief adjusts chunkPos/offset if realPos is out of bounds
 	*/
-	ENGINE_API void clamp();
+	void clamp();
 
 	real_position realPos;
 	chunk_position chunkPos;

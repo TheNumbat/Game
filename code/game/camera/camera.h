@@ -21,10 +21,10 @@
 
 #include "engine_common.h"
 
-#include <log\logMgr.h>
-#include <map\position\position.h>
-#include <map\entity\entity.h>
+#include "map\position\position.h"
+#include "map\entity\entity.h"
 
+#include <log\logMgr.h>
 #include <memory>
 
 // Global constant definitions  ///////////////////////////////////////////////

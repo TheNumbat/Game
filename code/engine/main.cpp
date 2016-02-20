@@ -24,7 +24,6 @@
 
 #include "log/logMgr.h"
 #include "engine_state.h"
-#include <game_state.h>
 
 #include <windows.h>
 #include <SDL.h>
@@ -33,9 +32,9 @@
 // Global constant definitions  ///////////////////////////////////////////////
 
 /// Pointer type for gameLoop function
-typedef bool (*CreateGameLoop)(engine_state*, game_state*);
+typedef bool (*CreateGameLoop)(engine_state*, void*);
 /// Pointer type for startup function
-typedef game_state* (*CreateStartup)(engine_state*);
+typedef void* (*CreateStartup)(engine_state*);
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -96,7 +95,7 @@ int main(int argc, char** argv)
 	
 	data.engine = new engine_state;
 
-	game_state* game = (*data.startup)(data.engine);
+	void* game = (*data.startup)(data.engine);
 
 	while((*data.gameLoop)(data.engine,game)) 
 	{

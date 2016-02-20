@@ -26,7 +26,6 @@
 #include "log/logMgr.h"
 #include "graphic/graphicMgr.h"
 #include "sdl/sdlMgr.h"
-#include "map/mapMgr.h"
 #include "sound/soundMgr.h"
 #include "thread/threadMgr.h"
 #include "time/timeMgr.h"
@@ -47,7 +46,6 @@ struct engine_state
 	eventMgr events;
 	graphicMgr graphics;
 	soundMgr audio;
-	mapMgr map;
 	threadMgr threads;
 	timeMgr time;
 };

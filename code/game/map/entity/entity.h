@@ -46,7 +46,7 @@ public:
 
 		Assigns values, starts with no components
 	*/
-	ENGINE_API entity(uint32 _UID, uint32 time);
+	entity(uint32 _UID, uint32 time);
 
 	/**
 		@brief entity destructor
@@ -57,21 +57,21 @@ public:
 			  they are still accessable somewhere else, in which case they
 			  will delete when all copies go out of scope
 	*/
-	ENGINE_API ~entity();
+	~entity();
 
 	/**
 		@brief gets entity UID
 
 		@return entity UID
 	*/
-	ENGINE_API uint64 getUID() const;
+	uint64 getUID() const;
 
 	/**
 		@brief gets entity lastUpdate
 
 		@return entity lastUpdate in milliseconds
 	*/
-	ENGINE_API uint32 getLastUpdate() const;
+	uint32 getLastUpdate() const;
 
 	/**
 		@brief sets entity lastUpdate
@@ -80,7 +80,7 @@ public:
 
 		@return sucess
 	*/
-	ENGINE_API bool setLastUpdate(uint32 time);
+	bool setLastUpdate(uint32 time);
 
 	/**
 		@brief tests if entity contains component type
@@ -89,7 +89,7 @@ public:
 
 		@return bool contains component
 	*/
-	ENGINE_API bool hasComponent(component_type c) const;
+	bool hasComponent(component_type c) const;
 
 	/**
 		@brief adds a component to an entity
@@ -100,7 +100,7 @@ public:
 
 		@exception if entity already has component return it
 	*/
-	ENGINE_API std::weak_ptr<component> addComponent(component_type c);
+	std::weak_ptr<component> addComponent(component_type c);
 
 	/**
 		@brief gets a component from an entity
@@ -111,7 +111,7 @@ public:
 
 		@exception if entity does not have component return NULL
 	*/
-	ENGINE_API std::weak_ptr<component> getComponent(component_type c) const;
+	std::weak_ptr<component> getComponent(component_type c) const;
 
 	/// Mutex used to signify the entity is in use -- USE IT
 	std::mutex lock;

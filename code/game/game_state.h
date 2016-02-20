@@ -15,6 +15,7 @@
 #pragma once
 
 #include "camera/camera.h"
+#include "map/mapMgr.h"
 #include <log/logMgr.h>
 
 // Typedefs ///////////////////////////////////////////////////////////////////
@@ -35,6 +36,7 @@ struct game_state
 	~game_state() {};
 
 	camera cam;
+	mapMgr map;
 	logMgr logger;
 	bool running;
 };

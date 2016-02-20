@@ -188,13 +188,12 @@ public:
 		@brief Gets the value from a timer or performance counter
 
 		@param[in] ID of timer/perfCounter to retrieve time from
-		@param[out] time value gotten from timer/perf counter
 
-		@return success
+		@return time value gotten from timer/perf counter
 
-		@exception ID not found, returns false
+		@exception ID not found, returns 0
 	*/
-	ENGINE_API bool get(const std::string& ID, uint64& time);
+	ENGINE_API uint64 get(const std::string& ID);
 
 	/**
 		@brief Gets the system-specific performance counter frequency

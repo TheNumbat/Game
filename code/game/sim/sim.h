@@ -1,7 +1,7 @@
 // Program Information ////////////////////////////////////////////////////////
 
 /**
-	@file sim.cpp
+	@file sim.h
 	@author Max Slater
 
 	@brief does simulation for the game, simulate is run on n threads
@@ -51,35 +51,3 @@ struct simData
 int simulate(void* data);
 
 // Free function implementation  //////////////////////////////////////////////
-
-int simulate(void* data)
-{
-	game_state* game = ((simData*)data)->game;
-	engine_state* engine = ((simData*)data)->engine;
-	std::string timerID = ((simData*)data)->timerID;
-
-	while(!((simData*)data)->exit)
-	{
-		std::weak_ptr<chunk> simChunk = engine->map.getNextChunkForSim();
-
-		if(!simChunk.expired())
-		{
-			for(std::weak_ptr<entity> e : *simChunk.lock())
-			{
-				std::lock_guard<std::mutex> lock(e.lock()->lock);
-
-				if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_movement))
-				{
-					std::weak_ptr<component_position> ePos = std::static_pointer_case<component_position>(e.lock()->getComponent(ctype_position).lock());
-					std::weak_ptr<compoennt_movement> eMov = std::static_pointer_case<compoennt_movement>(e.lock()->getComponent(ctype_movement).lock());
-
-					uint64 dT = engine->time.getTime(timerID) - e.lock()->getLastUpdate();
-
-
-				}
-			}
-		}
-	}
-
-	return 0;
-}
