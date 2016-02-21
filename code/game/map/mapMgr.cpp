@@ -109,7 +109,7 @@ std::weak_ptr<entity> mapMgr::getPlayerByID(const std::string& ID)
 
 	std::lock_guard<std::recursive_mutex> lock(playerItem->second.lock()->lock);
 
-	#ifdef VERBOSE_MAP
+	#ifdef VERY_VERBOSE_MAP
 		logger.LogInfo("Got player ID: " + ID);
 	#endif
 

@@ -140,7 +140,7 @@ void renderMap(engine_state* engine, game_state* game)
 	// Actually render textures
 	for(rawTexture t : textures) 
 	{
-		engine->graphics.renderTexture(t.ID, rect2<int32>( floor(t.pixelPos.x), floor(t.pixelPos.y), ceil(t.pixelDim.x), ceil(t.pixelDim.y)));
+		engine->graphics.renderTexture(t.ID, rect2<int32>( round(t.pixelPos.x), round(t.pixelPos.y), round(t.pixelDim.x), round(t.pixelDim.y)));
 	}
 }
 

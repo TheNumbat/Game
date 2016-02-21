@@ -31,6 +31,11 @@ void eventLoop(engine_state* engine, game_state* game)
 	event e;
 	while(engine->events.getNextEvent(e))
 	{
+		std::weak_ptr<entity> player = game->map.getPlayerByID("p1");
+		std::lock_guard<std::recursive_mutex> lock(player.lock()->lock);
+
+		std::weak_ptr<component_movement> mov = std::static_pointer_cast<component_movement>(player.lock()->getComponent(ctype_movement).lock());
+
 		if(e.type == EVT_QUIT)
 		{
 			game->running = false;
@@ -47,19 +52,19 @@ void eventLoop(engine_state* engine, game_state* game)
 			}
 			else if(e.value == KEY_LEFT && e.flags & FLAG_KEY_PRESS)
 			{
-				game->cam.move(map_position(0,0,0,-1,0,0));
+				mov.lock()->velocity = v2<real32>(-5,0);
 			}
 			else if(e.value == KEY_RIGHT && e.flags & FLAG_KEY_PRESS)
 			{
-				game->cam.move(map_position(0,0,0,1,0,0));
+				mov.lock()->velocity = v2<real32>(5,0);
 			}
 			else if(e.value == KEY_UP && e.flags & FLAG_KEY_PRESS)
 			{
-				game->cam.move(map_position(0,0,0,0,-1,0));
+				mov.lock()->velocity = v2<real32>(0,-5);
 			}
 			else if(e.value == KEY_DOWN && e.flags & FLAG_KEY_PRESS)
 			{
-				game->cam.move(map_position(0,0,0,0,1,0));
+				mov.lock()->velocity = v2<real32>(0,5);
 			}
 		}
 	}
