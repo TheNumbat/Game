@@ -97,6 +97,7 @@ GAME_API game_state* startup(engine_state* engine)
 	game->sim.engine = engine;
 	game->sim.timerID = "sim";
 	engine->thread.add("sim1",&simulate,&game->sim);
+	engine->thread.add("sim2",&simulate,&game->sim);
 
 	game->running = true;
 	return game;
@@ -115,7 +116,6 @@ GAME_API bool gameLoop(engine_state* engine, game_state* game)
 GAME_API void shutdown(engine_state* engine, game_state* game)
 {
 	game->sim.exit = true;
-	engine->thread.wait("sim1");
 	delete game;
 }
 

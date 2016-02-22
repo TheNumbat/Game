@@ -56,13 +56,16 @@ int simulate(void* data)
 						uint64 current = engine->time.get(timerID);
 						uint64 dT = current - e->getLastUpdate();
 
-						eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
-						v2<real32> offset = eMov.lock()->velocity * (dT / 1000.0f);
-						ePos.lock()->position += map_position(0,0,0,offset.x,offset.y,0);
+						if(dT)
+						{
+							eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
+							v2<real32> offset = eMov.lock()->velocity * (dT / 1000.0f);
+							ePos.lock()->position += map_position(0,0,0,offset.x,offset.y,0);
 
-						game->map.updateEntityMapPos(e);
+							game->map.updateEntityMapPos(e);
 
-						e->setLastUpdate(current);
+							e->setLastUpdate(current);
+						}
 					}
 				}
 
