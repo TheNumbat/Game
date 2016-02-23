@@ -59,7 +59,7 @@ std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, uint32 currentT
 
 		// Add entity to chunk
 		std::weak_ptr<chunk> chunkEntry = addChunk(pos.chunkPos);
-		chunkEntry.lock()->entities.insert(newEntity);
+		chunkEntry.lock()->entities.insert({nextUnusedID,newEntity});
 
 		// Success
 		#ifdef VERBOSE_MAP
@@ -117,26 +117,21 @@ std::weak_ptr<entity> mapMgr::getPlayerByID(const std::string& ID)
 	return playerItem->second;
 }
 
-std::weak_ptr<entity> mapMgr::getEntityByUID_SLOW(uint32 UID)
+std::weak_ptr<entity> mapMgr::getEntityByUID(uint32 UID)
 {
 	// Loop through chunks
 	for(auto chunkEntry : map)
 	{
-		// Loop through entities
-		for(std::weak_ptr<entity> e : chunkEntry.second->entities)
+		auto entry = chunkEntry.second->entities.find(UID);
+		if(entry != chunkEntry.second->entities.end())
 		{
-			std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
+			std::lock_guard<std::recursive_mutex> lock(entry->second->lock);
 
-			// Test entity
-			if(e.lock()->getUID() == UID)
-			{
-				// Success
-				#ifdef VERBOSE_MAP
-					logger.LogInfo("Got entity UID: " + std::to_string(UID));
-				#endif
+			#ifdef VERBOSE_MAP
+				logger.LogInfo("Got entity UID: " + std::to_string(UID));
+			#endif
 
-				return std::weak_ptr<entity>(e);
-			}
+			return std::weak_ptr<entity>(entry->second);
 		}
 	}
 
@@ -196,26 +191,25 @@ bool mapMgr::removeEntity(const std::weak_ptr<entity>& e)
 	#endif
 
 	// Success, remove entity
-	chunkEntry.lock()->entities.erase(e.lock());
+	chunkEntry.lock()->entities.erase(e.lock()->getUID());
 	return true;
 }
 
-bool mapMgr::removeEntityByUID_SLOW(uint32 UID)
+bool mapMgr::removeEntityByUID(uint32 UID)
 {
 	// Loop through chunks
 	for(auto chunkEntry : map)
 	{
-		// Loop through entities
-		for(std::weak_ptr<entity> e : chunkEntry.second->entities)
+		auto entry = chunkEntry.second->entities.find(UID);
+		if(entry != chunkEntry.second->entities.end())
 		{
-			std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
+			std::lock_guard<std::recursive_mutex> lock(entry->second->lock);
 
-			// Test entity
-			if(e.lock()->getUID() == UID)
-			{
-				// Success
-				return removeEntity(e);
-			}
+			#ifdef VERBOSE_MAP
+				logger.LogInfo("Got entity UID: " + std::to_string(UID));
+			#endif
+
+			return removeEntity(entry->second);
 		}
 	}
 
@@ -253,8 +247,8 @@ bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 
 	// Move entity
 	std::shared_ptr<entity> ePtr = e.lock();
-	oldChunk.lock()->entities.erase(ePtr);
-	newChunk.lock()->entities.insert(ePtr);
+	oldChunk.lock()->entities.erase(ePtr->getUID());
+	newChunk.lock()->entities.insert({ePtr->getUID(),ePtr});
 
 	#ifdef VERBOSE_MAP
 		logger.LogInfo("Updated chunk position of entity UID: " + std::to_string(e.lock()->getUID()));
@@ -344,7 +338,7 @@ std::weak_ptr<chunk> mapMgr::getChunkFromEntity(const std::weak_ptr<entity>& e)
 	std::lock_guard<std::recursive_mutex> elock(chunkEntry.lock()->lock);
 
 	// assures that the enity is in the correct chunk; that the chunk position corresponds to the actual chunk it's in
-	if(chunkEntry.expired() || chunkEntry.lock()->entities.find(e.lock()) == chunkEntry.lock()->entities.end())
+	if(chunkEntry.expired() || chunkEntry.lock()->entities.find(e.lock()->getUID()) == chunkEntry.lock()->entities.end())
 	{
 		// Failure
 		logger.LogWarn("Updating chunk position of entity UID: " + e.lock()->getUID());

@@ -41,7 +41,7 @@ struct chunk
 	~chunk();
 
 	std::recursive_mutex lock;
-	std::set<std::shared_ptr<entity>> entities;
+	std::map<uint64,std::shared_ptr<entity>> entities;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

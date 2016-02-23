@@ -110,15 +110,13 @@ public:
 	/**
 		@brief gets an entity by its UID -- searches through everything, very slow
 
-		Don't use this except for debugging
-
 		@param[in] UID of entity to find
 
 		@return weak_ptr to entity or nothing if not found
 
 		@exception entity does not exist, returns weak_ptr to nothing
 	*/
-	std::weak_ptr<entity> getEntityByUID_SLOW(uint32 UID);
+	std::weak_ptr<entity> getEntityByUID(uint32 UID);
 
 	/**
 		@brief removes a player and its entity
@@ -147,15 +145,13 @@ public:
 	/**
 		@brief removes an entity by its UID -- searches through everything, very slow
 
-		Don't use this except for debugging
-
 		@param[in] UID of entity to remove
 
 		@return success (bool)
 
 		@exception entity does not exist, returns false
 	*/
-	bool removeEntityByUID_SLOW(uint32 UID);
+	bool removeEntityByUID(uint32 UID);
 
 	/**
 		@brief updates an entity's position in the chunk map

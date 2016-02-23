@@ -91,8 +91,10 @@ void renderMap(engine_state* engine, game_state* game)
 				}
 				#endif
 
-				for(std::weak_ptr<entity> e : currentChunk.lock()->entities)
+				for(auto entry : currentChunk.lock()->entities)
 				{
+					std::weak_ptr<entity> e = entry.second;
+
 					if(!e.expired())
 					{
 						std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);

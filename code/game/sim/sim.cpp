@@ -42,19 +42,21 @@ int simulate(void* data)
 		{
 			std::lock_guard<std::recursive_mutex> lock(simChunk.lock()->lock);
 
-			for(std::shared_ptr<entity> e : simChunk.lock()->entities)
+			for(auto entry : simChunk.lock()->entities)
 			{
-				if(e)
-				{
-					std::lock_guard<std::recursive_mutex> lock(e->lock);
+				std::weak_ptr<entity> e = entry.second;
 
-					if(e->hasComponent(ctype_position) && e->hasComponent(ctype_movement))
+				if(e.lock())
+				{
+					std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
+
+					if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_movement))
 					{
-						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e->getComponent(ctype_position).lock());
-						std::weak_ptr<component_movement> eMov = std::static_pointer_cast<component_movement>(e->getComponent(ctype_movement).lock());
+						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
+						std::weak_ptr<component_movement> eMov = std::static_pointer_cast<component_movement>(e.lock()->getComponent(ctype_movement).lock());
 
 						uint64 current = engine->time.get(timerID);
-						uint64 dT = current - e->getLastUpdate();
+						uint64 dT = current - e.lock()->getLastUpdate();
 
 						if(dT)
 						{
@@ -64,7 +66,7 @@ int simulate(void* data)
 
 							game->map.updateEntityMapPos(e);
 
-							e->setLastUpdate(current);
+							e.lock()->setLastUpdate(current);
 						}
 					}
 				}
