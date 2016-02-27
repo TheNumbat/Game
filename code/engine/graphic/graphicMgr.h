@@ -118,7 +118,19 @@ public:
 
 		@exception couldn't load texture, does nothing, returns false
 	*/
-	ENGINE_API bool loadTexture(const std::string& path, const std::string& ID = "");
+	ENGINE_API bool loadTexture(const std::string& path, const std::string& ID = "", blendmode b = blend_alpha);
+
+	/**
+		@brief Changes a texture's blend mode
+
+		@param[in] ID of texture to use
+		@param[in] b blend mode to set to
+
+		@return success
+
+		@exception couldn't change blend mode, does nothing, returns false
+	*/
+	ENGINE_API bool setBlendmode(const std::string& ID, blendmode b = blend_alpha);
 
 	/**
 		@brief Loads all image files from a folder (and subfolders) into textute map

@@ -78,9 +78,9 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->audio.init();
 	engine->time.init();
 
-	engine->graphics.loadTextureRec("art");
 	engine->graphics.loadTextureRec("debug");
-	engine->audio.loadSoundRec("music");
+	engine->graphics.loadTexture("art/entities/dankdude_front.png","dankdude");
+	engine->graphics.loadTexture("art/entities/yeti.png","yeti");
 	engine->time.addTimer("sim");
 
 	std::weak_ptr<entity> player = game->map.addPlayer("p1",map_position(0,0,0,3,3,0),0);
@@ -91,10 +91,11 @@ GAME_API game_state* startup(engine_state* engine)
 	mov.lock()->velocity = v2<real32>(3,0);
 
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
-	texture.lock()->addTexture("dankdude_front",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
+	texture.lock()->addTexture("dankdude",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
+	texture.lock()->forceTop = true;
 
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
-	testtexture.lock()->addTexture("dankdude_front",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
+	testtexture.lock()->addTexture("yeti",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
 
 	game->cam.setFollowing(player);
 

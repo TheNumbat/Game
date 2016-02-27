@@ -176,7 +176,7 @@ bool graphicMgr::getWinDim(int32& w, int32& h)
 	return true;
 }
 
-bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
+bool graphicMgr::loadTexture(const std::string& path, const std::string& ID, blendmode b)
 {
 	if(textures.find(ID) != textures.end())
 	{
@@ -197,15 +197,34 @@ bool graphicMgr::loadTexture(const std::string& path, const std::string& ID)
 	}
 
 	// Load
-	if(!newTexture->load(path,sdl_renderer))
+	if(!newTexture->load(path,sdl_renderer,b))
 	{
-		logger.LogWarn("Failed to load texture ID: " + texID + " from " + path + " Img_error: " + IMG_GetError());
+		logger.LogWarn("Failed to load texture ID: " + texID + " from " + path + " Img_error: " + IMG_GetError() + (std::string)" SDL_error: " + SDL_GetError());
 		return false;
 	}
 
 	// Success
 	textures.insert({texID,std::move(newTexture)});
 	logger.LogInfo("Loaded texture ID: " + texID + " from " + path);
+	return true;
+}
+
+bool graphicMgr::setBlendmode(const std::string& ID, blendmode b)
+{
+	auto textureItem = textures.find(ID);
+
+	if(textureItem == textures.end())
+	{
+		logger.LogWarn("Can't set texture blend mode, could not find loaded texture with ID: " + ID);
+		return false;
+	}
+
+	if(!textureItem->second->setBlendmode(b))
+	{
+		logger.LogWarn("Failed to set texture blend mode ID: " + ID + " SDL_error: " + SDL_GetError());
+		return false;
+	}
+
 	return true;
 }
 
@@ -317,7 +336,7 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
 {
 	if(!good)
 	{
-		logger.LogWarn("Can't display texture, graphics log initialized");
+		logger.LogWarn("Can't display texture, graphics not initialized");
 		return false;
 	}
 

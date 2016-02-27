@@ -27,6 +27,14 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+enum blendmode
+{
+	blend_none,
+	blend_alpha,
+	blend_additive,
+	blend_modulate
+};
+
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 /**
@@ -59,14 +67,27 @@ class texture
 
 		@param[in] path is the file path of the image file
 		@param[in] sdl_renderer is the renderer used to create the texture
+		@param[in] b blend mode to use for the texture (see blendmode)
 
 		@return success
 
 		@exception SDL_Image not initialized, will fail and return false
 		@exception Unable to load image, will fail and return false
 		@exception Unable to create texture, will fail and return false
+		@exception Unable to set blend mode, will fail and return false
 	*/
-	bool load(const std::string& path, void* sdl_renderer);
+	bool load(const std::string& path, void* sdl_renderer, blendmode b = blend_alpha);
+
+	/**
+		@brief changes the blend mode
+
+		@param[in] b blend mode to use
+
+		@return success
+
+		@exception Unable to set blend mode, will fail and return false
+	*/
+	bool setBlendmode(blendmode b = blend_alpha);
 
 	/**
 		@brief Frees texture
@@ -80,6 +101,7 @@ class texture
 	bool free();
 
 	void* sdl_texture;
+	blendmode blend;
 	bool good;
 
 	friend class graphicMgr;

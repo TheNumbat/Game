@@ -37,6 +37,7 @@ texture::texture()
 {
 	sdl_texture = NULL;
 	good = false;
+	blend = blend_none;
 }
 
 texture::~texture()
@@ -44,13 +45,12 @@ texture::~texture()
 	free();
 }
 
-bool texture::load(const std::string& path, void* sdl_renderer)
+bool texture::load(const std::string& path, void* sdl_renderer, blendmode b)
 {
 	free();
 
 	// Load image file
 	SDL_Surface* temp = IMG_Load(path.c_str());
-	assert(temp);
 	if(!temp)
 	{
 		return false;
@@ -60,14 +60,46 @@ bool texture::load(const std::string& path, void* sdl_renderer)
 	sdl_texture = SDL_CreateTextureFromSurface((SDL_Renderer*)sdl_renderer, temp);
 	SDL_FreeSurface(temp);
 
-	assert(sdl_texture);
 	if(!sdl_texture)
 	{
 		return false;
 	}
 
+	if(!setBlendmode(b))
+	{
+		free();
+		return false;
+	}
+
 	// Success
 	good = true;
+	return true;
+}
+
+bool texture::setBlendmode(blendmode b)
+{
+	int result;
+	switch(b)
+	{
+		case blend_alpha:
+			result = SDL_SetTextureBlendMode((SDL_Texture*)sdl_texture,SDL_BLENDMODE_BLEND);
+			break;
+		case blend_additive:
+			result = SDL_SetTextureBlendMode((SDL_Texture*)sdl_texture,SDL_BLENDMODE_ADD);
+			break;
+		case blend_modulate:
+			result = SDL_SetTextureBlendMode((SDL_Texture*)sdl_texture,SDL_BLENDMODE_MOD);
+			break;
+		default: // or blend_none
+			result = SDL_SetTextureBlendMode((SDL_Texture*)sdl_texture,SDL_BLENDMODE_NONE);
+			break;
+	}
+
+	if(result != 0)
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -78,6 +110,7 @@ bool texture::free()
 		SDL_DestroyTexture((SDL_Texture*)sdl_texture);
 		sdl_texture = NULL;
 
+		blend = blend_none;
 		good = false;
 		return true;
 	}
