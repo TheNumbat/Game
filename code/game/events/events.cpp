@@ -38,6 +38,22 @@ void eventLoop(engine_state* engine, game_state* game)
 		{
 			game->running = false;
 		}
+		else if(e.type == EVT_WINDOW)
+		{
+			if(e.flags & FLAG_WINDOW_RESIZED)
+			{
+				uint32 w = e.value, h = e.value >> 32;
+				game->logger.LogInfo("New screen w: " + std::to_string(w) + " h: " + std::to_string(h));
+			}
+		}
+		else if(e.type == EVT_MOUSE)
+		{
+			if(e.flags & FLAG_MOUSE_PRESS)
+			{
+				uint32 x = e.value, y = e.value >> 32;
+				game->logger.LogInfo("Mouse x: " + std::to_string(x) + " y: " + std::to_string(y));
+			}
+		}
 		else if (e.type == EVT_KEY)
 		{
 			if(e.value == KEY_MINUS && e.flags & FLAG_KEY_PRESS)

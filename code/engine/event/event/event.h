@@ -138,20 +138,13 @@ const uint64 KEY_PRINTSCREEN = 9032;
 const uint64 KEY_SCROLLLOCK = 9033;
 const uint64 KEY_BAD = 10000;
 
-// Mouse event values for button
-const uint64 VAL_MOUSE_LEFT = 12000; 
-const uint64 VAL_MOUSE_RIGHT = 12001;
-const uint64 VAL_MOUSE_MIDDLE = 12002;
-const uint64 VAL_MOUSE_X1 = 12003; // button 4
-const uint64 VAL_MOUSE_X2 = 12004; // button 5
-
 // Mouse event value masks for wheel and motion
 const uint64 VAL_MOUSE_XMASK = 0x00000000ffffffff; // << 0
-const uint64 VAL_MOUSE_YMASK = 0xffffffff00000000; // << 16
+const uint64 VAL_MOUSE_YMASK = 0xffffffff00000000; // << 32
 
 // Window event value masks for wheel and motion
 const uint64 VAL_WINDOW_XMASK = 0x00000000ffffffff; // << 0
-const uint64 VAL_WINDOW_YMASK = 0xffffffff00000000; // << 16
+const uint64 VAL_WINDOW_YMASK = 0xffffffff00000000; // << 32
 
 // Keyboard event flags
 const uint32 FLAG_KEY_PRESS = 1<<0;
@@ -180,6 +173,13 @@ const uint32 FLAG_MOUSE_WHEEL = 1<<2;
 const uint32 FLAG_MOUSE_BUTTON = FLAG_MOUSE_PRESS | FLAG_MOUSE_RELEASE; // button event; not movement event
 const uint32 FLAG_MOUSE_MOTION = 1<<3;
 const uint32 FLAG_MOUSE_DOUBLE = 1<<4; // bit is set if it was a double-click; else, not set. only for button events.
+
+// Mouse event flags for buttons
+const uint64 FLAG_MOUSE_LEFT = 1<<5; 
+const uint64 FLAG_MOUSE_RIGHT = 1<<6;
+const uint64 FLAG_MOUSE_MIDDLE = 1<<7;
+const uint64 FLAG_MOUSE_X1 = 1<<8; 
+const uint64 FLAG_MOUSE_X2 = 1<<9; 
 
 // Window event flags
 const uint32 FLAG_WINDOW_RESIZED = 1<<0;

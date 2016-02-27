@@ -182,7 +182,6 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 		case SDL_WINDOWEVENT_MOVED:
 			ret.flags |= FLAG_WINDOW_MOVED;
 
-			/// @todo Not sure if this is correct
 			ret.value |= (uint64)e->window.data1;
 			ret.value |= (uint64)e->window.data2 << 32;
 
@@ -192,7 +191,6 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 		case SDL_WINDOWEVENT_RESIZED:
 			ret.flags |= FLAG_WINDOW_RESIZED;
 
-			/// @todo Not sure if this is correct
 			ret.value |= (uint64)e->window.data1;
 			ret.value |= (uint64)e->window.data2 << 32;
 
@@ -227,17 +225,20 @@ event& eventMgr::translateMouseEvent(void* SDL_ev)
 	if(e->type == SDL_MOUSEBUTTONDOWN)
 	{
 		ret.flags |= FLAG_MOUSE_PRESS;
+		ret.value |= (uint64)e->button.x;
+		ret.value |= (uint64)e->button.y << 32;
 	}
 	else if(e->type == SDL_MOUSEBUTTONUP)
 	{
 		ret.flags |= FLAG_MOUSE_RELEASE;
+		ret.value |= (uint64)e->button.x;
+		ret.value |= (uint64)e->button.y << 32;
 	}
 	else if(e->type == SDL_MOUSEWHEEL)
 	{
 		ret.flags |= FLAG_MOUSE_WHEEL;
 
 		// Get wheel movement
-		/// @todo Not sure if this is correct
 		ret.value |= (uint64)e->wheel.x;
 		ret.value |= (uint64)e->wheel.y << 32;
 
@@ -248,7 +249,6 @@ event& eventMgr::translateMouseEvent(void* SDL_ev)
 		ret.flags |= FLAG_MOUSE_MOTION;
 
 		// Get mouse movement
-		/// @todo Not sure if this is correct, or if it should be relative
 		ret.value |= (uint64)e->motion.x;
 		ret.value |= (uint64)e->motion.y << 32;
 
@@ -263,14 +263,10 @@ event& eventMgr::translateMouseEvent(void* SDL_ev)
 	// Set up mouse buttons for PRESS or RELEASE
 	switch(e->button.button)
 	{
-		case SDL_BUTTON_LEFT: ret.value = VAL_MOUSE_LEFT; break;
-		case SDL_BUTTON_RIGHT: ret.value = VAL_MOUSE_RIGHT; break;
-		case SDL_BUTTON_X1: ret.value = VAL_MOUSE_X1; break;
-		case SDL_BUTTON_X2: ret.value = VAL_MOUSE_X2; break;
-		default:
-			logger.LogWarn("Could not translate mouse button");
-			ret.value = KEY_BAD;
-			break;
+		case SDL_BUTTON_LEFT: ret.flags |= FLAG_MOUSE_LEFT; break;
+		case SDL_BUTTON_RIGHT: ret.flags |= FLAG_MOUSE_RIGHT; break;
+		case SDL_BUTTON_X1: ret.flags |= FLAG_MOUSE_X1; break;
+		case SDL_BUTTON_X2: ret.flags |= FLAG_MOUSE_X2; break;
 	}
 
 	// Finally, check if double click

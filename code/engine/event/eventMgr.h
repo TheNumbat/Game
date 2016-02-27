@@ -102,8 +102,6 @@ private:
 		@param[in] SDL_ev SDL_Event to translate
 
 		@return translated event
-
-		@todo implement this, it does nothing
 	*/
 	event& translateWindowEvent(void* SDL_ev);
 
@@ -114,8 +112,7 @@ private:
 
 		@return translated event
 
-		@note for mouse motion, the new absolute x/y (relative to window) is returned
-			  rather than the relative movement
+		@note the mouse x and y relative to the window are returned in the event value
 	*/
 	event& translateMouseEvent(void* SDL_ev);
 
@@ -125,6 +122,8 @@ private:
 		@param[in] SDL_ev SDL_Event to translate
 
 		@return translated event
+
+		@todo implement this
 	*/
 	event& translateJoystickEvent(void* SDL_ev);
 
