@@ -556,4 +556,34 @@ bool graphicMgr::renderText(const std::string& fontID, const std::string& text, 
 	return true;
 }
 
+bool graphicMgr::setViewport(const rect2<int32>& port)
+{
+	int result; 
+
+	if(!port.x && !port.y)
+	{
+		result = SDL_RenderSetViewport((SDL_Renderer*)sdl_renderer,NULL);
+		if(result != 0)
+		{
+			logger.LogWarn((std::string)"Could not reset viewport! SDL_error: " + SDL_GetError());
+			return false;
+		}
+	}
+
+	SDL_Rect viewport;
+	viewport.x = port.x;
+	viewport.y = port.y;
+	viewport.w = port.w;
+	viewport.h = port.h;
+
+	result = SDL_RenderSetViewport((SDL_Renderer*)sdl_renderer,&viewport);
+	if(result != 0)
+	{
+		logger.LogWarn((std::string)"Could not set viewport! SDL_error: " + SDL_GetError());
+		return false;
+	}
+
+	return true;
+}
+
 // Terminating precompiler directives  ////////////////////////////////////////

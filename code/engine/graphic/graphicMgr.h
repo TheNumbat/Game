@@ -267,6 +267,19 @@ public:
 	*/
 	ENGINE_API bool renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect, const color& c = color(255,255,255,255), blendmode b = blend_alpha);
 
+	/**
+		@brief Sets the viewport within the window to render
+
+		Rendering still acts as if it has the origional coordinate system
+
+		@param[in] port rectangle to render into within the screen, or nothing to set to entire screen
+
+		@return success
+
+		@exception could not set veiwport, returns false
+	*/
+	ENGINE_API bool setViewport(const rect2<int32>& port = rect2<int32>(0,0,0,0));
+
 private:
 	logMgr logger;
 
