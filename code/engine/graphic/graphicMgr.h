@@ -163,6 +163,18 @@ public:
 	ENGINE_API bool setBlendmode(const std::string& ID, blendmode b = blend_alpha);
 
 	/**
+		@brief Changes a texture's color mod
+
+		@param[in] ID of texture to use
+		@param[in] c color to use or nothing to resset mod
+
+		@return success
+
+		@exception couldn't change color mod, does nothing, returns false
+	*/
+	ENGINE_API bool setColorMod(const std::string& ID, color c = color(255,255,255,0));
+
+	/**
 		@brief Loads all image files from a folder (and subfolders) into textute map
 
 		Will just use file name for texture IDs

@@ -558,28 +558,51 @@ bool graphicMgr::renderText(const std::string& fontID, const std::string& text, 
 
 bool graphicMgr::setViewport(const rect2<int32>& port)
 {
-	int result; 
+	SDL_Rect viewport;
 
-	if(!port.x && !port.y)
+	if(port.x == 0 || port.y == 0)
 	{
-		result = SDL_RenderSetViewport((SDL_Renderer*)sdl_renderer,NULL);
-		if(result != 0)
+		int32 sw, sh;
+		if(!getWinDim(sw,sh))
 		{
-			logger.LogWarn((std::string)"Could not reset viewport! SDL_error: " + SDL_GetError());
 			return false;
 		}
+		viewport.x = 0;
+		viewport.y = 0;
+		viewport.w = sw;
+		viewport.h = sh;
+	}
+	else
+	{
+		viewport.x = port.x;
+		viewport.y = port.y;
+		viewport.w = port.w;
+		viewport.h = port.h;	
 	}
 
-	SDL_Rect viewport;
-	viewport.x = port.x;
-	viewport.y = port.y;
-	viewport.w = port.w;
-	viewport.h = port.h;
-
-	result = SDL_RenderSetViewport((SDL_Renderer*)sdl_renderer,&viewport);
+	int32 result = SDL_RenderSetViewport((SDL_Renderer*)sdl_renderer,&viewport);
 	if(result != 0)
 	{
 		logger.LogWarn((std::string)"Could not set viewport! SDL_error: " + SDL_GetError());
+		return false;
+	}
+
+	return true;
+}
+
+bool graphicMgr::setColorMod(const std::string& ID, color c)
+{
+	auto textureItem = textures.find(ID);
+
+	if(textureItem == textures.end())
+	{
+		logger.LogWarn("Can't set texture color mod, could not find loaded texture with ID: " + ID);
+		return false;
+	}
+
+	if(!textureItem->second->setColorMod(c))
+	{
+		logger.LogWarn("Failed to set texture color mod ID: " + ID + " SDL_error: " + SDL_GetError());
 		return false;
 	}
 

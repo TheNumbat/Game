@@ -42,12 +42,12 @@
 struct engine_state
 {
 	sdlMgr sdl;	
-	logMgr logger;
+	threadMgr thread;
 	eventMgr events;
 	graphicMgr graphics;
 	soundMgr audio;
-	threadMgr thread;
 	timeMgr time;
+	logMgr logger;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

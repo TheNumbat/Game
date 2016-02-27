@@ -124,6 +124,12 @@ bool texture::setBlendmode(blendmode b)
 	return true;
 }
 
+bool texture::setColorMod(color c)
+{
+	int result = SDL_SetTextureColorMod((SDL_Texture*)sdl_texture,c.r,c.g,c.b);
+	return result == 0;
+}
+
 bool texture::free()
 {
 	if(good)

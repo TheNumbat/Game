@@ -105,6 +105,19 @@ class texture
 	bool setBlendmode(blendmode b = blend_alpha);
 
 	/**
+		@brief changes the color of the texture
+
+		The r, b, and b will me multiplied into render operations
+
+		@param[in] c color to modulate with -- alpha does not matter
+
+		@return success
+
+		@exception Unable to set color mod, will fail and return false
+	*/
+	bool setColorMod(color c);
+
+	/**
 		@brief Frees texture
 
 		Deallocates texture
