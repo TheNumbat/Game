@@ -40,7 +40,7 @@ void render(engine_state* engine, game_state* game)
 
 void renderHUD(engine_state* engine, game_state* game)
 {
-	engine->graphics.renderText("aubrey","hello world!",rect2<int32>(10,10,250,125),v4<uint8>(255,100,50,255));
+	engine->graphics.renderText("aubrey","hello world!",rect2<int32>(10,10,250,125),color(255,100,50,255));
 }
 
 void renderMap(engine_state* engine, game_state* game)

@@ -135,7 +135,7 @@ public:
 
 		@exception couldn't load texture, does nothing, returns false
 	*/
-	ENGINE_API bool addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, const v4<uint8>& color = v4<uint8>(255,255,255,255), blendmode b = blend_alpha);
+	ENGINE_API bool addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, const color& c = color(255,255,255,255), blendmode b = blend_alpha);
 
 	/**
 		@brief Loads a font from file into font map
@@ -265,7 +265,7 @@ public:
 		@exception could not render texture, returns false
 		@exception could not free texture, returns false
 	*/
-	ENGINE_API bool renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect, const v4<uint8>& color = v4<uint8>(255,255,255,255), blendmode b = blend_alpha);
+	ENGINE_API bool renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect, const color& c = color(255,255,255,255), blendmode b = blend_alpha);
 
 private:
 	logMgr logger;

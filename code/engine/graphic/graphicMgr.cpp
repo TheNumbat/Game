@@ -183,7 +183,7 @@ bool graphicMgr::getWinDim(int32& w, int32& h)
 	return true;
 }
 
-bool graphicMgr::addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, const v4<uint8>& color, blendmode b)
+bool graphicMgr::addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, const color& c, blendmode b)
 {
 	if(textures.find(texID) != textures.end())
 	{
@@ -199,10 +199,10 @@ bool graphicMgr::addTextTexture(const std::string& texID, const std::string& fon
 	}
 
 	SDL_Color sdl_color;
-	sdl_color.r = color.r;
-	sdl_color.g = color.g;
-	sdl_color.b = color.b;
-	sdl_color.a = color.a;
+	sdl_color.r = c.r;
+	sdl_color.g = c.g;
+	sdl_color.b = c.b;
+	sdl_color.a = c.a;
 
 	/// @todo more text rendering options
 	SDL_Surface* textSurface = TTF_RenderText_Solid((TTF_Font*)fontEntry->second->sdl_font,text.c_str(),sdl_color);
@@ -539,9 +539,9 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
 	return true;
 }
 
-bool graphicMgr::renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect, const v4<uint8>& color, blendmode b)
+bool graphicMgr::renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect, const color& c, blendmode b)
 {
-	if(!addTextTexture("textrender_temp",fontID,text,color,b))
+	if(!addTextTexture("textrender_temp",fontID,text,c,b))
 	{
 		return false;
 	}
