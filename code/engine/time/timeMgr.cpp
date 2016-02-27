@@ -41,6 +41,7 @@ timeMgr::timeMgr()
 
 timeMgr::~timeMgr()
 {
+	timers.clear();
 	kill();
 }
 

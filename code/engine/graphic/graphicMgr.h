@@ -123,6 +123,21 @@ public:
 	ENGINE_API bool loadTexture(const std::string& path, const std::string& ID = "", blendmode b = blend_alpha);
 
 	/**
+		@brief Creates a texture from a portion of text and a font
+
+		@param[in] texID ID of new texture
+		@param[in] fontID ID of font to use
+		@param[in] text to render
+		@param[in] color of text to render (RGBA), if empty will use white and 100% alpha
+		@param[in] b blend mode, if emptly will use alpha blending
+
+		@return success
+
+		@exception couldn't load texture, does nothing, returns false
+	*/
+	ENGINE_API bool addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, v4<uint8> color = v4<uint8>(255,255,255,255), blendmode b = blend_alpha);
+
+	/**
 		@brief Loads a font from file into font map
 
 		@param[in] path file path of true type font file

@@ -43,6 +43,7 @@ soundMgr::soundMgr()
 
 soundMgr::~soundMgr() 
 {
+	sounds.clear();
 	kill();
 }
 

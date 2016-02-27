@@ -350,7 +350,7 @@ struct v4
 		w /= length();
 	}
 
-	T operator*(const v3& src) const 
+	T operator*(const v4& src) const 
 	{
 		return (x * src.x + y * src.y + z * src.z + w * src.w);
 	}

@@ -76,6 +76,27 @@ bool texture::load(const std::string& path, void* sdl_renderer, blendmode b)
 	return true;
 }
 
+bool texture::load(void* sdl_surface, void* sdl_renderer, blendmode b)
+{
+	free();
+
+	sdl_texture = SDL_CreateTextureFromSurface((SDL_Renderer*)sdl_renderer, (SDL_Surface*)sdl_surface);
+	if(!sdl_texture)
+	{
+		return false;
+	}
+
+	if(!setBlendmode(b))
+	{
+		free();
+		return false;
+	}
+
+	// Success
+	good = true;
+	return true;
+}
+
 bool texture::setBlendmode(blendmode b)
 {
 	int result;

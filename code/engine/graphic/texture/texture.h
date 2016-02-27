@@ -71,12 +71,27 @@ class texture
 
 		@return success
 
-		@exception SDL_Image not initialized, will fail and return false
 		@exception Unable to load image, will fail and return false
 		@exception Unable to create texture, will fail and return false
 		@exception Unable to set blend mode, will fail and return false
 	*/
 	bool load(const std::string& path, void* sdl_renderer, blendmode b = blend_alpha);
+
+	/**
+		@brief loads texture
+
+		Loads image file using a pre-loaded surface. Will not destory the surface.
+
+		@param[in] sdl_surface surface to use
+		@param[in] sdl_renderer is the renderer used to create the texture
+		@param[in] b blend mode to use for the texture (see blendmode)
+
+		@return success
+
+		@exception Unable to create texture, will fail and return false
+		@exception Unable to set blend mode, will fail and return false
+	*/
+	bool load(void* sdl_surface, void* sdl_renderer, blendmode b = blend_alpha);
 
 	/**
 		@brief changes the blend mode

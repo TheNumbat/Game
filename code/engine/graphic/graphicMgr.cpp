@@ -46,6 +46,8 @@ graphicMgr::graphicMgr()
 
 graphicMgr::~graphicMgr()
 {
+	textures.clear();
+	fonts.clear();
 	kill();
 }
 
@@ -178,6 +180,50 @@ bool graphicMgr::getWinDim(int32& w, int32& h)
 
 	// Get window size
 	SDL_GetWindowSize((SDL_Window*)sdl_window,&w,&h);
+	return true;
+}
+
+bool graphicMgr::addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, v4<uint8> color, blendmode b)
+{
+	if(textures.find(texID) != textures.end())
+	{
+		logger.LogWarn("Texture ID " + texID + " already taken!");
+		return false;
+	}
+
+	auto fontEntry = fonts.find(fontID);
+	if(fontEntry == fonts.end())
+	{
+		logger.LogWarn("Font ID " + fontID + " could not be found!");
+		return false;
+	}
+
+	SDL_Color sdl_color;
+	sdl_color.r = color.r;
+	sdl_color.g = color.g;
+	sdl_color.b = color.b;
+	sdl_color.a = color.a;
+
+	/// @todo more text rendering options
+	SDL_Surface* textSurface = TTF_RenderText_Solid((TTF_Font*)fontEntry->second->sdl_font,text.c_str(),sdl_color);
+
+	if(!textSurface)
+	{
+		logger.LogWarn("Failed to create surface from font ID " + fontID + " TTF_Error: " + TTF_GetError());
+		return false;
+	}
+
+	std::unique_ptr<texture> newTexture = std::make_unique<texture>();
+	if(!newTexture->load(textSurface,sdl_renderer,b))
+	{
+		SDL_FreeSurface(textSurface);
+		logger.LogWarn((std::string)"Failed to load texture from font surface, TTF_Error: " + TTF_GetError());
+		return false;
+	}
+
+	SDL_FreeSurface(textSurface);
+	logger.LogInfo("Created texture ID " + texID + " using font ID " + fontID);
+	textures.insert({texID,std::move(newTexture)});
 	return true;
 }
 

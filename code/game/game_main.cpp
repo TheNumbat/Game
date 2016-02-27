@@ -79,7 +79,6 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->time.init();
 
 	engine->graphics.loadTextureRec("debug");
-	engine->graphics.loadFont("fonts/aubrey.ttf","aubrey",16);
 	engine->graphics.loadTexture("art/entities/dankdude_front.png","dankdude");
 	engine->graphics.loadTexture("art/entities/yeti.png","yeti");
 

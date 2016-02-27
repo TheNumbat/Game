@@ -49,8 +49,8 @@ bool font::load(const std::string& path, int size)
 	free();
 
 	// Load font file
-	TTF_Font* temp = TTF_OpenFont(path.c_str(), size);
-	if(!temp)
+	sdl_font = TTF_OpenFont(path.c_str(), size);
+	if(!sdl_font)
 	{
 		return false;
 	}
