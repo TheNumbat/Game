@@ -58,7 +58,6 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 
 	// Init video
 	bool result = SDL_InitSubSystem(SDL_INIT_VIDEO) == 0;
-	assert(result);
 	if(!result)
 	{
 		logger.LogFatal((std::string)"Failed to intialize sdl video subsystem! SDL Error: " + SDL_GetError());
@@ -67,7 +66,6 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 
 	// Init images
 	result = IMG_Init(IMG_INIT_PNG|IMG_INIT_JPG);
-	assert(result);
 	if(!result)
 	{
 		logger.LogFatal((std::string)"Failed to intialize sdl image system! SDL Error: " + SDL_GetError());
@@ -76,7 +74,6 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 
 	// Create window
 	sdl_window = SDL_CreateWindow(winTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sw, sh, SDL_WINDOW_SHOWN);
-	assert(sdl_window);
 	if(!sdl_window)
 	{
 		logger.LogFatal((std::string)"Failed to create SDL window! SDL Error: " + SDL_GetError());
@@ -85,7 +82,6 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 
 	// Create renderer
 	sdl_renderer = SDL_CreateRenderer((SDL_Window*)sdl_window, -1, SDL_RENDERER_ACCELERATED);
-	assert(sdl_renderer);
 	if(!sdl_renderer)
 	{
 		logger.LogFatal((std::string)"Failed to create SDL accelerated renderer! SDL Error: " + SDL_GetError());
@@ -146,7 +142,6 @@ bool graphicMgr::displayFrame(bool clearAfter)
 	if(clearAfter)
 	{
 		bool result = SDL_RenderClear((SDL_Renderer*)sdl_renderer);
-		assert(!result);
 		if(result)
 		{
 			logger.LogWarn((std::string)"Failed to clear renderer. SDL Error: " + SDL_GetError());
@@ -241,7 +236,6 @@ bool graphicMgr::loadTextureRec(const std::string& path)
 
 	// Open directory
 	directory = opendir(dirPath.c_str());
-	assert(directory);
 	if(!directory)
 	{
 		logger.LogWarn("Failed to open texture directory at " + dirPath);
@@ -316,7 +310,6 @@ bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_r
 	sdl_dest_rect.h = dest_rect.h;
 
 	bool result = SDL_RenderCopy((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,NULL,&sdl_dest_rect);
-	assert(!result);
 	if(result)
 	{
 		logger.LogWarn("Failed to Render texture ID: " + ID + ", SDL_Error: " + SDL_GetError());
@@ -380,8 +373,7 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
 
 	bool result = SDL_RenderCopyEx((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,
 								   &sdl_src_rect,&sdl_dest_rect,rotation,&sdl_rot_point,sdl_flip);
-	assert(!result);
-	if(result)
+	if(!result)
 	{
 		logger.LogWarn("Failed to Render texture ID: " + ID + ", SDL_Error: " + SDL_GetError());
 		return false;
