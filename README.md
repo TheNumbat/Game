@@ -7,6 +7,7 @@ Game Development Project, currently unnamed.
 SDL 2.0  
 SDL_Image  
 SDL_Mixer  
+SDL_ttf
 Dirent  
 cyanlogger2  
 
