@@ -48,26 +48,48 @@ void eventLoop(engine_state* engine, game_state* game)
 			{
 				game->cam.zoom *= 2;
 			}
+
+			//If the player is holding two directions at once, make them go diagonally
 			else if(e.value == KEY_LEFT && e.flags & FLAG_KEY_PRESS)
 			{
-				mov.lock()->velocity = v2<real32>(-5,0);
+				if(mov.lock()->velocity.x == 0){
+					mov.lock()->velocity = v2<real32>(-2.5,mov.lock()->velocity.y/2);
+				}
+				else{
+					mov.lock()->velocity = v2<real32>(-5,0);
+				}
 			}
 			else if(e.value == KEY_RIGHT && e.flags & FLAG_KEY_PRESS)
 			{
-				mov.lock()->velocity = v2<real32>(5,0);
+				if(mov.lock()->velocity.x == 0){
+					mov.lock()->velocity = v2<real32>(2.5,mov.lock()->velocity.y/2);
+				}
+				else{
+					mov.lock()->velocity = v2<real32>(5,0);
+				}
 			}
 			else if(e.value == KEY_UP && e.flags & FLAG_KEY_PRESS)
 			{
-				mov.lock()->velocity = v2<real32>(0,-5);
+				if(mov.lock()->velocity.y == 0){
+					mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x/2,-2.5);
+				}
+				else{
+					mov.lock()->velocity = v2<real32>(0,-5);
+				}
 			}
 			else if(e.value == KEY_DOWN && e.flags & FLAG_KEY_PRESS)
 			{
-				mov.lock()->velocity = v2<real32>(0,5);
+				if(mov.lock()->velocity.y == 0){
+					mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x/2,2.5);
+				}
+				else{
+					mov.lock()->velocity = v2<real32>(0,5);
+				}
 			}
-			else if(e.flags & FLAG_KEY_RELEASE)
+			/*else if(e.flags & FLAG_KEY_RELEASE)
 			{
 				mov.lock()->velocity = v2<real32>(0,0);
-			}
+			}*/
 		}
 	}
 }
