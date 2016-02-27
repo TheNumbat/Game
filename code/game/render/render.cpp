@@ -33,9 +33,9 @@
 
 void renderMap(engine_state* engine, game_state* game)
 {
-	std::vector<rawTexture> textures;
-
 	game->cam.updateFollow();
+
+	std::vector<rawTexture> textures;
 
 	// Get window size
 	int32 winW, winH;
@@ -76,7 +76,7 @@ void renderMap(engine_state* engine, game_state* game)
 				#ifdef DRAW_CHUNK_BOUNDS
 				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, map_position( currentChunkPos, real_position(0,0,0) ), camZoom );
-					rect2<int32> pixelChunk( floor(pixelPos.x), floor(pixelPos.y), ceil(CHUNK_SIZE_PIXELS * camZoom), ceil(CHUNK_SIZE_PIXELS * camZoom) );
+					rect2<int32> pixelChunk( std::round(pixelPos.x), std::round(pixelPos.y), std::round(CHUNK_SIZE_PIXELS * camZoom), std::round(CHUNK_SIZE_PIXELS * camZoom) );
 					engine->graphics.renderTexture("chunkbounds", pixelChunk);
 				}
 				#endif
@@ -84,7 +84,7 @@ void renderMap(engine_state* engine, game_state* game)
 				#ifdef DRAW_CAMERA 
 				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, centerPos, camZoom );
-					rect2<int32> pixelChunk( floor(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), floor(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), ceil(METERS_TO_PIXELS * camZoom), ceil(METERS_TO_PIXELS * camZoom) );
+					rect2<int32> pixelChunk( std::round(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), std::round(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), std::round(METERS_TO_PIXELS * camZoom), std::round(METERS_TO_PIXELS * camZoom) );
 					engine->graphics.renderTexture("camera", pixelChunk);
 				}
 				#endif
@@ -138,7 +138,7 @@ void renderMap(engine_state* engine, game_state* game)
 	// Actually render textures
 	for(rawTexture t : textures) 
 	{
-		engine->graphics.renderTexture(t.ID, rect2<int32>( floor(t.pixelPos.x), floor(t.pixelPos.y), ceil(t.pixelDim.x), ceil(t.pixelDim.y)));
+		engine->graphics.renderTexture(t.ID, rect2<int32>( std::round(t.pixelPos.x), std::round(t.pixelPos.y), std::round(t.pixelDim.x), std::round(t.pixelDim.y)));
 	}
 
 	engine->graphics.displayFrame();
