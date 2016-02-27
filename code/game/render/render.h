@@ -51,6 +51,22 @@ struct rawTexture
 // Free function prototypes  //////////////////////////////////////////////////
 
 /**
+	@brief Renders the game 
+
+	@param[in] engine pointer to the engine state
+	@param[in] game pointer to the game state
+*/
+void render(engine_state* engine, game_state* game);
+
+/**
+	@brief Renders the game HUD
+
+	@param[in] engine pointer to the engine state
+	@param[in] game pointer to the game state
+*/
+void renderHUD(engine_state* engine, game_state* game);
+
+/**
 	@brief Renders the game map
 
 	@param[in] engine pointer to the engine state

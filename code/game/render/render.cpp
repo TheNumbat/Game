@@ -31,6 +31,18 @@
 
 // Free function implementation  //////////////////////////////////////////////
 
+void render(engine_state* engine, game_state* game)
+{
+	renderMap(engine,game);
+	renderHUD(engine,game);
+	engine->graphics.displayFrame();
+}
+
+void renderHUD(engine_state* engine, game_state* game)
+{
+	engine->graphics.renderTexture("message",rect2<int32>(10,10,250,125));
+}
+
 void renderMap(engine_state* engine, game_state* game)
 {
 	game->cam.updateFollow();
@@ -140,8 +152,6 @@ void renderMap(engine_state* engine, game_state* game)
 	{
 		engine->graphics.renderTexture(t.ID, rect2<int32>( std::round(t.pixelPos.x), std::round(t.pixelPos.y), std::round(t.pixelDim.x), std::round(t.pixelDim.y)));
 	}
-
-	engine->graphics.displayFrame();
 }
 
 v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom)

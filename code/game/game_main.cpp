@@ -82,6 +82,9 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->graphics.loadTexture("art/entities/dankdude_front.png","dankdude");
 	engine->graphics.loadTexture("art/entities/yeti.png","yeti");
 
+	engine->graphics.loadFont("fonts/aubrey.ttf","aubrey",150);
+	engine->graphics.addTextTexture("message","aubrey","hello world!");
+
 	engine->time.addTimer("sim");
 
 	std::weak_ptr<entity> player = game->map.addPlayer("p1",map_position(0,0,0,3,3,0),0);
@@ -108,7 +111,7 @@ GAME_API bool gameLoop(engine_state* engine, game_state* game)
 {	
 	eventLoop(engine,game);
 	simulate(engine,game,"sim");
-	renderMap(engine,game);
+	render(engine,game);
 
 	return game->running;
 }
