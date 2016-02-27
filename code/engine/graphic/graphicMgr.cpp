@@ -23,6 +23,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <dirent.h>
 
 // Global constant definitions  ///////////////////////////////////////////////
@@ -68,7 +69,15 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 	result = IMG_Init(IMG_INIT_PNG|IMG_INIT_JPG);
 	if(!result)
 	{
-		logger.LogFatal((std::string)"Failed to intialize sdl image system! SDL Error: " + SDL_GetError());
+		logger.LogFatal((std::string)"Failed to intialize sdl image system! IMG Error: " + IMG_GetError());
+		return false;	
+	}
+
+	// Init fonts
+	result = TTF_Init();
+	if(result)
+	{
+		logger.LogFatal((std::string)"Failed to intialize sdl ttf font system! TTF Error: " + TTF_GetError());
 		return false;	
 	}
 
@@ -115,6 +124,7 @@ bool graphicMgr::kill()
 	// Quit
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	IMG_Quit();
+	TTF_Quit();
 
 	logger.LogInfo("Graphics uninitialized");
 

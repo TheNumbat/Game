@@ -8,9 +8,9 @@ pushd w:\build
 set CompileFlags=/I"W:\deps\include" /I"W:\code\include" /I"W:\code\engine" /I"W:\code\game" /Od /Zi /w /MD /EHsc /DENGINE_EXPORTS
 
 set LinkFlags=/NODEFAULTLIB:msvcrtd.lib /subsystem:console,5.01 W:\deps\lib\SDL2.lib W:\deps\lib\SDL2main.lib  W:\deps\lib\cyanlogger2.lib W:\deps\lib\SDL2_image.lib 
-set LinkFlags=%LinkFlags% W:\deps\lib\SDL2_mixer.lib w:\deps\lib\SDL_ttf.lib
+set LinkFlags=%LinkFlags% W:\deps\lib\SDL2_mixer.lib w:\deps\lib\SDL2_ttf.lib
 
-set Files=w:\code\engine\event\event\event.cpp w:\code\engine\event\eventMgr.cpp w:\code\engine\graphic\texture\texture.cpp 
+set Files=w:\code\engine\event\event\event.cpp w:\code\engine\event\eventMgr.cpp w:\code\engine\graphic\texture\texture.cpp w:\code\engine\graphic\font\font.cpp 
 set Files=%Files% w:\code\engine\graphic\graphicMgr.cpp w:\code\engine\log\logMgr.cpp w:\code\engine\sdl\sdlMgr.cpp w:\code\engine\time\timeMgr.cpp 
 set Files=%Files% w:\code\engine\sound\sound\sound.cpp w:\code\engine\sound\soundMgr.cpp w:\code\engine\time\timer\timer.cpp w:\code\engine\thread\threadMgr.cpp
 
