@@ -27,7 +27,12 @@
 
 // Free function prototypes  //////////////////////////////////////////////////
 
+/**
+	@brief Handles event loop
 
+	@param[in] engine pointer to engine state
+	@param[in] game pointer to game state
+*/
 void eventLoop(engine_state* engine, game_state* game);
 
 // Free function implementation  //////////////////////////////////////////////

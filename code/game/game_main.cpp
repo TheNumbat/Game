@@ -87,6 +87,8 @@ GAME_API game_state* startup(engine_state* engine)
 	std::weak_ptr<entity> test = game->map.addEntity(map_position(0,0,0,3,3,0),0);
 
 	std::weak_ptr<component_movement> mov = std::static_pointer_cast<component_movement>(player.lock()->addComponent(ctype_movement).lock());
+	mov = std::static_pointer_cast<component_movement>(test.lock()->addComponent(ctype_movement).lock());
+	mov.lock()->velocity = v2<real32>(3,0);
 
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
 	texture.lock()->addTexture("dankdude_front",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
@@ -94,14 +96,7 @@ GAME_API game_state* startup(engine_state* engine)
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
 	testtexture.lock()->addTexture("dankdude_front",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
 
-	game->cam.setFollowing(player.lock());
-
-	game->sim.exit = false;
-	game->sim.game = game;
-	game->sim.engine = engine;
-	game->sim.timerID = "sim";
-	engine->thread.add("sim1",&simulate,&game->sim);
-	engine->thread.add("sim2",&simulate,&game->sim);
+	// game->cam.setFollowing(player.lock());
 
 	game->running = true;
 	return game;
@@ -110,16 +105,14 @@ GAME_API game_state* startup(engine_state* engine)
 GAME_API bool gameLoop(engine_state* engine, game_state* game)
 {	
 	eventLoop(engine,game);
+	simulate(engine,game,"sim");
 	renderMap(engine,game);
-
-	engine->graphics.displayFrame();
 
 	return game->running;
 }
 
 GAME_API void shutdown(engine_state* engine, game_state* game)
 {
-	game->sim.exit = true;
 	delete game;
 }
 

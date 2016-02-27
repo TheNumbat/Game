@@ -32,8 +32,6 @@ void eventLoop(engine_state* engine, game_state* game)
 	while(engine->events.getNextEvent(e))
 	{
 		std::weak_ptr<entity> player = game->map.getPlayerByID("p1");
-		std::lock_guard<std::recursive_mutex> lock(player.lock()->lock);
-
 		std::weak_ptr<component_movement> mov = std::static_pointer_cast<component_movement>(player.lock()->getComponent(ctype_movement).lock());
 
 		if(e.type == EVT_QUIT)
@@ -65,6 +63,10 @@ void eventLoop(engine_state* engine, game_state* game)
 			else if(e.value == KEY_DOWN && e.flags & FLAG_KEY_PRESS)
 			{
 				mov.lock()->velocity = v2<real32>(0,5);
+			}
+			else if(e.flags & FLAG_KEY_RELEASE)
+			{
+				mov.lock()->velocity = v2<real32>(0,0);
 			}
 		}
 	}

@@ -23,7 +23,6 @@
 #include "map\component\component.h"
 #include <memory>
 #include <map>
-#include <mutex>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -112,8 +111,6 @@ public:
 		@exception if entity does not have component return NULL
 	*/
 	std::weak_ptr<component> getComponent(component_type c);
-
-	std::recursive_mutex lock;
 
 private:
 	std::map<component_type,std::shared_ptr<component>> components;

@@ -72,8 +72,6 @@ void renderMap(engine_state* engine, game_state* game)
 			// If chunk exists
 			if(!currentChunk.expired())
 			{
-				std::lock_guard<std::recursive_mutex> lock(currentChunk.lock()->lock);
-
 				// Debug: draw chunk boundry
 				#ifdef DRAW_CHUNK_BOUNDS
 				{
@@ -97,15 +95,13 @@ void renderMap(engine_state* engine, game_state* game)
 
 					if(!e.expired())
 					{
-						std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
-
 						// Test if entity can be rendered
 						if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_texture))
 						{
 							// Get components
 							std::weak_ptr<component_position> ePosition = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
 							std::weak_ptr<component_texture> eTexture = std::static_pointer_cast<component_texture>(e.lock()->getComponent(ctype_texture).lock());
-
+							
 							// Get each texture from the entity
 							for(int32 texIndex = 0; texIndex < eTexture.lock()->textureIDs.size(); texIndex++)
 							{
@@ -144,6 +140,8 @@ void renderMap(engine_state* engine, game_state* game)
 	{
 		engine->graphics.renderTexture(t.ID, rect2<int32>( floor(t.pixelPos.x), floor(t.pixelPos.y), ceil(t.pixelDim.x), ceil(t.pixelDim.y)));
 	}
+
+	engine->graphics.displayFrame();
 }
 
 v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom)

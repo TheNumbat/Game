@@ -57,8 +57,6 @@ bool camera::set(std::weak_ptr<entity> e)
 		return false;
 	}
 
-	std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
-
 	if(!e.lock()->hasComponent(ctype_position))
 	{
 		logger.LogWarn("Trying to set camera position on entity without position");
@@ -87,8 +85,6 @@ bool camera::updateFollow()
 	{
 		return set(following);
 	}
-
-	logger.LogWarn("Cannot update follow, followed entity does not exist");
 	return false;
 }
 
@@ -100,8 +96,6 @@ bool camera::setFollowing(std::weak_ptr<entity> e)
 		following = std::weak_ptr<entity>();
 		return true;
 	}
-
-	std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
 
 	if(!e.lock()->hasComponent(ctype_position))
 	{

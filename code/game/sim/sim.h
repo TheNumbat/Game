@@ -18,39 +18,24 @@
 
 #include "game_common.h"
 
+#include "game_state.h"
+
 #include <engine_state.h>
+#include <string>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
-class game_state;
-
 // Class/Struct definitions  //////////////////////////////////////////////////
-
-/**
-	@brief Describes data needed to run a simulation thread
-
-	Used as an intermediate between the game loop and sim function
-*/
-struct simData
-{
-	/// Set to true to exit the thread
-	bool exit;
-	/// Pointer to game state
-	game_state* game;
-	/// Poniter to engine state
-	engine_state* engine;
-	/// ID of timer to use for simulation
-	std::string timerID;
-	// std::string mapID; Will be used for multiple maps
-};
 
 // Free function prototypes  //////////////////////////////////////////////////
 
 /**
 	@brief Simulates the game map
 
-	@param[in] data pointer to simData structure
+	@param[in] engine pointer to engine state
+	@param[in] game pointer to game state
+	@param[in] timerID ID of timer to use 
 */
-int simulate(void* data);
+void simulate(engine_state* engine, game_state* game, const std::string& timerID);
 
 // Free function implementation  //////////////////////////////////////////////

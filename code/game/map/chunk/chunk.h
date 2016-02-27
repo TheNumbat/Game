@@ -20,9 +20,8 @@
 #include "engine_common.h"
 #include "map/entity/entity.h"
 
-#include <set>
+#include <map>
 #include <memory>
-#include <mutex>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -40,7 +39,6 @@ struct chunk
 	chunk();
 	~chunk();
 
-	std::recursive_mutex lock;
 	std::map<uint64,std::shared_ptr<entity>> entities;
 };
 

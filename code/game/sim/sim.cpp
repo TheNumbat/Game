@@ -28,28 +28,22 @@
 
 // Free function implementation  //////////////////////////////////////////////
 
-int simulate(void* data)
+void simulate(engine_state* engine, game_state* game, const std::string& timerID)
 {
-	game_state* game = ((simData*)data)->game;
-	engine_state* engine = ((simData*)data)->engine;
-	std::string timerID = ((simData*)data)->timerID;
+	std::weak_ptr<chunk> simChunk;
 
-	while(!((simData*)data)->exit)
+	do
 	{
-		std::weak_ptr<chunk> simChunk = game->map.getNextChunkForSim();
+		simChunk = game->map.getNextChunkForSim();
 
 		if(!simChunk.expired())
 		{
-			std::lock_guard<std::recursive_mutex> lock(simChunk.lock()->lock);
-
 			for(auto entry : simChunk.lock()->entities)
 			{
 				std::weak_ptr<entity> e = entry.second;
 
-				if(e.lock())
+				if(!e.expired())
 				{
-					std::lock_guard<std::recursive_mutex> lock(e.lock()->lock);
-
 					if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_movement))
 					{
 						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
@@ -64,20 +58,17 @@ int simulate(void* data)
 							v2<real32> offset = eMov.lock()->velocity * (dT / 1000.0f);
 							ePos.lock()->position += map_position(0,0,0,offset.x,offset.y,0);
 
-							game->map.updateEntityMapPos(e);
-
 							e.lock()->setLastUpdate(current);
+
+							if(game->map.updateEntityMapPos(e))
+							{
+								break;
+							}
 						}
 					}
 				}
-
-				if(!simChunk.lock()->entities.size())
-				{
-					break;
-				}
 			}
 		}
-	}
-
-	return 0;
+	} 
+	while(!simChunk.expired());
 }

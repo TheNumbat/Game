@@ -16,7 +16,6 @@
 
 #include "camera/camera.h"
 #include "map/mapMgr.h"
-#include "sim/sim.h"
 
 #include <log/logMgr.h>
 
@@ -37,7 +36,6 @@ struct game_state
 	game_state() : cam() {};
 	~game_state() {};
 
-	simData sim;
 	camera cam;
 	mapMgr map;
 	logMgr logger;

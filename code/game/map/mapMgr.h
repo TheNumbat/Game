@@ -26,10 +26,9 @@
 #include "entity/entity.h"
 #include "map/position/position.h"
 
-#include <vector>
 #include <memory>
-#include <set>
 #include <unordered_map>
+#include <map>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -228,7 +227,6 @@ public:
 private:
 	std::unordered_map<chunk_position,std::shared_ptr<chunk>> map;
 	std::map<std::string,std::weak_ptr<entity>> players;
-	std::mutex getNextChunkMutex;
 
 	uint32 nextUnusedID;
 	logMgr logger;
