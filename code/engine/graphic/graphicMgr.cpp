@@ -214,6 +214,39 @@ bool graphicMgr::loadTexture(const std::string& path, const std::string& ID, ble
 	return true;
 }
 
+bool graphicMgr::loadFont(const std::string& path, const std::string& ID, int size)
+{
+	if(fonts.find(ID) != fonts.end())
+	{
+		logger.LogWarn("Font ID " + ID + " already taken!");
+		return false;
+	}
+
+	std::unique_ptr<font> newFont = std::make_unique<font>();
+	std::string fontID;
+
+	if(!ID.size())
+	{
+		fontID = path.substr(path.find_last_of("/\\") + 1, path.find_last_of(".") - path.find_last_of("/\\") - 1);
+	}
+	else
+	{
+		fontID = ID;
+	}
+
+	// Load
+	if(!newFont->load(path,size))
+	{
+		logger.LogWarn("Failed to load font ID: " + fontID + " from " + path + " TTF_error: " + TTF_GetError());
+		return false;
+	}
+
+	// Success
+	fonts.insert({fontID,std::move(newFont)});
+	logger.LogInfo("Loaded font ID: " + fontID + " from " + path);
+	return true;
+}
+
 bool graphicMgr::setBlendmode(const std::string& ID, blendmode b)
 {
 	auto textureItem = textures.find(ID);
@@ -281,6 +314,54 @@ bool graphicMgr::loadTextureRec(const std::string& path)
 	return true;
 }
 
+bool graphicMgr::loadFontRec(const std::string& path)
+{
+	DIR *directory;
+	struct dirent *entry;
+	std::string dirPath = path;
+
+	if(dirPath.back() != '/' && dirPath.back() != '\\')
+	{
+		dirPath.append("/");
+	} 
+
+	// Open directory
+	directory = opendir(dirPath.c_str());
+	if(!directory)
+	{
+		logger.LogWarn("Failed to open font directory at " + dirPath);
+		return false;
+	}
+
+	logger.LogInfo("Loading font directory at " + dirPath);
+	logger.EnterSec();
+
+	// Read directory
+	while(entry = readdir(directory))
+	{
+		std::string entryName = entry->d_name;
+
+		if(entryName != ".." && entryName != ".")
+		{
+			// Load texture or load another directory
+			/// @todo make this better, it just tests for a .extension
+			if(entryName[entryName.size() - 4] == '.')
+			{
+				loadFont(dirPath + entryName);
+			}
+			else
+			{
+				loadFontRec(dirPath + entryName + '/');
+			}
+		}
+	}
+
+	logger.ExitSec();
+
+	// Success
+	return true;
+}
+
 bool graphicMgr::freeTexture(const std::string& ID)
 {
 	auto tex = textures.find(ID);
@@ -294,6 +375,22 @@ bool graphicMgr::freeTexture(const std::string& ID)
 
 	// Success
 	logger.LogInfo("Freed texture ID: " + ID);
+	return true;
+}
+
+bool graphicMgr::freeFont(const std::string& ID)
+{
+	auto fontEntry = textures.find(ID);
+	if(fontEntry == textures.end())
+	{
+		logger.LogWarn("Can't free font ID: " + ID + ", could not find");
+		return false;
+	}
+
+	textures.erase(fontEntry);
+
+	// Success
+	logger.LogInfo("Freed font ID: " + ID);
 	return true;
 }
 

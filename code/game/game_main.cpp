@@ -79,8 +79,10 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->time.init();
 
 	engine->graphics.loadTextureRec("debug");
+	engine->graphics.loadFont("fonts/aubrey.ttf","aubrey",16);
 	engine->graphics.loadTexture("art/entities/dankdude_front.png","dankdude");
 	engine->graphics.loadTexture("art/entities/yeti.png","yeti");
+
 	engine->time.addTimer("sim");
 
 	std::weak_ptr<entity> player = game->map.addPlayer("p1",map_position(0,0,0,3,3,0),0);

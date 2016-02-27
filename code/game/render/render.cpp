@@ -76,7 +76,7 @@ void renderMap(engine_state* engine, game_state* game)
 				#ifdef DRAW_CHUNK_BOUNDS
 				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, map_position( currentChunkPos, real_position(0,0,0) ), camZoom );
-					rect2<int32> pixelChunk( std::round(pixelPos.x), std::round(pixelPos.y), std::round(CHUNK_SIZE_PIXELS * camZoom), std::round(CHUNK_SIZE_PIXELS * camZoom) );
+					rect2<int32> pixelChunk( std::floor(pixelPos.x), std::floor(pixelPos.y), std::ceil(CHUNK_SIZE_PIXELS * camZoom), std::ceil(CHUNK_SIZE_PIXELS * camZoom) );
 					engine->graphics.renderTexture("chunkbounds", pixelChunk);
 				}
 				#endif
@@ -84,7 +84,7 @@ void renderMap(engine_state* engine, game_state* game)
 				#ifdef DRAW_CAMERA 
 				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, centerPos, camZoom );
-					rect2<int32> pixelChunk( std::round(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), std::round(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), std::round(METERS_TO_PIXELS * camZoom), std::round(METERS_TO_PIXELS * camZoom) );
+					rect2<int32> pixelChunk( std::floor(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), std::floor(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), std::ceil(METERS_TO_PIXELS * camZoom), std::ceil(METERS_TO_PIXELS * camZoom) );
 					engine->graphics.renderTexture("camera", pixelChunk);
 				}
 				#endif

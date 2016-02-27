@@ -114,12 +114,26 @@ public:
 
 		@param[in] path file path of image file
 		@param[in] ID of texture to load, if empty will use file name
+		@param[in] b blend mode, if emptly will use alpha blending
 
 		@return success
 
 		@exception couldn't load texture, does nothing, returns false
 	*/
 	ENGINE_API bool loadTexture(const std::string& path, const std::string& ID = "", blendmode b = blend_alpha);
+
+	/**
+		@brief Loads a font from file into font map
+
+		@param[in] path file path of true type font file
+		@param[in] ID of font to load, if empty will use file name
+		@param[in] size of font, if empty will use 14
+
+		@return success
+
+		@exception couldn't load font, does nothing, returns false
+	*/
+	ENGINE_API bool loadFont(const std::string& path, const std::string& ID = "", int size = 14);
 
 	/**
 		@brief Changes a texture's blend mode
@@ -147,6 +161,19 @@ public:
 	ENGINE_API bool loadTextureRec(const std::string& path);
 
 	/**
+		@brief Loads all true type font files from a folder (and subfolders) into font map
+
+		Will just use file name for font IDs
+
+		@param[in] path of folder to load
+
+		@note uses dirent.h
+
+		@return success -- always true
+	*/
+	ENGINE_API bool loadFontRec(const std::string& path);
+
+	/**
 		@brief Unloads a texture from the texture map
 
 		@param[in] ID of texture to unload
@@ -156,6 +183,17 @@ public:
 		@exception couldn't find texture, no change, return false
 	*/
 	ENGINE_API bool freeTexture(const std::string& ID);
+
+	/**
+		@brief Unloads a font from the font map
+
+		@param[in] ID of font to unload
+
+		@return success
+
+		@exception couldn't find font, no change, return false
+	*/
+	ENGINE_API bool freeFont(const std::string& ID);
 
 	/**
 		@brief Renders a texture to the backbuffer
