@@ -231,9 +231,7 @@ bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 	std::weak_ptr<chunk> newChunk = addChunk(entityPos.lock()->position.chunkPos);
 
 	// Move entity
-	std::shared_ptr<entity> ePtr = e.lock();
-	oldChunk.lock()->entities.erase(ePtr->getUID());
-	newChunk.lock()->entities.insert({ePtr->getUID(),ePtr});
+	newChunk.lock()->entities.insert({e.lock()->getUID(),e.lock()});
 
 	#ifdef VERBOSE_MAP
 		logger.LogInfo("Updated chunk position of entity UID: " + std::to_string(e.lock()->getUID()));

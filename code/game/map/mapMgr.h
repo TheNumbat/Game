@@ -155,6 +155,8 @@ public:
 	/**
 		@brief updates an entity's position in the chunk map
 
+		@note WILL NOT DELETE ENTITY IF IT IS MOVED, YOU MUST DO THIS
+
 		@param[in] e pointer to entity to update
 
 		@return success

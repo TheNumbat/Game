@@ -38,9 +38,9 @@ void simulate(engine_state* engine, game_state* game, const std::string& timerID
 
 		if(!simChunk.expired())
 		{
-			for(auto entry : simChunk.lock()->entities)
+			for(auto entry = simChunk.lock()->entities.begin(); entry != simChunk.lock()->entities.end();)
 			{
-				std::weak_ptr<entity> e = entry.second;
+				std::weak_ptr<entity> e = entry->second;
 
 				if(!e.expired())
 				{
@@ -62,7 +62,11 @@ void simulate(engine_state* engine, game_state* game, const std::string& timerID
 
 							if(game->map.updateEntityMapPos(e))
 							{
-								break;
+								simChunk.lock()->entities.erase(entry++);
+							}
+							else
+							{
+								++entry;
 							}
 						}
 					}
