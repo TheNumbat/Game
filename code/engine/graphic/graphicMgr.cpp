@@ -183,7 +183,7 @@ bool graphicMgr::getWinDim(int32& w, int32& h)
 	return true;
 }
 
-bool graphicMgr::addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, v4<uint8> color, blendmode b)
+bool graphicMgr::addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, const v4<uint8>& color, blendmode b)
 {
 	if(textures.find(texID) != textures.end())
 	{
@@ -222,7 +222,7 @@ bool graphicMgr::addTextTexture(const std::string& texID, const std::string& fon
 	}
 
 	SDL_FreeSurface(textSurface);
-	logger.LogInfo("Created texture ID " + texID + " using font ID " + fontID);
+	// logger.LogInfo("Created texture ID " + texID + " using font ID " + fontID);
 	textures.insert({texID,std::move(newTexture)});
 	return true;
 }
@@ -420,7 +420,7 @@ bool graphicMgr::freeTexture(const std::string& ID)
 	textures.erase(tex);
 
 	// Success
-	logger.LogInfo("Freed texture ID: " + ID);
+	// logger.LogInfo("Freed texture ID: " + ID);
 	return true;
 }
 
@@ -536,6 +536,23 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
 		logger.LogInfo("Rendered texture ID: " + ID);
 	#endif
 		
+	return true;
+}
+
+bool graphicMgr::renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect, const v4<uint8>& color, blendmode b)
+{
+	if(!addTextTexture("textrender_temp",fontID,text,color,b))
+	{
+		return false;
+	}
+	if(!renderTexture("textrender_temp",dest_rect))
+	{
+		return false;
+	}
+	if(!freeTexture("textrender_temp"))
+	{
+		return false;
+	}
 	return true;
 }
 

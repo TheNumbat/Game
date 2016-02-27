@@ -135,7 +135,7 @@ public:
 
 		@exception couldn't load texture, does nothing, returns false
 	*/
-	ENGINE_API bool addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, v4<uint8> color = v4<uint8>(255,255,255,255), blendmode b = blend_alpha);
+	ENGINE_API bool addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, const v4<uint8>& color = v4<uint8>(255,255,255,255), blendmode b = blend_alpha);
 
 	/**
 		@brief Loads a font from file into font map
@@ -243,11 +243,29 @@ public:
 
 		@exception could not find texture, returns false
 		@exception could not render texture, returns false
-		@exception graphics not intialized, returns false
 	*/
 	ENGINE_API bool renderTextureEx(const std::string& ID, const rect2<int32>& dest_rect,
 									const rect2<int32>& src_rect, const v2<int32>& rot_point,
 									real32 rotation, uint32 flip);
+
+	/**
+		@brief Directly renders a texture -- slower than adding a text texture and using that
+
+		Renders text without having to create a texture first
+
+		@param[in] fontID ID of font to use
+		@param[in] text to render
+		@param[in] dest_rect what area to render into
+		@param[in] color of text to render
+		@param[in] b blend mode of texture 
+
+		@return success
+
+		@exception could not make text texture, returns false
+		@exception could not render texture, returns false
+		@exception could not free texture, returns false
+	*/
+	ENGINE_API bool renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect, const v4<uint8>& color = v4<uint8>(255,255,255,255), blendmode b = blend_alpha);
 
 private:
 	logMgr logger;

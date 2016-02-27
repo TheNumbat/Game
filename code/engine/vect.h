@@ -307,28 +307,24 @@ struct v4
 	union 
 	{
 		T x;
-		T a;
 		T r;
 	};
 
 	union 
 	{
 		T y;
-		T b;
 		T g;
 	};
 
 	union 
 	{
 		T z;
-		T c;
 		T b;
 	};
 
 	union 
 	{
 		T w;
-		T d;
 		T a;
 	};
 

@@ -83,7 +83,6 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->graphics.loadTexture("art/entities/yeti.png","yeti");
 
 	engine->graphics.loadFont("fonts/aubrey.ttf","aubrey",150);
-	engine->graphics.addTextTexture("message","aubrey","hello world!");
 
 	engine->time.addTimer("sim");
 
