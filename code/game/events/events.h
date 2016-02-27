@@ -1,7 +1,7 @@
 // Program Information ////////////////////////////////////////////////////////
 
 /**
-	@file event.h
+	@file events.h
 	@author Max Slater
 
 	@brief manages the event system for the game, contains the event loop

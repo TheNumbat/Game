@@ -1,7 +1,7 @@
 // Program Information ////////////////////////////////////////////////////////
 
 /**
-	@file event.cpp
+	@file events.cpp
 	@author Max Slater
 
 	@brief manages the event system for the game, contains the event loop
@@ -18,7 +18,7 @@
 
 // Header files ///////////////////////////////////////////////////////////////
 
-#include "event.h"
+#include "events.h"
 
 // Global constant definitions  ///////////////////////////////////////////////
 

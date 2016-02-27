@@ -23,7 +23,7 @@
 #include "game_common.h"
 #include <engine_state.h>
 
-#include "event/event.h"
+#include "events/events.h"
 #include "render/render.h"
 #include "sim/sim.h"
 

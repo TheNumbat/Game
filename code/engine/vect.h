@@ -431,6 +431,7 @@ struct v4
 	}
 };
 
+/// color is just for convience, a uint8 4D vector for 0-255 RGBA
 typedef v4<uint8> color;
 
 // Free function prototypes  //////////////////////////////////////////////////

@@ -128,7 +128,7 @@ public:
 		@param[in] texID ID of new texture
 		@param[in] fontID ID of font to use
 		@param[in] text to render
-		@param[in] color of text to render (RGBA), if empty will use white and 100% alpha
+		@param[in] c color of text to render (RGBA), if empty will use white and 100% alpha
 		@param[in] b blend mode, if emptly will use alpha blending
 
 		@return success
@@ -256,7 +256,7 @@ public:
 		@param[in] fontID ID of font to use
 		@param[in] text to render
 		@param[in] dest_rect what area to render into
-		@param[in] color of text to render
+		@param[in] c color of text to render
 		@param[in] b blend mode of texture 
 
 		@return success
