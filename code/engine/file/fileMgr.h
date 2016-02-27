@@ -102,13 +102,15 @@ public:
 		@param[in] ID of file to use
 		@param[in] buffer location to read data into
 		@param[in] size (in bytes) of each object to read, or empty for sizeof(buffer)
-		@param[in] numobjs the maximum number of objects of size size to read
+		@param[in] numobjs the maximum number of objects of size size to read, default is one
 
 		@return success
 
 		@expcetion unable to read from file, returns false
 	*/
-	ENGINE_API bool read(const std::string& ID, void* buffer, uint32 size = -1, uint32 numobjs = 1);
+	ENGINE_API bool read(const std::string& ID, void* buffer, uint32 size, uint32 numobjs = 1);
+	#define read(a,b) read(a,b,sizeof(b))
+	#define read(a,b,c) read(a,b,sizeof(b),c)
 
 	/**
 		@brief Writes data to a file
@@ -116,13 +118,15 @@ public:
 		@param[in] ID of file to use
 		@param[in] buffer location to write data from
 		@param[in] size (in bytes) of each object to write, or empty for sizeof(buffer)
-		@param[in] numobjs the number of objects of size size to write
+		@param[in] numobjs the number of objects of size size to write, default is one
 
 		@return success
 
 		@expcetion unable to write to file, returns false
 	*/
-	ENGINE_API bool write(const std::string& ID, void* buffer, uint32 size = -1, uint32 numobjs = 1);
+	ENGINE_API bool write(const std::string& ID, void* buffer, uint32 size, uint32 numobjs = 1);
+	#define write(a,b) write(a,b,sizeof(b))
+	#define write(a,b,c) write(a,b,sizeof(b),c)
 
 	/**
 		@brief Gets the offset (in bytes) of the read/write cursor from the start of the file
@@ -142,11 +146,11 @@ public:
 		@param[in] offset to go to
 		@param[in] start where to start from, or empty to seek from the start
 
-		@return success
+		@return new offset or -1 for failure
 
-		@expcetion unable to seek in file, returns false
+		@expcetion unable to seek in file, returns -1
 	*/
-	ENGINE_API bool setOffset(const std::string& ID, uint64 offset, fileseek start = file_start);
+	ENGINE_API uint64 setOffset(const std::string& ID, uint64 offset, fileseek start = file_start);
 
 private:
 	std::map<std::string,std::unique_ptr<file>> files;

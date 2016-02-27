@@ -18,3 +18,6 @@
 #define DRAW_POSITIONS
 #define DRAW_COLLISION_VOLUMES
 // #define DRAW_CAMERA
+
+/// Map
+#define CHUNK_SIZE_METERS 25.0f

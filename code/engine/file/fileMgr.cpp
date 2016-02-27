@@ -22,6 +22,9 @@
 #include "fileMgr.h"
 #include <SDL.h>
 
+#undef read
+#undef write
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -88,22 +91,88 @@ bool fileMgr::freeFile(const std::string& ID)
 
 bool fileMgr::read(const std::string& ID, void* buffer, uint32 size, uint32 numobjs)
 {
+	auto fEntry = files.find(ID);
+	if(fEntry == files.end())
+	{
+		logger.LogWarn("Could not find file ID " + ID);
+		return false;
+	}
+
+	int result = SDL_RWread((SDL_RWops*)fEntry->second->sdl_file,buffer,size,numobjs);
+	if(result != 0)
+	{
+		logger.LogWarn("Failed to read from file ID " + ID + " SDL_Error: " + SDL_GetError());
+		return false;
+	}
+
 	return true;	
 }
 
 bool fileMgr::write(const std::string& ID, void* buffer, uint32 size, uint32 numobjs)
 {
-	return true;	
+	auto fEntry = files.find(ID);
+	if(fEntry == files.end())
+	{
+		logger.LogWarn("Could not find file ID " + ID);
+		return false;
+	}
+
+	int result = SDL_RWwrite((SDL_RWops*)fEntry->second->sdl_file,buffer,size,numobjs);
+	if(result != 0)
+	{
+		logger.LogWarn("Failed to write to file ID " + ID + " SDL_Error: " + SDL_GetError());
+		return false;
+	}
+
+	return true;
 }
 
 uint64 fileMgr::getOffset(const std::string& ID)
 {
-	return 0;
+	auto fEntry = files.find(ID);
+	if(fEntry == files.end())
+	{
+		logger.LogWarn("Could not find file ID " + ID);
+		return false;
+	}
+
+	uint64 result = SDL_RWtell((SDL_RWops*)fEntry->second->sdl_file);
+	if(result == -1)
+	{
+		logger.LogWarn("Failed to get offset from file ID " + ID + " SDL_Error: " + SDL_GetError());
+	}
+	return result;
 }
 
-bool fileMgr::setOffset(const std::string& ID, uint64 offset, fileseek start)
+uint64 fileMgr::setOffset(const std::string& ID, uint64 offset, fileseek start)
 {
-	return true;	
+	auto fEntry = files.find(ID);
+	if(fEntry == files.end())
+	{
+		logger.LogWarn("Could not find file ID " + ID);
+		return false;
+	}
+
+	int32 whence;
+	if(start == file_start)
+	{
+		whence = RW_SEEK_SET;
+	}
+	else if(start == file_current)
+	{
+		whence = RW_SEEK_CUR;
+	}
+	else
+	{
+		whence = RW_SEEK_END;
+	}
+
+	uint64 result = SDL_RWseek((SDL_RWops*)fEntry->second->sdl_file,offset,whence);
+	if(result == -1)
+	{
+		logger.LogWarn("Failed to set offset from file ID " + ID + " SDL_Error: " + SDL_GetError());
+	}
+	return result;
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////
