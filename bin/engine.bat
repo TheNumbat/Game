@@ -13,6 +13,7 @@ set LinkFlags=%LinkFlags% W:\deps\lib\SDL2_mixer.lib w:\deps\lib\SDL2_ttf.lib
 set Files=w:\code\engine\event\event\event.cpp w:\code\engine\event\eventMgr.cpp w:\code\engine\graphic\texture\texture.cpp w:\code\engine\graphic\font\font.cpp 
 set Files=%Files% w:\code\engine\graphic\graphicMgr.cpp w:\code\engine\log\logMgr.cpp w:\code\engine\sdl\sdlMgr.cpp w:\code\engine\time\timeMgr.cpp 
 set Files=%Files% w:\code\engine\sound\sound\sound.cpp w:\code\engine\sound\soundMgr.cpp w:\code\engine\time\timer\timer.cpp w:\code\engine\thread\threadMgr.cpp
+set Files=%Files% w:\code\engine\file\file\file.cpp w:\code\engine\file\fileMgr.cpp
 
 :: actually call cl
 cl /Fe:Engine.dll /LD %CompileFlags% %Files% /link %LinkFlags%

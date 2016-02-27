@@ -49,47 +49,38 @@ void eventLoop(engine_state* engine, game_state* game)
 				game->cam.zoom *= 2;
 			}
 
-			//If the player is holding two directions at once, make them go diagonally
-			else if(e.value == KEY_LEFT && e.flags & FLAG_KEY_PRESS)
+			if(e.flags & FLAG_KEY_PRESS)
 			{
-				if(mov.lock()->velocity.x == 0){
-					mov.lock()->velocity = v2<real32>(-2.5,mov.lock()->velocity.y/2);
-				}
-				else{
-					mov.lock()->velocity = v2<real32>(-5,0);
+				switch(e.value)
+				{
+					case KEY_LEFT:
+						mov.lock()->velocity = v2<real32>(-5,mov.lock()->velocity.y);
+						break;
+					case KEY_RIGHT:
+						mov.lock()->velocity = v2<real32>(5,mov.lock()->velocity.y);
+						break;
+					case KEY_UP:
+						mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x,-5);
+						break;
+					case KEY_DOWN:
+						mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x,5);
+						break;
 				}
 			}
-			else if(e.value == KEY_RIGHT && e.flags & FLAG_KEY_PRESS)
+			else if(e.flags & FLAG_KEY_RELEASE)
 			{
-				if(mov.lock()->velocity.x == 0){
-					mov.lock()->velocity = v2<real32>(2.5,mov.lock()->velocity.y/2);
-				}
-				else{
-					mov.lock()->velocity = v2<real32>(5,0);
+				switch(e.value)
+				{
+					case KEY_LEFT:
+					case KEY_RIGHT:
+						mov.lock()->velocity = v2<real32>(0,mov.lock()->velocity.y);	
+						break;
+					case KEY_UP:
+					case KEY_DOWN:
+						mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x,0);
+						break;
 				}
 			}
-			else if(e.value == KEY_UP && e.flags & FLAG_KEY_PRESS)
-			{
-				if(mov.lock()->velocity.y == 0){
-					mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x/2,-2.5);
-				}
-				else{
-					mov.lock()->velocity = v2<real32>(0,-5);
-				}
-			}
-			else if(e.value == KEY_DOWN && e.flags & FLAG_KEY_PRESS)
-			{
-				if(mov.lock()->velocity.y == 0){
-					mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x/2,2.5);
-				}
-				else{
-					mov.lock()->velocity = v2<real32>(0,5);
-				}
-			}
-			/*else if(e.flags & FLAG_KEY_RELEASE)
-			{
-				mov.lock()->velocity = v2<real32>(0,0);
-			}*/
 		}
 	}
 }

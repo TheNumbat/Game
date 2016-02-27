@@ -29,6 +29,7 @@
 #include "sound/soundMgr.h"
 #include "thread/threadMgr.h"
 #include "time/timeMgr.h"
+#include "file/fileMgr.h"
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -43,6 +44,7 @@ struct engine_state
 {
 	sdlMgr sdl;	
 	threadMgr thread;
+	fileMgr file;
 	eventMgr events;
 	graphicMgr graphics;
 	soundMgr audio;

@@ -89,12 +89,6 @@ bool soundMgr::kill()
 
 bool soundMgr::loadSound(const std::string& path, const std::string& ID) 
 {
-	if(sounds.find(ID) != sounds.end())
-	{
-		logger.LogWarn("Sound ID " + ID + " already taken!");
-		return false;
-	}
-
 	std::string soundID;
 
 	if(!ID.size())
@@ -104,6 +98,12 @@ bool soundMgr::loadSound(const std::string& path, const std::string& ID)
 	else
 	{
 		soundID = ID;
+	}
+
+	if(sounds.find(soundID) != sounds.end())
+	{
+		logger.LogWarn("Sound ID " + ID + " already taken!");
+		return false;
 	}
 
 	std::unique_ptr<sound> newS = std::make_unique<sound>();

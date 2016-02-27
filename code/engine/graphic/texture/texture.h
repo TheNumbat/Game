@@ -27,6 +27,11 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+/**
+	@brief Describes what blend mode to use with a texture
+
+	Used by texture.
+*/
 enum blendmode
 {
 	blend_none,

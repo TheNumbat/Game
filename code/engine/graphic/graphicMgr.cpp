@@ -229,13 +229,6 @@ bool graphicMgr::addTextTexture(const std::string& texID, const std::string& fon
 
 bool graphicMgr::loadTexture(const std::string& path, const std::string& ID, blendmode b)
 {
-	if(textures.find(ID) != textures.end())
-	{
-		logger.LogWarn("Texture ID " + ID + " already taken!");
-		return false;
-	}
-
-	std::unique_ptr<texture> newTexture = std::make_unique<texture>();
 	std::string texID;
 
 	if(!ID.size())
@@ -246,6 +239,14 @@ bool graphicMgr::loadTexture(const std::string& path, const std::string& ID, ble
 	{
 		texID = ID;
 	}
+
+	if(textures.find(texID) != textures.end())
+	{
+		logger.LogWarn("Texture ID " + ID + " already taken!");
+		return false;
+	}
+
+	std::unique_ptr<texture> newTexture = std::make_unique<texture>();
 
 	// Load
 	if(!newTexture->load(path,sdl_renderer,b))
@@ -262,13 +263,6 @@ bool graphicMgr::loadTexture(const std::string& path, const std::string& ID, ble
 
 bool graphicMgr::loadFont(const std::string& path, const std::string& ID, int size)
 {
-	if(fonts.find(ID) != fonts.end())
-	{
-		logger.LogWarn("Font ID " + ID + " already taken!");
-		return false;
-	}
-
-	std::unique_ptr<font> newFont = std::make_unique<font>();
 	std::string fontID;
 
 	if(!ID.size())
@@ -279,6 +273,14 @@ bool graphicMgr::loadFont(const std::string& path, const std::string& ID, int si
 	{
 		fontID = ID;
 	}
+
+	if(fonts.find(fontID) != fonts.end())
+	{
+		logger.LogWarn("Font ID " + ID + " already taken!");
+		return false;
+	}
+
+	std::unique_ptr<font> newFont = std::make_unique<font>();
 
 	// Load
 	if(!newFont->load(path,size))
