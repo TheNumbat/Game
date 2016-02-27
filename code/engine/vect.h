@@ -168,21 +168,18 @@ struct v3
 	union 
 	{
 		T x;
-		T a;
 		T r;
 	};
 
 	union 
 	{
 		T y;
-		T b;
 		T g;
 	};
 
 	union 
 	{
 		T z;
-		T c;
 		T b;
 	};
 
