@@ -72,6 +72,8 @@ GAME_API game_state* startup(engine_state* engine)
 	game->logger.StartLog("GAME");
 	game->logger.LogInfo("Game code initialized");
 
+	engine->logger.StartLog("ENGINE");
+
 	engine->sdl.init();
 	engine->graphics.init("Game");
 	engine->events.init();

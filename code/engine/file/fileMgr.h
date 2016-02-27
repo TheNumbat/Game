@@ -109,8 +109,6 @@ public:
 		@expcetion unable to read from file, returns false
 	*/
 	ENGINE_API bool read(const std::string& ID, void* buffer, uint32 size, uint32 numobjs = 1);
-	#define read(a,b) read(a,b,sizeof(b))
-	#define read(a,b,c) read(a,b,sizeof(b),c)
 
 	/**
 		@brief Writes data to a file
@@ -125,8 +123,6 @@ public:
 		@expcetion unable to write to file, returns false
 	*/
 	ENGINE_API bool write(const std::string& ID, void* buffer, uint32 size, uint32 numobjs = 1);
-	#define write(a,b) write(a,b,sizeof(b))
-	#define write(a,b,c) write(a,b,sizeof(b),c)
 
 	/**
 		@brief Gets the offset (in bytes) of the read/write cursor from the start of the file

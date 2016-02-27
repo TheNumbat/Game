@@ -22,9 +22,6 @@
 #include "fileMgr.h"
 #include <SDL.h>
 
-#undef read
-#undef write
-
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -38,6 +35,7 @@
 fileMgr::fileMgr()
 {
 	logger.StartLog("FILE IO");
+	logger.LogInfo("File IO initialized");	
 }
 
 fileMgr::~fileMgr()
@@ -68,11 +66,12 @@ bool fileMgr::loadFile(const std::string& path, int8 type, const std::string& ac
 	std::unique_ptr<file> newF = std::make_unique<file>();
 	if(!newF->load(path,type,access))
 	{
-		logger.LogWarn("Could not load file ID " + ID + " SDL_Error: " + SDL_GetError());
+		logger.LogWarn("Could not load file ID " + fileID + " SDL_Error: " + SDL_GetError());
 		return false;
 	}
 
 	files.insert({fileID,std::move(newF)});
+	logger.LogInfo("Loaded file ID " + fileID + " from path " + path);
 	return true;
 }
 
@@ -99,7 +98,7 @@ bool fileMgr::read(const std::string& ID, void* buffer, uint32 size, uint32 numo
 	}
 
 	int result = SDL_RWread((SDL_RWops*)fEntry->second->sdl_file,buffer,size,numobjs);
-	if(result != 0)
+	if(result == 0)
 	{
 		logger.LogWarn("Failed to read from file ID " + ID + " SDL_Error: " + SDL_GetError());
 		return false;
@@ -118,7 +117,7 @@ bool fileMgr::write(const std::string& ID, void* buffer, uint32 size, uint32 num
 	}
 
 	int result = SDL_RWwrite((SDL_RWops*)fEntry->second->sdl_file,buffer,size,numobjs);
-	if(result != 0)
+	if(result < numobjs)
 	{
 		logger.LogWarn("Failed to write to file ID " + ID + " SDL_Error: " + SDL_GetError());
 		return false;

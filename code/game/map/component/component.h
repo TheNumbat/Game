@@ -19,7 +19,7 @@
 
 // Header files ///////////////////////////////////////////////////////////////
 
-#include "engine_common.h"
+#include "game_common.h"
 
 #include "map\position\position.h"
 #include "vect.h"
