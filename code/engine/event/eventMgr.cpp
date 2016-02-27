@@ -190,7 +190,6 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 
 		// Window size change
 		case SDL_WINDOWEVENT_RESIZED:
-		case SDL_WINDOWEVENT_SIZE_CHANGED:
 			ret.flags |= FLAG_WINDOW_RESIZED;
 
 			/// @todo Not sure if this is correct
@@ -198,6 +197,8 @@ event& eventMgr::translateWindowEvent(void* SDL_ev)
 			ret.value |= (uint64)e->window.data2 << 32;
 
 			break;
+		// Ignore this for now
+		case SDL_WINDOWEVENT_SIZE_CHANGED: break;
 
 		// Other
 		default:

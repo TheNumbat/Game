@@ -84,7 +84,7 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 	}
 
 	// Create window
-	sdl_window = SDL_CreateWindow(winTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sw, sh, SDL_WINDOW_SHOWN);
+	sdl_window = SDL_CreateWindow(winTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sw, sh, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if(!sdl_window)
 	{
 		logger.LogFatal((std::string)"Failed to create SDL window! SDL Error: " + SDL_GetError());
