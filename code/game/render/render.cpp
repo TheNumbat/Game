@@ -18,6 +18,8 @@
 
 #include "render.h"
 
+#include "game_state.h"
+
 #include <algorithm>
 #include <vector>
 #include <string>
@@ -121,6 +123,8 @@ void renderMap(engine_state* engine, game_state* game)
 								std::string texID = eTexture.lock()->textureIDs[texIndex];
 								v2<real32> texPos = eTexture.lock()->texturePositions[texIndex];
 								v2<real32> texDim = eTexture.lock()->textureDimensions[texIndex];
+								blendmode b = eTexture.lock()->textureBlends[texIndex];
+								color c = eTexture.lock()->textureMods[texIndex];
 
 								// Map the texture into pixel space (against TLC of window)
 								/// @todo z-space
@@ -132,6 +136,8 @@ void renderMap(engine_state* engine, game_state* game)
 								texture.ID = texID;
 								texture.pixelPos = texPixelPos;
 								texture.pixelDim = texDim * METERS_TO_PIXELS * camZoom;
+								texture.blend = b;
+								texture.mod = c;
 								texture.forceTop = eTexture.lock()->forceTop;
 								texture.forceBot = eTexture.lock()->forceBot;
 
@@ -150,6 +156,9 @@ void renderMap(engine_state* engine, game_state* game)
 	// Actually render textures
 	for(rawTexture t : textures) 
 	{
+		/// @note this will leave the texture with the blend mode and color mod, so be sure to set/reset it when you want to render again.
+		engine->graphics.setBlendmode(t.ID,t.blend);
+		engine->graphics.setColorMod(t.ID,t.mod);
 		engine->graphics.renderTexture(t.ID, rect2<int32>( std::round(t.pixelPos.x), std::round(t.pixelPos.y), std::round(t.pixelDim.x), std::round(t.pixelDim.y)));
 	}
 }

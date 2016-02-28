@@ -100,7 +100,7 @@ GAME_API game_state* startup(engine_state* engine)
 	texture.lock()->forceTop = true;
 
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
-	testtexture.lock()->addTexture("yeti",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
+	testtexture.lock()->addTexture("yeti",v2<real32>(-0.5,-0.5),v2<real32>(1,1),blend_additive);
 
 	game->cam.setFollowing(player);
 

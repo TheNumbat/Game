@@ -22,7 +22,10 @@
 #include "game_common.h"
 
 #include "map\position\position.h"
+#include "render/render.h"
+
 #include "vect.h"
+
 #include <memory>
 #include <vector>
 #include <string>
@@ -142,7 +145,7 @@ struct component_texture : public component
 
 		@return success (always true)
 	*/
-	bool addTexture(const std::string& ID, const v2<real32>& pos, const v2<real32>& dim);
+	bool addTexture(const std::string& ID, const v2<real32>& pos, const v2<real32>& dim, blendmode b = blend_alpha, color c = color(255,255,255,0));
 
 	/**
 		@brief removes a texture from the component
@@ -161,6 +164,10 @@ struct component_texture : public component
 	std::vector<v2<real32>> texturePositions;
 	/// dimensions of textures (in meters)
 	std::vector<v2<real32>> textureDimensions;
+	/// blend mode of textures
+	std::vector<blendmode> textureBlends;
+	/// color mod of textures
+	std::vector<color> textureMods;
 	/// force render on top
 	bool forceTop;
 	/// force render on bottom

@@ -84,12 +84,13 @@ component_texture::~component_texture()
 
 }
 
-bool component_texture::addTexture(const std::string& ID, const v2<real32>& pos, const v2<real32>& dim)
+bool component_texture::addTexture(const std::string& ID, const v2<real32>& pos, const v2<real32>& dim, blendmode b, color c)
 {
 	textureIDs.push_back(ID);
 	texturePositions.push_back(pos);
 	textureDimensions.push_back(dim);
-
+	textureBlends.push_back(b);
+	textureMods.push_back(c);
 	return true;
 }
 
@@ -106,7 +107,8 @@ bool component_texture::removeTexture(const std::string& ID)
 	textureIDs.erase(textureIDs.begin() + position);
 	texturePositions.erase(texturePositions.begin() + position);
 	textureDimensions.erase(textureDimensions.begin() + position);
-
+	textureBlends.erase(textureBlends.begin() + position);
+	textureMods.erase(textureMods.begin() + position);
 	return true;
 }
 

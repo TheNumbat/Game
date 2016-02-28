@@ -22,15 +22,17 @@
 
 #include "game_common.h"
 
-#include "game_state.h"
-#include <engine_state.h>
+#include "map/position/position.h"
 
+#include <engine_state.h>
 #include <algorithm>
 #include <vector>
 #include <string>
 #include <cmath>
 
 // Global constant definitions  ///////////////////////////////////////////////
+
+class game_state;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -44,6 +46,8 @@ struct rawTexture
 	std::string ID;
 	v2<real32> pixelPos;
 	v2<real32> pixelDim;
+	blendmode blend;
+	color mod;
 	bool forceTop;
 	bool forceBot;
 };
