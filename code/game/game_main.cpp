@@ -85,7 +85,7 @@ GAME_API game_state* startup(engine_state* engine)
 	engine->graphics.loadTexture("art/entities/yeti.png","yeti");
 
 	engine->graphics.loadFont("fonts/aubrey.ttf","aubrey_150",150);
-	engine->graphics.loadFont("fonts/aubrey.ttf","aubrey_24",24);
+	engine->graphics.loadFont("fonts/Cenobyte.ttf","cenobyte_24",24);
 
 	engine->time.addTimer("sim");
 
@@ -101,7 +101,7 @@ GAME_API game_state* startup(engine_state* engine)
 	texture.lock()->forceTop = true;
 
 	std::weak_ptr<component_text_texture> text = std::static_pointer_cast<component_text_texture>(player.lock()->addComponent(ctype_text_texture).lock());
-	text.lock()->addText("main","aubrey_24","ayy lmao",v2<real32>(-0.5,-0.75),v2<real32>(1,0.25));
+	text.lock()->addText("main","cenobyte_24","ayy lmao",v2<real32>(-0.5,-0.75),v2<real32>(1,0.25),blend_alpha,color(255,255,0,0));
 
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
 	testtexture.lock()->addTexture("main","yeti",v2<real32>(-0.5,-0.5),v2<real32>(1,1),blend_additive);
