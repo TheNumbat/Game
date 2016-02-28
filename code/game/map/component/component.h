@@ -41,7 +41,8 @@ enum component_type
 {
 	ctype_position = 0,
 	ctype_movement = 1,
-	ctype_texture = 2
+	ctype_texture = 2,
+	ctype_text_texture = 3
 };
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -139,13 +140,17 @@ struct component_texture : public component
 	/**
 		@brief adds a texture to the texture component
 
-		@param[in] ID of texture to use
+		@param[in] ID of texture sub-component
+		@param[in] texID ID of texture to render
 		@param[in] pos position of TLC of texture relative to entity position in meters
 		@param[in] dim dimension of texture in meters
+		@param[in] b blend mode of texture
+		@param[in] c color mod of texture
 
 		@return success (always true)
 	*/
-	bool addTexture(const std::string& ID, const v2<real32>& pos, const v2<real32>& dim, blendmode b = blend_alpha, color c = color(255,255,255,0));
+	bool addTexture(const std::string& ID, const std::string& texID, const v2<real32>& pos, const v2<real32>& dim, 
+					blendmode b = blend_alpha, color c = color(255,255,255,0));
 
 	/**
 		@brief removes a texture from the component
@@ -158,20 +163,68 @@ struct component_texture : public component
 	*/
 	bool removeTexture(const std::string& ID);
 
-	/// IDs of textures
+	std::vector<std::string> IDs;
 	std::vector<std::string> textureIDs;
-	/// positions of textures (in meters)
 	std::vector<v2<real32>> texturePositions;
-	/// dimensions of textures (in meters)
 	std::vector<v2<real32>> textureDimensions;
-	/// blend mode of textures
 	std::vector<blendmode> textureBlends;
-	/// color mod of textures
 	std::vector<color> textureMods;
-	/// force render on top
 	bool forceTop;
-	/// force render on bottom
 	bool forceBot;
+};
+
+/**
+	@brief Text texture component
+
+	Holds text render data 
+
+	@note will always render after normal textures, so will be on top
+*/
+struct component_text_texture : public component
+{
+	/**
+		@brief component_text_texture constructor
+	*/
+	component_text_texture();
+
+	/**
+		@brief component_text_texture destructor
+	*/
+	~component_text_texture();
+
+	/**
+		@brief adds a text_texture to the text_texture component
+
+		@param[in] ID of text_texture sub-component
+		@param[in] fontID ID of font to use
+		@param[in] pos position of TLC of text_texture relative to entity position in meters
+		@param[in] dim dimension of text_texture in meters
+		@param[in] b blend mode of text_texture
+		@param[in] c color mod of text_texture
+
+		@return success (always true)
+	*/
+	bool addText(const std::string& ID, const std::string& fontID, const std::string& message, const v2<real32>& pos, const v2<real32>& dim, 
+				 blendmode b = blend_alpha, color c = color(255,255,255,0));
+
+	/**
+		@brief removes a text_texture from the component
+
+		@param[in] ID of text_texture to remove
+
+		@return success
+
+		@exception ID not found, returns false
+	*/
+	bool removeText(const std::string& ID);
+
+	std::vector<std::string> IDs;
+	std::vector<std::string> fontIDs;
+	std::vector<std::string> text;
+	std::vector<v2<real32>> textPositions;
+	std::vector<v2<real32>> textDimensions;
+	std::vector<blendmode> textBlends;
+	std::vector<color> textMods;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

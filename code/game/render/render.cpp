@@ -42,7 +42,7 @@ void render(engine_state* engine, game_state* game)
 
 void renderHUD(engine_state* engine, game_state* game)
 {
-	engine->graphics.renderText("aubrey","hello world!",rect2<int32>(10,10,250,125),color(255,100,50,255));
+	engine->graphics.renderText("aubrey_150","hello world!",rect2<int32>(10,10,250,125),color(255,100,50,255));
 }
 
 void renderMap(engine_state* engine, game_state* game)
@@ -50,6 +50,7 @@ void renderMap(engine_state* engine, game_state* game)
 	game->cam.updateFollow();
 
 	std::vector<rawTexture> textures;
+	std::vector<rawText> text_textures;
 
 	// Get window size
 	int32 winW, winH;
@@ -107,17 +108,19 @@ void renderMap(engine_state* engine, game_state* game)
 				{
 					std::weak_ptr<entity> e = entry.second;
 
-					if(!e.expired())
+					if(!e.expired() && e.lock()->hasComponent(ctype_position))
 					{
-						// Test if entity can be rendered
-						if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_texture))
+						std::weak_ptr<component_position> ePosition = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
+						v2<real32> entityPixelPos = mapIntoPixelSpace(TLCpos,ePosition.lock()->position,camZoom);
+
+						if(e.lock()->hasComponent(ctype_texture))
 						{
-							// Get components
+							// Get component
 							std::weak_ptr<component_position> ePosition = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
 							std::weak_ptr<component_texture> eTexture = std::static_pointer_cast<component_texture>(e.lock()->getComponent(ctype_texture).lock());
 							
 							// Get each texture from the entity
-							for(int32 texIndex = 0; texIndex < eTexture.lock()->textureIDs.size(); texIndex++)
+							for(int32 texIndex = 0; texIndex < eTexture.lock()->IDs.size(); texIndex++)
 							{
 								// Get texture information
 								std::string texID = eTexture.lock()->textureIDs[texIndex];
@@ -128,7 +131,6 @@ void renderMap(engine_state* engine, game_state* game)
 
 								// Map the texture into pixel space (against TLC of window)
 								/// @todo z-space
-								v2<real32> entityPixelPos = mapIntoPixelSpace(TLCpos,ePosition.lock()->position,camZoom);
 								v2<real32> texPixelPos = entityPixelPos + ( texPos * METERS_TO_PIXELS * camZoom);
 
 								// Create new raw texture to render
@@ -144,6 +146,38 @@ void renderMap(engine_state* engine, game_state* game)
 								textures.push_back(texture);
 							}
 						}
+
+						if(e.lock()->hasComponent(ctype_text_texture))
+						{
+							// Get component
+							std::weak_ptr<component_text_texture> eText = std::static_pointer_cast<component_text_texture>(e.lock()->getComponent(ctype_text_texture).lock());
+							
+							// Get each texture from the entity
+							for(int32 index = 0; index < eText.lock()->IDs.size(); index++)
+							{
+								// Get texture information
+								std::string fontID = eText.lock()->fontIDs[index];
+								std::string message = eText.lock()->text[index];
+								v2<real32> texPos = eText.lock()->textPositions[index];
+								v2<real32> texDim = eText.lock()->textDimensions[index];
+								blendmode b = eText.lock()->textBlends[index];
+								color c = eText.lock()->textMods[index];
+
+								// Map the text into pixel space (against TLC of window)
+								v2<real32> texPixelPos = entityPixelPos + ( texPos * METERS_TO_PIXELS * camZoom);
+
+								// Create new raw text to render
+								rawText rawTextTexture;
+								rawTextTexture.fontID = fontID;
+								rawTextTexture.text = message;
+								rawTextTexture.pixelPos = texPixelPos;
+								rawTextTexture.pixelDim = texDim * METERS_TO_PIXELS * camZoom;
+								rawTextTexture.blend = b;
+								rawTextTexture.mod = c;
+
+								text_textures.push_back(rawTextTexture);
+							}
+						}
 					}
 				}
 			}
@@ -154,12 +188,18 @@ void renderMap(engine_state* engine, game_state* game)
 	sortTextures(textures);
 
 	// Actually render textures
-	for(rawTexture t : textures) 
+	for(rawTexture& t : textures) 
 	{
 		/// @note this will leave the texture with the blend mode and color mod, so be sure to set/reset it when you want to render again.
 		engine->graphics.setBlendmode(t.ID,t.blend);
 		engine->graphics.setColorMod(t.ID,t.mod);
 		engine->graphics.renderTexture(t.ID, rect2<int32>( std::round(t.pixelPos.x), std::round(t.pixelPos.y), std::round(t.pixelDim.x), std::round(t.pixelDim.y)));
+	}
+
+	for(rawText& t : text_textures) 
+	{
+		engine->graphics.renderText(t.fontID, t.text, rect2<int32>( std::round(t.pixelPos.x), std::round(t.pixelPos.y), std::round(t.pixelDim.x), std::round(t.pixelDim.y)),
+									t.mod, t.blend);
 	}
 }
 

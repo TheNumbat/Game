@@ -52,6 +52,21 @@ struct rawTexture
 	bool forceBot;
 };
 
+/**
+	@brief Describes data needed to output a text texture
+
+	Used as an intermediate between entity textures and graphicMgr calls
+*/
+struct rawText
+{
+	std::string fontID;
+	std::string text;
+	v2<real32> pixelPos;
+	v2<real32> pixelDim;
+	blendmode blend;
+	color mod;
+};
+
 // Free function prototypes  //////////////////////////////////////////////////
 
 /**

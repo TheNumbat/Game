@@ -43,6 +43,9 @@ std::shared_ptr<component> createComponent(component_type c)
 		case ctype_texture:
 			return std::static_pointer_cast<component>(std::make_shared<component_texture>());
 			break;
+		case ctype_text_texture:
+			return std::static_pointer_cast<component>(std::make_shared<component_text_texture>());
+			break;
 	}
 }
 
@@ -84,9 +87,11 @@ component_texture::~component_texture()
 
 }
 
-bool component_texture::addTexture(const std::string& ID, const v2<real32>& pos, const v2<real32>& dim, blendmode b, color c)
+bool component_texture::addTexture(const std::string& ID, const std::string& texID, const v2<real32>& pos, const v2<real32>& dim, 
+								   blendmode b, color c)
 {
-	textureIDs.push_back(ID);
+	IDs.push_back(ID);
+	textureIDs.push_back(texID);
 	texturePositions.push_back(pos);
 	textureDimensions.push_back(dim);
 	textureBlends.push_back(b);
@@ -96,19 +101,62 @@ bool component_texture::addTexture(const std::string& ID, const v2<real32>& pos,
 
 bool component_texture::removeTexture(const std::string& ID)
 {
-	auto texture = std::find(textureIDs.begin(),textureIDs.end(),ID);
-	if(texture == textureIDs.end())
+	auto texture = std::find(IDs.begin(),IDs.end(),ID);
+	if(texture == IDs.end())
 	{
 		return false;
 	}
 
-	int position = texture - textureIDs.begin();
+	int32 position = texture - IDs.begin();
 
+	IDs.erase(texture);
 	textureIDs.erase(textureIDs.begin() + position);
 	texturePositions.erase(texturePositions.begin() + position);
 	textureDimensions.erase(textureDimensions.begin() + position);
 	textureBlends.erase(textureBlends.begin() + position);
 	textureMods.erase(textureMods.begin() + position);
+	return true;
+}
+
+component_text_texture::component_text_texture()
+{
+
+}
+
+component_text_texture::~component_text_texture()
+{
+
+}
+
+bool component_text_texture::addText(const std::string& ID, const std::string& fontID, const std::string& message, const v2<real32>& pos, 
+									 const v2<real32>& dim, blendmode b, color c)
+{
+	IDs.push_back(ID);
+	fontIDs.push_back(fontID);
+	text.push_back(message);
+	textPositions.push_back(pos);
+	textDimensions.push_back(dim);
+	textBlends.push_back(b);
+	textMods.push_back(c);
+	return true;
+}
+
+bool component_text_texture::removeText(const std::string& ID)
+{
+	auto textEntry = std::find(IDs.begin(),IDs.end(),ID);
+	if(textEntry == IDs.end())
+	{
+		return false;
+	}
+
+	int32 position = textEntry - IDs.begin();
+
+	IDs.erase(textEntry);
+	fontIDs.erase(fontIDs.begin() + position);
+	textPositions.erase(textPositions.begin() + position);
+	textDimensions.erase(textDimensions.begin() + position);
+	textBlends.erase(textBlends.begin() + position);
+	textMods.erase(textMods.begin() + position);
 	return true;
 }
 
