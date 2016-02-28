@@ -86,33 +86,38 @@ component_texture::~component_texture()
 bool component_texture::addTexture(const std::string& ID, const std::string& texID, const v2<real32>& pos, const v2<real32>& dim, 
 								   bool bot, bool top, blendmode b, color c)
 {
+	if(std::find(IDs.begin(),IDs.end(),ID) != IDs.end())
+	{
+		return false;
+	}
+
+	sub_texture newT;
+	newT.texID = texID;
+	newT.texPos = pos;
+	newT.texDim = dim;
+	newT.forceBot = bot;
+	newT.forceTop = top;
+	newT.blend = b;
+	newT.mod = c;
+
 	IDs.push_back(ID);
-	textureIDs.push_back(texID);
-	texturePositions.push_back(pos);
-	textureDimensions.push_back(dim);
-	forceBot.push_back(bot);
-	forceTop.push_back(top);
-	textureBlends.push_back(b);
-	textureMods.push_back(c);
+	textures.push_back(newT);
+
 	return true;
 }
 
 bool component_texture::removeTexture(const std::string& ID)
 {
-	auto texture = std::find(IDs.begin(),IDs.end(),ID);
-	if(texture == IDs.end())
+	auto tEntry = std::find(IDs.begin(),IDs.end(),ID);
+	if(tEntry == IDs.end())
 	{
 		return false;
 	}
 
-	int32 position = texture - IDs.begin();
+	int32 position = tEntry - IDs.begin();
 
-	IDs.erase(texture);
-	textureIDs.erase(textureIDs.begin() + position);
-	texturePositions.erase(texturePositions.begin() + position);
-	textureDimensions.erase(textureDimensions.begin() + position);
-	textureBlends.erase(textureBlends.begin() + position);
-	textureMods.erase(textureMods.begin() + position);
+	IDs.erase(tEntry);
+	textures.erase(textures.begin() + position);
 	return true;
 }
 
@@ -127,15 +132,26 @@ component_text_texture::~component_text_texture()
 }
 
 bool component_text_texture::addText(const std::string& ID, const std::string& fontID, const std::string& message, const v2<real32>& pos, 
-									 const v2<real32>& dim, blendmode b, color c)
+									 const v2<real32>& dim, bool top, bool bot, blendmode b, color c)
 {
+	if(std::find(IDs.begin(),IDs.end(),ID) != IDs.end())
+	{
+		return false;
+	}
+
+	sub_text_texture newT;
+	newT.fontID = fontID;
+	newT.message = message;
+	newT.texPos = pos;
+	newT.texDim = dim;
+	newT.forceBot = bot;
+	newT.forceTop = top;
+	newT.blend = b;
+	newT.mod = c;
+
 	IDs.push_back(ID);
-	fontIDs.push_back(fontID);
-	text.push_back(message);
-	textPositions.push_back(pos);
-	textDimensions.push_back(dim);
-	textBlends.push_back(b);
-	textMods.push_back(c);
+	textures.push_back(newT);
+
 	return true;
 }
 
@@ -150,11 +166,7 @@ bool component_text_texture::removeText(const std::string& ID)
 	int32 position = textEntry - IDs.begin();
 
 	IDs.erase(textEntry);
-	fontIDs.erase(fontIDs.begin() + position);
-	textPositions.erase(textPositions.begin() + position);
-	textDimensions.erase(textDimensions.begin() + position);
-	textBlends.erase(textBlends.begin() + position);
-	textMods.erase(textMods.begin() + position);
+	textures.erase(textures.begin() + position);
 	return true;
 }
 

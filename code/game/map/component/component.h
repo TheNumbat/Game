@@ -116,7 +116,7 @@ struct component_movement : public component
 
 	Holds texture data 
 
-	@todo animation, AOS
+	@todo animation
 */
 struct component_texture : public component
 {
@@ -163,24 +163,25 @@ struct component_texture : public component
 	*/
 	bool removeTexture(const std::string& ID);
 
+	struct sub_texture
+	{
+		std::string texID;
+		v2<real32> texPos;
+		v2<real32> texDim;
+		blendmode blend;
+		color mod;
+		bool forceTop;
+		bool forceBot;
+	};
+
 	std::vector<std::string> IDs;
-	std::vector<std::string> textureIDs;
-	std::vector<v2<real32>> texturePositions;
-	std::vector<v2<real32>> textureDimensions;
-	std::vector<blendmode> textureBlends;
-	std::vector<color> textureMods;
-	std::vector<bool> forceTop;
-	std::vector<bool> forceBot;
+	std::vector<sub_texture> textures;
 };
 
 /**
 	@brief Text texture component
 
 	Holds text render data 
-
-	@note will always render after normal textures, so will be on top
-
-	@todo AOS
 */
 struct component_text_texture : public component
 {
@@ -207,7 +208,7 @@ struct component_text_texture : public component
 		@return success (always true)
 	*/
 	bool addText(const std::string& ID, const std::string& fontID, const std::string& message, const v2<real32>& pos, const v2<real32>& dim, 
-				 blendmode b = blend_alpha, color c = color(255,255,255,0));
+				 bool top = false, bool bot = false, blendmode b = blend_alpha, color c = color(255,255,255,0));
 
 	/**
 		@brief removes a text_texture from the component
@@ -220,13 +221,20 @@ struct component_text_texture : public component
 	*/
 	bool removeText(const std::string& ID);
 
+	struct sub_text_texture
+	{
+		std::string fontID;
+		std::string message;
+		v2<real32> texPos;
+		v2<real32> texDim;
+		blendmode blend;
+		color mod;
+		bool forceTop;
+		bool forceBot;
+	};
+
 	std::vector<std::string> IDs;
-	std::vector<std::string> fontIDs;
-	std::vector<std::string> text;
-	std::vector<v2<real32>> textPositions;
-	std::vector<v2<real32>> textDimensions;
-	std::vector<blendmode> textBlends;
-	std::vector<color> textMods;
+	std::vector<sub_text_texture> textures;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

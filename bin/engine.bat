@@ -5,7 +5,7 @@ IF NOT EXIST W:\build mkdir w:\build
 pushd w:\build
 
 :: setup flags for cl.exe
-set CompileFlags=/I"W:\deps\include" /I"W:\code\include" /I"W:\code\engine" /I"W:\code\game" /Od /Zi /w /MD /EHsc /DENGINE_EXPORTS
+set CompileFlags=/I"W:\deps\include" /I"W:\code\include" /I"W:\code\engine" /I"W:\code\game" /Od /Zi /w /MD /EHsc /DENGINE_EXPORTS /GR
 
 set LinkFlags=/NODEFAULTLIB:msvcrtd.lib /subsystem:console,5.01 W:\deps\lib\SDL2.lib W:\deps\lib\SDL2main.lib  W:\deps\lib\cyanlogger2.lib W:\deps\lib\SDL2_image.lib 
 set LinkFlags=%LinkFlags% W:\deps\lib\SDL2_mixer.lib w:\deps\lib\SDL2_ttf.lib

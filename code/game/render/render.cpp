@@ -49,8 +49,7 @@ void renderMap(engine_state* engine, game_state* game)
 {
 	game->cam.updateFollow();
 
-	std::vector<rawTexture> textures;
-	std::vector<rawText> text_textures;
+	std::vector<rawTex*> textures;
 
 	// Get window size
 	int32 winW, winH;
@@ -116,31 +115,24 @@ void renderMap(engine_state* engine, game_state* game)
 						if(e.lock()->hasComponent(ctype_texture))
 						{
 							// Get component
-							std::weak_ptr<component_position> ePosition = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
 							std::weak_ptr<component_texture> eTexture = std::static_pointer_cast<component_texture>(e.lock()->getComponent(ctype_texture).lock());
 							
 							// Get each texture from the entity
-							for(int32 texIndex = 0; texIndex < eTexture.lock()->IDs.size(); texIndex++)
+							for(int32 index = 0; index < eTexture.lock()->IDs.size(); index++)
 							{
-								// Get texture information
-								v2<real32> texPos = eTexture.lock()->texturePositions[texIndex];
-								v2<real32> texDim = eTexture.lock()->textureDimensions[texIndex];
+								component_texture::sub_texture& t = eTexture.lock()->textures[index];
+								rawTexture* texture = new rawTexture;
 
 								// Map the texture into pixel space (against TLC of window)
 								/// @todo z-space
-								v2<real32> texPixelPos = entityPixelPos + ( texPos * METERS_TO_PIXELS * camZoom);
+								texture->pixelPos = entityPixelPos + ( t.texPos * METERS_TO_PIXELS * camZoom);
+								texture->pixelDim = t.texDim * METERS_TO_PIXELS * camZoom;
 
-								// Create new raw texture to render
-								rawTexture texture;
-
-								texture.pixelPos = texPixelPos;
-								texture.pixelDim = texDim * METERS_TO_PIXELS * camZoom;
-
-								texture.ID = eTexture.lock()->textureIDs[texIndex];
-								texture.blend = eTexture.lock()->textureBlends[texIndex];
-								texture.mod = eTexture.lock()->textureMods[texIndex];
-								texture.forceTop = eTexture.lock()->forceTop[texIndex];
-								texture.forceBot = eTexture.lock()->forceBot[texIndex];
+								texture->ID = t.texID;
+								texture->blend = t.blend;
+								texture->mod = t.mod;
+								texture->forceTop = t.forceTop;
+								texture->forceBot = t.forceBot;
 
 								textures.push_back(texture);
 							}
@@ -154,27 +146,22 @@ void renderMap(engine_state* engine, game_state* game)
 							// Get each texture from the entity
 							for(int32 index = 0; index < eText.lock()->IDs.size(); index++)
 							{
-								// Get texture information
-								std::string fontID = eText.lock()->fontIDs[index];
-								std::string message = eText.lock()->text[index];
-								v2<real32> texPos = eText.lock()->textPositions[index];
-								v2<real32> texDim = eText.lock()->textDimensions[index];
-								blendmode b = eText.lock()->textBlends[index];
-								color c = eText.lock()->textMods[index];
+								component_text_texture::sub_text_texture& t = eText.lock()->textures[index];
+								rawText* text = new rawText;
 
 								// Map the text into pixel space (against TLC of window)
-								v2<real32> texPixelPos = entityPixelPos + ( texPos * METERS_TO_PIXELS * camZoom);
+								/// @todo z-space
+								text->pixelPos = entityPixelPos + ( t.texPos * METERS_TO_PIXELS * camZoom);
+								text->pixelDim = t.texDim * METERS_TO_PIXELS * camZoom;
 
-								// Create new raw text to render
-								rawText rawTextTexture;
-								rawTextTexture.fontID = fontID;
-								rawTextTexture.text = message;
-								rawTextTexture.pixelPos = texPixelPos;
-								rawTextTexture.pixelDim = texDim * METERS_TO_PIXELS * camZoom;
-								rawTextTexture.blend = b;
-								rawTextTexture.mod = c;
+								text->fontID = t.fontID;
+								text->text = t.message;
+								text->blend = t.blend;
+								text->mod = t.mod;
+								text->forceTop = t.forceTop;
+								text->forceBot = t.forceBot;
 
-								text_textures.push_back(rawTextTexture);
+								textures.push_back(text);
 							}
 						}
 					}
@@ -187,18 +174,22 @@ void renderMap(engine_state* engine, game_state* game)
 	sortTextures(textures);
 
 	// Actually render textures
-	for(rawTexture& t : textures) 
+	for(int32 index = 0; index < textures.size(); ++index) 
 	{
 		/// @note this will leave the texture with the blend mode and color mod, so be sure to set/reset it when you want to render again.
-		engine->graphics.setBlendmode(t.ID,t.blend);
-		engine->graphics.setColorMod(t.ID,t.mod);
-		engine->graphics.renderTexture(t.ID, rect2<int32>( std::round(t.pixelPos.x), std::round(t.pixelPos.y), std::round(t.pixelDim.x), std::round(t.pixelDim.y)));
-	}
+		if(rawTexture* t = dynamic_cast<rawTexture*>(textures[index]))
+		{
+			engine->graphics.setBlendmode(t->ID,t->blend);
+			engine->graphics.setColorMod(t->ID,t->mod);
+			engine->graphics.renderTexture(t->ID, rect2<int32>( std::round(t->pixelPos.x), std::round(t->pixelPos.y), std::round(t->pixelDim.x), std::round(t->pixelDim.y)));
+		}
+		else if(rawText* t = dynamic_cast<rawText*>(textures[index]))
+		{
+			engine->graphics.renderText(t->fontID, t->text, rect2<int32>( std::round(t->pixelPos.x), std::round(t->pixelPos.y), std::round(t->pixelDim.x), std::round(t->pixelDim.y)),
+										t->mod, t->blend);
+		}
 
-	for(rawText& t : text_textures) 
-	{
-		engine->graphics.renderText(t.fontID, t.text, rect2<int32>( std::round(t.pixelPos.x), std::round(t.pixelPos.y), std::round(t.pixelDim.x), std::round(t.pixelDim.y)),
-									t.mod, t.blend);
+		delete textures[index];
 	}
 }
 
@@ -215,36 +206,18 @@ v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& po
 	return totalDistancePixels;
 }
 
-void sortTextures(std::vector<rawTexture>& textures)
+void sortTextures(std::vector<rawTex*>& textures)
 {
 	// Sort based on y-position
 	std::sort(textures.begin(), textures.end(), 
-	    [](const rawTexture& a, const rawTexture& b) -> bool
+	    [](const rawTex* a, const rawTex* b) -> bool
 	{ 
-		if(a.forceTop) return false;
-		if(b.forceTop) return true;
-		if(a.forceBot) return true;
-		if(b.forceBot) return false;
-	    return (a.pixelPos.y + a.pixelDim.y) < (b.pixelPos.y + b.pixelDim.y); 
+		if(a->forceTop) return false;
+		if(b->forceTop) return true;
+		if(a->forceBot) return true;
+		if(b->forceBot) return false;
+	    return (a->pixelPos.y + a->pixelDim.y) < (b->pixelPos.y + b->pixelDim.y); 
 	});
-
-#if 0
-	// Account for forceTop/Bot
-	int size = textures.size();
-	for(int i = 0; i < size; i++)
-	{
-		if(textures[i].forceTop) 
-		{
-			textures.push_back(textures[i]);
-			textures.erase(textures.begin() + i);
-		} 
-		else if(textures[i].forceBot) 
-		{
-			textures.insert(textures.begin(),textures[i]);
-			textures.erase(textures.begin() + i + 1);
-		}
-	}
-#endif
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

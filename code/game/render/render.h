@@ -36,14 +36,9 @@ class game_state;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
-/**
-	@brief Describes data needed to output a texture
-
-	Used as an intermediate between entity textures and graphicMgr calls
-*/
-struct rawTexture
+struct rawTex
 {
-	std::string ID;
+	virtual ~rawTex() {};
 	v2<real32> pixelPos;
 	v2<real32> pixelDim;
 	blendmode blend;
@@ -53,18 +48,24 @@ struct rawTexture
 };
 
 /**
+	@brief Describes data needed to output a texture
+
+	Used as an intermediate between entity textures and graphicMgr calls
+*/
+struct rawTexture : public rawTex
+{
+	std::string ID;
+};
+
+/**
 	@brief Describes data needed to output a text texture
 
 	Used as an intermediate between entity textures and graphicMgr calls
 */
-struct rawText
+struct rawText : public rawTex
 {
 	std::string fontID;
 	std::string text;
-	v2<real32> pixelPos;
-	v2<real32> pixelDim;
-	blendmode blend;
-	color mod;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
@@ -109,7 +110,7 @@ v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& po
 
 	@param[in] textures vector of rawTexture to sort
 */
-void sortTextures(std::vector<rawTexture>& textures);
+void sortTextures(std::vector<rawTex*>& textures);
 
 // Free function implementation  //////////////////////////////////////////////
 
