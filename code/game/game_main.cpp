@@ -82,6 +82,7 @@ GAME_API game_state* startup(engine_state* engine)
 
 	engine->graphics.loadTextureRec("debug");
 	engine->graphics.loadTexture("art/entities/dankdude_front.png","dankdude");
+	engine->graphics.loadTexture("art/entities/light_circle.png","light");
 	engine->graphics.loadTexture("art/entities/yeti.png","yeti");
 
 	engine->graphics.loadFont("fonts/aubrey.ttf","aubrey_150",150);
@@ -97,6 +98,7 @@ GAME_API game_state* startup(engine_state* engine)
 	mov.lock()->velocity = v2<real32>(3,0);
 
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
+	texture.lock()->addTexture("glow","light",v2<real32>(-2.5,-2.5),v2<real32>(5,5),blend_additive);
 	texture.lock()->addTexture("main","dankdude",v2<real32>(-0.5,-0.5),v2<real32>(1,1));
 	texture.lock()->forceTop = true;
 
