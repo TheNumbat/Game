@@ -123,11 +123,8 @@ void renderMap(engine_state* engine, game_state* game)
 							for(int32 texIndex = 0; texIndex < eTexture.lock()->IDs.size(); texIndex++)
 							{
 								// Get texture information
-								std::string texID = eTexture.lock()->textureIDs[texIndex];
 								v2<real32> texPos = eTexture.lock()->texturePositions[texIndex];
 								v2<real32> texDim = eTexture.lock()->textureDimensions[texIndex];
-								blendmode b = eTexture.lock()->textureBlends[texIndex];
-								color c = eTexture.lock()->textureMods[texIndex];
 
 								// Map the texture into pixel space (against TLC of window)
 								/// @todo z-space
@@ -135,13 +132,15 @@ void renderMap(engine_state* engine, game_state* game)
 
 								// Create new raw texture to render
 								rawTexture texture;
-								texture.ID = texID;
+
 								texture.pixelPos = texPixelPos;
 								texture.pixelDim = texDim * METERS_TO_PIXELS * camZoom;
-								texture.blend = b;
-								texture.mod = c;
-								texture.forceTop = eTexture.lock()->forceTop;
-								texture.forceBot = eTexture.lock()->forceBot;
+
+								texture.ID = eTexture.lock()->textureIDs[texIndex];
+								texture.blend = eTexture.lock()->textureBlends[texIndex];
+								texture.mod = eTexture.lock()->textureMods[texIndex];
+								texture.forceTop = eTexture.lock()->forceTop[texIndex];
+								texture.forceBot = eTexture.lock()->forceBot[texIndex];
 
 								textures.push_back(texture);
 							}
@@ -222,9 +221,14 @@ void sortTextures(std::vector<rawTexture>& textures)
 	std::sort(textures.begin(), textures.end(), 
 	    [](const rawTexture& a, const rawTexture& b) -> bool
 	{ 
+		if(a.forceTop) return false;
+		if(b.forceTop) return true;
+		if(a.forceBot) return true;
+		if(b.forceBot) return false;
 	    return (a.pixelPos.y + a.pixelDim.y) < (b.pixelPos.y + b.pixelDim.y); 
 	});
 
+#if 0
 	// Account for forceTop/Bot
 	int size = textures.size();
 	for(int i = 0; i < size; i++)
@@ -240,6 +244,7 @@ void sortTextures(std::vector<rawTexture>& textures)
 			textures.erase(textures.begin() + i + 1);
 		}
 	}
+#endif
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

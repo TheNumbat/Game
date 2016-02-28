@@ -33,7 +33,7 @@
 */
 struct game_state
 {
-	game_state() : cam() {};
+	game_state() {};
 	~game_state() {};
 
 	camera cam;

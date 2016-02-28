@@ -73,13 +73,9 @@ component_movement::~component_movement()
 
 }
 
-component_texture::component_texture(bool top, bool bot)
+component_texture::component_texture()
 {
-	if(!(top && bot))
-	{
-		forceTop = top;
-		forceBot = bot;
-	}
+
 }
 
 component_texture::~component_texture()
@@ -88,12 +84,14 @@ component_texture::~component_texture()
 }
 
 bool component_texture::addTexture(const std::string& ID, const std::string& texID, const v2<real32>& pos, const v2<real32>& dim, 
-								   blendmode b, color c)
+								   bool bot, bool top, blendmode b, color c)
 {
 	IDs.push_back(ID);
 	textureIDs.push_back(texID);
 	texturePositions.push_back(pos);
 	textureDimensions.push_back(dim);
+	forceBot.push_back(bot);
+	forceTop.push_back(top);
 	textureBlends.push_back(b);
 	textureMods.push_back(c);
 	return true;

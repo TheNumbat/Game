@@ -116,7 +116,7 @@ struct component_movement : public component
 
 	Holds texture data 
 
-	@todo animation
+	@todo animation, AOS
 */
 struct component_texture : public component
 {
@@ -128,7 +128,7 @@ struct component_texture : public component
 
 		@exception if both top and bot are set, neither will be set
 	*/
-	component_texture(bool top = false, bool bot = false);
+	component_texture();
 
 	/**
 		@brief component_texture destructor
@@ -150,7 +150,7 @@ struct component_texture : public component
 		@return success (always true)
 	*/
 	bool addTexture(const std::string& ID, const std::string& texID, const v2<real32>& pos, const v2<real32>& dim, 
-					blendmode b = blend_alpha, color c = color(255,255,255,0));
+					bool top = false, bool bot = false, blendmode b = blend_alpha, color c = color(255,255,255,0));
 
 	/**
 		@brief removes a texture from the component
@@ -169,8 +169,8 @@ struct component_texture : public component
 	std::vector<v2<real32>> textureDimensions;
 	std::vector<blendmode> textureBlends;
 	std::vector<color> textureMods;
-	bool forceTop;
-	bool forceBot;
+	std::vector<bool> forceTop;
+	std::vector<bool> forceBot;
 };
 
 /**
@@ -179,6 +179,8 @@ struct component_texture : public component
 	Holds text render data 
 
 	@note will always render after normal textures, so will be on top
+
+	@todo AOS
 */
 struct component_text_texture : public component
 {
