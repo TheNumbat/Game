@@ -35,6 +35,7 @@
 eventMgr::eventMgr()
 {
 	good = false;
+	sdl_kbstate = NULL;
 	logger.StartLog("EVENTS");
 }
 
@@ -53,6 +54,14 @@ bool eventMgr::init()
 		if(result < 0)
 		{
 			logger.LogFatal("Failed to initialize SDL events");
+			return false;
+		}
+
+		sdl_kbstate = (uint8*)SDL_GetKeyboardState(NULL);
+		if(!sdl_kbstate)
+		{	
+			kill();
+			logger.LogFatal("Failed to get keyboard state");
 			return false;
 		}
 
@@ -78,6 +87,7 @@ bool eventMgr::kill()
 		logger.LogInfo("Events uninitialized");
 
 		good = false;
+		sdl_kbstate = NULL;
 		return true;
 	}
 
@@ -116,6 +126,121 @@ bool eventMgr::getNextEvent(event& e)
 	// Failure
 	logger.LogWarn( "Uniniitialized -- trying to get next event");
 	return false;
+}
+
+bool eventMgr::keyPressed(uint64 keycode)
+{
+	if(!sdl_kbstate)
+	{
+		logger.LogWarn("Keyboard state not initialized!");
+		return 0;
+	}
+	
+	switch(keycode)
+	{
+		case KEY_0: return sdl_kbstate[SDL_SCANCODE_0];
+		case KEY_1: return sdl_kbstate[SDL_SCANCODE_1];
+		case KEY_2: return sdl_kbstate[SDL_SCANCODE_2];
+		case KEY_3: return sdl_kbstate[SDL_SCANCODE_3];
+		case KEY_4: return sdl_kbstate[SDL_SCANCODE_4];
+		case KEY_5: return sdl_kbstate[SDL_SCANCODE_5];
+		case KEY_6: return sdl_kbstate[SDL_SCANCODE_6];
+		case KEY_7: return sdl_kbstate[SDL_SCANCODE_7];
+		case KEY_8: return sdl_kbstate[SDL_SCANCODE_8];
+		case KEY_9: return sdl_kbstate[SDL_SCANCODE_9];
+		case KEY_A: return sdl_kbstate[SDL_SCANCODE_A];
+		case KEY_B: return sdl_kbstate[SDL_SCANCODE_B];
+		case KEY_C: return sdl_kbstate[SDL_SCANCODE_C];
+		case KEY_D: return sdl_kbstate[SDL_SCANCODE_D];
+		case KEY_E: return sdl_kbstate[SDL_SCANCODE_E];
+		case KEY_F: return sdl_kbstate[SDL_SCANCODE_F];
+		case KEY_G: return sdl_kbstate[SDL_SCANCODE_G];
+		case KEY_H: return sdl_kbstate[SDL_SCANCODE_H];
+		case KEY_I: return sdl_kbstate[SDL_SCANCODE_I];
+		case KEY_J: return sdl_kbstate[SDL_SCANCODE_J];
+		case KEY_K: return sdl_kbstate[SDL_SCANCODE_K];
+		case KEY_L: return sdl_kbstate[SDL_SCANCODE_L];
+		case KEY_M: return sdl_kbstate[SDL_SCANCODE_M];
+		case KEY_N: return sdl_kbstate[SDL_SCANCODE_N];
+		case KEY_O: return sdl_kbstate[SDL_SCANCODE_O];
+		case KEY_P: return sdl_kbstate[SDL_SCANCODE_P];
+		case KEY_Q: return sdl_kbstate[SDL_SCANCODE_Q];
+		case KEY_R: return sdl_kbstate[SDL_SCANCODE_R];
+		case KEY_S: return sdl_kbstate[SDL_SCANCODE_S];
+		case KEY_T: return sdl_kbstate[SDL_SCANCODE_T];
+		case KEY_U: return sdl_kbstate[SDL_SCANCODE_U];
+		case KEY_V: return sdl_kbstate[SDL_SCANCODE_V];
+		case KEY_W: return sdl_kbstate[SDL_SCANCODE_W];
+		case KEY_X: return sdl_kbstate[SDL_SCANCODE_X];
+		case KEY_Y: return sdl_kbstate[SDL_SCANCODE_Y];
+		case KEY_Z: return sdl_kbstate[SDL_SCANCODE_Z];
+		case KEY_BACKSPACE: return sdl_kbstate[SDL_SCANCODE_BACKSPACE];
+		case KEY_CAPSLOCK: return sdl_kbstate[SDL_SCANCODE_CAPSLOCK];
+		case KEY_COMMA: return sdl_kbstate[SDL_SCANCODE_COMMA];
+		case KEY_BACKSLASH: return sdl_kbstate[SDL_SCANCODE_BACKSLASH];
+		case KEY_DELETE: return sdl_kbstate[SDL_SCANCODE_DELETE];
+		case KEY_DOWN: return sdl_kbstate[SDL_SCANCODE_DOWN];
+		case KEY_UP: return sdl_kbstate[SDL_SCANCODE_UP];
+		case KEY_LEFT: return sdl_kbstate[SDL_SCANCODE_LEFT];
+		case KEY_RIGHT: return sdl_kbstate[SDL_SCANCODE_RIGHT];
+		case KEY_END: return sdl_kbstate[SDL_SCANCODE_END];
+		case KEY_PLUS: return sdl_kbstate[SDL_SCANCODE_EQUALS];
+		case KEY_ESCAPE: return sdl_kbstate[SDL_SCANCODE_ESCAPE];
+		case KEY_F1: return sdl_kbstate[SDL_SCANCODE_F1];
+		case KEY_F2: return sdl_kbstate[SDL_SCANCODE_F2];
+		case KEY_F3: return sdl_kbstate[SDL_SCANCODE_F3];
+		case KEY_F4: return sdl_kbstate[SDL_SCANCODE_F4];
+		case KEY_F5: return sdl_kbstate[SDL_SCANCODE_F5];
+		case KEY_F6: return sdl_kbstate[SDL_SCANCODE_F6];
+		case KEY_F7: return sdl_kbstate[SDL_SCANCODE_F7];
+		case KEY_F8: return sdl_kbstate[SDL_SCANCODE_F8];
+		case KEY_F9: return sdl_kbstate[SDL_SCANCODE_F9];
+		case KEY_F10: return sdl_kbstate[SDL_SCANCODE_F10];
+		case KEY_F11: return sdl_kbstate[SDL_SCANCODE_F11];
+		case KEY_F12: return sdl_kbstate[SDL_SCANCODE_F12];
+		case KEY_GRAVE: return sdl_kbstate[SDL_SCANCODE_GRAVE];
+		case KEY_HOME: return sdl_kbstate[SDL_SCANCODE_HOME];
+		case KEY_INSERT: return sdl_kbstate[SDL_SCANCODE_INSERT];
+		case KEY_NP_0: return sdl_kbstate[SDL_SCANCODE_KP_0];
+		case KEY_NP_1: return sdl_kbstate[SDL_SCANCODE_KP_1];
+		case KEY_NP_2: return sdl_kbstate[SDL_SCANCODE_KP_2];
+		case KEY_NP_3: return sdl_kbstate[SDL_SCANCODE_KP_3];
+		case KEY_NP_4: return sdl_kbstate[SDL_SCANCODE_KP_4];
+		case KEY_NP_5: return sdl_kbstate[SDL_SCANCODE_KP_5];
+		case KEY_NP_6: return sdl_kbstate[SDL_SCANCODE_KP_6];
+		case KEY_NP_7: return sdl_kbstate[SDL_SCANCODE_KP_7];
+		case KEY_NP_8: return sdl_kbstate[SDL_SCANCODE_KP_8];
+		case KEY_NP_9: return sdl_kbstate[SDL_SCANCODE_KP_9];
+		case KEY_NP_DIVIDE: return sdl_kbstate[SDL_SCANCODE_KP_DIVIDE];
+		case KEY_NP_MULTIPLY: return sdl_kbstate[SDL_SCANCODE_KP_MULTIPLY];
+		case KEY_NP_SUBTRACT: return sdl_kbstate[SDL_SCANCODE_KP_MINUS];
+		case KEY_NP_ADD: return sdl_kbstate[SDL_SCANCODE_KP_PLUS];
+		case KEY_NP_ENTER: return sdl_kbstate[SDL_SCANCODE_KP_ENTER];
+		case KEY_NP_PERIOD: return sdl_kbstate[SDL_SCANCODE_KP_PERIOD];
+		case KEY_LALT: return sdl_kbstate[SDL_SCANCODE_LALT];
+		case KEY_RALT: return sdl_kbstate[SDL_SCANCODE_RALT];
+		case KEY_LCTRL: return sdl_kbstate[SDL_SCANCODE_LCTRL];
+		case KEY_RCTRL: return sdl_kbstate[SDL_SCANCODE_RCTRL];
+		case KEY_LSHIFT: return sdl_kbstate[SDL_SCANCODE_LSHIFT];
+		case KEY_RSHIFT: return sdl_kbstate[SDL_SCANCODE_RSHIFT];
+		case KEY_NUMLOCK: return sdl_kbstate[SDL_SCANCODE_NUMLOCKCLEAR];
+		case KEY_PGUP: return sdl_kbstate[SDL_SCANCODE_PAGEUP];
+		case KEY_PGDOWN: return sdl_kbstate[SDL_SCANCODE_PAGEDOWN];
+		case KEY_PRINTSCREEN: return sdl_kbstate[SDL_SCANCODE_PRINTSCREEN];
+		case KEY_ENTER: return sdl_kbstate[SDL_SCANCODE_RETURN];
+		case KEY_RBRACKET: return sdl_kbstate[SDL_SCANCODE_RIGHTBRACKET];
+		case KEY_LBRACKET: return sdl_kbstate[SDL_SCANCODE_LEFTBRACKET];
+		case KEY_MINUS: return sdl_kbstate[SDL_SCANCODE_MINUS];
+		case KEY_PERIOD: return sdl_kbstate[SDL_SCANCODE_PERIOD];
+		case KEY_SCROLLLOCK: return sdl_kbstate[SDL_SCANCODE_SCROLLLOCK];
+		case KEY_SEMICOLON: return sdl_kbstate[SDL_SCANCODE_SEMICOLON];
+		case KEY_SLASH: return sdl_kbstate[SDL_SCANCODE_SLASH];
+		case KEY_SPACE: return sdl_kbstate[SDL_SCANCODE_SPACE];
+		case KEY_TAB: return sdl_kbstate[SDL_SCANCODE_TAB];
+		default: 
+			logger.LogWarn("Invalid key code!");
+			return 0;
+	}
 }
 
 event& eventMgr::translateEvent(void* SDL_ev)
@@ -344,7 +469,6 @@ event& eventMgr::translateKeyboardEvent(void* SDL_ev)
 	}
 
 	// Set up key value
-	/// @todo make sure this includes everything
 	switch(e->key.keysym.sym)
 	{
 		case SDLK_0: ret.value = KEY_0; break;

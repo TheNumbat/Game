@@ -77,6 +77,14 @@ public:
 	*/
 	ENGINE_API bool getNextEvent(event& e);
 
+
+	/**
+		@brief Checks if a specific key is pressed
+
+		@param[in] keycode of key to check
+	*/
+	ENGINE_API bool keyPressed(uint64 keycode);
+
 private:
 	/**
 		@brief translates SDL_Event to event using specific translate functions
@@ -128,6 +136,7 @@ private:
 	event& translateJoystickEvent(void* SDL_ev);
 
 	logMgr logger;
+	uint8* sdl_kbstate;
 	bool good;
 };
 
