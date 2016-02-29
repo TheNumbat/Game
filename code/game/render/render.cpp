@@ -150,7 +150,7 @@ void renderDebugUI(engine_state* engine, game_state* game)
 	std::string camText = "Camera pos: " + std::to_string(camPos.chunkPos.x) + " " + std::to_string(camPos.chunkPos.y) + " " + std::to_string(camPos.chunkPos.z) +
 						  " " + std::to_string(camPos.realPos.x) + " " + std::to_string(camPos.realPos.y) + " " + std::to_string(camPos.realPos.z);
 
-	engine->graphics.renderText("sans_24",camText,rect2<int32>(10,10,camText.length() * 10,20));
+	engine->graphics.renderText("sans_24",camText,rect2<int32>(10,10,0,0));
 }
 
 void renderMap(engine_state* engine, game_state* game)

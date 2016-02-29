@@ -461,8 +461,21 @@ bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_r
 	SDL_Rect sdl_dest_rect;
 	sdl_dest_rect.x = dest_rect.x;
 	sdl_dest_rect.y = dest_rect.y;
-	sdl_dest_rect.w = dest_rect.w;
-	sdl_dest_rect.h = dest_rect.h;
+
+	if(dest_rect.w == 0 || dest_rect.h == 0)
+	{
+		int result = SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&sdl_dest_rect.w,&sdl_dest_rect.h);
+		if(result != 0)
+		{
+			logger.LogWarn((std::string)"Couldn't query texture, SDL_Error: " + SDL_GetError());
+			return false;
+		}
+	}
+	else
+	{
+		sdl_dest_rect.w = dest_rect.w;
+		sdl_dest_rect.h = dest_rect.h;
+	}
 
 	bool result = SDL_RenderCopy((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,NULL,&sdl_dest_rect);
 	if(result)
@@ -499,8 +512,20 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
 	SDL_Rect sdl_dest_rect;
 	sdl_dest_rect.x = dest_rect.x;
 	sdl_dest_rect.y = dest_rect.y;
-	sdl_dest_rect.w = dest_rect.w;
-	sdl_dest_rect.h = dest_rect.h;
+	if(dest_rect.w == 0 || dest_rect.h == 0)
+	{
+		int result = SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&sdl_dest_rect.w,&sdl_dest_rect.h);
+		if(result != 0)
+		{
+			logger.LogWarn((std::string)"Couldn't query texture, SDL_Error: " + SDL_GetError());
+			return false;
+		}
+	}
+	else
+	{
+		sdl_dest_rect.w = dest_rect.w;
+		sdl_dest_rect.h = dest_rect.h;
+	}
 
 	SDL_Rect sdl_src_rect;
 	sdl_src_rect.x = src_rect.x;
