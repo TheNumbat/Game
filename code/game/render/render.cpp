@@ -38,8 +38,7 @@
 struct rawTex
 {
 	virtual ~rawTex() {};
-	v2<real32> pixelPos;
-	v2<real32> pixelDim;
+	rect2<real32> pixelRect;
 	blendmode blend;
 	color mod;
 	uint32 layer;
@@ -174,12 +173,11 @@ void renderAndClearTextures(engine_state* engine, std::vector<rawTex*>& textures
 		{
 			engine->graphics.setBlendmode(t->ID,t->blend);
 			engine->graphics.setColorMod(t->ID,t->mod);
-			engine->graphics.renderTexture(t->ID, rect2<int32>( std::round(t->pixelPos.x), std::round(t->pixelPos.y), std::round(t->pixelDim.x), std::round(t->pixelDim.y)));
+			engine->graphics.renderTexture(t->ID, t->pixelRect.round());
 		}
 		else if(rawText* t = dynamic_cast<rawText*>(textures[index]))
 		{
-			engine->graphics.renderText(t->fontID, t->text, rect2<int32>( std::round(t->pixelPos.x), std::round(t->pixelPos.y), std::round(t->pixelDim.x), std::round(t->pixelDim.y)),
-										t->mod, t->blend);
+			engine->graphics.renderText(t->fontID, t->text, t->pixelRect.round(), t->mod, t->blend);
 		}
 
 		delete textures[index];
@@ -264,8 +262,7 @@ void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>
 
 								// Map the texture into pixel space (against TLC of window)
 								/// @todo z-space??
-								texture->pixelPos = entityPixelPos + ( t.texPos * METERS_TO_PIXELS * camZoom);
-								texture->pixelDim = t.texDim * METERS_TO_PIXELS * camZoom;
+								texture->pixelRect = ( t.texRect * METERS_TO_PIXELS * camZoom) + entityPixelPos;
 
 								texture->ID = t.texID;
 								texture->blend = t.blend;
@@ -289,8 +286,7 @@ void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>
 
 								// Map the text into pixel space (against TLC of window)
 								/// @todo z-space??
-								text->pixelPos = entityPixelPos + ( t.texPos * METERS_TO_PIXELS * camZoom);
-								text->pixelDim = t.texDim * METERS_TO_PIXELS * camZoom;
+								text->pixelRect = ( t.texRect * METERS_TO_PIXELS * camZoom) + entityPixelPos;
 
 								text->fontID = t.fontID;
 								text->text = t.message;
@@ -329,7 +325,7 @@ void sortTextures(std::vector<rawTex*>& textures)
 	{ 
 		if(a->layer < b->layer) return true;
 		if(a->layer > b->layer) return false;
-	    return (a->pixelPos.y + a->pixelDim.y) < (b->pixelPos.y + b->pixelDim.y); 
+	    return (a->pixelRect.y + a->pixelRect.h) < (b->pixelRect.y + b->pixelRect.h); 
 	});
 }
 

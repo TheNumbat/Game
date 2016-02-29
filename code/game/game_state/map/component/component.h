@@ -24,6 +24,7 @@
 #include "game_state\map\position\position.h"
 
 #include <engine_state.h>
+#include <rect.h>
 #include <vect.h>
 #include <memory>
 #include <vector>
@@ -146,7 +147,7 @@ struct component_texture : public component
 
 		@return success (always true)
 	*/
-	bool addTexture(const std::string& ID, const std::string& texID, const v2<real32>& pos, const v2<real32>& dim, 
+	bool addTexture(const std::string& ID, const std::string& texID, const rect2<real32>& rect, 
 					uint32 layer = 0, blendmode b = blend_alpha, color c = color(255,255,255,0));
 
 	/**
@@ -163,8 +164,7 @@ struct component_texture : public component
 	struct sub_texture
 	{
 		std::string texID;
-		v2<real32> texPos;
-		v2<real32> texDim;
+		rect2<real32> texRect;
 		blendmode blend;
 		color mod;
 		uint32 layer;
@@ -205,7 +205,7 @@ struct component_text_texture : public component
 
 		@return success (always true)
 	*/
-	bool addText(const std::string& ID, const std::string& fontID, const std::string& message, const v2<real32>& pos, const v2<real32>& dim, 
+	bool addText(const std::string& ID, const std::string& fontID, const std::string& message, const rect2<real32>& rect, 
 				 uint32 layer = 0, blendmode b = blend_alpha, color c = color(255,255,255,0));
 
 	/**
@@ -223,8 +223,7 @@ struct component_text_texture : public component
 	{
 		std::string fontID;
 		std::string message;
-		v2<real32> texPos;
-		v2<real32> texDim;
+		rect2<real32> texRect;
 		blendmode blend;
 		color mod;
 		uint32 layer;

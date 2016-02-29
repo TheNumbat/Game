@@ -83,7 +83,7 @@ component_texture::~component_texture()
 
 }
 
-bool component_texture::addTexture(const std::string& ID, const std::string& texID, const v2<real32>& pos, const v2<real32>& dim, 
+bool component_texture::addTexture(const std::string& ID, const std::string& texID, const rect2<real32>& rect,
 								   uint32 layer, blendmode b, color c)
 {
 	if(std::find(IDs.begin(),IDs.end(),ID) != IDs.end())
@@ -93,8 +93,7 @@ bool component_texture::addTexture(const std::string& ID, const std::string& tex
 
 	sub_texture newT;
 	newT.texID = texID;
-	newT.texPos = pos;
-	newT.texDim = dim;
+	newT.texRect = rect;
 	newT.layer = layer;
 	newT.blend = b;
 	newT.mod = c;
@@ -130,8 +129,8 @@ component_text_texture::~component_text_texture()
 
 }
 
-bool component_text_texture::addText(const std::string& ID, const std::string& fontID, const std::string& message, const v2<real32>& pos, 
-									 const v2<real32>& dim, uint32 layer, blendmode b, color c)
+bool component_text_texture::addText(const std::string& ID, const std::string& fontID, const std::string& message, 
+									 const rect2<real32>& rect, uint32 layer, blendmode b, color c)
 {
 	if(std::find(IDs.begin(),IDs.end(),ID) != IDs.end())
 	{
@@ -141,8 +140,7 @@ bool component_text_texture::addText(const std::string& ID, const std::string& f
 	sub_text_texture newT;
 	newT.fontID = fontID;
 	newT.message = message;
-	newT.texPos = pos;
-	newT.texDim = dim;
+	newT.texRect = rect;
 	newT.layer = layer;
 	newT.blend = b;
 	newT.mod = c;

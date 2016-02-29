@@ -6,6 +6,9 @@
 
 // Header files ///////////////////////////////////////////////////////////////
 
+#include "vect.h"
+#include <cmath>
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -27,6 +30,11 @@ struct rect2
 		y = _y;
 		w = _w;
 		h = _h;
+	}
+
+	rect2<int32> round()
+	{
+		return rect2<int32>(std::round(x),std::round(y),std::round(w),std::round(h));
 	}
 
 	rect2& operator=(const rect2& src) 
@@ -55,11 +63,23 @@ struct rect2
 		return rect2(x, y, w + src.w, h + src.h);
 	}
 
+	rect2 operator+(const v2<T>& src) const 
+	{
+		return rect2(x + src.x, y + src.y, w, h);
+	}
+
 	rect2& operator+=(const rect2& src) 
 	{
 		w += src.w;
 		h += src.h;
 		return *this;	
+	}
+
+	rect2& operator+=(const v2<T>& src) const 
+	{
+		x += src.x; 
+		y += src.y,
+		return *this;
 	}
 
 	rect2 operator-(const rect2& src) const 

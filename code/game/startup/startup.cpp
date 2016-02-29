@@ -75,14 +75,14 @@ void gamestart(engine_state* engine, game_state* game)
 	mov.lock()->velocity = v2<real32>(3,0);
 
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
-	texture.lock()->addTexture("glow","light",v2<real32>(-3.5,-3.5),v2<real32>(7,7),0,blend_additive);
-	texture.lock()->addTexture("main","dankdude",v2<real32>(-0.5,-0.5),v2<real32>(1,1),10);
+	texture.lock()->addTexture("glow","light",rect2<real32>(-3.5,-3.5,7,7),0,blend_additive);
+	texture.lock()->addTexture("main","dankdude",rect2<real32>(-0.5,-0.5,1,1),10);
 
 	std::weak_ptr<component_text_texture> text = std::static_pointer_cast<component_text_texture>(player.lock()->addComponent(ctype_text_texture).lock());
-	text.lock()->addText("main","cenobyte_24","ayy lmao",v2<real32>(-0.5,-0.75),v2<real32>(1,0.25),1000,blend_alpha,color(255,255,0,0));
+	text.lock()->addText("main","cenobyte_24","ayy lmao",rect2<real32>(-0.5,-0.75,1,0.25),1000,blend_alpha,color(255,255,0,0));
 
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
-	testtexture.lock()->addTexture("main","yeti",v2<real32>(-0.5,-0.5),v2<real32>(1,1),1);
+	testtexture.lock()->addTexture("main","yeti",rect2<real32>(-0.5,-0.5,1,1),1);
 
 	game->cam.setFollowing(player);
 }
