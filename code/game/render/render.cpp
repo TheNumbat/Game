@@ -141,7 +141,7 @@ void renderHUD(engine_state* engine, game_state* game)
 	int32 winW, winH;
 	engine->graphics.getWinDim(winW,winH);
 
-	engine->graphics.renderText("aubrey_150","hello world!",rect2<int32>(winW / 2, 10,100,50),color(255,100,50,255));
+	engine->graphics.renderText("aubrey_24","hello world!",rect2<int32>(winW / 2, 10,0,0),color(255,100,50,255));
 }
 
 void renderDebugUI(engine_state* engine, game_state* game)

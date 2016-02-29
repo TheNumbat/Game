@@ -230,6 +230,7 @@ public:
 
 		@param[in] ID of texture to render
 		@param[in] dest_rect rectangle on the backbuffer to render into
+				   if width is 0, will use width of texture, same for height
 
 		@return success
 
@@ -237,7 +238,7 @@ public:
 		@exception could not render texture, returns false
 		@exception graphics not intialized, returns false
 	*/
-	ENGINE_API bool renderTexture(const std::string& ID, const rect2<int32>& dest_rect = rect2<int32>(0,0,0,0));
+	ENGINE_API bool renderTexture(const std::string& ID, const rect2<int32>& dest_rect);
 
 	/**
 		@brief Renders a texture to the backbuffer
@@ -246,6 +247,7 @@ public:
 
 		@param[in] ID of texture to render
 		@param[in] dest_rect rectangle on the backbuffer to render into
+				   if width is 0, will use width of texture, same for height
 		@param[in] src_rect rectangle to take from the texture to render
 		@param[in] rot_point point to rotate texture around
 		@param[in] rotation amount (in degrees)
@@ -277,7 +279,7 @@ public:
 		@exception could not render texture, returns false
 		@exception could not free texture, returns false
 	*/
-	ENGINE_API bool renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect = rect2<int32>(0,0,0,0), 
+	ENGINE_API bool renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect, 
 							   const color& c = color(255,255,255,255), blendmode b = blend_alpha);
 
 	/**
