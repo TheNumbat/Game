@@ -119,18 +119,38 @@ void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>
 */
 void renderAndClearTextures(engine_state* engine, std::vector<rawTex*>& textures);
 
+void renderDebugUI(engine_state* engine, game_state* game);
+
 // Free function implementation  //////////////////////////////////////////////
 
 void render(engine_state* engine, game_state* game)
 {
 	renderMap(engine,game);
 	renderHUD(engine,game);
+
+	if(game->showDebugUI)
+	{
+		renderDebugUI(engine,game);
+	}
+
 	engine->graphics.displayFrame();
 }
 
 void renderHUD(engine_state* engine, game_state* game)
 {
-	engine->graphics.renderText("aubrey_150","hello world!",rect2<int32>(10,10,250,125),color(255,100,50,255));
+	int32 winW, winH;
+	engine->graphics.getWinDim(winW,winH);
+
+	engine->graphics.renderText("aubrey_150","hello world!",rect2<int32>(winW / 2, 10,100,50),color(255,100,50,255));
+}
+
+void renderDebugUI(engine_state* engine, game_state* game)
+{
+	map_position camPos = game->cam.getCenter();
+	std::string camText = "Camera pos: " + std::to_string(camPos.chunkPos.x) + " " + std::to_string(camPos.chunkPos.y) + " " + std::to_string(camPos.chunkPos.z) +
+						  " " + std::to_string(camPos.realPos.x) + " " + std::to_string(camPos.realPos.y) + " " + std::to_string(camPos.realPos.z);
+
+	engine->graphics.renderText("sans_24",camText,rect2<int32>(10,10,camText.length() * 10,20));
 }
 
 void renderMap(engine_state* engine, game_state* game)

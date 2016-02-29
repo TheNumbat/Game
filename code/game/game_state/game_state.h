@@ -33,13 +33,18 @@
 */
 struct game_state
 {
-	game_state() {};
+	game_state() 
+	{
+		running = false;
+		showDebugUI = false;
+	};
 	~game_state() {};
 
 	camera cam;
 	mapMgr map;
 	logMgr logger;
 	bool running;
+	bool showDebugUI;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

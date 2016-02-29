@@ -59,6 +59,7 @@ void gamestart(engine_state* engine, game_state* game)
 
 	LOAD_FONT( fonts/aubrey.ttf , aubrey_150 , 150 );
 	LOAD_FONT( fonts/Cenobyte.ttf , cenobyte_24 , 24 );
+	LOAD_FONT( fonts/OpenSans.ttf , sans_24 , 24 );
 
 	LOAD_SOUND( music/song1.wav , music );
 
