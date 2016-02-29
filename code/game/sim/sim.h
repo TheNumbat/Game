@@ -18,12 +18,12 @@
 
 #include "game_common.h"
 
-#include "game_state.h"
-
-#include <engine_state.h>
 #include <string>
 
 // Global constant definitions  ///////////////////////////////////////////////
+
+class engine_state;
+class game_state;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 

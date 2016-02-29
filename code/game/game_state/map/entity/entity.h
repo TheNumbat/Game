@@ -21,7 +21,7 @@
 
 #include "game_common.h"
 
-#include "map\component\component.h"
+#include "game_state\map\component\component.h"
 #include <memory>
 #include <map>
 

@@ -21,11 +21,13 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "game_common.h"
-#include <engine_state.h>
 
+#include "game_state/game_state.h"
 #include "events/events.h"
 #include "render/render.h"
 #include "sim/sim.h"
+
+#include <engine_state.h>
 
 // Global constant definitions  ///////////////////////////////////////////////
 

@@ -21,8 +21,8 @@
 
 #include "game_common.h"
 
-#include "map\position\position.h"
-#include "map\entity\entity.h"
+#include "game_state\map\position\position.h"
+#include "game_state\map\entity\entity.h"
 
 #include <log\logMgr.h>
 #include <memory>

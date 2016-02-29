@@ -20,6 +20,9 @@
 
 #include "events.h"
 
+#include "game_state/game_state.h"
+#include <engine_state.h>
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Free function prototypes  //////////////////////////////////////////////////

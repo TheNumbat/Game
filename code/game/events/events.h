@@ -20,10 +20,10 @@
 
 #include "game_common.h"
 
-#include "game_state.h"
-#include <engine_state.h>
-
 // Global constant definitions  ///////////////////////////////////////////////
+
+class engine_state;
+class game_state;
 
 // Free function prototypes  //////////////////////////////////////////////////
 

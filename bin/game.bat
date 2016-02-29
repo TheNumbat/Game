@@ -9,9 +9,9 @@ set CompileFlags=/I"W:\deps\include" /I"W:\code\engine" /I"W:\code\game" /Od /Zi
 
 set LinkFlags=/NODEFAULTLIB:msvcrtd.lib /subsystem:console,5.01 /PDB:Game_%random%.pdb w:\build\Engine.lib
 
-set Files=w:\code\game\game_main.cpp w:\code\game\camera\camera.cpp w:\code\game\events\events.cpp w:\code\game\map\mapMgr.cpp
-set Files=%Files% w:\code\game\render\render.cpp w:\code\game\sim\sim.cpp w:\code\game\map\component\component.cpp
-set Files=%Files% w:\code\game\map\position\position.cpp w:\code\game\map\entity\entity.cpp w:\code\game\map\chunk\chunk.cpp
+set Files=w:\code\game\game_main.cpp w:\code\game\game_state\camera\camera.cpp w:\code\game\events\events.cpp w:\code\game\game_state\map\mapMgr.cpp
+set Files=%Files% w:\code\game\render\render.cpp w:\code\game\sim\sim.cpp w:\code\game\game_state\map\component\component.cpp
+set Files=%Files% w:\code\game\game_state\map\position\position.cpp w:\code\game\game_state\map\entity\entity.cpp w:\code\game\game_state\map\chunk\chunk.cpp
 
 del Game_*.pdb > NUL 2> NUL
 

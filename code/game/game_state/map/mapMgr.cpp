@@ -19,7 +19,7 @@
 
 #include "engine_common.h"
 
-#include "map/mapMgr.h"
+#include "mapMgr.h"
 
 // Global constant definitions  ///////////////////////////////////////////////
 

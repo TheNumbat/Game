@@ -21,7 +21,7 @@
 
 #include "game_common.h"
 
-#include "map\position\position.h"
+#include "game_state\map\position\position.h"
 
 #include <engine_state.h>
 #include <vect.h>

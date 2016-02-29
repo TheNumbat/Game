@@ -18,7 +18,9 @@
 
 #include "sim.h"
 
-#include "game_state.h"
+#include "game_state/game_state.h"
+
+#include <engine_state.h>
 
 // Global constant definitions  ///////////////////////////////////////////////
 

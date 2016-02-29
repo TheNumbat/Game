@@ -18,7 +18,7 @@
 
 #include "render.h"
 
-#include "game_state.h"
+#include "game_state/game_state.h"
 
 #include <vect.h>
 #include <engine_state.h>

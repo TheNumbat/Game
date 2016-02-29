@@ -18,7 +18,7 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "game_common.h"
-#include "map/entity/entity.h"
+#include "game_state/map/entity/entity.h"
 
 #include <map>
 #include <memory>
