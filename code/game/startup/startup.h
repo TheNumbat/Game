@@ -1,12 +1,12 @@
 // Program Information ////////////////////////////////////////////////////////
 
 /**
-	@file render.h
+	@file startup.h
 	@author Max Slater
 
-	@brief does rendering for the game, called in gameLoop
+	@brief Sets up the game and engine, loads files, etc
 
-	@version 1.00 (15 Feb 2016)
+	@version 1.00 (18 Feb 2016)
         Created
 */
 
@@ -20,23 +20,19 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
-class game_state;
 class engine_state;
+class game_state;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 // Free function prototypes  //////////////////////////////////////////////////
 
 /**
-	@brief Renders the game 
+	@brief Sets up the game and engine, loads files, etc
 
-	@param[in] engine pointer to the engine state
-	@param[in] game pointer to the game state
+	@param[in] engine pointer to engine state
+	@param[in] game pointer to game state
 */
-void render(engine_state* engine, game_state* game);
-
-///////////////////////////////////////////////////////////////////////////////
+void gamestart(engine_state* engine, game_state* game);
 
 // Free function implementation  //////////////////////////////////////////////
-
-// Terminating precompiler directives  ////////////////////////////////////////

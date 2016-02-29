@@ -14,6 +14,10 @@
 
 #pragma once
 
+/// Rendering macros
+#define PIXELS_TO_METERS (1.0f / METERS_TO_PIXELS)
+#define CHUNK_SIZE_PIXELS (CHUNK_SIZE_METERS * METERS_TO_PIXELS)
+
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "render.h"

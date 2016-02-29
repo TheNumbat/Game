@@ -21,15 +21,16 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "game_common.h"
-
 #include "game_state/game_state.h"
+
+#include "startup/startup.h"
 #include "events/events.h"
 #include "render/render.h"
 #include "sim/sim.h"
 
-#include <engine_state.h>
-
 // Global constant definitions  ///////////////////////////////////////////////
+
+class engine_state;
 
 // Free function prototypes  //////////////////////////////////////////////////
 
@@ -71,47 +72,7 @@ GAME_API bool gameLoop(engine_state* engine, game_state* game);
 GAME_API game_state* startup(engine_state* engine) 
 {
 	game_state* game = new game_state;
-	game->logger.StartLog("GAME");
-	game->logger.LogInfo("Game code initialized");
-
-	engine->logger.StartLog("ENGINE");
-
-	engine->sdl.init();
-	engine->graphics.init("Game");
-	engine->events.init();
-	engine->audio.init();
-	engine->time.init();
-
-	engine->graphics.loadTextureRec("debug");
-	engine->graphics.loadTexture("art/entities/dankdude_front.png","dankdude");
-	engine->graphics.loadTexture("art/entities/light_circle.png","light");
-	engine->graphics.loadTexture("art/entities/yeti.png","yeti");
-
-	engine->graphics.loadFont("fonts/aubrey.ttf","aubrey_150",150);
-	engine->graphics.loadFont("fonts/Cenobyte.ttf","cenobyte_24",24);
-
-	engine->time.addTimer("sim");
-
-	std::weak_ptr<entity> player = game->map.addPlayer("p1",map_position(0,0,0,3,3,0),0);
-	std::weak_ptr<entity> test = game->map.addEntity(map_position(0,0,0,3,3,0),0);
-
-	std::weak_ptr<component_movement> mov = std::static_pointer_cast<component_movement>(player.lock()->addComponent(ctype_movement).lock());
-	mov = std::static_pointer_cast<component_movement>(test.lock()->addComponent(ctype_movement).lock());
-	mov.lock()->velocity = v2<real32>(3,0);
-
-	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
-	texture.lock()->addTexture("glow","light",v2<real32>(-3.5,-3.5),v2<real32>(7,7),0,blend_additive);
-	texture.lock()->addTexture("main","dankdude",v2<real32>(-0.5,-0.5),v2<real32>(1,1),10);
-
-	std::weak_ptr<component_text_texture> text = std::static_pointer_cast<component_text_texture>(player.lock()->addComponent(ctype_text_texture).lock());
-	text.lock()->addText("main","cenobyte_24","ayy lmao",v2<real32>(-0.5,-0.75),v2<real32>(1,0.25),TEXT_LAYER,blend_alpha,color(255,255,0,0));
-
-	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
-	testtexture.lock()->addTexture("main","yeti",v2<real32>(-0.5,-0.5),v2<real32>(1,1),1);
-
-	game->cam.setFollowing(player);
-
-	game->running = true;
+	gamestart(engine,game);
 	return game;
 }
 

@@ -35,7 +35,11 @@ void eventLoop(engine_state* engine, game_state* game)
 	while(engine->events.getNextEvent(e))
 	{
 		std::weak_ptr<entity> player = game->map.getPlayerByID("p1");
-		std::weak_ptr<component_movement> mov = std::static_pointer_cast<component_movement>(player.lock()->getComponent(ctype_movement).lock());
+		std::weak_ptr<component_movement> mov;
+		if(!player.expired())
+		{
+			 mov = std::static_pointer_cast<component_movement>(player.lock()->getComponent(ctype_movement).lock());
+		}
 
 		if(e.type == EVT_QUIT)
 		{
@@ -68,7 +72,7 @@ void eventLoop(engine_state* engine, game_state* game)
 				game->cam.zoom *= 2;
 			}
 
-			if(e.flags & FLAG_KEY_PRESS)
+			if(e.flags & FLAG_KEY_PRESS && !player.expired())
 			{
 				switch(e.value)
 				{
@@ -86,7 +90,7 @@ void eventLoop(engine_state* engine, game_state* game)
 						break;
 				}
 			}
-			else if(e.flags & FLAG_KEY_RELEASE)
+			else if(e.flags & FLAG_KEY_RELEASE && !player.expired())
 			{
 				switch(e.value)
 				{

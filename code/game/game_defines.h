@@ -14,7 +14,7 @@
 /// Rendering defines
 #define METERS_TO_PIXELS 64.0f
 
-// #define DRAW_CHUNK_BOUNDS
+#define DRAW_CHUNK_BOUNDS
 #define DRAW_POSITIONS
 #define DRAW_COLLISION_VOLUMES
 // #define DRAW_CAMERA

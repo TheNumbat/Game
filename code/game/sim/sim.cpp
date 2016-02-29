@@ -34,6 +34,11 @@ void simulate(engine_state* engine, game_state* game, const std::string& timerID
 {
 	std::weak_ptr<chunk> simChunk;
 
+	if(!engine->time.get(timerID))
+	{
+		engine->time.addTimer(timerID);
+	}
+
 	/// @todo update this to use simulation region around the player, and to not neccesarily sim the entire map every frame
 	do
 	{
