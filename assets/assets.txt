@@ -1,0 +1,25 @@
+
+Texture
+
+	; Debug
+
+	debug\camera.png camera
+	debug\chunkbounds.bmp chunkbounds
+
+	; Entities
+
+	art\entities\dankdude_front.png dankdude
+	art\entities\yeti.png yeti
+
+Font
+
+	fonts\aubrey.ttf aubrey_150 150
+	fonts\Cenobyte.ttf cenobyte_24 24
+
+Sound
+
+	music\song1.wav music
+
+Files
+
+	

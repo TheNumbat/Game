@@ -20,6 +20,8 @@
 
 #include "game_state.h"
 
+#include <vect.h>
+#include <engine_state.h>
 #include <algorithm>
 #include <vector>
 #include <string>
@@ -29,7 +31,89 @@
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
+struct rawTex
+{
+	virtual ~rawTex() {};
+	v2<real32> pixelPos;
+	v2<real32> pixelDim;
+	blendmode blend;
+	color mod;
+	uint32 layer;
+};
+
+/**
+	@brief Describes data needed to output a texture
+
+	Used as an intermediate between entity textures and graphicMgr calls
+*/
+struct rawTexture : public rawTex
+{
+	std::string ID;
+};
+
+/**
+	@brief Describes data needed to output a text texture
+
+	Used as an intermediate between entity textures and graphicMgr calls
+*/
+struct rawText : public rawTex
+{
+	std::string fontID;
+	std::string text;
+};
+
 // Free function prototypes  //////////////////////////////////////////////////
+
+/**
+	@brief Renders the game HUD
+
+	@param[in] engine pointer to the engine state
+	@param[in] game pointer to the game state
+*/
+void renderHUD(engine_state* engine, game_state* game);
+
+/**
+	@brief Renders the game map
+
+	@param[in] engine pointer to the engine state
+	@param[in] game pointer to the game state
+*/
+void renderMap(engine_state* engine, game_state* game);
+
+/**
+	@brief Maps a point into pixel space, using another point as the origin
+
+	@param[in] origin position to use as the origin
+	@param[in] point position to map
+	@param[in] zoom current camera zoom
+
+	@return relative pixel position
+*/
+v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom);
+
+/**
+	@brief Sorts an array of rawTexture structures by their y position and forceTop/Bot
+
+	@param[in] textures vector of rawTexture to sort
+*/
+void sortTextures(std::vector<rawTex*>& textures);
+
+/**
+	@brief Gets all textures from the game map (that can be seen)
+
+	@param[in] engine pointer to the engine state
+	@param[in] game pointer to the game state
+	@param[out] textures vector to be filled with textures
+*/
+void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>& textures);
+
+/**
+	@brief Renderes any number of rawTex textures, then deletes/clears the array
+
+	@param[in] engine pointer to the engine state
+	@param[in] textures to render (can be rawTexture or rawText)
+*/
+void renderAndClearTextures(engine_state* engine, std::vector<rawTex*>& textures);
 
 // Free function implementation  //////////////////////////////////////////////
 
@@ -51,6 +135,37 @@ void renderMap(engine_state* engine, game_state* game)
 
 	std::vector<rawTex*> textures;
 
+	getMapTextures(engine,game,textures);
+	sortTextures(textures);
+	renderAndClearTextures(engine,textures);
+}
+
+void renderAndClearTextures(engine_state* engine, std::vector<rawTex*>& textures)
+{
+	// Actually render textures
+	for(int32 index = 0; index < textures.size(); ++index) 
+	{
+		/// @note this will leave the texture with the blend mode and color mod, so be sure to set/reset it when you want to render again.
+		if(rawTexture* t = dynamic_cast<rawTexture*>(textures[index]))
+		{
+			engine->graphics.setBlendmode(t->ID,t->blend);
+			engine->graphics.setColorMod(t->ID,t->mod);
+			engine->graphics.renderTexture(t->ID, rect2<int32>( std::round(t->pixelPos.x), std::round(t->pixelPos.y), std::round(t->pixelDim.x), std::round(t->pixelDim.y)));
+		}
+		else if(rawText* t = dynamic_cast<rawText*>(textures[index]))
+		{
+			engine->graphics.renderText(t->fontID, t->text, rect2<int32>( std::round(t->pixelPos.x), std::round(t->pixelPos.y), std::round(t->pixelDim.x), std::round(t->pixelDim.y)),
+										t->mod, t->blend);
+		}
+
+		delete textures[index];
+	}
+
+	textures.clear();
+}
+
+void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>& textures)
+{
 	// Get window size
 	int32 winW, winH;
 	engine->graphics.getWinDim(winW,winH);
@@ -124,7 +239,7 @@ void renderMap(engine_state* engine, game_state* game)
 								rawTexture* texture = new rawTexture;
 
 								// Map the texture into pixel space (against TLC of window)
-								/// @todo z-space
+								/// @todo z-space??
 								texture->pixelPos = entityPixelPos + ( t.texPos * METERS_TO_PIXELS * camZoom);
 								texture->pixelDim = t.texDim * METERS_TO_PIXELS * camZoom;
 
@@ -149,7 +264,7 @@ void renderMap(engine_state* engine, game_state* game)
 								rawText* text = new rawText;
 
 								// Map the text into pixel space (against TLC of window)
-								/// @todo z-space
+								/// @todo z-space??
 								text->pixelPos = entityPixelPos + ( t.texPos * METERS_TO_PIXELS * camZoom);
 								text->pixelDim = t.texDim * METERS_TO_PIXELS * camZoom;
 
@@ -166,28 +281,6 @@ void renderMap(engine_state* engine, game_state* game)
 				}
 			}
 		}
-	}
-
-	// Sort textures
-	sortTextures(textures);
-
-	// Actually render textures
-	for(int32 index = 0; index < textures.size(); ++index) 
-	{
-		/// @note this will leave the texture with the blend mode and color mod, so be sure to set/reset it when you want to render again.
-		if(rawTexture* t = dynamic_cast<rawTexture*>(textures[index]))
-		{
-			engine->graphics.setBlendmode(t->ID,t->blend);
-			engine->graphics.setColorMod(t->ID,t->mod);
-			engine->graphics.renderTexture(t->ID, rect2<int32>( std::round(t->pixelPos.x), std::round(t->pixelPos.y), std::round(t->pixelDim.x), std::round(t->pixelDim.y)));
-		}
-		else if(rawText* t = dynamic_cast<rawText*>(textures[index]))
-		{
-			engine->graphics.renderText(t->fontID, t->text, rect2<int32>( std::round(t->pixelPos.x), std::round(t->pixelPos.y), std::round(t->pixelDim.x), std::round(t->pixelDim.y)),
-										t->mod, t->blend);
-		}
-
-		delete textures[index];
 	}
 }
 

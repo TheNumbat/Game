@@ -22,10 +22,9 @@
 #include "game_common.h"
 
 #include "map\position\position.h"
-#include "render/render.h"
 
-#include "vect.h"
-
+#include <engine_state.h>
+#include <vect.h>
 #include <memory>
 #include <vector>
 #include <string>
@@ -123,9 +122,6 @@ struct component_texture : public component
 	/**
 		@brief component_texture constructor
 
-		@param[in] top force texture to render on top
-		@param[in] bot force texture to render on bottom
-
 		@exception if both top and bot are set, neither will be set
 	*/
 	component_texture();
@@ -144,6 +140,7 @@ struct component_texture : public component
 		@param[in] texID ID of texture to render
 		@param[in] pos position of TLC of texture relative to entity position in meters
 		@param[in] dim dimension of texture in meters
+		@param[in] layer of texture to render on
 		@param[in] b blend mode of texture
 		@param[in] c color mod of texture
 
@@ -199,8 +196,10 @@ struct component_text_texture : public component
 
 		@param[in] ID of text_texture sub-component
 		@param[in] fontID ID of font to use
+		@param[in] message text to render
 		@param[in] pos position of TLC of text_texture relative to entity position in meters
 		@param[in] dim dimension of text_texture in meters
+		@param[in] layer of texture to render
 		@param[in] b blend mode of text_texture
 		@param[in] c color mod of text_texture
 

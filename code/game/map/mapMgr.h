@@ -22,10 +22,9 @@
 #include "engine_common.h"
 
 #include "chunk/chunk.h"
-#include "log/logMgr.h"
-#include "entity/entity.h"
-#include "map/position/position.h"
+#include "position/position.h"
 
+#include <engine_state.h>
 #include <memory>
 #include <unordered_map>
 #include <map>

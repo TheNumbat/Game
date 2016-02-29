@@ -102,10 +102,10 @@ GAME_API game_state* startup(engine_state* engine)
 	texture.lock()->addTexture("main","dankdude",v2<real32>(-0.5,-0.5),v2<real32>(1,1),10);
 
 	std::weak_ptr<component_text_texture> text = std::static_pointer_cast<component_text_texture>(player.lock()->addComponent(ctype_text_texture).lock());
-	text.lock()->addText("main","cenobyte_24","kek kek kek",v2<real32>(-0.5,-0.75),v2<real32>(1,0.25),TEXT_LAYER,blend_alpha,color(255,255,0,0));
+	text.lock()->addText("main","cenobyte_24","ayy lmao",v2<real32>(-0.5,-0.75),v2<real32>(1,0.25),TEXT_LAYER,blend_alpha,color(255,255,0,0));
 
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
-	testtexture.lock()->addTexture("main","yeti",v2<real32>(-0.5,-0.5),v2<real32>(1,1),1,blend_alpha);
+	testtexture.lock()->addTexture("main","yeti",v2<real32>(-0.5,-0.5),v2<real32>(1,1),1);
 
 	game->cam.setFollowing(player);
 

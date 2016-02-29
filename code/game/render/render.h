@@ -22,52 +22,14 @@
 
 #include "game_common.h"
 
-#include "map/position/position.h"
-
-#include <engine_state.h>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <cmath>
-
 // Global constant definitions  ///////////////////////////////////////////////
 
 class game_state;
+class engine_state;
 
 const uint32 TEXT_LAYER = (uint32)-1;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
-
-struct rawTex
-{
-	virtual ~rawTex() {};
-	v2<real32> pixelPos;
-	v2<real32> pixelDim;
-	blendmode blend;
-	color mod;
-	uint32 layer;
-};
-
-/**
-	@brief Describes data needed to output a texture
-
-	Used as an intermediate between entity textures and graphicMgr calls
-*/
-struct rawTexture : public rawTex
-{
-	std::string ID;
-};
-
-/**
-	@brief Describes data needed to output a text texture
-
-	Used as an intermediate between entity textures and graphicMgr calls
-*/
-struct rawText : public rawTex
-{
-	std::string fontID;
-	std::string text;
-};
 
 // Free function prototypes  //////////////////////////////////////////////////
 
@@ -79,39 +41,7 @@ struct rawText : public rawTex
 */
 void render(engine_state* engine, game_state* game);
 
-/**
-	@brief Renders the game HUD
-
-	@param[in] engine pointer to the engine state
-	@param[in] game pointer to the game state
-*/
-void renderHUD(engine_state* engine, game_state* game);
-
-/**
-	@brief Renders the game map
-
-	@param[in] engine pointer to the engine state
-	@param[in] game pointer to the game state
-*/
-void renderMap(engine_state* engine, game_state* game);
-
-/**
-	@brief Maps a point into pixel space, using another point as the origin
-
-	@param[in] origin position to use as the origin
-	@param[in] point position to map
-	@param[in] zoom current camera zoom
-
-	@return relative pixel position
-*/
-v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom);
-
-/**
-	@brief Sorts an array of rawTexture structures by their y position and forceTop/Bot
-
-	@param[in] textures vector of rawTexture to sort
-*/
-void sortTextures(std::vector<rawTex*>& textures);
+///////////////////////////////////////////////////////////////////////////////
 
 // Free function implementation  //////////////////////////////////////////////
 
