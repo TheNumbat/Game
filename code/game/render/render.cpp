@@ -37,7 +37,7 @@
 
 struct rawTex
 {
-	virtual ~rawTex() {};
+	virtual ~rawTex() = 0 {};
 	rect2<real32> pixelRect;
 	blendmode blend;
 	color mod;
@@ -51,6 +51,23 @@ struct rawTex
 */
 struct rawTexture : public rawTex
 {
+	rawTexture() {};
+	rawTexture(const std::string& tID, const rect2<real32>& rect, blendmode b, color c, uint32 l)
+	{
+		ID = tID;
+		pixelRect = rect;
+		blend = b;
+		mod = c;
+		layer = l;
+	}
+	rawTexture(const component_texture::sub_texture& t, real32 zoom, const v2<real32>& offset)
+	{
+		ID = t.texID;
+		pixelRect = (t.texRect * METERS_TO_PIXELS * zoom) + offset;
+		blend = t.blend;
+		mod = t.mod;
+		layer = t.layer;
+	}
 	std::string ID;
 };
 
@@ -61,6 +78,25 @@ struct rawTexture : public rawTex
 */
 struct rawText : public rawTex
 {
+	rawText() {};
+	rawText(const std::string& fID, const std::string& message, const rect2<real32>& rect, blendmode b, color c, uint32 l)
+	{
+		fontID = fID;
+		text = message;
+		pixelRect = rect;
+		blend = b;
+		mod = c;
+		layer = l;
+	}
+	rawText(const component_text_texture::sub_text_texture& t, real32 zoom, const v2<real32>& offset)
+	{
+		fontID = t.fontID;
+		text = t.message;
+		pixelRect = ( t.texRect * METERS_TO_PIXELS * zoom) + offset;
+		blend = t.blend;
+		mod = t.mod;
+		layer = t.layer;
+	}
 	std::string fontID;
 	std::string text;
 };
@@ -118,6 +154,12 @@ void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>
 */
 void renderAndClearTextures(engine_state* engine, std::vector<rawTex*>& textures);
 
+/**
+	@brief Renderes the debug info for the game
+
+	@param[in] engine pointer to the engine state
+	@param[in] game pointer to the game state
+*/
 void renderDebugUI(engine_state* engine, game_state* game);
 
 // Free function implementation  //////////////////////////////////////////////
@@ -257,19 +299,7 @@ void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>
 							// Get each texture from the entity
 							for(int32 index = 0; index < eTexture.lock()->IDs.size(); index++)
 							{
-								component_texture::sub_texture& t = eTexture.lock()->textures[index];
-								rawTexture* texture = new rawTexture;
-
-								// Map the texture into pixel space (against TLC of window)
-								/// @todo z-space??
-								texture->pixelRect = ( t.texRect * METERS_TO_PIXELS * camZoom) + entityPixelPos;
-
-								texture->ID = t.texID;
-								texture->blend = t.blend;
-								texture->mod = t.mod;
-								texture->layer = t.layer;
-
-								textures.push_back(texture);
+								textures.push_back(new rawTexture(eTexture.lock()->textures[index],camZoom,entityPixelPos));
 							}
 						}
 
@@ -281,20 +311,7 @@ void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>
 							// Get each texture from the entity
 							for(int32 index = 0; index < eText.lock()->IDs.size(); index++)
 							{
-								component_text_texture::sub_text_texture& t = eText.lock()->textures[index];
-								rawText* text = new rawText;
-
-								// Map the text into pixel space (against TLC of window)
-								/// @todo z-space??
-								text->pixelRect = ( t.texRect * METERS_TO_PIXELS * camZoom) + entityPixelPos;
-
-								text->fontID = t.fontID;
-								text->text = t.message;
-								text->blend = t.blend;
-								text->mod = t.mod;
-								text->layer = t.layer;
-
-								textures.push_back(text);
+								textures.push_back(new rawText(eText.lock()->textures[index],camZoom,entityPixelPos));
 							}
 						}
 					}
