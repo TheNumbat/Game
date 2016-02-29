@@ -34,6 +34,8 @@
 
 class game_state;
 
+const uint32 TEXT_LAYER = (uint32)-1;
+
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 struct rawTex
@@ -43,8 +45,7 @@ struct rawTex
 	v2<real32> pixelDim;
 	blendmode blend;
 	color mod;
-	bool forceTop;
-	bool forceBot;
+	uint32 layer;
 };
 
 /**

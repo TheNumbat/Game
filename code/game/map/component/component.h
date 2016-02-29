@@ -150,7 +150,7 @@ struct component_texture : public component
 		@return success (always true)
 	*/
 	bool addTexture(const std::string& ID, const std::string& texID, const v2<real32>& pos, const v2<real32>& dim, 
-					bool top = false, bool bot = false, blendmode b = blend_alpha, color c = color(255,255,255,0));
+					uint32 layer = 0, blendmode b = blend_alpha, color c = color(255,255,255,0));
 
 	/**
 		@brief removes a texture from the component
@@ -170,8 +170,7 @@ struct component_texture : public component
 		v2<real32> texDim;
 		blendmode blend;
 		color mod;
-		bool forceTop;
-		bool forceBot;
+		uint32 layer;
 	};
 
 	std::vector<std::string> IDs;
@@ -208,7 +207,7 @@ struct component_text_texture : public component
 		@return success (always true)
 	*/
 	bool addText(const std::string& ID, const std::string& fontID, const std::string& message, const v2<real32>& pos, const v2<real32>& dim, 
-				 bool top = false, bool bot = false, blendmode b = blend_alpha, color c = color(255,255,255,0));
+				 uint32 layer = 0, blendmode b = blend_alpha, color c = color(255,255,255,0));
 
 	/**
 		@brief removes a text_texture from the component
@@ -229,8 +228,7 @@ struct component_text_texture : public component
 		v2<real32> texDim;
 		blendmode blend;
 		color mod;
-		bool forceTop;
-		bool forceBot;
+		uint32 layer;
 	};
 
 	std::vector<std::string> IDs;

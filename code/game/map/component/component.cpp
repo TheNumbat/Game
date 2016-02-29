@@ -84,7 +84,7 @@ component_texture::~component_texture()
 }
 
 bool component_texture::addTexture(const std::string& ID, const std::string& texID, const v2<real32>& pos, const v2<real32>& dim, 
-								   bool bot, bool top, blendmode b, color c)
+								   uint32 layer, blendmode b, color c)
 {
 	if(std::find(IDs.begin(),IDs.end(),ID) != IDs.end())
 	{
@@ -95,8 +95,7 @@ bool component_texture::addTexture(const std::string& ID, const std::string& tex
 	newT.texID = texID;
 	newT.texPos = pos;
 	newT.texDim = dim;
-	newT.forceBot = bot;
-	newT.forceTop = top;
+	newT.layer = layer;
 	newT.blend = b;
 	newT.mod = c;
 
@@ -132,7 +131,7 @@ component_text_texture::~component_text_texture()
 }
 
 bool component_text_texture::addText(const std::string& ID, const std::string& fontID, const std::string& message, const v2<real32>& pos, 
-									 const v2<real32>& dim, bool top, bool bot, blendmode b, color c)
+									 const v2<real32>& dim, uint32 layer, blendmode b, color c)
 {
 	if(std::find(IDs.begin(),IDs.end(),ID) != IDs.end())
 	{
@@ -144,8 +143,7 @@ bool component_text_texture::addText(const std::string& ID, const std::string& f
 	newT.message = message;
 	newT.texPos = pos;
 	newT.texDim = dim;
-	newT.forceBot = bot;
-	newT.forceTop = top;
+	newT.layer = layer;
 	newT.blend = b;
 	newT.mod = c;
 

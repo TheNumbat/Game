@@ -131,8 +131,7 @@ void renderMap(engine_state* engine, game_state* game)
 								texture->ID = t.texID;
 								texture->blend = t.blend;
 								texture->mod = t.mod;
-								texture->forceTop = t.forceTop;
-								texture->forceBot = t.forceBot;
+								texture->layer = t.layer;
 
 								textures.push_back(texture);
 							}
@@ -158,8 +157,7 @@ void renderMap(engine_state* engine, game_state* game)
 								text->text = t.message;
 								text->blend = t.blend;
 								text->mod = t.mod;
-								text->forceTop = t.forceTop;
-								text->forceBot = t.forceBot;
+								text->layer = t.layer;
 
 								textures.push_back(text);
 							}
@@ -212,10 +210,8 @@ void sortTextures(std::vector<rawTex*>& textures)
 	std::sort(textures.begin(), textures.end(), 
 	    [](const rawTex* a, const rawTex* b) -> bool
 	{ 
-		if(a->forceTop) return false;
-		if(b->forceTop) return true;
-		if(a->forceBot) return true;
-		if(b->forceBot) return false;
+		if(a->layer < b->layer) return true;
+		if(a->layer > b->layer) return false;
 	    return (a->pixelPos.y + a->pixelDim.y) < (b->pixelPos.y + b->pixelDim.y); 
 	});
 }
