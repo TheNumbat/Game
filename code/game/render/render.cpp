@@ -41,7 +41,7 @@ struct rawTex
 	rect2<real32> pixelRect;
 	blendmode blend;
 	color mod;
-	uint32 layer;
+	int32 layer;
 
 	rect2<int32> srcPixelRect;
 	v2<real32> rotPoint;
@@ -286,16 +286,19 @@ void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>
 				#ifdef DRAW_CHUNK_BOUNDS
 				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, map_position( currentChunkPos, real_position(0,0,0) ), camZoom );
-					rect2<int32> pixelChunk( std::floor(pixelPos.x), std::floor(pixelPos.y), std::ceil(CHUNK_SIZE_PIXELS * camZoom), std::ceil(CHUNK_SIZE_PIXELS * camZoom) );
-					engine->graphics.renderTexture("chunkbounds", pixelChunk);
+					rect2<real32> pixelChunk( std::floor(pixelPos.x), std::floor(pixelPos.y), std::ceil(CHUNK_SIZE_PIXELS * camZoom), std::ceil(CHUNK_SIZE_PIXELS * camZoom) );
+
+					textures.push_back(new rawTexture("chunkbounds",pixelChunk,blend_none,color(255,255,255,0),-1000,
+													  rect2<int32>(0,0,0,0),v2<real32>(0,0),0,0));
 				}
 				#endif
 
 				#ifdef DRAW_CAMERA 
 				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, centerPos, camZoom );
-					rect2<int32> pixelChunk( std::floor(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), std::floor(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), std::ceil(METERS_TO_PIXELS * camZoom), std::ceil(METERS_TO_PIXELS * camZoom) );
-					engine->graphics.renderTexture("camera", pixelChunk);
+					rect2<real32> pixelChunk( std::floor(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), std::floor(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), std::ceil(METERS_TO_PIXELS * camZoom), std::ceil(METERS_TO_PIXELS * camZoom) );
+					textures.push_back(new rawTexture("camera",pixelChunk,blend_alpha,color(255,255,255,0),-1,
+									   rect2<int32>(0,0,0,0),v2<real32>(0,0),0,0));
 				}
 				#endif
 

@@ -84,7 +84,7 @@ component_texture::~component_texture()
 }
 
 bool component_texture::addTexture(const std::string& ID, const std::string& texID, const rect2<real32>& texRect,
-								   const rect2<int32>& srcRect, uint32 layer, blendmode b, color c, const v2<real32>& rotPoint,
+								   const rect2<int32>& srcRect, int32 layer, blendmode b, color c, const v2<real32>& rotPoint,
 								   real32 rot, uint32 flip)
 {
 	if(std::find(IDs.begin(),IDs.end(),ID) != IDs.end())
@@ -135,7 +135,7 @@ component_text_texture::~component_text_texture()
 }
 
 bool component_text_texture::addText(const std::string& ID, const std::string& fontID, const std::string& message, 
-									 const rect2<real32>& texRect, const rect2<int32>& srcRect, uint32 layer, blendmode b, 
+									 const rect2<real32>& texRect, const rect2<int32>& srcRect, int32 layer, blendmode b, 
 									 color c, const v2<real32>& rotPoint, real32 rot, uint32 flip)
 {
 	if(std::find(IDs.begin(),IDs.end(),ID) != IDs.end())
