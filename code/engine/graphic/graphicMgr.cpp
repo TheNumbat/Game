@@ -458,30 +458,37 @@ bool graphicMgr::renderTexture(const std::string& ID, const rect2<int32>& dest_r
 		return false;
 	}
 
+	int tw, th;
+	int result = SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&tw,&th);
+	if(result != 0)
+	{
+		logger.LogWarn((std::string)"Couldn't query texture, SDL_Error: " + SDL_GetError());
+		return false;
+	}
+
 	SDL_Rect sdl_dest_rect;
 	sdl_dest_rect.x = dest_rect.x;
 	sdl_dest_rect.y = dest_rect.y;
 
-	int tw, th;
-	if(dest_rect.w == 0 || dest_rect.h == 0)
+	if(dest_rect.w == 0)
 	{
-		int result = SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&tw,&th);
-		if(result != 0)
-		{
-			logger.LogWarn((std::string)"Couldn't query texture, SDL_Error: " + SDL_GetError());
-			return false;
-		}
-		if(dest_rect.w == 0) sdl_dest_rect.w = tw;
-		if(dest_rect.h == 0) sdl_dest_rect.h = th;
+		sdl_dest_rect.w = tw;
 	}
 	else
 	{
 		sdl_dest_rect.w = dest_rect.w;
+	}
+	if(dest_rect.h == 0)
+	{
+		sdl_dest_rect.h = th;
+	}
+	else
+	{
 		sdl_dest_rect.h = dest_rect.h;
 	}
 
-	bool result = SDL_RenderCopy((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,NULL,&sdl_dest_rect);
-	if(result)
+	result = SDL_RenderCopy((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,NULL,&sdl_dest_rect);
+	if(result != 0)
 	{
 		logger.LogWarn("Failed to Render texture ID: " + ID + ", SDL_Error: " + SDL_GetError());
 		return false;
@@ -512,33 +519,55 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
 		return false;
 	}
 
+	int tw, th;
+	int result = SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&tw,&th);
+	if(result != 0)
+	{
+		logger.LogWarn((std::string)"Couldn't query texture, SDL_Error: " + SDL_GetError());
+		return false;
+	}
+
 	SDL_Rect sdl_dest_rect;
 	sdl_dest_rect.x = dest_rect.x;
 	sdl_dest_rect.y = dest_rect.y;
 
-	int tw, th;
-	if(dest_rect.w == 0 || dest_rect.h == 0)
+	if(dest_rect.w == 0)
 	{
-		int result = SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&tw,&th);
-		if(result != 0)
-		{
-			logger.LogWarn((std::string)"Couldn't query texture, SDL_Error: " + SDL_GetError());
-			return false;
-		}
-		if(dest_rect.w == 0) sdl_dest_rect.w = tw;
-		if(dest_rect.h == 0) sdl_dest_rect.h = th;
+		sdl_dest_rect.w = tw;
 	}
 	else
 	{
 		sdl_dest_rect.w = dest_rect.w;
+	}
+	if(dest_rect.h == 0)
+	{
+		sdl_dest_rect.h = th;
+	}
+	else
+	{
 		sdl_dest_rect.h = dest_rect.h;
 	}
 
 	SDL_Rect sdl_src_rect;
 	sdl_src_rect.x = src_rect.x;
 	sdl_src_rect.y = src_rect.y;
-	sdl_src_rect.w = src_rect.w;
-	sdl_src_rect.h = src_rect.h;
+
+	if(src_rect.w == 0)
+	{
+		sdl_src_rect.w = tw;
+	}
+	else
+	{
+		sdl_src_rect.w = src_rect.w;
+	}
+	if(src_rect.h == 0)
+	{
+		sdl_src_rect.h = th;
+	}
+	else
+	{
+		sdl_src_rect.h = src_rect.h;
+	}
 
 	SDL_Point sdl_rot_point;
 	sdl_rot_point.x = rot_point.x;
@@ -558,9 +587,9 @@ bool graphicMgr::renderTextureEx(const std::string& ID, const rect2<int32>& dest
 		sdl_flip = (SDL_RendererFlip)SDL_FLIP_VERTICAL;
 	}
 
-	bool result = SDL_RenderCopyEx((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,
-								   &sdl_src_rect,&sdl_dest_rect,rotation,&sdl_rot_point,sdl_flip);
-	if(!result)
+	result = SDL_RenderCopyEx((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,
+							   &sdl_src_rect,&sdl_dest_rect,rotation,&sdl_rot_point,sdl_flip);
+	if(result != 0)
 	{
 		logger.LogWarn("Failed to Render texture ID: " + ID + ", SDL_Error: " + SDL_GetError());
 		return false;
@@ -640,6 +669,25 @@ bool graphicMgr::setColorMod(const std::string& ID, color c)
 		return false;
 	}
 
+	return true;
+}
+
+bool graphicMgr::renderTextEx(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect,
+							  const rect2<int32>& src_rect, const color& c, blendmode b, const v2<int32>& rot_point,
+							  real32 rot, uint32 flip)
+{
+	if(!addTextTexture("textrender_temp",fontID,text,c,b))
+	{
+		return false;
+	}
+	if(!renderTextureEx("textrender_temp",dest_rect,src_rect,rot_point,rot,flip))
+	{
+		return false;
+	}
+	if(!freeTexture("textrender_temp"))
+	{
+		return false;
+	}
 	return true;
 }
 

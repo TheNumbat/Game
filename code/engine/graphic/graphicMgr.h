@@ -263,7 +263,7 @@ public:
 									real32 rotation, uint32 flip);
 
 	/**
-		@brief Directly renders a texture -- slower than adding a text texture and using that
+		@brief Directly renders text -- slower than adding a text texture and using that
 
 		Renders text without having to create a texture first
 
@@ -281,6 +281,31 @@ public:
 	*/
 	ENGINE_API bool renderText(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect, 
 							   const color& c = color(255,255,255,255), blendmode b = blend_alpha);
+
+	/**
+		@brief Directly renders text -- slower than adding a text texture and using that
+
+		Renders text without having to create a texture first
+
+		@param[in] fontID ID of font to use
+		@param[in] text to render
+		@param[in] dest_rect what area to render into
+		@param[in] src_rect what area in the texture to render from
+		@param[in] c color of text to render
+		@param[in] b blend mode of texture 
+		@param[in] rot_point point to rotate about
+		@param[in] rot amount to rotate (degrees)
+		@param[in] flip flip thing
+
+		@return success
+
+		@exception could not make text texture, returns false
+		@exception could not render texture, returns false
+		@exception could not free texture, returns false
+	*/
+	ENGINE_API bool renderTextEx(const std::string& fontID, const std::string& text, const rect2<int32>& dest_rect,
+							   	 const rect2<int32>& src_rect, const color& c, blendmode b, const v2<int32>& rot_point,
+							   	 real32 rot, uint32 flip);
 
 	/**
 		@brief Sets the viewport within the window to render

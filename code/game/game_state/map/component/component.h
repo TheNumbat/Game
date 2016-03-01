@@ -147,8 +147,10 @@ struct component_texture : public component
 
 		@return success (always true)
 	*/
-	bool addTexture(const std::string& ID, const std::string& texID, const rect2<real32>& rect, 
-					uint32 layer = 0, blendmode b = blend_alpha, color c = color(255,255,255,0));
+	bool addTexture(const std::string& ID, const std::string& texID, const rect2<real32>& dstRect, 
+					const rect2<int32>& srcRect = rect2<int32>(0,0,0,0), uint32 layer = 0, blendmode b = blend_alpha, 
+					color c = color(255,255,255,0), const v2<real32>& rotPoint = v2<real32>(0,0), real32 rot = 0,
+					uint32 flip = 0);
 
 	/**
 		@brief removes a texture from the component
@@ -168,6 +170,11 @@ struct component_texture : public component
 		blendmode blend;
 		color mod;
 		uint32 layer;
+
+		rect2<int32> srcPixelRect;
+		v2<real32> rotPt;
+		real32 rot;
+		uint32 flip;
 	};
 
 	std::vector<std::string> IDs;
@@ -205,8 +212,10 @@ struct component_text_texture : public component
 
 		@return success (always true)
 	*/
-	bool addText(const std::string& ID, const std::string& fontID, const std::string& message, const rect2<real32>& rect, 
-				 uint32 layer = 0, blendmode b = blend_alpha, color c = color(255,255,255,0));
+	bool addText(const std::string& ID, const std::string& fontID, const std::string& message, const rect2<real32>& dstRect, 
+				 const rect2<int32>& srcRect = rect2<int32>(0,0,0,0), uint32 layer = 0, blendmode b = blend_alpha, 
+				 color c = color(255,255,255,0), const v2<real32>& rotPoint = v2<real32>(0,0), real32 rot = 0,
+				 uint32 flip = 0);
 
 	/**
 		@brief removes a text_texture from the component
@@ -224,9 +233,14 @@ struct component_text_texture : public component
 		std::string fontID;
 		std::string message;
 		rect2<real32> texRect;
+		rect2<int32> srcPixelRect;
 		blendmode blend;
 		color mod;
 		uint32 layer;
+
+		v2<real32> rotPt;
+		real32 rot;
+		uint32 flip;
 	};
 
 	std::vector<std::string> IDs;

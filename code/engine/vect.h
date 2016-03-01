@@ -38,6 +38,11 @@ struct v2
 		T b;
 	};
 
+	v2<int32> round()
+	{
+		return v2<int32>(std::round(x),std::round(y));
+	}
+
 	T length() 
 	{
 		return (T)sqrt(x*x + y*y);
