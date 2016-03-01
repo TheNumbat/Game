@@ -199,6 +199,34 @@ bool timeMgr::remove(const std::string& ID)
 	return true;
 }
 
+bool timeMgr::reset(const std::string& ID)
+{
+	// Get timer
+	auto entry = timers.find(ID);
+	if(entry == timers.end())
+	{
+		// Failure
+		logger.LogWarn("Timer / perf counter ID " + ID + " not found");
+		return false;
+	}
+
+	// Success
+	if(entry->second->perfCounter)
+	{
+		entry->second->start = getPerfSinceStart();
+	}
+	else
+	{
+		entry->second->start = getTimeSinceStart();
+	}
+	entry->second->pause = 0;
+	entry->second->lag = 0;
+	#ifdef VERBOSE_TIME
+		logger.LogInfo("Rest timer/perf counter ID " + ID);
+	#endif
+	return true;
+}
+
 bool timeMgr::pause(const std::string& ID)
 {
 	// Get timer
@@ -219,7 +247,14 @@ bool timeMgr::pause(const std::string& ID)
 	}
 
 	// Success
-	entry->second->pause = getTimeSinceStart() - entry->second->start - entry->second->lag;
+	if(entry->second->perfCounter)
+	{
+		entry->second->pause = getPerfSinceStart() - entry->second->pause - entry->second->start;
+	}
+	else
+	{
+		entry->second->pause = getTimeSinceStart() - entry->second->pause - entry->second->start;
+	}
 	#ifdef VERBOSE_TIME
 		logger.LogInfo("Paused timer ID " + ID);
 	#endif
@@ -246,7 +281,14 @@ bool timeMgr::resume(const std::string& ID)
 	}
 
 	// Success
-	entry->second->lag = getTimeSinceStart() - entry->second->pause - entry->second->start;
+	if(entry->second->perfCounter)
+	{
+		entry->second->lag = getPerfSinceStart() - entry->second->pause - entry->second->start;
+	}
+	else
+	{
+		entry->second->lag = getTimeSinceStart() - entry->second->pause - entry->second->start;
+	}
 	entry->second->pause = 0;
 	#ifdef VERBOSE_TIME
 		logger.LogInfo("Resumed timer ID " + ID);
@@ -273,6 +315,11 @@ uint64 timeMgr::get(const std::string& ID)
 	}
 
 	// Success
+	if(entry->second->perfCounter)
+	{
+		return getPerfSinceStart() - entry->second->start - entry->second->lag;
+	}
+
 	return getTimeSinceStart() - entry->second->start - entry->second->lag;
 }
 
@@ -284,6 +331,11 @@ uint64 timeMgr::getPerfFreq()
 uint32 timeMgr::getTimeSinceStart()
 {
 	return SDL_GetTicks();
+}
+
+uint64 timeMgr::getPerfSinceStart()
+{
+	return SDL_GetPerformanceCounter();
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

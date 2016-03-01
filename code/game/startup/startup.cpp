@@ -46,10 +46,16 @@ void gamestart(engine_state* engine, game_state* game)
 	engine->logger.StartLog("ENGINE");
 
 	engine->sdl.init();
-	engine->graphics.init("Game");
+	engine->graphics.init("Game",640,480);
 	engine->events.init();
 	engine->audio.init();
 	engine->time.init();
+
+	engine->time.addTimer("sim");
+	engine->time.addTimer("debug_second");
+	engine->time.addPerfCounter("frameperf");
+
+	game->debug.perfCountFreq = engine->time.getPerfFreq();
 
 	LOAD_TEXTURE( debug/camera.png , camera );
 	LOAD_TEXTURE( debug/chunkbounds.bmp , chunkbounds );
@@ -59,12 +65,13 @@ void gamestart(engine_state* engine, game_state* game)
 
 	LOAD_FONT( fonts/aubrey.ttf , aubrey_24 , 24 );
 	LOAD_FONT( fonts/Cenobyte.ttf , cenobyte_24 , 24 );
-	LOAD_FONT( fonts/OpenSans.ttf , sans_24 , 24 );
+	LOAD_FONT( fonts/OpenSans.ttf , sans_12 , 12 );
 
 	LOAD_SOUND( music/song1.wav , music );
 
 	game->logger.LogInfo("Game code initialized");
 	game->running = true;
+
 
 	/// @todo Move this!!!
 	std::weak_ptr<entity> player = game->map.addPlayer("p1",map_position(0,0,0,3,3,0),0);

@@ -185,6 +185,17 @@ public:
 	ENGINE_API bool resume(const std::string& ID);
 
 	/**
+		@brief Resets a timer or performance counter
+
+		@param[in] ID of timer/perfCounter to reset
+
+		@return success
+
+		@exception ID not found, returns false
+	*/
+	ENGINE_API bool reset(const std::string& ID);
+
+	/**
 		@brief Gets the value from a timer or performance counter
 
 		@param[in] ID of timer/perfCounter to retrieve time from
@@ -210,6 +221,13 @@ public:
 		@return time in milliseconds since SDL was initialized
 	*/
 	ENGINE_API uint32 getTimeSinceStart();
+
+	/**
+		@brief Gets the performance counter since SDL was initialized
+
+		@return performance counters ince SDL was initialized
+	*/
+	ENGINE_API uint64 getPerfSinceStart();
 
 private:
 	logMgr logger;

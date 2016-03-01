@@ -214,7 +214,17 @@ void renderDebugUI(engine_state* engine, game_state* game)
 	std::string camText = "Camera pos: " + std::to_string(camPos.chunkPos.x) + " " + std::to_string(camPos.chunkPos.y) + " " + std::to_string(camPos.chunkPos.z) +
 						  " " + std::to_string(camPos.realPos.x) + " " + std::to_string(camPos.realPos.y) + " " + std::to_string(camPos.realPos.z);
 
-	engine->graphics.renderText("sans_24",camText,rect2<int32>(10,10,0,0));
+	engine->graphics.renderText("sans_12",camText,rect2<int32>(10,10,0,0));
+
+	#ifdef CAPFPS
+	while(engine->time.get("frameperf") < game->debug.perfCountFreq / CAPFPS);
+	#endif
+
+	uint64 frameperf = engine->time.get("frameperf");
+	std::string frameText = "Frame time (ms): " + std::to_string(((real64)frameperf / (real64)game->debug.perfCountFreq) * 1000);
+	engine->graphics.renderText("sans_12",frameText,rect2<int32>(10,22,0,0));
+
+	engine->time.reset("frameperf");
 }
 
 void renderMap(engine_state* engine, game_state* game)
@@ -296,7 +306,7 @@ void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>
 				#ifdef DRAW_CAMERA 
 				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, centerPos, camZoom );
-					rect2<real32> pixelChunk( std::floor(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), std::floor(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), std::ceil(METERS_TO_PIXELS * camZoom), std::ceil(METERS_TO_PIXELS * camZoom) );
+					rect2<real32> pixelChunk( std::round(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), std::round(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), std::round(METERS_TO_PIXELS * camZoom), std::round(METERS_TO_PIXELS * camZoom) );
 					textures.push_back(new rawTexture("camera",pixelChunk,blend_alpha,color(255,255,255,0),-1,
 									   rect2<int32>(0,0,0,0),v2<real32>(0,0),0,0));
 				}

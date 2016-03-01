@@ -13,11 +13,12 @@
 
 /// Rendering defines
 #define METERS_TO_PIXELS 64.0f
+#define CAPFPS 60
 
-#define DRAW_CHUNK_BOUNDS
+// #define DRAW_CHUNK_BOUNDS
 #define DRAW_POSITIONS
 #define DRAW_COLLISION_VOLUMES
-#define DRAW_CAMERA
+// #define DRAW_CAMERA
 
 /// Map
 #define CHUNK_SIZE_METERS 25.0f

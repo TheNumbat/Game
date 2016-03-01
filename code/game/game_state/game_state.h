@@ -25,6 +25,11 @@
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
+struct debug_info
+{
+	uint64 perfCountFreq;
+};
+
 /**
 	@brief Describes the overall game state -- used to store any information
 	used within the game logic but not the engine.
@@ -40,6 +45,7 @@ struct game_state
 	};
 	~game_state() {};
 
+	debug_info debug;
 	camera cam;
 	mapMgr map;
 	logMgr logger;
