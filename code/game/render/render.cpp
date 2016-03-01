@@ -42,6 +42,11 @@ struct rawTex
 	blendmode blend;
 	color mod;
 	uint32 layer;
+
+	rect2<int32> srcPixelRect;
+	v2<real32> rotPoint;
+	real32 rot;
+	uint32 flip;
 };
 
 /**
@@ -52,21 +57,30 @@ struct rawTex
 struct rawTexture : public rawTex
 {
 	rawTexture() {};
-	rawTexture(const std::string& tID, const rect2<real32>& rect, blendmode b, color c, uint32 l)
+	rawTexture(const std::string& tID, const rect2<real32>& rect, blendmode b, color c, uint32 l,
+			   const rect2<int32>& spr, const v2<real32>& rpt, real32 r, uint32 f)
 	{
 		ID = tID;
 		pixelRect = rect;
 		blend = b;
 		mod = c;
 		layer = l;
+		srcPixelRect = spr;
+		rotPoint = rpt;
+		rot = r;
+		flip = f;
 	}
 	rawTexture(const component_texture::sub_texture& t, real32 zoom, const v2<real32>& offset)
 	{
 		ID = t.texID;
 		pixelRect = (t.texRect * METERS_TO_PIXELS * zoom) + offset;
+		rotPoint = t.rotPt * METERS_TO_PIXELS * zoom;
 		blend = t.blend;
 		mod = t.mod;
 		layer = t.layer;
+		srcPixelRect = t.srcPixelRect;
+		rot = t.rot;
+		flip = t.flip;
 	}
 	std::string ID;
 };
@@ -79,7 +93,8 @@ struct rawTexture : public rawTex
 struct rawText : public rawTex
 {
 	rawText() {};
-	rawText(const std::string& fID, const std::string& message, const rect2<real32>& rect, blendmode b, color c, uint32 l)
+	rawText(const std::string& fID, const std::string& message, const rect2<real32>& rect, blendmode b, color c, uint32 l,
+		    const rect2<int32>& spr, const v2<real32>& rpt, real32 r, uint32 f)
 	{
 		fontID = fID;
 		text = message;
@@ -87,15 +102,23 @@ struct rawText : public rawTex
 		blend = b;
 		mod = c;
 		layer = l;
+		srcPixelRect = spr;
+		rotPoint = rpt;
+		rot = r;
+		flip = f;
 	}
 	rawText(const component_text_texture::sub_text_texture& t, real32 zoom, const v2<real32>& offset)
 	{
 		fontID = t.fontID;
 		text = t.message;
 		pixelRect = ( t.texRect * METERS_TO_PIXELS * zoom) + offset;
+		rotPoint = t.rotPt * METERS_TO_PIXELS * zoom;
 		blend = t.blend;
 		mod = t.mod;
 		layer = t.layer;
+		srcPixelRect = t.srcPixelRect;
+		rot = t.rot;
+		flip = t.flip;
 	}
 	std::string fontID;
 	std::string text;
@@ -215,11 +238,12 @@ void renderAndClearTextures(engine_state* engine, std::vector<rawTex*>& textures
 		{
 			engine->graphics.setBlendmode(t->ID,t->blend);
 			engine->graphics.setColorMod(t->ID,t->mod);
-			engine->graphics.renderTexture(t->ID, t->pixelRect.round());
+			engine->graphics.renderTextureEx(t->ID, t->pixelRect.round(), t->srcPixelRect, t->rotPoint.round(), t->rot, t->flip);
 		}
 		else if(rawText* t = dynamic_cast<rawText*>(textures[index]))
 		{
-			engine->graphics.renderText(t->fontID, t->text, t->pixelRect.round(), t->mod, t->blend);
+			engine->graphics.renderTextEx(t->fontID, t->text, t->pixelRect.round(), t->srcPixelRect, t->mod, t->blend,
+									      t->rotPoint.round(), t->rot, t->flip);
 		}
 
 		delete textures[index];
@@ -245,17 +269,10 @@ void getMapTextures(engine_state* engine, game_state* game, std::vector<rawTex*>
 	map_position TLCpos = centerPos - offset;
 	map_position BRCpos = centerPos + offset;
 
-	// Find region of chunks
-	int32 relChunkXMin = TLCpos.realChunkOffset.x;
-	int32 relChunkXMax = BRCpos.realChunkOffset.x;
-
-	int32 relChunkYMin = TLCpos.realChunkOffset.y;
-	int32 relChunkYMax = BRCpos.realChunkOffset.y;
-
 	// Iterate through region of chunks
-	for(int32 relX = relChunkXMin; relX <= relChunkXMax; relX++)
+	for(int32 relX = TLCpos.realChunkOffset.x; relX <= BRCpos.realChunkOffset.x; relX++)
 	{
-		for(int32 relY = relChunkYMin; relY <= relChunkYMax; relY++)
+		for(int32 relY = TLCpos.realChunkOffset.y; relY <= BRCpos.realChunkOffset.y; relY++)
 		{
 			// Get chunk
 			chunk_position currentChunkPos = game->cam.getCenter().chunkPos + chunk_position(relX,relY,0);
