@@ -78,7 +78,7 @@ public:
 
 		@return success
 
-		@expcetion File ID already in use, returns false
+		@exception File ID already in use, returns false
 		@exception Unable to open file (variety of reasons), will return false
 	*/
 	ENGINE_API bool loadFile(const std::string& path, int8 type, const std::string& access, const std::string& ID = "");
@@ -106,7 +106,7 @@ public:
 
 		@return success
 
-		@expcetion unable to read from file, returns false
+		@exception unable to read from file, returns false
 	*/
 	ENGINE_API bool read(const std::string& ID, void* buffer, uint32 size, uint32 numobjs = 1);
 
@@ -120,7 +120,7 @@ public:
 
 		@return success
 
-		@expcetion unable to write to file, returns false
+		@exception unable to write to file, returns false
 	*/
 	ENGINE_API bool write(const std::string& ID, void* buffer, uint32 size, uint32 numobjs = 1);
 
@@ -131,7 +131,7 @@ public:
 
 		@return success
 
-		@expcetion unable to retreive offset, returns -1
+		@exception unable to retreive offset, returns -1
 	*/
 	ENGINE_API uint64 getOffset(const std::string& ID);
 
@@ -144,7 +144,7 @@ public:
 
 		@return new offset or -1 for failure
 
-		@expcetion unable to seek in file, returns -1
+		@exception unable to seek in file, returns -1
 	*/
 	ENGINE_API uint64 setOffset(const std::string& ID, uint64 offset, fileseek start = file_start);
 

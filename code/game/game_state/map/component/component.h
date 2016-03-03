@@ -138,12 +138,15 @@ struct component_texture : public component
 		@brief adds a texture to the texture component
 
 		@param[in] ID of texture sub-component
-		@param[in] texID ID of texture to render
-		@param[in] pos position of TLC of texture relative to entity position in meters
-		@param[in] dim dimension of texture in meters
-		@param[in] layer of texture to render on
+		@param[in] texID ID of texture to use
+		@param[in] dstRect position and size of texture (relative to entity position) in meters
+		@param[in] srcRect rectange to pull from texture in pixels
+		@param[in] layer of texture to render
 		@param[in] b blend mode of texture
 		@param[in] c color mod of texture
+		@param[in] rotPoint point around which to rotate in meters
+		@param[in] rot how much to rotate in degrees
+		@param[in] flip how to flip the texture 
 
 		@return success (always true)
 	*/
@@ -204,11 +207,14 @@ struct component_text_texture : public component
 		@param[in] ID of text_texture sub-component
 		@param[in] fontID ID of font to use
 		@param[in] message text to render
-		@param[in] pos position of TLC of text_texture relative to entity position in meters
-		@param[in] dim dimension of text_texture in meters
+		@param[in] dstRect position and size of texture (relative to entity position) in meters
+		@param[in] srcRect rectange to pull from texture in pixels
 		@param[in] layer of texture to render
 		@param[in] b blend mode of text_texture
 		@param[in] c color mod of text_texture
+		@param[in] rotPoint point around which to rotate in meters
+		@param[in] rot how much to rotate in degrees
+		@param[in] flip how to flip the texture 
 
 		@return success (always true)
 	*/
