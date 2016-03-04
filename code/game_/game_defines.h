@@ -13,7 +13,7 @@
 
 /// Rendering defines
 #define METERS_TO_PIXELS 64.0f
-#define CAPFPS 60
+// #define CAPFPS 60
 
 // #define DRAW_CHUNK_BOUNDS
 #define DRAW_POSITIONS

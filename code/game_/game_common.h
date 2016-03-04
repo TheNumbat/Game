@@ -14,6 +14,7 @@
 
 #pragma once
 
+#include "game_defines.h"
 #include <stdint.h>
 
 #undef assert(a)
