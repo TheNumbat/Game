@@ -50,7 +50,7 @@ private:
 	
 	cam camera;
 	mapMgr map;
-	// debugMgr debug;
+	debugMgr debug;
 	renderMgr render;
 	inputMgr input;
 	logMgr logger;

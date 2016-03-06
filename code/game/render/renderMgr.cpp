@@ -112,6 +112,14 @@ void renderMgr::renderMap()
 	renderAndClearTextures(textures);
 }
 
+void renderMgr::renderDebugUI()
+{
+	std::string msg1 = "Average frame time (ms): " + std::to_string(1000.0f * (real64)game->debug.getAvgFrame() / (real64)engine->time.getPerfFreq());
+	std::string msg2 = "Last frame time (ms): " + std::to_string(1000.0f * (real64)game->debug.getLastFrame() / (real64)engine->time.getPerfFreq());
+	engine->graphics.renderText("debugUI",msg1,rect2<int32>(10,10,0,0));
+	engine->graphics.renderText("debugUI",msg2,rect2<int32>(10,32,0,0));
+}
+
 void renderMgr::renderAndClearTextures(std::vector<renderMgr::rawTex*>& textures)
 {
 	// Actually render textures

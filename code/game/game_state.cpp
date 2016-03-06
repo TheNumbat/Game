@@ -30,7 +30,7 @@
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 game_state::game_state(engine_state* e)
-	: map(e,"sim"), input(this,e), render(this,e)
+	: map(e,"sim"), input(this,e), render(this,e), debug(e)
 {
 	engine = e;
 	startup();
@@ -43,10 +43,15 @@ game_state::~game_state()
 
 bool game_state::gameLoop()
 {
+	debug.beginDebugFrame();
+
 	input.handleEvents();
 	map.update();
 	render.renderMap();
+	render.renderDebugUI();
 	engine->graphics.displayFrame();
+
+	debug.endDebugFrame();
 	return running;
 }
 
@@ -61,9 +66,7 @@ void game_state::startup()
 	engine->audio.init();
 	engine->time.init();
 
-	engine->time.addTimer("sim");
-	engine->time.addTimer("debug_second");
-	engine->time.addPerfCounter("frameperf");
+	debug.setFPSCap(60);
 
 	LOAD_TEXTURE( debug/camera.png , camera );
 	LOAD_TEXTURE( debug/chunkbounds.bmp , chunkbounds );
@@ -73,7 +76,7 @@ void game_state::startup()
 
 	LOAD_FONT( fonts/aubrey.ttf , aubrey_24 , 24 );
 	LOAD_FONT( fonts/Cenobyte.ttf , cenobyte_24 , 24 );
-	LOAD_FONT( fonts/OpenSans.ttf , sans_12 , 12 );
+	LOAD_FONT( fonts/OpenSans.ttf , debugUI , 24 );
 
 	LOAD_SOUND( music/song1.wav , music );
 

@@ -63,6 +63,7 @@ public:
 	~renderMgr();
 
 	void renderMap();
+	void renderDebugUI();
 
 private:
 	class rawTex

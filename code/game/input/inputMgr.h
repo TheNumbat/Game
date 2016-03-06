@@ -41,8 +41,6 @@ public:
 	/**
 		@brief mapMgr constructor
 
-		Sets up log and such
-
 		@param[in] g pointer to game state
 		@param[in] e pointer to engine state
 	*/

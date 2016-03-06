@@ -92,7 +92,7 @@ bool graphicMgr::init(const std::string& winTitle, uint32 sw, uint32 sh)
 	}
 
 	// Create renderer
-	sdl_renderer = SDL_CreateRenderer((SDL_Window*)sdl_window, -1, SDL_RENDERER_ACCELERATED);
+	sdl_renderer = SDL_CreateRenderer((SDL_Window*)sdl_window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_TARGETTEXTURE);
 	if(!sdl_renderer)
 	{
 		logger.LogFatal((std::string)"Failed to create SDL accelerated renderer! SDL Error: " + SDL_GetError());
