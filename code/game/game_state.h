@@ -18,6 +18,7 @@
 #include "map/mapMgr.h"
 #include "debug/debugMgr.h"
 #include "input/inputMgr.h"
+#include "render/renderMgr.h"
 
 #include <log/logMgr.h>
 
@@ -49,13 +50,18 @@ private:
 	
 	cam camera;
 	mapMgr map;
-	debugMgr debug;
+	// debugMgr debug;
+	renderMgr render;
 	inputMgr input;
 	logMgr logger;
 
 	bool running;
 
 	engine_state* engine;
+
+	friend class mapMgr;
+	friend class inputMgr;
+	friend class renderMgr;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

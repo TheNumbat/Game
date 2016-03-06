@@ -32,11 +32,11 @@
 // Global constant definitions  ///////////////////////////////////////////////
 
 /// Pointer type for gameLoop function
-typedef bool (*CreateGameLoop)(engine_state*, void*);
+typedef bool (*CreateGameLoop)(void*);
 /// Pointer type for startup function
 typedef void* (*CreateStartup)(engine_state*);
 /// Pointer type for shutdown function
-typedef void (*CreateShutdown)(engine_state*, void*);
+typedef void (*CreateShutdown)(void*);
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -98,7 +98,7 @@ int main(int argc, char** argv)
 
 	void* game = (*data.startup)(engine);
 
-	while((*data.gameLoop)(engine,game)) 
+	while((*data.gameLoop)(game)) 
 	{
 		if(!reloadLib(data))
 		{
@@ -106,7 +106,7 @@ int main(int argc, char** argv)
 		}
 	}
 
-	(*data.shutdown)(engine,game);
+	(*data.shutdown)(game);
 
 	data.logger.LogInfo("Shutting down...");
 
