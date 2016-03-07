@@ -56,6 +56,7 @@ public:
 		@brief mapMgr constructor
 
 		@param[in] e pointer to engine state
+		@param[in] g pointer to game state
 		@param[in] simTimer ID of timer to use for simulation
 
 		Sets up log and starts entity IDs

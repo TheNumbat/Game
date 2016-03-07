@@ -43,12 +43,13 @@ GAME_API game_state* startup(engine_state* engine)
 }
 
 /**
-	@brief Ends the game, deletes the state
+	@brief Runs the game loop
 	
-	Initializes all engine components and creates a game state
+	Runs the game loop, simply an exported wrapper function
 
-	@param[in] engine pointer to the engine state
 	@param[in] game pointer to the game state
+
+	@return whether or not to continue running the game loop (otherwise shutdown())
 */
 GAME_API bool gameLoop(game_state* game)
 {	
@@ -56,14 +57,11 @@ GAME_API bool gameLoop(game_state* game)
 }
 
 /**
-	@brief Runs a frame, it's the main game loop
+	@brief Shuts down the game, deletes memory, deinitalizes everything
 	
-	Runs everything.
+	Destroys the game, simply an exported wrapper function
 
-	@param[in] engine pointer to the engine state
 	@param[in] game pointer to the game state
-	
-	@return whether or not to continue
 */
 GAME_API void shutdown(game_state* game)
 {

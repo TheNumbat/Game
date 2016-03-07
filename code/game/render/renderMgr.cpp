@@ -283,6 +283,8 @@ void renderMgr::getMapTextures(std::vector<renderMgr::rawTex*>& textures)
 
 v2<real32>& renderMgr::mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom)
 {
+	game->debug.beginProfiledFunc();
+
 	// Calculate relative chunk and within-chunk positions
 	v2<real32> relDistance( point.realPos.x - origin.realPos.x , point.realPos.y - origin.realPos.y );
 	v2<real32> chunkDistance( point.chunkPos.x - origin.chunkPos.x , point.chunkPos.y - origin.chunkPos.y );
@@ -291,11 +293,14 @@ v2<real32>& renderMgr::mapIntoPixelSpace(const map_position& origin, const map_p
 	v2<real32> totalDistanceMeters = ( chunkDistance * CHUNK_SIZE_METERS ) + relDistance;
 	v2<real32> totalDistancePixels = totalDistanceMeters * METERS_TO_PIXELS * zoom;
 
+	game->debug.endProfiledFunc();
 	return totalDistancePixels;
 }
 
 void renderMgr::sortTextures(std::vector<renderMgr::rawTex*>& textures)
 {
+	game->debug.beginProfiledFunc();
+
 	// Sort based on y-position
 	std::sort(textures.begin(), textures.end(), 
 	    [](const renderMgr::rawTex* a, const renderMgr::rawTex* b) -> bool
@@ -304,6 +309,8 @@ void renderMgr::sortTextures(std::vector<renderMgr::rawTex*>& textures)
 		if(a->layer > b->layer) return false;
 	    return (a->pixelRect.y + a->pixelRect.h) < (b->pixelRect.y + b->pixelRect.h); 
 	});
+
+	game->debug.endProfiledFunc();
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

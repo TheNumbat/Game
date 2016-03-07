@@ -35,6 +35,7 @@
 
 debugMgr::debugMgr(engine_state* e)
 {
+	logger.StartLog("DEBUG");
 	engine = e;
 	engine->time.addPerfCounter("debug");
 	lastFrameTime = 0;
@@ -43,18 +44,21 @@ debugMgr::debugMgr(engine_state* e)
 	fpsCap = 0;
 	paused = false;
 	toggleAtEnd = false;
+	logger.LogInfo("Debug initialized");
 }
 
 debugMgr::~debugMgr()
 {
 	engine->time.remove("debug");
+	logger.LogInfo("Debug deinitialized");
 }
 
-debugMgr::profileNode::profileNode(const std::string& func, uint64 start, std::weak_ptr<profileNode> parent_)
+debugMgr::profileNode::profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_)
 {
 	funcName = func;
-	self = start;
-	heir = start;
+	start = s;
+	self = 0;
+	heir = 0;
 	calls = 1;
 	parent = parent_;
 }
@@ -124,6 +128,7 @@ void debugMgr::beginProfiledFunc(const std::string& name)
 	}
 
 	entry->second->calls++;
+	entry->second->start = current;
 }
 
 void debugMgr::endProfiledFunc()
@@ -133,9 +138,9 @@ void debugMgr::endProfiledFunc()
 		return;
 	}
 
-	uint64 current = engine->time.get("debug");
+	uint64 time = engine->time.get("debug") - currentNode.lock()->start;
 
-	currentNode.lock()->heir = current - currentNode.lock()->heir;
+	currentNode.lock()->heir += time;
 
 	uint64 exceptSelf = 0;
 
@@ -144,7 +149,7 @@ void debugMgr::endProfiledFunc()
 		exceptSelf += entry.second->heir;
 	}
 
-	currentNode.lock()->self = currentNode.lock()->heir - exceptSelf;
+	currentNode.lock()->self += time - exceptSelf;
 
 	if(!currentNode.lock()->parent.expired())
 	{
@@ -174,6 +179,7 @@ uint64 debugMgr::getLastFrame()
 
 void debugMgr::setFPSCap(uint8 fps)
 {
+	logger.LogInfo("Set fps cap to " + std::to_string(fps));
 	fpsCap = fps;
 }
 

@@ -21,6 +21,7 @@
 
 #include "game_common.h"
 
+#include <log/logMgr.h>
 #include <memory>
 #include <map>
 
@@ -53,30 +54,86 @@ public:
 	*/
 	~debugMgr();
 
+	/**
+		@brief Starts debug information for the frame
+	*/
 	void beginDebugFrame();
+
+	/**
+		@brief Ends debug information for the frame
+
+		Updates average, lastFrameTime, clears the profiler if not paused
+	*/
 	void endDebugFrame();
 
+	/**
+		@brief Starts the profiling of a function
+
+		Will be included in the profiler tree
+	*/
 	void beginProfiledFunc(const std::string& name);
 	#define beginProfiledFunc() beginProfiledFunc(__func__);
 	
+	/**
+		@brief Ends the profiling of a function
+
+		Will be included in the profiler tree
+	*/
 	void endProfiledFunc();
 
+	/**
+		@brief Resets the average frame timer
+	*/
 	void resetAvgFrame();
+
+	/**
+		@brief Gets the average frame time
+
+		@return average frame time in performance units
+	*/
 	uint64 getAvgFrame();
+
+	/**
+		@brief Gets the last frame time
+
+		@return last frame time in performance units
+	*/
 	uint64 getLastFrame();
 
+	/**
+		@brief Sets the fps to cap to (will just stay in a while loop)
+
+		@param[in] fps new fps cap or 0 for none
+
+		@todo do something useful like simulate instead of a while loop
+	*/
 	void setFPSCap(uint8 fps = 0);
+
+	/**
+		@brief Gets the current fps cap
+
+		@return current fps cap
+	*/
 	uint8 getFPSCap();
 
+	/**
+		@brief Pauses/resumes the profiler for functions
+	*/
 	void toggleProfiler();
 
 private:
 	class profileNode
 	{
 	public:
-		profileNode(const std::string& func, uint64 start,std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
+		/**
+			@brief profileNode constructor
+
+			Creates a new profiler node for a function
+		*/
+		profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
 	private:
 		std::string funcName;
+		uint64 start;
 		uint64 self;
 		uint64 heir;
 		uint32 calls;
@@ -100,6 +157,7 @@ private:
 	std::weak_ptr<profileNode> currentNode;
 	engine_state* engine;
 
+	logMgr logger;
 	friend class renderMgr;
 };
 
