@@ -127,8 +127,9 @@ void debugMgr::beginProfiledFunc(const std::string& name)
 		return;	
 	}
 
-	entry->second->calls++;
-	entry->second->start = current;
+	currentNode = entry->second;
+	currentNode.lock()->calls++;
+	currentNode.lock()->start = current;
 }
 
 void debugMgr::endProfiledFunc()
