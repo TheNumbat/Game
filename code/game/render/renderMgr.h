@@ -23,6 +23,7 @@
 
 #include "map\position\position.h"
 #include "map\component\component.h"
+#include "debug\debugMgr.h"
 
 #include <vector>
 #include <vect.h>
@@ -104,6 +105,7 @@ private:
 	void sortTextures(std::vector<renderMgr::rawTex*>& textures);
 	void getMapTextures(std::vector<renderMgr::rawTex*>& textures);
 	void renderAndClearTextures(std::vector<renderMgr::rawTex*>& textures);
+	uint32 recursiveProfilerRender(std::weak_ptr<debugMgr::profileNode> node, uint32 pos, uint32 level = 0);
 	
 	v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom);
 

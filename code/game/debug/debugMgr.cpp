@@ -41,6 +41,8 @@ debugMgr::debugMgr(engine_state* e)
 	totalFrameTime = 0;
 	totalFrames = 0;
 	fpsCap = 0;
+	paused = false;
+	toggleAtEnd = false;
 }
 
 debugMgr::~debugMgr()
@@ -48,12 +50,18 @@ debugMgr::~debugMgr()
 	engine->time.remove("debug");
 }
 
-debugMgr::profileNode::profileNode(const std::string& func, uint64 sStart, uint64 hStart)
+debugMgr::profileNode::profileNode(const std::string& func, uint64 start, std::weak_ptr<profileNode> parent_)
 {
 	funcName = func;
-	self = sStart;
-	heir = hStart;
+	self = start;
+	heir = start;
 	calls = 1;
+	parent = parent_;
+}
+
+void debugMgr::toggleProfiler()
+{
+	toggleAtEnd = true;
 }
 
 void debugMgr::beginDebugFrame()
@@ -63,6 +71,12 @@ void debugMgr::beginDebugFrame()
 
 void debugMgr::endDebugFrame()
 {
+	if(toggleAtEnd)
+	{
+		toggleAtEnd = false;
+		paused = !paused;
+	}
+
 	if(fpsCap)
 	{
 		while(engine->time.get("debug") < engine->time.getPerfFreq() / fpsCap);
@@ -71,16 +85,71 @@ void debugMgr::endDebugFrame()
 	lastFrameTime = frame;
 	totalFrameTime += frame;
 	totalFrames++;
+
+	if(!paused)
+	{
+		profileHead.reset(); 
+		currentNode = profileHead;
+	}
+
+	if(fpsCap && lastFrameTime > engine->time.getPerfFreq() / (fpsCap - 1))
+	{
+		engine->logger.LogWarn("Last frame took " + std::to_string(1000.0f * lastFrameTime / (real64)engine->time.getPerfFreq()) + " ms!");
+	}
 }
 
 void debugMgr::beginProfiledFunc(const std::string& name)
 {
+	if(paused)
+	{
+		return;
+	}
 
+	uint64 current = engine->time.get("debug");
+
+	if(currentNode.expired())
+	{
+		profileHead = std::make_shared<profileNode>(name,current);
+		currentNode = profileHead;
+		return;
+	}
+
+	auto entry = currentNode.lock()->children.find(name);
+	if(entry == currentNode.lock()->children.end())
+	{
+		std::shared_ptr<profileNode> newN = std::make_shared<profileNode>(name,current,currentNode);
+		currentNode.lock()->children.insert({name,newN});
+		currentNode = newN;
+		return;	
+	}
+
+	entry->second->calls++;
 }
 
 void debugMgr::endProfiledFunc()
 {
+	if(paused)
+	{
+		return;
+	}
 
+	uint64 current = engine->time.get("debug");
+
+	currentNode.lock()->heir = current - currentNode.lock()->heir;
+
+	uint64 exceptSelf = 0;
+
+	for(auto entry : currentNode.lock()->children)
+	{
+		exceptSelf += entry.second->heir;
+	}
+
+	currentNode.lock()->self = currentNode.lock()->heir - exceptSelf;
+
+	if(!currentNode.lock()->parent.expired())
+	{
+		currentNode = currentNode.lock()->parent;
+	}
 }
 
 void debugMgr::resetAvgFrame()

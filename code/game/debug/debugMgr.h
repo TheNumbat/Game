@@ -22,7 +22,7 @@
 #include "game_common.h"
 
 #include <memory>
-#include <vector>
+#include <map>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -68,18 +68,26 @@ public:
 	void setFPSCap(uint8 fps = 0);
 	uint8 getFPSCap();
 
+	void toggleProfiler();
+
 private:
 	class profileNode
 	{
-		profileNode(const std::string& func, uint64 sStart, uint64 hStart);
+	public:
+		profileNode(const std::string& func, uint64 start,std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
+	private:
 		std::string funcName;
 		uint64 self;
 		uint64 heir;
 		uint32 calls;
-		std::vector<std::shared_ptr<profileNode>> children;
+		std::map<std::string,std::shared_ptr<profileNode>> children;
 		std::weak_ptr<profileNode> parent;
 		friend class debugMgr;
+		friend class renderMgr;
 	};
+
+	bool paused;
+	bool toggleAtEnd;
 
 	uint64 totalFrameTime;
 	uint64 totalFrames;
@@ -88,8 +96,11 @@ private:
 
 	uint8 fpsCap;
 
-	std::shared_ptr<profileNode> currentNode;
+	std::shared_ptr<profileNode> profileHead;
+	std::weak_ptr<profileNode> currentNode;
 	engine_state* engine;
+
+	friend class renderMgr;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

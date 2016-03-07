@@ -48,6 +48,8 @@ inputMgr::~inputMgr()
 
 void inputMgr::handleEvents()
 {
+	game->debug.beginProfiledFunc();
+
 	event e;
 	while(engine->events.getNextEvent(e))
 	{
@@ -101,6 +103,9 @@ void inputMgr::handleEvents()
 					case KEY_DOWN:
 						mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x,5);
 						break;
+					case KEY_P:
+						game->debug.toggleProfiler();
+						break;
 				}
 			}
 			else if(e.flags & FLAG_KEY_RELEASE)
@@ -119,6 +124,8 @@ void inputMgr::handleEvents()
 			}
 		}
 	}
+
+	game->debug.endProfiledFunc();
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

@@ -20,6 +20,7 @@
 #include "mapMgr.h"
 
 #include <engine_state.h>
+#include "game_state.h"
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -31,9 +32,10 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-mapMgr::mapMgr(engine_state* e, const std::string& timer)
+mapMgr::mapMgr(game_state* g, engine_state* e, const std::string& timer)
 {
 	engine = e;
+	game = g;
 	timerID = timer;
 	nextUnusedID = 1;
 	logger.StartLog("MAP");
@@ -47,6 +49,8 @@ mapMgr::~mapMgr()
 
 void mapMgr::update()
 {
+	game->debug.beginProfiledFunc();
+
 	std::weak_ptr<chunk> simChunk;
 
 	if(!engine->time.get(timerID))
@@ -98,6 +102,8 @@ void mapMgr::update()
 		}
 	} 
 	while(!simChunk.expired());
+
+	game->debug.endProfiledFunc();
 }
 
 std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, uint32 currentTimeMS)

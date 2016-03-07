@@ -30,7 +30,7 @@
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 game_state::game_state(engine_state* e)
-	: map(e,"sim"), input(this,e), render(this,e), debug(e)
+	: map(this,e,"sim"), input(this,e), render(this,e), debug(e)
 {
 	engine = e;
 	startup();
@@ -44,14 +44,19 @@ game_state::~game_state()
 bool game_state::gameLoop()
 {
 	debug.beginDebugFrame();
+	debug.beginProfiledFunc();
 
 	input.handleEvents();
 	map.update();
 	render.renderMap();
+
+	debug.endProfiledFunc();
+
 	render.renderDebugUI();
 	engine->graphics.displayFrame();
 
 	debug.endDebugFrame();
+
 	return running;
 }
 
@@ -66,7 +71,7 @@ void game_state::startup()
 	engine->audio.init();
 	engine->time.init();
 
-	debug.setFPSCap(60);
+	// debug.setFPSCap(100);
 
 	LOAD_TEXTURE( debug/camera.png , camera );
 	LOAD_TEXTURE( debug/chunkbounds.bmp , chunkbounds );

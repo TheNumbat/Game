@@ -32,6 +32,9 @@
 
 const real32 CHUNK_SIZE_METERS = 25.0f;
 
+class game_state;
+class engine_state;
+
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 /**
@@ -57,7 +60,7 @@ public:
 
 		Sets up log and starts entity IDs
 	*/
-	mapMgr(engine_state* e, const std::string& simTimer);
+	mapMgr(game_state* g, engine_state* e, const std::string& simTimer);
 
 	/**
 		@brief mapMgr denstructor
@@ -244,6 +247,7 @@ private:
 	logMgr logger;
 
 	engine_state* engine;
+	game_state* game;
 	std::string timerID;
 
 	static const uint32 MAX_ENTITIES = 1000000;

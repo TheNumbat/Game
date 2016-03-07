@@ -103,6 +103,8 @@ renderMgr::rawText::rawText(const component_text_texture::sub_text_texture& t, r
 
 void renderMgr::renderMap()
 {
+	game->debug.beginProfiledFunc();
+
 	game->camera.updateFollow();
 
 	std::vector<renderMgr::rawTex*> textures;
@@ -110,6 +112,8 @@ void renderMgr::renderMap()
 	getMapTextures(textures);
 	sortTextures(textures);
 	renderAndClearTextures(textures);
+
+	game->debug.endProfiledFunc();
 }
 
 void renderMgr::renderDebugUI()
@@ -118,17 +122,43 @@ void renderMgr::renderDebugUI()
 	real64 lastFrame = 1000.0f * (real64)game->debug.getLastFrame() / (real64)engine->time.getPerfFreq();
 	std::string msg1 = "Average frame time (ms): " + std::to_string(avgFrame);
 	std::string msg2 = "Last frame time (ms): " + std::to_string(lastFrame);
+
 	engine->graphics.renderText("debugUI",msg1,rect2<int32>(10,10,0,0));
 	engine->graphics.renderText("debugUI",msg2,rect2<int32>(10,32,0,0));
 
-	if(lastFrame > 1000.0f / (game->debug.getFPSCap() - 1))
+	recursiveProfilerRender(game->debug.profileHead,52);
+}
+
+uint32 renderMgr::recursiveProfilerRender(std::weak_ptr<debugMgr::profileNode> node, uint32 pos, uint32 level)
+{
+	if(node.expired())
 	{
-		game->logger.LogWarn("Last frame took " + std::to_string(lastFrame) + " ms!");
+		return 0;
 	}
+
+	std::string msg;
+	for(uint32 i = 0; i < level; i++)
+	{
+		msg += "   ";
+	}
+	msg = msg + node.lock()->funcName + " - self: " + std::to_string(node.lock()->self) + 
+		  " heir: " + std::to_string(node.lock()->heir) + " calls: " + std::to_string(node.lock()->calls);
+	engine->graphics.renderText("debugUI",msg,rect2<int32>(10,pos,0,0));
+
+	int numchildren = 0;
+	for(auto entry : node.lock()->children)
+	{
+		numchildren++;
+		numchildren += recursiveProfilerRender(entry.second,pos + numchildren * 22, level + 1);
+	}
+
+	return numchildren;
 }
 
 void renderMgr::renderAndClearTextures(std::vector<renderMgr::rawTex*>& textures)
 {
+	game->debug.beginProfiledFunc();
+
 	// Actually render textures
 	for(int32 index = 0; index < textures.size(); ++index) 
 	{
@@ -153,10 +183,14 @@ void renderMgr::renderAndClearTextures(std::vector<renderMgr::rawTex*>& textures
 	}
 
 	textures.clear();
+
+	game->debug.endProfiledFunc();
 }
 
 void renderMgr::getMapTextures(std::vector<renderMgr::rawTex*>& textures)
 {
+	game->debug.beginProfiledFunc();
+
 	// Get window size
 	int32 winW, winH;
 	engine->graphics.getWinDim(winW,winH);
@@ -243,6 +277,8 @@ void renderMgr::getMapTextures(std::vector<renderMgr::rawTex*>& textures)
 			}
 		}
 	}
+
+	game->debug.endProfiledFunc();
 }
 
 v2<real32>& renderMgr::mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom)
