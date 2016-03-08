@@ -143,6 +143,7 @@ uint32 renderMgr::recursiveProfilerRender(std::weak_ptr<debugMgr::profileNode> n
 	}
 	msg = msg + node.lock()->funcName + " - self: " + std::to_string(node.lock()->self) + 
 		  " heir: " + std::to_string(node.lock()->heir) + " calls: " + std::to_string(node.lock()->calls);
+
 	engine->graphics.renderText("debugUI",msg,rect2<int32>(10,pos,0,0));
 
 	int numchildren = 0;

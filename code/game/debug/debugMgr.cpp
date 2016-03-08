@@ -44,6 +44,9 @@ debugMgr::debugMgr(engine_state* e)
 	fpsCap = 0;
 	paused = false;
 	toggleAtEnd = false;
+	profileHead = std::make_shared<profileNode>("profiler",0);
+	currentNode = profileHead;
+	selected = profileHead;
 	logger.LogInfo("Debug initialized");
 }
 
@@ -56,6 +59,7 @@ debugMgr::~debugMgr()
 debugMgr::profileNode::profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_)
 {
 	funcName = func;
+	showChildren = false;
 	start = s;
 	self = 0;
 	heir = 0;
@@ -92,14 +96,26 @@ void debugMgr::endDebugFrame()
 
 	if(!paused)
 	{
-		profileHead.reset(); 
 		currentNode = profileHead;
+		resetNodesRecursive(currentNode);
 	}
 
 	if(fpsCap && lastFrameTime > engine->time.getPerfFreq() / (fpsCap - 1))
 	{
 		engine->logger.LogWarn("Last frame took " + std::to_string(1000.0f * lastFrameTime / (real64)engine->time.getPerfFreq()) + " ms!");
 	}
+}
+
+void debugMgr::resetNodesRecursive(std::weak_ptr<profileNode> current)
+{
+	for(auto& entry : current.lock()->children)
+	{
+		resetNodesRecursive(entry.second);
+	}
+
+	current.lock()->self = 0;
+	current.lock()->heir = 0;
+	current.lock()->calls = 0;
 }
 
 void debugMgr::beginProfiledFunc(const std::string& name)
@@ -110,13 +126,6 @@ void debugMgr::beginProfiledFunc(const std::string& name)
 	}
 
 	uint64 current = engine->time.get("debug");
-
-	if(currentNode.expired())
-	{
-		profileHead = std::make_shared<profileNode>(name,current);
-		currentNode = profileHead;
-		return;
-	}
 
 	auto entry = currentNode.lock()->children.find(name);
 	if(entry == currentNode.lock()->children.end())

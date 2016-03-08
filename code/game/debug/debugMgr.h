@@ -133,6 +133,7 @@ private:
 		profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
 	private:
 		std::string funcName;
+		bool showChildren;
 		uint64 start;
 		uint64 self;
 		uint64 heir;
@@ -142,6 +143,8 @@ private:
 		friend class debugMgr;
 		friend class renderMgr;
 	};
+
+	void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
 
 	bool paused;
 	bool toggleAtEnd;
@@ -155,6 +158,7 @@ private:
 
 	std::shared_ptr<profileNode> profileHead;
 	std::weak_ptr<profileNode> currentNode;
+	std::weak_ptr<profileNode> selected;
 	engine_state* engine;
 
 	logMgr logger;
