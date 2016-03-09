@@ -65,6 +65,7 @@ public:
 
 	void renderMap();
 	void renderDebugUI();
+	void toggleDebugUI();
 
 private:
 	class rawTex
@@ -109,6 +110,7 @@ private:
 	
 	v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom);
 
+	bool showDebugUI;
 
 	game_state* game;
 	engine_state* engine;

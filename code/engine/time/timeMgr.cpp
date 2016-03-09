@@ -199,6 +199,33 @@ bool timeMgr::remove(const std::string& ID)
 	return true;
 }
 
+bool timeMgr::toggle(const std::string& ID)
+{
+	// Get timer
+	auto entry = timers.find(ID);
+	if(entry == timers.end())
+	{
+		// Failure
+		logger.LogWarn("Timer / perf counter ID " + ID + " not found");
+		return false;
+	}
+
+	if(entry->second->pause)
+	{
+		resume(ID);
+	}
+	else
+	{
+		pause(ID);
+	}
+
+	// Success
+	#ifdef VERBOSE_TIME
+		logger.LogInfo("Toggled timer/perf counter ID " + ID);
+	#endif
+	return true;
+}
+
 bool timeMgr::reset(const std::string& ID)
 {
 	// Get timer
@@ -304,7 +331,7 @@ uint64 timeMgr::get(const std::string& ID)
 	{
 		// Failure
 		logger.LogWarn("Timer / perf counter to get ID " + ID + " not found");
-		return 0;
+		return -1;
 	}
 
 	// Test paused

@@ -21,13 +21,18 @@
 
 #include "game_common.h"
 
+#include <engine_state.h>
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 class game_state;
-class engine_state;
 
-const uint8 input_gameplay = 1<<0;
-const uint8 input_profiling = 1<<1;
+enum inputstates
+{
+	input_none,
+	input_gameplay,
+	input_debugger
+};
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -59,7 +64,10 @@ public:
 	void handleEvents();
 
 private:
-	uint8 inputstates;
+	void handleGameplayEvent(const event& e);
+	void handleDebugEvent(const event& e);
+
+	inputstates inputstate;
 
 	game_state* game;
 	engine_state* engine;

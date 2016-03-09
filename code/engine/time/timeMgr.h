@@ -185,6 +185,17 @@ public:
 	ENGINE_API bool resume(const std::string& ID);
 
 	/**
+		@brief Toggles a timer or performance counter
+
+		@param[in] ID of timer/perfCounter to toggle
+
+		@return success
+
+		@exception ID not found, returns false
+	*/
+	ENGINE_API bool toggle(const std::string& ID);
+
+	/**
 		@brief Resets a timer or performance counter
 
 		@param[in] ID of timer/perfCounter to reset

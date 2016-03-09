@@ -38,6 +38,7 @@ renderMgr::renderMgr(game_state* g, engine_state* e)
 {
 	game = g;
 	engine = e;
+	showDebugUI = false;
 }
 
 renderMgr::~renderMgr()
@@ -101,6 +102,11 @@ renderMgr::rawText::rawText(const component_text_texture::sub_text_texture& t, r
 	flip = t.flip;
 }
 
+void renderMgr::toggleDebugUI()
+{
+	showDebugUI = !showDebugUI;
+}
+
 void renderMgr::renderMap()
 {
 	game->debug.beginProfiledFunc();
@@ -118,6 +124,11 @@ void renderMgr::renderMap()
 
 void renderMgr::renderDebugUI()
 {
+	if(!showDebugUI)
+	{
+		return;
+	}
+	
 	real64 avgFrame = 1000.0f * (real64)game->debug.getAvgFrame() / (real64)engine->time.getPerfFreq();
 	real64 lastFrame = 1000.0f * (real64)game->debug.getLastFrame() / (real64)engine->time.getPerfFreq();
 	std::string msg1 = "Average frame time (ms): " + std::to_string(avgFrame);
@@ -144,13 +155,24 @@ uint32 renderMgr::recursiveProfilerRender(std::weak_ptr<debugMgr::profileNode> n
 	msg = msg + node.lock()->funcName + " - self: " + std::to_string(node.lock()->self) + 
 		  " heir: " + std::to_string(node.lock()->heir) + " calls: " + std::to_string(node.lock()->calls);
 
-	engine->graphics.renderText("debugUI",msg,rect2<int32>(10,pos,0,0));
+	if(game->debug.selected.lock() == node.lock())
+	{
+		engine->graphics.renderText("debugUI",msg,rect2<int32>(10,pos,0,0),color(50,100,255,0));
+	}
+	else
+	{
+		engine->graphics.renderText("debugUI",msg,rect2<int32>(10,pos,0,0));
+	}
 
 	int numchildren = 0;
-	for(auto entry : node.lock()->children)
+
+	if(node.lock()->showChildren)
 	{
-		numchildren++;
-		numchildren += recursiveProfilerRender(entry.second,pos + numchildren * 22, level + 1);
+		for(auto entry : node.lock()->children)
+		{
+			numchildren++;
+			numchildren += recursiveProfilerRender(entry.second,pos + numchildren * 22, level + 1);
+		}
 	}
 
 	return numchildren;

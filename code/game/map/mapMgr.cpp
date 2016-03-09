@@ -53,7 +53,7 @@ void mapMgr::update()
 
 	std::weak_ptr<chunk> simChunk;
 
-	if(!engine->time.get(timerID))
+	if(engine->time.get(timerID) == -1)
 	{
 		engine->time.addTimer(timerID);
 	}

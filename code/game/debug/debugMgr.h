@@ -142,6 +142,7 @@ private:
 		std::weak_ptr<profileNode> parent;
 		friend class debugMgr;
 		friend class renderMgr;
+		friend class inputMgr;
 	};
 
 	void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
@@ -163,6 +164,7 @@ private:
 
 	logMgr logger;
 	friend class renderMgr;
+	friend class inputMgr;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
