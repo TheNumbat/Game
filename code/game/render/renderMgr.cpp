@@ -126,6 +126,7 @@ void renderMgr::renderDebugUI()
 {
 	if(!showDebugUI)
 	{
+		engine->graphics.renderText("debugUI","Press O to switch to profiler",rect2<int32>(10,10,0,0));
 		return;
 	}
 	
