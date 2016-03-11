@@ -166,8 +166,28 @@ void inputMgr::handleDebugEvent(const event& e)
 					inputstate = input_gameplay;
 					break;
 				case KEY_UP:
+					if(game->debug.selected.lock()->parent.lock()->children.begin()->second == game->debug.selected.lock())
+					{
+						game->debug.selected = game->debug.selected.lock()->parent;
+					}
+					else
+					{
+						game->debug.selected = (game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName)--)->second;
+					}
 					break;
 				case KEY_DOWN:
+					if(game->debug.selected.lock()->showChildren && game->debug.selected.lock()->children.size())
+					{
+						game->debug.selected = game->debug.selected.lock()->children.begin()->second;
+					}
+					// else if((game->debug.selected.lock()->parent.lock()->children.end()--)->second == game->debug.selected.lock())
+					// {
+						// game->
+					// }	
+					else
+					{
+						game->debug.selected = (game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName)++)->second;
+					}				
 					break;
 				case KEY_ENTER:
 					game->debug.selected.lock()->showChildren = !game->debug.selected.lock()->showChildren;

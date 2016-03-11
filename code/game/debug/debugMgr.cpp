@@ -133,6 +133,7 @@ void debugMgr::beginProfiledFunc(const std::string& name)
 		std::shared_ptr<profileNode> newN = std::make_shared<profileNode>(name,current,currentNode);
 		currentNode.lock()->children.insert({name,newN});
 		currentNode = newN;
+		selected = newN;
 		return;	
 	}
 
