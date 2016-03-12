@@ -19,6 +19,7 @@
 #include "debug/debugMgr.h"
 #include "input/inputMgr.h"
 #include "render/renderMgr.h"
+#include "mod/modMgr.h"
 
 #include <log/logMgr.h>
 
@@ -38,13 +39,10 @@ class engine_state;
 */
 struct game_state
 {
-public:
 	game_state(engine_state* e);
 	~game_state();
 
 	bool gameLoop();
-
-private:
 	void startup();
 	void shutdown();
 	
@@ -54,14 +52,10 @@ private:
 	renderMgr render;
 	inputMgr input;
 	logMgr logger;
+	modMgr mods;
 
 	bool running;
-
 	engine_state* engine;
-
-	friend class mapMgr;
-	friend class inputMgr;
-	friend class renderMgr;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

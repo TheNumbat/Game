@@ -26,6 +26,7 @@
 
 #include <map>
 #include <memory>
+#include <vector>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -148,8 +149,15 @@ public:
 	*/
 	ENGINE_API uint64 setOffset(const std::string& ID, uint64 offset, fileseek start = file_start);
 
+	ENGINE_API bool loadLibrary(const std::string& path, const std::string& ID = "");
+	ENGINE_API bool loadLibraryRec(const std::string& path);
+	ENGINE_API bool freeLibrary(const std::string& ID);
+	ENGINE_API void* loadFunction(const std::string& libID, const std::string& funcName);
+	ENGINE_API std::vector<std::string> getNames(const std::string& path);
+
 private:
 	std::map<std::string,std::unique_ptr<file>> files;
+	std::map<std::string,void*> libraries;
 
 	logMgr logger;
 };

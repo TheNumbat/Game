@@ -30,7 +30,8 @@
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 game_state::game_state(engine_state* e)
-	: map(this,e,"sim"), input(this,e), render(this,e), debug(e)
+	: map(this,e,"sim"), input(this,e), render(this,e), debug(e),
+      mods(this,e)
 {
 	engine = e;
 	startup();
@@ -48,6 +49,7 @@ bool game_state::gameLoop()
 
 	input.handleEvents();
 	map.update();
+	mods.updateMods();
 	render.renderMap();
 
 	debug.endProfiledFunc();
@@ -88,6 +90,8 @@ void game_state::startup()
 	logger.LogInfo("Game code initialized");
 	running = true;
 
+	mods.startup();
+
 	/// @todo Move this!!!
 	std::weak_ptr<entity> player = map.addPlayer("p1",map_position(0,0,0,3,3,0),0);
 	std::weak_ptr<entity> test = map.addEntity(map_position(0,0,0,3,3,0),0);
@@ -111,7 +115,7 @@ void game_state::startup()
 
 void game_state::shutdown()
 {
-
+	mods.shutdown();
 }
 
 // Free function prototypes  //////////////////////////////////////////////////

@@ -21,6 +21,7 @@
 
 #include "fileMgr.h"
 #include <SDL.h>
+#include <dirent.h>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -41,6 +42,10 @@ fileMgr::fileMgr()
 fileMgr::~fileMgr()
 {
 	files.clear();
+	for(auto& entry : libraries)
+	{
+		SDL_UnloadObject(entry.second);
+	}
 	logger.LogInfo("File IO deinitialized");
 }
 
@@ -172,6 +177,157 @@ uint64 fileMgr::setOffset(const std::string& ID, uint64 offset, fileseek start)
 		logger.LogWarn("Failed to set offset from file ID " + ID + " SDL_Error: " + SDL_GetError());
 	}
 	return result;
+}
+
+bool fileMgr::loadLibrary(const std::string& path, const std::string& ID)
+{
+	if(libraries.find(ID) != libraries.end())
+	{
+		logger.LogWarn("library ID " + ID + " already in use!");
+		return false;
+	}
+
+	std::string libID;
+	if(!ID.size())
+	{
+		libID = path.substr(path.find_last_of("/\\") + 1, path.find_last_of(".") - path.find_last_of("/\\") - 1);
+	}
+	else
+	{
+		libID = ID;
+	}
+
+	void* lib = SDL_LoadObject(path.c_str());
+	if(!lib)
+	{
+		logger.LogWarn("Could not load library from path " + path);
+		return false;
+	}
+
+	libraries.insert({libID,lib});
+	logger.LogInfo("Loaded library ID " + libID + " from " + path);
+	return true;
+}
+
+bool fileMgr::freeLibrary(const std::string& ID)
+{
+	auto entry = libraries.find(ID);
+	if(entry == libraries.end())
+	{
+		logger.LogWarn("Library ID " + ID + " not found!");
+		return false;
+	}
+
+	SDL_UnloadObject(entry->second);
+	libraries.erase(entry);
+	return true;
+}
+
+void* fileMgr::loadFunction(const std::string& libID, const std::string& funcName)
+{
+	auto entry = libraries.find(libID);
+	if(entry == libraries.end())
+	{
+		logger.LogWarn("Library ID " + libID + " not found!");
+		return NULL;
+	}
+
+	void* func = SDL_LoadFunction(entry->second,funcName.c_str());
+	if(!func)
+	{
+		logger.LogWarn("Could not load function " + funcName + " from library " + libID);
+		return NULL;
+	}
+
+	return func;
+}
+
+bool fileMgr::loadLibraryRec(const std::string& path)
+{
+	DIR *directory;
+	struct dirent *entry;
+	std::string dirPath = path;
+
+	if(dirPath.back() != '/' && dirPath.back() != '\\')
+	{
+		dirPath.append("/");
+	}
+
+	// Open directory
+	directory = opendir(dirPath.c_str());
+	if(!directory)
+	{
+		logger.LogWarn("Failed to open library directory at " + dirPath);
+		return false;
+	}
+
+	logger.LogInfo("Loading library directory at " + dirPath);
+	logger.EnterSec();
+
+	// Read directory
+	while(entry = readdir(directory))
+	{
+		std::string entryName = entry->d_name;
+
+		if(entryName != ".." && entryName != ".")
+		{
+			// Load texture or load another directory
+			/// @todo make this better, it just tests for a .extension
+			if(entryName[entryName.size() - 4] == '.')
+			{
+				loadLibrary(dirPath + entryName);
+			}
+			else
+			{
+				loadLibraryRec(dirPath + entryName + '/');
+			}
+		}
+	}
+
+	logger.ExitSec();
+
+	// Success
+	return true;
+}
+
+std::vector<std::string> fileMgr::getNames(const std::string& path)
+{
+	DIR *directory;
+	struct dirent *entry;
+	std::string dirPath = path;
+	std::vector<std::string> names;
+
+	if(dirPath.back() != '/' && dirPath.back() != '\\')
+	{
+		dirPath.append("/");
+	}
+
+	// Open directory
+	directory = opendir(dirPath.c_str());
+	if(!directory)
+	{
+		logger.LogWarn("Failed to open directory at " + dirPath);
+		return names;
+	}
+
+	logger.LogInfo("Getting names from directory at " + dirPath);
+	logger.EnterSec();
+
+	// Read directory
+	while(entry = readdir(directory))
+	{
+		std::string entryName = entry->d_name;
+
+		if(entryName != ".." && entryName != ".")
+		{
+			names.push_back(entryName.substr(entryName.find_last_of("/\\") + 1, entryName.find_last_of(".") - entryName.find_last_of("/\\") - 1));
+		}
+	}
+
+	logger.ExitSec();
+
+	// Success
+	return names;
 }
 
 // Terminating precompiler directives  ////////////////////////////////////////

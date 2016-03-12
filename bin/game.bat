@@ -12,7 +12,7 @@ set LinkFlags=/NODEFAULTLIB:msvcrtd.lib /subsystem:console,5.01 /PDB:Game_%rando
 set Files=w:\code\game\dll_interface.cpp w:\code\game\game_state.cpp w:\code\game\cam\cam.cpp w:\code\game\debug\debugMgr.cpp
 set Files=%Files% w:\code\game\input\inputMgr.cpp w:\code\game\map\mapMgr.cpp w:\code\game\map\chunk\chunk.cpp
 set Files=%Files% w:\code\game\map\component\component.cpp w:\code\game\map\entity\entity.cpp w:\code\game\map\position\position.cpp
-set Files=%Files% w:\code\game\render\renderMgr.cpp
+set Files=%Files% w:\code\game\render\renderMgr.cpp w:\code\game\mod\modMgr.cpp
 
 del Game_*.pdb > NUL 2> NUL
 
