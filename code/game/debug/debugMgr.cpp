@@ -59,7 +59,7 @@ debugMgr::~debugMgr()
 debugMgr::profileNode::profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_)
 {
 	funcName = func;
-	showChildren = true;
+	showChildren = false;
 	start = s;
 	self = 0;
 	heir = 0;
