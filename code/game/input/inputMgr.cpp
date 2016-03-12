@@ -166,13 +166,31 @@ void inputMgr::handleDebugEvent(const event& e)
 					inputstate = input_gameplay;
 					break;
 				case KEY_UP:
-					if(game->debug.selected.lock()->parent.lock()->children.begin()->second == game->debug.selected.lock())
+					if(game->debug.selected.lock() != game->debug.profileHead)
 					{
-						game->debug.selected = game->debug.selected.lock()->parent;
+						if(game->debug.selected.lock()->parent.lock()->children.begin()->second == game->debug.selected.lock())
+						{
+							game->debug.selected = game->debug.selected.lock()->parent;
+						}
+						else if(game->debug.selected.lock() != game->debug.selected.lock()->parent.lock()->children.begin()->second)
+						{
+							auto temp = std::prev(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName));	
+							if(temp->second->showChildren && temp->second->children.size())
+							{
+								game->debug.selected = std::prev(temp->second->children.end())->second;
+							}
+							else if(std::distance(game->debug.selected.lock()->parent.lock()->children.begin(),game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName)) > 0)
+							{
+								game->debug.selected = std::prev(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
+							}
+						}
 					}
 					else
 					{
-						game->debug.selected = (game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName)--)->second;
+						while(game->debug.selected.lock()->showChildren && game->debug.selected.lock()->children.size())
+						{
+							game->debug.selected = std::prev(game->debug.selected.lock()->children.end())->second;
+						}
 					}
 					break;
 				case KEY_DOWN:
@@ -180,14 +198,30 @@ void inputMgr::handleDebugEvent(const event& e)
 					{
 						game->debug.selected = game->debug.selected.lock()->children.begin()->second;
 					}
-					// else if((game->debug.selected.lock()->parent.lock()->children.end()--)->second == game->debug.selected.lock())
-					// {
-						// game->
-					// }	
-					else
+					else if(game->debug.selected.lock() != game->debug.profileHead)
 					{
-						game->debug.selected = (game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName)++)->second;
-					}				
+						if(std::distance(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName),game->debug.selected.lock()->parent.lock()->children.end()) > 1)
+						{
+							game->debug.selected = std::next(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
+						}
+						else
+						{
+							bool found = false;
+							while(!found)
+							{
+								game->debug.selected = game->debug.selected.lock()->parent;
+								if(game->debug.selected.lock()->parent.expired())
+								{
+									break;
+								}
+								if(std::distance(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName),game->debug.selected.lock()->parent.lock()->children.end()) > 1)
+								{
+									game->debug.selected = std::next(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
+									found = true;
+								}
+							}
+						}
+					}
 					break;
 				case KEY_ENTER:
 					game->debug.selected.lock()->showChildren = !game->debug.selected.lock()->showChildren;
