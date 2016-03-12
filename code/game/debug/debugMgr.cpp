@@ -94,15 +94,16 @@ void debugMgr::endDebugFrame()
 	totalFrameTime += frame;
 	totalFrames++;
 
+	if(fpsCap && lastFrameTime > engine->time.getPerfFreq() / (fpsCap - 1))
+	{
+		engine->logger.LogWarn("Last frame took " + std::to_string(1000.0f * lastFrameTime / (real64)engine->time.getPerfFreq()) + " ms!");
+		paused = true;
+	}
+
 	if(!paused)
 	{
 		currentNode = profileHead;
 		resetNodesRecursive(currentNode);
-	}
-
-	if(fpsCap && lastFrameTime > engine->time.getPerfFreq() / (fpsCap - 1))
-	{
-		engine->logger.LogWarn("Last frame took " + std::to_string(1000.0f * lastFrameTime / (real64)engine->time.getPerfFreq()) + " ms!");
 	}
 }
 
