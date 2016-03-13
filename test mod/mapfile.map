@@ -1,6 +1,6 @@
  mod
 
- Timestamp is 56e3ad86 (Fri Mar 11 21:47:50 2016)
+ Timestamp is 56e3ae40 (Fri Mar 11 21:50:56 2016)
 
  Preferred load address is 10000000
 
@@ -41,18 +41,15 @@
 
   Address         Publics by Value              Rva+Base       Lib:Object
 
- 0000:00000000       ___guard_longjmp_table     00000000     <absolute>
  0000:00000000       ___guard_longjmp_count     00000000     <absolute>
+ 0000:00000000       ___guard_longjmp_table     00000000     <absolute>
+ 0000:00000000       ___guard_iat_table         00000000     <absolute>
+ 0000:00000000       ___guard_fids_table        00000000     <absolute>
  0000:00000000       ___guard_fids_count        00000000     <absolute>
  0000:00000000       ___guard_iat_count         00000000     <absolute>
- 0000:00000000       ___guard_fids_table        00000000     <absolute>
- 0000:00000000       ___guard_iat_table         00000000     <absolute>
  0000:00000003       ___safe_se_handler_count   00000003     <absolute>
  0000:00000100       ___guard_flags             00000100     <absolute>
  0000:00000000       ___ImageBase               10000000     <linker-defined>
- 0001:00001520       _startup                   10002520 f   mod.obj
- 0001:00001570       _update                    10002570 f   mod.obj
- 0001:00001580       _shutdown                  10002580 f   mod.obj
  0001:000015f0       ??$?0ABV?$allocator@D@std@@$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@D@std@@@std@@V?$_String_val@U?$_Simple_types@D@std@@@2@$00@std@@QAE@U_One_then_variadic_args_t@1@ABV?$allocator@D@1@@Z 100025f0 f i mod.obj
  0001:00001630       ??$_Addressof@D@std@@YAPADAADU?$integral_constant@_N$0A@@0@@Z 10002630 f i mod.obj
  0001:00001640       ??$addressof@D@std@@YAPADAAD@Z 10002640 f i mod.obj
@@ -193,8 +190,8 @@
  0001:00003d1b       __RTC_Terminate            10004d1b f   MSVCRT:_initsect_.obj
  0001:00003d50       ??3@YAXPAXI@Z              10004d50 f   MSVCRT:delete_scalar_size.obj
  0001:00003d61       ??1type_info@@UAE@XZ       10004d61 f   MSVCRT:std_type_info_static.obj
- 0001:00003d68       ??_Gtype_info@@UAEPAXI@Z   10004d68 f i MSVCRT:std_type_info_static.obj
  0001:00003d68       ??_Etype_info@@UAEPAXI@Z   10004d68 f i MSVCRT:std_type_info_static.obj
+ 0001:00003d68       ??_Gtype_info@@UAEPAXI@Z   10004d68 f i MSVCRT:std_type_info_static.obj
  0001:00003d93       @_guard_check_icall_nop@4  10004d93 f i MSVCRT:guard_support.obj
  0001:00003d94       __guard_icall_checks_enforced 10004d94 f i MSVCRT:guard_support.obj
  0001:00003daa       _IsProcessorFeaturePresent@4 10004daa f   kernel32:KERNEL32.dll
@@ -238,23 +235,26 @@
  0001:00003e8e       __initterm                 10004e8e f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
  0001:00003e94       __initterm_e               10004e94 f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
  0001:00003e9a       _terminate                 10004e9a f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
- 0001:00003ea0       ___acrt_initialize         10004ea0 f   MSVCRT:ucrt_stubs.obj
  0001:00003ea0       ___vcrt_initialize         10004ea0 f   MSVCRT:ucrt_stubs.obj
+ 0001:00003ea0       ___acrt_initialize         10004ea0 f   MSVCRT:ucrt_stubs.obj
  0001:00003ea0       ___scrt_stub_for_acrt_initialize 10004ea0 f   MSVCRT:ucrt_stubs.obj
- 0001:00003ea3       ___vcrt_thread_attach      10004ea3 f   MSVCRT:ucrt_stubs.obj
  0001:00003ea3       ___acrt_thread_attach      10004ea3 f   MSVCRT:ucrt_stubs.obj
  0001:00003ea3       ___scrt_stub_for_acrt_thread_attach 10004ea3 f   MSVCRT:ucrt_stubs.obj
+ 0001:00003ea3       ___vcrt_thread_attach      10004ea3 f   MSVCRT:ucrt_stubs.obj
  0001:00003ea6       ___vcrt_thread_detach      10004ea6 f   MSVCRT:ucrt_stubs.obj
  0001:00003ea6       ___scrt_stub_for_acrt_thread_detach 10004ea6 f   MSVCRT:ucrt_stubs.obj
  0001:00003ea6       ___acrt_thread_detach      10004ea6 f   MSVCRT:ucrt_stubs.obj
- 0001:00003ea9       ___acrt_uninitialize       10004ea9 f   MSVCRT:ucrt_stubs.obj
  0001:00003ea9       ___scrt_stub_for_acrt_uninitialize 10004ea9 f   MSVCRT:ucrt_stubs.obj
  0001:00003ea9       ___vcrt_uninitialize       10004ea9 f   MSVCRT:ucrt_stubs.obj
- 0001:00003eac       ___acrt_uninitialize_critical 10004eac f   MSVCRT:ucrt_stubs.obj
+ 0001:00003ea9       ___acrt_uninitialize       10004ea9 f   MSVCRT:ucrt_stubs.obj
  0001:00003eac       ___vcrt_uninitialize_critical 10004eac f   MSVCRT:ucrt_stubs.obj
+ 0001:00003eac       ___acrt_uninitialize_critical 10004eac f   MSVCRT:ucrt_stubs.obj
  0001:00003eac       ___scrt_stub_for_acrt_uninitialize_critical 10004eac f   MSVCRT:ucrt_stubs.obj
- 0001:00003eaf       __is_c_termination_complete 10004eaf f   MSVCRT:ucrt_stubs.obj
  0001:00003eaf       ___scrt_stub_for_is_c_termination_complete 10004eaf f   MSVCRT:ucrt_stubs.obj
+ 0001:00003eaf       __is_c_termination_complete 10004eaf f   MSVCRT:ucrt_stubs.obj
+ 0001:00003ec0       _startup                   10004ec0 f   mod.obj
+ 0001:00003f10       _update                    10004f10 f   mod.obj
+ 0001:00003f20       _shutdown                  10004f20 f   mod.obj
  0002:00000000       ___xc_a                    10009000     MSVCRT:initializers.obj
  0002:00000220       ___xc_z                    10009220     MSVCRT:initializers.obj
  0002:00000324       ___xi_a                    10009324     MSVCRT:initializers.obj
@@ -265,8 +265,8 @@
  0002:00000838       ___xt_z                    10009838     MSVCRT:initializers.obj
  0002:0000098c       ??_C@_0BI@CFPLBAOH@invalid?5string?5position?$AA@ 1000998c     mod.obj
  0002:000009a8       ??_C@_0BA@JFNIOLAK@string?5too?5long?$AA@ 100099a8     mod.obj
- 0002:000009bc       __pDefaultRawDllMain       100099bc     MSVCRT:dll_dllmain.obj
  0002:000009bc       __pRawDllMain              100099bc     MSVCRT:dll_dllmain.obj
+ 0002:000009bc       __pDefaultRawDllMain       100099bc     MSVCRT:dll_dllmain.obj
  0002:000009c4       ??_7exception@std@@6B@     100099c4     MSVCRT:throw_bad_alloc.obj
  0002:000009d0       ??_C@_0BC@EOODALEL@Unknown?5exception?$AA@ 100099d0     MSVCRT:throw_bad_alloc.obj
  0002:000009ec       ??_7bad_alloc@std@@6B@     100099ec     MSVCRT:throw_bad_alloc.obj

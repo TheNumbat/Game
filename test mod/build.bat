@@ -9,6 +9,3 @@ set Files=mod.cpp
 
 :: actually call cl
 cl /Fe:mod.dll %CompileFlags% %Files% /link %LinkFlags%
-
-:: go back to wherever we were
-popd

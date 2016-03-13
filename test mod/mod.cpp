@@ -15,7 +15,7 @@ MOD_API void startup(game_state* game, engine_state* engine)
 
 MOD_API void update(game_state* game, engine_state* engine)
 {
-
+	
 }
 
 MOD_API void shutdown(game_state* game, engine_state* engine)

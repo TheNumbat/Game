@@ -73,7 +73,7 @@ void game_state::startup()
 	engine->audio.init();
 	engine->time.init();
 
-	// debug.setFPSCap(100);
+	debug.setFPSCap(60);
 
 	LOAD_TEXTURE( debug/camera.png , camera );
 	LOAD_TEXTURE( debug/chunkbounds.bmp , chunkbounds );

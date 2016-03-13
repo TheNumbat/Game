@@ -36,8 +36,7 @@ typedef startupFunc shutdownFunc;
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 /**
-	@brief manages input for the game: depending on the input state events will
-		   do different things
+	@brief manages mod loading, unloading, and updating
 */
 class modMgr
 {
@@ -57,10 +56,25 @@ public:
 	*/
 	~modMgr();
 
+	/**
+		@brief loads and initializes mods 
+
+		Loads libraries and calls startup functions
+	*/
 	void startup();
 
+	/**
+		@brief updates mods as part of the game loop
+
+		Calls update functions
+	*/
 	void updateMods();
 
+	/**
+		@brief deinitializes mods 
+
+		Calls shutdown function
+	*/
 	void shutdown();
 
 private:

@@ -149,10 +149,63 @@ public:
 	*/
 	ENGINE_API uint64 setOffset(const std::string& ID, uint64 offset, fileseek start = file_start);
 
+	/**
+		@brief loads a library - currently used for mods
+
+		@param[in] path to library
+		@param[in] ID to use for library, or blank for file name
+
+		@return success
+
+		@exception unable to load library, returns false
+	*/
 	ENGINE_API bool loadLibrary(const std::string& path, const std::string& ID = "");
+
+	/**
+		@brief loads a directory of libraries - currently used for mods
+
+		Will use files names for library IDs
+
+		@param[in] path to library directory
+
+		@return success
+
+		@exception unable to open/load directory, returns false
+	*/
 	ENGINE_API bool loadLibraryRec(const std::string& path);
+
+	/**
+		@brief frees a loaded library
+
+		@param[in] ID of library to free
+
+		@return success
+
+		@exception unable to find library ID, returns false
+	*/
 	ENGINE_API bool freeLibrary(const std::string& ID);
+
+	/**
+		@brief loads a function from a library
+
+		@param[in] libID ID of library to load from
+		@param[in] funcName name of function to load
+
+		@return pointer to function or NULL on error
+
+		@exception unable to load function, returns NULL
+	*/
 	ENGINE_API void* loadFunction(const std::string& libID, const std::string& funcName);
+
+	/**
+		@brief gets file names from a directory
+
+		@param[in] path of directory to pull names from
+
+		@return vector of names
+
+		@exception unable to open/load directory, returns empty vector
+	*/	
 	ENGINE_API std::vector<std::string> getNames(const std::string& path);
 
 private:
