@@ -6,8 +6,12 @@
 
 #include <string>
 
-CONSOLE_FUNC(test)
+CONSOLE_FUNC(quit)
 {
-	game->logger.LogInfo("Test console func: " + args);
+	game->running = false;
 }
 
+CONSOLE_FUNC(print)
+{
+	game->logger.LogInfo("Console: " + args);
+}
