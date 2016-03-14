@@ -28,6 +28,7 @@ cloc: count lines of code in a directory
 docs: compile doxygen docs (doxygen)  
 edit: open sublime text to edit (Sublime)  
 engine: build the engine library and main executable (MSVC)  
-game: build the game library (MSVC)  
+game: build the game library - also runs "console" (MSVC)  
+console: build the console functions (MSVC)  
 run: run the game  
 debug: run the debugger (MSVC)  
