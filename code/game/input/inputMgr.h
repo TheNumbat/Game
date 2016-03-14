@@ -23,9 +23,11 @@
 
 #include <engine_state.h>
 
+#include <string>
+
 // Global constant definitions  ///////////////////////////////////////////////
 
-class game_state;
+struct game_state;
 
 enum inputstates
 {
@@ -40,9 +42,8 @@ enum inputstates
 	@brief manages input for the game: depending on the input state events will
 		   do different things
 */
-class inputMgr
+struct inputMgr
 {
-public:
 	/**
 		@brief mapMgr constructor
 
@@ -63,11 +64,14 @@ public:
 	*/
 	void handleEvents();
 
-private:
-	void handleGameplayEvent(const event& e);
-	void handleDebugEvent(const event& e);
+
+	void handleGameplayEvent(event* e);
+	void handleDebugEvent(event* e);
+	void handleTextEvent(event* e, const std::string& exclude);
 
 	inputstates inputstate;
+
+	std::string inputStr;
 
 	game_state* game;
 	engine_state* engine;

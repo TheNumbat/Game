@@ -46,6 +46,8 @@ debugMgr::debugMgr(game_state* g, engine_state* e)
 	fpsCap = 0;
 	paused = false;
 	toggleAtEnd = false;
+	inputConsole = false;
+	renderDebugUI = false;
 	profileHead = std::make_shared<profileNode>("profiler",0);
 	currentNode = profileHead;
 	selected = profileHead;

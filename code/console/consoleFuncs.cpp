@@ -8,5 +8,6 @@
 
 CONSOLE_FUNC(test)
 {
-	game->logger.LogInfo("Console func test: " + args);
+	game->logger.LogInfo("Test console func: " + args);
 }
+

@@ -26,7 +26,7 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
-class game_state;
+struct game_state;
 class engine_state;
 
 typedef void (*startupFunc)(void*,void*);
@@ -38,9 +38,8 @@ typedef startupFunc shutdownFunc;
 /**
 	@brief manages mod loading, unloading, and updating
 */
-class modMgr
+struct modMgr
 {
-public:
 	/**
 		@brief modMgr constructor
 
@@ -77,7 +76,6 @@ public:
 	*/
 	void shutdown();
 
-private:
 	logMgr logger;
 
 	std::vector<std::string> modLibIDs;

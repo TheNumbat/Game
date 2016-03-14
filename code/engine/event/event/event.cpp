@@ -58,4 +58,17 @@ event& event::operator=(const event& src)
 	return *this;
 }
 
+text_event::text_event(const std::string& in)
+{
+	type = EVT_TEXT;
+	value = 0;
+	flags = 0;
+	text = in;
+}
+
+text_event::~text_event()
+{
+	
+}
+
 // Terminating precompiler directives  ////////////////////////////////////////

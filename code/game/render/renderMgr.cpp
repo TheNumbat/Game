@@ -38,7 +38,6 @@ renderMgr::renderMgr(game_state* g, engine_state* e)
 {
 	game = g;
 	engine = e;
-	showDebugUI = false;
 }
 
 renderMgr::~renderMgr()
@@ -102,11 +101,6 @@ renderMgr::rawText::rawText(const component_text_texture::sub_text_texture& t, r
 	flip = t.flip;
 }
 
-void renderMgr::toggleDebugUI()
-{
-	showDebugUI = !showDebugUI;
-}
-
 void renderMgr::renderMap()
 {
 	game->debug.beginProfiledFunc();
@@ -124,7 +118,7 @@ void renderMgr::renderMap()
 
 void renderMgr::renderDebugUI()
 {
-	if(!showDebugUI)
+	if(!game->debug.renderDebugUI)
 	{
 		engine->graphics.renderText("debugUI","Press O to switch to profiler",rect2<int32>(10,10,0,0));
 		return;
@@ -139,6 +133,13 @@ void renderMgr::renderDebugUI()
 	engine->graphics.renderText("debugUI",msg2,rect2<int32>(10,32,0,0));
 
 	recursiveProfilerRender(game->debug.profileHead,52);
+
+	if(game->debug.inputConsole)
+	{
+		int sw, sh;
+		engine->graphics.getWinDim(sw,sh);
+		engine->graphics.renderText("debugUI_small"," >>> " + game->input.inputStr,rect2<int32>(10,sh - 24,0,0));
+	}
 }
 
 uint32 renderMgr::recursiveProfilerRender(std::weak_ptr<debugMgr::profileNode> node, uint32 pos, uint32 level)

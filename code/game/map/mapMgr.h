@@ -32,7 +32,7 @@
 
 const real32 CHUNK_SIZE_METERS = 25.0f;
 
-class game_state;
+struct game_state;
 class engine_state;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -49,9 +49,8 @@ class engine_state;
 
 	@note More data will probably be added to the map in the future
 */
-class mapMgr
+struct mapMgr
 {
-public:
 	/**
 		@brief mapMgr constructor
 
@@ -240,7 +239,6 @@ public:
 	*/
 	std::weak_ptr<chunk> getNextChunkForSim();
 
-private:
 	std::unordered_map<chunk_position,std::shared_ptr<chunk>> map;
 	std::map<std::string,std::weak_ptr<entity>> players;
 

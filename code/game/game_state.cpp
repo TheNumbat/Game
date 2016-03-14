@@ -74,6 +74,7 @@ void game_state::startup()
 	engine->time.init();
 
 	debug.setFPSCap(60);
+	debug.loadConsoleFuncs();
 
 	LOAD_TEXTURE( debug/camera.png , camera );
 	LOAD_TEXTURE( debug/chunkbounds.bmp , chunkbounds );
@@ -84,6 +85,7 @@ void game_state::startup()
 	LOAD_FONT( fonts/aubrey.ttf , aubrey_24 , 24 );
 	LOAD_FONT( fonts/Cenobyte.ttf , cenobyte_24 , 24 );
 	LOAD_FONT( fonts/OpenSans.ttf , debugUI , 24 );
+	LOAD_FONT( fonts/OpenSans.ttf , debugUI_small , 12 );
 
 	LOAD_SOUND( music/song1.wav , music );
 

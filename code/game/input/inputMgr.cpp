@@ -50,10 +50,12 @@ void inputMgr::handleEvents()
 {
 	game->debug.beginProfiledFunc();
 
-	event e;
-	while(engine->events.getNextEvent(e))
+	event* e;
+	do
 	{
-		if(e.type == EVT_QUIT)
+		e = engine->events.getNextEvent();
+
+		if(e->type == EVT_QUIT)
 		{
 			game->running = false;
 		}
@@ -65,23 +67,36 @@ void inputMgr::handleEvents()
 		{
 			handleDebugEvent(e);
 		}
-	}
+
+		delete e;
+
+	} while(e->type != EVT_BAD);
 
 	game->debug.endProfiledFunc();
 }
 
-void inputMgr::handleGameplayEvent(const event& e)
+void inputMgr::handleTextEvent(event* e, const std::string& exclude)
+{
+	text_event* te = dynamic_cast<text_event*>(e);
+	if(te)
+	{
+		if(te->text.find_first_of(exclude) != std::string::npos) return;
+		inputStr += te->text;
+	}
+}
+
+void inputMgr::handleGameplayEvent(event* e)
 {
 	game->debug.beginProfiledFunc();
 
-	if (e.type == EVT_KEY)
+	if (e->type == EVT_KEY)
 	{
 		std::weak_ptr<entity> player = game->map.getPlayerByID("p1");
 		std::weak_ptr<component_movement> mov = std::static_pointer_cast<component_movement>(player.lock()->getComponent(ctype_movement).lock());
 
-		if(e.flags & FLAG_KEY_PRESS)
+		if(e->flags & FLAG_KEY_PRESS)
 		{
-			switch(e.value)
+			switch(e->value)
 			{
 				case KEY_MINUS:
 					game->camera.zoom /= 2;
@@ -105,14 +120,14 @@ void inputMgr::handleGameplayEvent(const event& e)
 					game->debug.toggleProfiler();
 					break;
 				case KEY_O:
-					game->render.toggleDebugUI();
+					game->debug.renderDebugUI = !game->debug.renderDebugUI;
 					inputstate = input_debugger;
 					break;
 			}
 		}
-		else if(e.flags & FLAG_KEY_RELEASE)
+		else if(e->flags & FLAG_KEY_RELEASE)
 		{
-			switch(e.value)
+			switch(e->value)
 			{
 				case KEY_LEFT:
 				case KEY_RIGHT:
@@ -129,42 +144,32 @@ void inputMgr::handleGameplayEvent(const event& e)
 	game->debug.endProfiledFunc();
 }
 
-void inputMgr::handleDebugEvent(const event& e)
+void inputMgr::handleDebugEvent(event* e)
 {
 	game->debug.beginProfiledFunc();
 
-	if(e.type == EVT_WINDOW)
+	if(e->type == EVT_WINDOW)
 	{
-		if(e.flags & FLAG_WINDOW_RESIZED)
+		if(e->flags & FLAG_WINDOW_RESIZED)
 		{
-			uint32 w = e.value, h = e.value >> 32;
+			uint32 w = e->value, h = e->value >> 32;
 			game->logger.LogInfo("New screen w: " + std::to_string(w) + " h: " + std::to_string(h));
 		}
 	}
-	else if(e.type == EVT_MOUSE)
+	else if(e->type == EVT_MOUSE)
 	{
-		if(e.flags & FLAG_MOUSE_PRESS)
+		if(e->flags & FLAG_MOUSE_PRESS)
 		{
-			uint32 x = e.value, y = e.value >> 32;
+			uint32 x = e->value, y = e->value >> 32;
 			game->logger.LogInfo("Mouse x: " + std::to_string(x) + " y: " + std::to_string(y));
 		}
 	}
-	else if(e.type == EVT_KEY)
+	else if(e->type == EVT_KEY)
 	{
-		if(e.flags & FLAG_KEY_PRESS)
+		if(e->flags & FLAG_KEY_PRESS)
 		{
-			switch(e.value)
+			switch(e->value)
 			{
-				case KEY_I:
-					engine->time.toggle("sim");
-					break;
-				case KEY_P:
-					game->debug.toggleProfiler();
-					break;
-				case KEY_O:
-					game->render.toggleDebugUI();
-					inputstate = input_gameplay;
-					break;
 				case KEY_UP:
 					if(game->debug.selected.lock() != game->debug.profileHead)
 					{
@@ -225,16 +230,63 @@ void inputMgr::handleDebugEvent(const event& e)
 					}
 					break;
 				case KEY_ENTER:
-					game->debug.selected.lock()->showChildren = !game->debug.selected.lock()->showChildren;
+					if(game->debug.inputConsole)
+					{
+						game->debug.callConsoleFunc(inputStr);
+						game->debug.inputConsole = false;
+						inputStr = "";
+					}
+					else
+					{
+						game->debug.selected.lock()->showChildren = !game->debug.selected.lock()->showChildren;
+					}
 					break;
-				case KEY_U:
-					game->debug.loadConsoleFuncs();
-					break;
-				case KEY_Y:
-					game->debug.callConsoleFunc("test 1");
+				case KEY_GRAVE:
+					game->debug.inputConsole = !game->debug.inputConsole;
 					break;
 			}
+
+			if(!game->debug.inputConsole)
+			{
+				switch(e->value)
+				{
+					case KEY_P:
+						game->debug.toggleProfiler();
+						break;
+					case KEY_O:
+						game->debug.renderDebugUI = !game->debug.renderDebugUI;
+						inputstate = input_gameplay;
+						break;
+					case KEY_U:
+						game->debug.loadConsoleFuncs();
+						break;
+				}
+			}
+			else if(game->debug.inputConsole)
+			{
+				if(e->value == KEY_BACKSPACE && inputStr.length())
+				{
+					inputStr.pop_back();
+				}
+				else if(e->flags & FLAG_KEY_CTRL)
+				{
+					switch(e->value)
+					{
+						case KEY_V:
+							engine->events.paste(inputStr);
+							break;
+						case KEY_C:
+							engine->events.copy(inputStr);
+							break;
+					}
+				}
+			}
 		}
+	}
+
+	if(game->debug.inputConsole && e->type == EVT_TEXT)
+	{	
+		handleTextEvent(e,"`");
 	}
 
 	game->debug.endProfiledFunc();

@@ -36,9 +36,8 @@
 
 	Can also move to an entity and follow an entity.
 */
-class cam
+struct cam
 {
-public:
 	/**
 		@brief Default cam constructor.
 
@@ -107,8 +106,6 @@ public:
 	bool setFollowing(std::weak_ptr<entity> e = std::weak_ptr<entity>());
 
 	real32 zoom;
-
-private:
 	map_position pos;
 	std::weak_ptr<entity> following;
 	logMgr logger;

@@ -38,9 +38,8 @@
 		  the entity. ALSO remember not to interfere with locking in functions
 		  and stuch.
 */
-class entity
+struct entity
 {
-public:
 	/**
 		@brief entity constructor
 
@@ -113,7 +112,6 @@ public:
 	*/
 	std::weak_ptr<component> getComponent(component_type c);
 
-private:
 	std::map<component_type,std::shared_ptr<component>> components;
 
 	uint32 UID;

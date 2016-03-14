@@ -75,7 +75,7 @@ public:
 
 		@param[out] e translated event. EVT_BAD if no events were available
 	*/
-	ENGINE_API bool getNextEvent(event& e);
+	ENGINE_API event* getNextEvent();
 
 
 	/**
@@ -85,6 +85,9 @@ public:
 	*/
 	ENGINE_API bool keyPressed(uint64 keycode);
 
+	ENGINE_API bool paste(std::string& text);
+	ENGINE_API bool copy(const std::string& text);
+
 private:
 	/**
 		@brief translates SDL_Event to event using specific translate functions
@@ -93,7 +96,7 @@ private:
 
 		@return translated event from individualed translate functions
 	*/
-	event& translateEvent(void* SDL_ev);
+	event* translateEvent(void* SDL_ev);
 
 	/**
 		@brief translates window SDL_Event to event
@@ -102,7 +105,7 @@ private:
 
 		@return translated event
 	*/
-	event& translateKeyboardEvent(void* SDL_ev);
+	event* translateKeyboardEvent(void* SDL_ev);
 
 	/**
 		@brief translates joystick SDL_Event to event
@@ -111,7 +114,7 @@ private:
 
 		@return translated event
 	*/
-	event& translateWindowEvent(void* SDL_ev);
+	event* translateWindowEvent(void* SDL_ev);
 
 	/**
 		@brief translates mouse SDL_Event to event
@@ -122,7 +125,7 @@ private:
 
 		@note the mouse x and y relative to the window are returned in the event value
 	*/
-	event& translateMouseEvent(void* SDL_ev);
+	event* translateMouseEvent(void* SDL_ev);
 
 	/**
 		@brief translates keyboard SDL_Event to event
@@ -133,7 +136,9 @@ private:
 
 		@todo implement this
 	*/
-	event& translateJoystickEvent(void* SDL_ev);
+	event* translateJoystickEvent(void* SDL_ev);
+
+	event* translateTextEvent(void* SDL_ev);
 
 	logMgr logger;
 	uint8* sdl_kbstate;

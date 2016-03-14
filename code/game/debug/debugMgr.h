@@ -28,7 +28,7 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
-class game_state;
+struct game_state;
 class engine_state;
 
 typedef void (*consoleFunc)(game_state*,engine_state*,const std::string& args);
@@ -39,9 +39,8 @@ typedef void (*consoleFunc)(game_state*,engine_state*,const std::string& args);
 	@brief manages input for the game: depending on the input state events will
 		   do different things
 */
-class debugMgr
+struct debugMgr
 {
-public:
 	/**
 		@brief debugMgr constructor
 
@@ -128,17 +127,15 @@ public:
 	*/
 	void toggleProfiler();
 
-private:
-	class profileNode
+	struct profileNode
 	{
-	public:
 		/**
 			@brief profileNode constructor
 
 			Creates a new profiler node for a function
 		*/
 		profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
-	private:
+	
 		std::string funcName;
 		bool showChildren;
 		uint64 start;
@@ -147,15 +144,14 @@ private:
 		uint32 calls;
 		std::map<std::string,std::shared_ptr<profileNode>> children;
 		std::weak_ptr<profileNode> parent;
-		friend class debugMgr;
-		friend class renderMgr;
-		friend class inputMgr;
 	};
 
 	void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
 
 	bool paused;
 	bool toggleAtEnd;
+	bool inputConsole;
+	bool renderDebugUI;
 
 	uint64 totalFrameTime;
 	uint64 totalFrames;
@@ -173,8 +169,6 @@ private:
 	game_state* game;
 	engine_state* engine;
 	logMgr logger;
-	friend class renderMgr;
-	friend class inputMgr;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

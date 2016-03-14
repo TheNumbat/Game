@@ -24,6 +24,8 @@
 
 #include "engine_common.h"
 
+#include <string>
+
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Event types
@@ -33,6 +35,7 @@ const uint8 EVT_KEY = 2;
 const uint8 EVT_MOUSE = 3;
 const uint8 EVT_QUIT = 4;
 const uint8 EVT_JOYSTICK = 5;
+const uint8 EVT_TEXT = 6;
 
 // Key event values
 const uint64 KEY_0 = '0';
@@ -220,7 +223,7 @@ struct event
 	/**
 		@brief event destructor (no detailed docs)
 	*/
-	ENGINE_API ~event();
+	ENGINE_API virtual ~event();
 
 	/**
 		@brief tests if event is valid
@@ -242,6 +245,14 @@ struct event
 	uint64 value;
 	/// event flag, see FLAG_KEY_modifier or whatever
 	uint32 flags;
+};
+
+struct text_event : public event
+{
+	ENGINE_API text_event(const std::string& tIn);
+	ENGINE_API ~text_event();
+
+	std::string text;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////
