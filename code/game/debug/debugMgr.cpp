@@ -19,6 +19,7 @@
 
 #include "debugMgr.h"
 
+#include "game_state.h"
 #include <engine_state.h>
 
 #undef beginProfiledFunc()
@@ -33,10 +34,11 @@
 
 // Class/Data Structure member implementations  ///////////////////////////////
 
-debugMgr::debugMgr(engine_state* e)
+debugMgr::debugMgr(game_state* g, engine_state* e)
 {
 	logger.StartLog("DEBUG");
 	engine = e;
+	game = g;
 	engine->time.addPerfCounter("debug");
 	lastFrameTime = 0;
 	totalFrameTime = 0;
@@ -65,6 +67,36 @@ debugMgr::profileNode::profileNode(const std::string& func, uint64 s, std::weak_
 	heir = 0;
 	calls = 1;
 	parent = parent_;
+}
+
+void debugMgr::callConsoleFunc(const std::string& input)
+{
+	std::string funcName = input.substr(0,input.find(' '));
+
+	auto entry = consoleFuncs.find(funcName);
+	if(entry == consoleFuncs.end())
+	{
+		void* func = engine->file.loadFunction("console",funcName);
+		if(!func)
+		{
+			logger.LogWarn("Could not find or load function name " + funcName);
+			return;
+		}
+
+		consoleFuncs.insert({funcName,(consoleFunc)func});
+		(*(consoleFunc)func)(game,engine,input.substr(input.find(' ') + 1,input.size()));
+	}
+	else
+	{
+		(*entry->second)(game,engine,input.substr(input.find(' ') + 1,input.size()));		
+	}
+}
+
+void debugMgr::loadConsoleFuncs()
+{
+	consoleFuncs.clear();
+	engine->file.freeLibrary("console");
+	engine->file.loadLibrary("console/console.dll");
 }
 
 void debugMgr::toggleProfiler()

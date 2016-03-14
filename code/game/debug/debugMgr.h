@@ -24,10 +24,14 @@
 #include <log/logMgr.h>
 #include <memory>
 #include <map>
+#include <string>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+class game_state;
 class engine_state;
+
+typedef void (*consoleFunc)(game_state*,engine_state*,const std::string& args);
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -45,7 +49,7 @@ public:
 
 		@param[in] e pointer to engine state
 	*/
-	debugMgr(engine_state* e);
+	debugMgr(game_state* g, engine_state* e);
 
 	/**
 		@brief debugMgr constructor
@@ -53,6 +57,9 @@ public:
 		Does nothing;
 	*/
 	~debugMgr();
+
+	void callConsoleFunc(const std::string& input);
+	void loadConsoleFuncs();
 
 	/**
 		@brief Starts debug information for the frame
@@ -160,8 +167,11 @@ private:
 	std::shared_ptr<profileNode> profileHead;
 	std::weak_ptr<profileNode> currentNode;
 	std::weak_ptr<profileNode> selected;
-	engine_state* engine;
+	
+	std::map<std::string,consoleFunc> consoleFuncs;
 
+	game_state* game;
+	engine_state* engine;
 	logMgr logger;
 	friend class renderMgr;
 	friend class inputMgr;

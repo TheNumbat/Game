@@ -30,7 +30,7 @@
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 game_state::game_state(engine_state* e)
-	: map(this,e,"sim"), input(this,e), render(this,e), debug(e),
+	: map(this,e,"sim"), input(this,e), render(this,e), debug(this,e),
       mods(this,e)
 {
 	engine = e;

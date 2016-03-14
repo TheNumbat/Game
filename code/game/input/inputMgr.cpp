@@ -179,6 +179,7 @@ void inputMgr::handleDebugEvent(const event& e)
 							{
 								game->debug.selected = std::prev(temp->second->children.end())->second;
 							}
+
 							else if(std::distance(game->debug.selected.lock()->parent.lock()->children.begin(),game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName)) > 0)
 							{
 								game->debug.selected = std::prev(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
@@ -225,6 +226,12 @@ void inputMgr::handleDebugEvent(const event& e)
 					break;
 				case KEY_ENTER:
 					game->debug.selected.lock()->showChildren = !game->debug.selected.lock()->showChildren;
+					break;
+				case KEY_U:
+					game->debug.loadConsoleFuncs();
+					break;
+				case KEY_Y:
+					game->debug.callConsoleFunc("test 1");
 					break;
 			}
 		}
