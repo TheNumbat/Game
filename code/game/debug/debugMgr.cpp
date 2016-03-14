@@ -96,7 +96,8 @@ void debugMgr::loadConsoleFuncs()
 {
 	consoleFuncs.clear();
 	engine->file.freeLibrary("console");
-	engine->file.loadLibrary("console/console.dll");
+	engine->file.copyFileBin("console/console.dll","console/consoleTemp.dll");
+	engine->file.loadLibrary("console/consoleTemp.dll","console");
 }
 
 void debugMgr::toggleProfiler()

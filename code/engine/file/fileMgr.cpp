@@ -49,6 +49,18 @@ fileMgr::~fileMgr()
 	logger.LogInfo("File IO deinitialized");
 }
 
+#include <windows.h>
+bool fileMgr::copyFileBin(const std::string& src, const std::string& dest)
+{
+	int result = CopyFile(src.c_str(),dest.c_str(),false);
+	if(result != 0)
+	{
+		logger.LogWarn("Failed to copy file from " + src + " to " + dest);
+		return false;
+	}
+	return true;
+}
+
 bool fileMgr::loadFile(const std::string& path, int8 type, const std::string& access, const std::string& ID)
 {
 	std::string fileID;

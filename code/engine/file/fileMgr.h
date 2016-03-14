@@ -208,6 +208,8 @@ public:
 	*/	
 	ENGINE_API std::vector<std::string> getNames(const std::string& path);
 
+	ENGINE_API bool copyFileBin(const std::string& src, const std::string& dest);
+
 private:
 	std::map<std::string,std::unique_ptr<file>> files;
 	std::map<std::string,void*> libraries;

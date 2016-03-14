@@ -8,5 +8,5 @@
 
 CONSOLE_FUNC(test)
 {
-	game->logger.LogInfo("Dynamic console func test: " + args);
+	game->logger.LogInfo("Console func test: " + args);
 }
