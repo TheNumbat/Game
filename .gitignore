@@ -12,6 +12,15 @@ build/Game.dll
 build/GameTemp.dll
 build/Engine.dll
 
+assets/console/*.exe
+assets/console/*.obj
+assets/console/*.pdb
+assets/console/*.ilk
+assets/console/*.map
+assets/console/*.lib
+assets/console/*.exp
+assets/console/consoleTemp.dll
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -56,4 +65,3 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-

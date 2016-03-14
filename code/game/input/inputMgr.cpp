@@ -232,8 +232,15 @@ void inputMgr::handleDebugEvent(event* e)
 				case KEY_ENTER:
 					if(game->debug.inputConsole)
 					{
-						game->debug.callConsoleFunc(inputStr);
-						game->debug.inputConsole = false;
+						if(inputStr == "reload")
+						{
+							game->debug.loadConsoleFuncs();
+						}
+						else
+						{
+							game->debug.callConsoleFunc(inputStr);
+							game->debug.inputConsole = false;
+						}
 						inputStr = "";
 					}
 					else
@@ -256,9 +263,6 @@ void inputMgr::handleDebugEvent(event* e)
 					case KEY_O:
 						game->debug.renderDebugUI = !game->debug.renderDebugUI;
 						inputstate = input_gameplay;
-						break;
-					case KEY_U:
-						game->debug.loadConsoleFuncs();
 						break;
 				}
 			}
