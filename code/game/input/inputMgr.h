@@ -29,6 +29,9 @@
 
 struct game_state;
 
+/**
+	@brief Describes the input mode
+*/
 enum inputstates
 {
 	input_none,
@@ -64,9 +67,30 @@ struct inputMgr
 	*/
 	void handleEvents();
 
+	/**
+		@brief Handles a normal gameplay event
 
+		@param[in] e current event
+	*/
 	void handleGameplayEvent(event* e);
+
+	/**
+		@brief Handles a debug mode event
+
+		Used for profiler, console, etc
+
+		@param[in] e current event
+	*/
 	void handleDebugEvent(event* e);
+
+	/**
+		@brief Handles a text event
+
+		Should only be called within a handle larger scope
+
+		@param[in] e current event
+		@param[in] exclude don't edit inputStr if the text input contains anything in exclude
+	*/
 	void handleTextEvent(event* e, const std::string& exclude);
 
 	inputstates inputstate;

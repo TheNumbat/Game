@@ -73,19 +73,39 @@ public:
 		Takes an event from the SDL event queue, translates and 
 		returns
 
-		@param[out] e translated event. EVT_BAD if no events were available
+		@return translated event. EVT_BAD if no events were available
 	*/
 	ENGINE_API event* getNextEvent();
-
 
 	/**
 		@brief Checks if a specific key is pressed
 
 		@param[in] keycode of key to check
+
+		@return if key is presssed
 	*/
 	ENGINE_API bool keyPressed(uint64 keycode);
 
+	/**
+		@brief Grabs text from the clipboard
+
+		@param[out] text to paste into
+
+		@return success
+
+		@exception failed to get clipboard text
+	*/
 	ENGINE_API bool paste(std::string& text);
+
+	/**
+		@brief Sends text to the clipboard
+
+		@param[in] text to copy from
+
+		@return success
+
+		@exception failed to set clipboard text
+	*/
 	ENGINE_API bool copy(const std::string& text);
 
 private:
@@ -138,6 +158,13 @@ private:
 	*/
 	event* translateJoystickEvent(void* SDL_ev);
 
+	/**
+		@brief Translates text input to text event
+
+		@param[in] SDL_ev SDL_Event to translate
+
+		@return translated event
+	*/
 	event* translateTextEvent(void* SDL_ev);
 
 	logMgr logger;

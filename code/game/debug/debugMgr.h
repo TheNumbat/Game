@@ -47,6 +47,7 @@ struct debugMgr
 		Sets up log and such
 
 		@param[in] e pointer to engine state
+		@param[in] g pointer to game state
 	*/
 	debugMgr(game_state* g, engine_state* e);
 
@@ -57,7 +58,19 @@ struct debugMgr
 	*/
 	~debugMgr();
 
+	/**
+		@brief Calls a console func
+
+		First word of input is the function name, the rest
+		is sent as arguments
+
+		@param[in] input string input
+	*/
 	void callConsoleFunc(const std::string& input);
+
+	/**
+		@brief Loads the console function library
+	*/
 	void loadConsoleFuncs();
 
 	/**
@@ -146,6 +159,11 @@ struct debugMgr
 		std::weak_ptr<profileNode> parent;
 	};
 
+	/**
+		@brief Resets all nodes to 0/0/0
+
+		@param[in] currentNode what to reset from
+	*/
 	void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
 
 	bool paused;

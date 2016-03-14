@@ -62,11 +62,23 @@ struct renderMgr
 	*/
 	~renderMgr();
 
+	/**
+		@brief renders the map
+	*/
 	void renderMap();
+
+	/**
+		@brief renders the debugger/profiler/console UI
+	*/
 	void renderDebugUI();
 
 	struct rawTex
 	{
+		/**
+			@brief rawTex destructor
+
+			Polymorphic
+		*/
 		virtual ~rawTex() = 0 {};
 		rect2<real32> pixelRect;
 		blendmode blend;
@@ -80,27 +92,74 @@ struct renderMgr
 
 	struct rawTexture : public rawTex
 	{
+		/**
+			@brief rawTexture constructor
+		*/
 		rawTexture(const std::string& tID, const rect2<real32>& rect, blendmode b, color c, uint32 l,
 				   const rect2<int32>& spr, const v2<real32>& rpt, real32 r, uint32 f);
+		/**
+			@brief rawTexture constructor using a sub_texture
+		*/
 		rawTexture(const component_texture::sub_texture& t, real32 zoom, const v2<real32>& offset);
 		std::string ID;
 	};
 
 	struct rawText : public rawTex
 	{
+		/**
+			@brief rawText constructor
+		*/
 		rawText(const std::string& fID, const std::string& message, const rect2<real32>& rect, blendmode b, color c, uint32 l,
 			    const rect2<int32>& spr, const v2<real32>& rpt, real32 r, uint32 f);
+		/**
+			@brief rawTexture constructor using a sub_text_texture
+		*/
 		rawText(const component_text_texture::sub_text_texture& t, real32 zoom, const v2<real32>& offset);
 		std::string fontID;
 		std::string text;
 	};
 
+	/**
+		@brief sorts a vector of textures using their layers/y-positions
 
+		@param textures vector to sort
+	*/
 	void sortTextures(std::vector<renderMgr::rawTex*>& textures);
+
+	/**
+		@brief gets the textures from the currently visible portion of the map
+
+		@param[out] textures vector to put textures into
+	*/
 	void getMapTextures(std::vector<renderMgr::rawTex*>& textures);
+
+	/**
+		@brief renders and deletes a vector of textures
+
+		@param[in] textures vector to render and delete
+	*/
 	void renderAndClearTextures(std::vector<renderMgr::rawTex*>& textures);
+
+	/**
+		@brief renders the profiler information
+
+		@param[in] node current node in the profiler tree
+		@param[in] pos y-position on screen
+		@param[in] level how deep into the tree we are
+
+		@return how many functions were rendered
+	*/
 	uint32 recursiveProfilerRender(std::weak_ptr<debugMgr::profileNode> node, uint32 pos, uint32 level = 0);
 	
+	/**
+		@brief gets the distance between two map positions
+
+		@param[in] origin position to use as 0,0
+		@param[in] point position to get distance to
+		@param[in] zoom current camera zoom
+
+		@return vector distance in meters
+	*/
 	v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom);
 
 	game_state* game;

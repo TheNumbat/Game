@@ -222,6 +222,8 @@ struct event
 
 	/**
 		@brief event destructor (no detailed docs)
+
+		Polymorphic
 	*/
 	ENGINE_API virtual ~event();
 
@@ -247,9 +249,23 @@ struct event
 	uint32 flags;
 };
 
+/**
+	@brief text event
+
+	Represents text input, inherits from event
+*/
 struct text_event : public event
 {
+	/**
+		@brief text_event constructor
+
+		@param[in] tIn text to use
+	*/
 	ENGINE_API text_event(const std::string& tIn);
+
+	/**
+		@brief rawTexture destructor
+	*/
 	ENGINE_API ~text_event();
 
 	std::string text;
