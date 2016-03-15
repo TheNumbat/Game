@@ -1,0 +1,27 @@
+var structmap_mgr =
+[
+    [ "mapMgr", "structmap_mgr.html#a21eaf2fb923f01287e5da05567b92376", null ],
+    [ "~mapMgr", "structmap_mgr.html#a80bfaef169ca6ca65b82aca47ed3c99a", null ],
+    [ "addChunk", "structmap_mgr.html#a26ee7492228e83e92bec21773592b1eb", null ],
+    [ "addEntity", "structmap_mgr.html#aad8a7e6307b7a573d0e8c10797c5fdcc", null ],
+    [ "addPlayer", "structmap_mgr.html#ae6fe7e928342bdfc656e295814ad9f65", null ],
+    [ "getChunk", "structmap_mgr.html#a64643901ee682749c06c4f1c9731315e", null ],
+    [ "getChunkFromEntity", "structmap_mgr.html#aaff34eb8f0b0973f057d07757e34d66d", null ],
+    [ "getEntityByUID", "structmap_mgr.html#ad6197fe60fe1826ee8c244f819f26e2f", null ],
+    [ "getNextChunkForSim", "structmap_mgr.html#a089b9be1ee2157a2a25d9a4bd90ee2b0", null ],
+    [ "getPlayerByID", "structmap_mgr.html#a8e3958ef77d8a00699f6ed328a6635d0", null ],
+    [ "removeChunk", "structmap_mgr.html#a3ae895b72356e5d60c967440ac335948", null ],
+    [ "removeEntity", "structmap_mgr.html#a680a710fa2aa77a99b1cd3f67b31a993", null ],
+    [ "removeEntityByUID", "structmap_mgr.html#acbc299f070ee6c794d6c46096882b2df", null ],
+    [ "removePlayer", "structmap_mgr.html#ad43c6a6a42ac470a02b58154fadb3fbe", null ],
+    [ "update", "structmap_mgr.html#a6a5829108c498dfe512fdde4e586a72b", null ],
+    [ "updateEntityMapPos", "structmap_mgr.html#a3d4c082d29b034423ee9e3a31a2631b2", null ],
+    [ "engine", "structmap_mgr.html#a97a42f3d4eaf4a0e39e3718b4ff4e0f6", null ],
+    [ "game", "structmap_mgr.html#a15001a0dbbdd915813522d0b33f47e49", null ],
+    [ "logger", "structmap_mgr.html#ad6c5327da3f46843815b6372a1efb0b3", null ],
+    [ "map", "structmap_mgr.html#a32152911cbd1dc92ed58a37bbda33a97", null ],
+    [ "MAX_ENTITIES", "structmap_mgr.html#a5daf78e4985763a5b31082555855a4f0", null ],
+    [ "nextUnusedID", "structmap_mgr.html#a3080b5cd56369bef45f8aed04f0bd5bd", null ],
+    [ "players", "structmap_mgr.html#a71a7a33e28f67972b2b9ee43e33d4a06", null ],
+    [ "timerID", "structmap_mgr.html#a2f5a1a57c86977adff4c4a78e53d0e38", null ]
+];
