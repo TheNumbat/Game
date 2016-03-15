@@ -117,10 +117,10 @@ void inputMgr::handleGameplayEvent(event* e)
 					mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x,5);
 					break;
 				case KEY_P:
-					game->debug.toggleProfiler();
+					game->debug.setDebugOption(toggleProfiler);
 					break;
 				case KEY_O:
-					game->debug.renderDebugUI = !game->debug.renderDebugUI;
+					game->debug.toggleDebugOption(renderDebugUI);
 					inputstate = input_debugger;
 					break;
 			}
@@ -230,11 +230,19 @@ void inputMgr::handleDebugEvent(event* e)
 					}
 					break;
 				case KEY_ENTER:
-					if(game->debug.inputConsole)
+					if(game->debug.debugFlags & inputConsole)
 					{
 						if(inputStr == "reload")
 						{
 							game->debug.loadConsoleFuncs();
+							inputStr = "";
+						}
+						else if(inputStr == "exit")
+						{
+							game->debug.clearDebugOption(inputConsole);
+							game->debug.clearDebugOption(renderDebugUI);
+							inputstate = input_gameplay;
+							inputStr = "";
 						}
 						else
 						{
@@ -250,24 +258,24 @@ void inputMgr::handleDebugEvent(event* e)
 					}
 					break;
 				case KEY_GRAVE:
-					game->debug.inputConsole = !game->debug.inputConsole;
+					game->debug.toggleDebugOption(inputConsole);
 					break;
 			}
 
-			if(!game->debug.inputConsole)
+			if(!(game->debug.debugFlags & inputConsole))
 			{
 				switch(e->value)
 				{
 					case KEY_P:
-						game->debug.toggleProfiler();
+						game->debug.setDebugOption(toggleProfiler);
 						break;
 					case KEY_O:
-						game->debug.renderDebugUI = !game->debug.renderDebugUI;
+						game->debug.toggleDebugOption(renderDebugUI);
 						inputstate = input_gameplay;
 						break;
 				}
 			}
-			else if(game->debug.inputConsole)
+			else
 			{
 				if(e->value == KEY_BACKSPACE && inputStr.length())
 				{
@@ -296,7 +304,7 @@ void inputMgr::handleDebugEvent(event* e)
 		}
 	}
 
-	if(game->debug.inputConsole && e->type == EVT_TEXT)
+	if(game->debug.debugFlags & inputConsole && e->type == EVT_TEXT)
 	{	
 		handleTextEvent(e,"`");
 	}

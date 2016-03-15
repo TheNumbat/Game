@@ -70,7 +70,7 @@ struct renderMgr
 	/**
 		@brief renders the debugger/profiler/console UI
 	*/
-	GAME_API void renderDebugUI();
+	GAME_API void renderDebugHUD();
 
 	struct rawTex
 	{

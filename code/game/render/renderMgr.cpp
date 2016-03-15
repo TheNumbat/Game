@@ -116,9 +116,9 @@ void renderMgr::renderMap()
 	game->debug.endProfiledFunc();
 }
 
-void renderMgr::renderDebugUI()
+void renderMgr::renderDebugHUD()
 {
-	if(!game->debug.renderDebugUI)
+	if(!(game->debug.debugFlags & renderDebugUI))
 	{
 		engine->graphics.renderText("debugUI","Press O to switch to profiler",rect2<int32>(10,10,0,0));
 		return;
@@ -134,7 +134,7 @@ void renderMgr::renderDebugUI()
 
 	recursiveProfilerRender(game->debug.profileHead,52);
 
-	if(game->debug.inputConsole)
+	if(game->debug.debugFlags & inputConsole)
 	{
 		int sw, sh;
 		engine->graphics.getWinDim(sw,sh);
@@ -245,8 +245,7 @@ void renderMgr::getMapTextures(std::vector<renderMgr::rawTex*>& textures)
 			if(!currentChunk.expired())
 			{
 				// Debug: draw chunk boundry
-				#define DRAW_CHUNK_BOUNDS
-				#ifdef DRAW_CHUNK_BOUNDS
+				if(game->debug.debugFlags & renderChunkbounds)
 				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, map_position( currentChunkPos, real_position(0,0,0) ), camZoom );
 					rect2<real32> pixelChunk( std::floor(pixelPos.x), std::floor(pixelPos.y), std::ceil(CHUNK_SIZE_METERS * METERS_TO_PIXELS * camZoom), std::ceil(CHUNK_SIZE_METERS * METERS_TO_PIXELS * camZoom) );
@@ -254,16 +253,14 @@ void renderMgr::getMapTextures(std::vector<renderMgr::rawTex*>& textures)
 					textures.push_back(new rawTexture("chunkbounds",pixelChunk,blend_none,color(255,255,255,0),-1000,
 													  rect2<int32>(0,0,0,0),v2<real32>(0,0),0,0));
 				}
-				#endif
 
-				#ifdef DRAW_CAMERA 
+				if(game->debug.debugFlags & renderCamera)
 				{
 					v2<real32> pixelPos = mapIntoPixelSpace( TLCpos, centerPos, camZoom );
 					rect2<real32> pixelChunk( std::round(pixelPos.x) - (0.5 * METERS_TO_PIXELS * camZoom), std::round(pixelPos.y) - (0.5 * METERS_TO_PIXELS * camZoom), std::round(METERS_TO_PIXELS * camZoom), std::round(METERS_TO_PIXELS * camZoom) );
 					textures.push_back(new rawTexture("camera",pixelChunk,blend_alpha,color(255,255,255,0),-1,
 									   rect2<int32>(0,0,0,0),v2<real32>(0,0),0,0));
 				}
-				#endif
 
 				for(auto entry : currentChunk.lock()->entities)
 				{

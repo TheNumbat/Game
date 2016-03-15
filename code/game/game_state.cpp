@@ -54,7 +54,7 @@ bool game_state::gameLoop()
 
 	debug.endProfiledFunc();
 
-	render.renderDebugUI();
+	render.renderDebugHUD();
 	engine->graphics.displayFrame();
 
 	debug.endDebugFrame();

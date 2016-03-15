@@ -40,14 +40,13 @@ debugMgr::debugMgr(game_state* g, engine_state* e)
 	engine = e;
 	game = g;
 	engine->time.addPerfCounter("debug");
+	
 	lastFrameTime = 0;
 	totalFrameTime = 0;
 	totalFrames = 0;
 	fpsCap = 0;
-	paused = false;
-	toggleAtEnd = false;
-	inputConsole = false;
-	renderDebugUI = false;
+	debugFlags = 0;
+
 	profileHead = std::make_shared<profileNode>("profiler",0);
 	currentNode = profileHead;
 	selected = profileHead;
@@ -69,6 +68,28 @@ debugMgr::profileNode::profileNode(const std::string& func, uint64 s, std::weak_
 	heir = 0;
 	calls = 1;
 	parent = parent_;
+}
+
+void debugMgr::setDebugOption(uint64 option)
+{
+	debugFlags |= option;
+}
+
+void debugMgr::clearDebugOption(uint64 option)
+{
+	debugFlags &= ~option;
+}
+
+void debugMgr::toggleDebugOption(uint64 option)
+{
+	if(debugFlags & option)
+	{
+		clearDebugOption(option);
+	}
+	else
+	{
+		setDebugOption(option);
+	}
 }
 
 bool debugMgr::callConsoleFunc(const std::string& input)
@@ -102,11 +123,6 @@ void debugMgr::loadConsoleFuncs()
 	engine->file.loadLibrary("console/consoleTemp.dll","console");
 }
 
-void debugMgr::toggleProfiler()
-{
-	toggleAtEnd = true;
-}
-
 void debugMgr::beginDebugFrame()
 {
 	engine->time.reset("debug");
@@ -114,10 +130,10 @@ void debugMgr::beginDebugFrame()
 
 void debugMgr::endDebugFrame()
 {
-	if(toggleAtEnd)
+	if(debugFlags & toggleProfiler)
 	{
-		toggleAtEnd = false;
-		paused = !paused;
+		clearDebugOption(toggleProfiler);
+		toggleDebugOption(profilerPaused);
 	}
 
 	if(fpsCap)
@@ -132,10 +148,10 @@ void debugMgr::endDebugFrame()
 	if(fpsCap && lastFrameTime > engine->time.getPerfFreq() / (fpsCap - 1))
 	{
 		engine->logger.LogWarn("Last frame took " + std::to_string(1000.0f * lastFrameTime / (real64)engine->time.getPerfFreq()) + " ms!");
-		paused = true;
+		setDebugOption(profilerPaused);
 	}
 
-	if(!paused)
+	if(!(debugFlags & profilerPaused))
 	{
 		currentNode = profileHead;
 		resetNodesRecursive(currentNode);
@@ -156,7 +172,7 @@ void debugMgr::resetNodesRecursive(std::weak_ptr<profileNode> current)
 
 void debugMgr::beginProfiledFunc(const std::string& name)
 {
-	if(paused)
+	if(debugFlags & profilerPaused)
 	{
 		return;
 	}
@@ -179,7 +195,7 @@ void debugMgr::beginProfiledFunc(const std::string& name)
 
 void debugMgr::endProfiledFunc()
 {
-	if(paused)
+	if(debugFlags & profilerPaused)
 	{
 		return;
 	}

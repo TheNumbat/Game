@@ -33,6 +33,13 @@ class engine_state;
 
 typedef bool (*consoleFunc)(game_state*,engine_state*,const std::string& args);
 
+const uint64 profilerPaused = 1<<0;
+const uint64 toggleProfiler = 1<<1;
+const uint64 inputConsole = 1<<2;
+const uint64 renderDebugUI = 1<<3;
+const uint64 renderChunkbounds = 1<<4;
+const uint64 renderCamera = 1<<5;
+
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 /**
@@ -135,11 +142,6 @@ struct debugMgr
 	*/
 	GAME_API uint8 getFPSCap();
 
-	/**
-		@brief Pauses/resumes the profiler for functions
-	*/
-	GAME_API void toggleProfiler();
-
 	struct profileNode
 	{
 		/**
@@ -166,10 +168,11 @@ struct debugMgr
 	*/
 	GAME_API void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
 
-	bool paused;
-	bool toggleAtEnd;
-	bool inputConsole;
-	bool renderDebugUI;
+	GAME_API void setDebugOption(uint64 option);
+	GAME_API void clearDebugOption(uint64 option);
+	GAME_API void toggleDebugOption(uint64 option);
+
+	uint64 debugFlags;
 
 	uint64 totalFrameTime;
 	uint64 totalFrames;

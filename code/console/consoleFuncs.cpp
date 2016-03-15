@@ -19,7 +19,7 @@ CONSOLE_FUNC(print)
 	return true;
 }
 
-CONSOLE_FUNC(setplayerpos)
+CONSOLE_FUNC(setPlayerPos)
 {
 	std::stringstream strStream(args);
 	int x, y, z, cx, cy, cz;
@@ -37,7 +37,7 @@ CONSOLE_FUNC(setplayerpos)
 	return true;
 }
 
-CONSOLE_FUNC(setzoom)
+CONSOLE_FUNC(setZoom)
 {
 	std::stringstream strStream(args);
 	float zoom;
@@ -48,5 +48,17 @@ CONSOLE_FUNC(setzoom)
 		return false;
 	}
 	game->camera.zoom = zoom;
+	return true;
+}
+
+CONSOLE_FUNC(toggleDrawChunkbounds)
+{
+	game->debug.toggleDebugOption(renderChunkbounds);
+	return true;
+}
+
+CONSOLE_FUNC(toggleDrawCamera)
+{
+	game->debug.toggleDebugOption(renderCamera);
 	return true;
 }
