@@ -120,7 +120,7 @@ void renderMgr::renderDebugHUD()
 {
 	if(!(game->debug.debugFlags & renderDebugUI))
 	{
-		engine->graphics.renderText("debugUI","Press O to switch to profiler",rect2<int32>(10,10,0,0));
+		engine->graphics.renderText("debugUI","Press ~ to switch to profiler",rect2<int32>(10,10,0,0));
 		return;
 	}
 	
@@ -129,16 +129,17 @@ void renderMgr::renderDebugHUD()
 	std::string msg1 = "Average frame time (ms): " + std::to_string(avgFrame);
 	std::string msg2 = "Last frame time (ms): " + std::to_string(lastFrame);
 
-	engine->graphics.renderText("debugUI",msg1,rect2<int32>(10,10,0,0));
-	engine->graphics.renderText("debugUI",msg2,rect2<int32>(10,32,0,0));
+	engine->graphics.renderText("debugUI","Press tab for console",rect2<int32>(10,10,0,0));
+	engine->graphics.renderText("debugUI",msg1,rect2<int32>(10,32,0,0));
+	engine->graphics.renderText("debugUI",msg2,rect2<int32>(10,54,0,0));
 
-	recursiveProfilerRender(game->debug.profileHead,52);
+	recursiveProfilerRender(game->debug.profileHead,76);
 
 	if(game->debug.debugFlags & inputConsole)
 	{
 		int sw, sh;
 		engine->graphics.getWinDim(sw,sh);
-		engine->graphics.renderText("debugUI_small"," >>> " + game->input.inputStr,rect2<int32>(10,sh - 24,0,0));
+		engine->graphics.renderText("debugUI_small"," >>> " + game->input.inputStr,rect2<int32>(10,sh - 36,0,0));
 	}
 }
 

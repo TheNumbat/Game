@@ -119,7 +119,7 @@ void inputMgr::handleGameplayEvent(event* e)
 				case KEY_P:
 					game->debug.setDebugOption(toggleProfiler);
 					break;
-				case KEY_O:
+				case KEY_GRAVE:
 					game->debug.toggleDebugOption(renderDebugUI);
 					inputstate = input_debugger;
 					break;
@@ -168,107 +168,75 @@ void inputMgr::handleDebugEvent(event* e)
 	{
 		if(e->flags & FLAG_KEY_PRESS)
 		{
-			switch(e->value)
-			{
-				case KEY_UP:
-					if(game->debug.selected.lock() != game->debug.profileHead)
-					{
-						if(game->debug.selected.lock()->parent.lock()->children.begin()->second == game->debug.selected.lock())
-						{
-							game->debug.selected = game->debug.selected.lock()->parent;
-						}
-						else if(game->debug.selected.lock() != game->debug.selected.lock()->parent.lock()->children.begin()->second)
-						{
-							auto temp = std::prev(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName));	
-							if(temp->second->showChildren && temp->second->children.size())
-							{
-								game->debug.selected = std::prev(temp->second->children.end())->second;
-							}
-
-							else if(std::distance(game->debug.selected.lock()->parent.lock()->children.begin(),game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName)) > 0)
-							{
-								game->debug.selected = std::prev(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
-							}
-						}
-					}
-					else
-					{
-						while(game->debug.selected.lock()->showChildren && game->debug.selected.lock()->children.size())
-						{
-							game->debug.selected = std::prev(game->debug.selected.lock()->children.end())->second;
-						}
-					}
-					break;
-				case KEY_DOWN:
-					if(game->debug.selected.lock()->showChildren && game->debug.selected.lock()->children.size())
-					{
-						game->debug.selected = game->debug.selected.lock()->children.begin()->second;
-					}
-					else if(game->debug.selected.lock() != game->debug.profileHead)
-					{
-						if(std::distance(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName),game->debug.selected.lock()->parent.lock()->children.end()) > 1)
-						{
-							game->debug.selected = std::next(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
-						}
-						else
-						{
-							bool found = false;
-							while(!found)
-							{
-								game->debug.selected = game->debug.selected.lock()->parent;
-								if(game->debug.selected.lock()->parent.expired())
-								{
-									break;
-								}
-								if(std::distance(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName),game->debug.selected.lock()->parent.lock()->children.end()) > 1)
-								{
-									game->debug.selected = std::next(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
-									found = true;
-								}
-							}
-						}
-					}
-					break;
-				case KEY_ENTER:
-					if(game->debug.debugFlags & inputConsole)
-					{
-						if(inputStr == "reload")
-						{
-							game->debug.loadConsoleFuncs();
-							prevInput = inputStr;
-							inputStr = "";
-						}
-						else if(inputStr == "exit")
-						{
-							game->debug.clearDebugOption(inputConsole);
-							game->debug.clearDebugOption(renderDebugUI);
-							inputstate = input_gameplay;
-							prevInput = inputStr;
-							inputStr = "";
-						}
-						else
-						{
-							if(game->debug.callConsoleFunc(inputStr + " "))
-							{
-								prevInput = inputStr;
-								inputStr = "";
-							}
-						}
-					}
-					else
-					{
-						game->debug.selected.lock()->showChildren = !game->debug.selected.lock()->showChildren;
-					}
-					break;
-				case KEY_GRAVE:
-					game->debug.toggleDebugOption(inputConsole);
-					break;
-			}
-
 			if(!(game->debug.debugFlags & inputConsole))
 			{
 				switch(e->value)
 				{
+					case KEY_UP:
+						if(game->debug.selected.lock() != game->debug.profileHead)
+						{
+							if(game->debug.selected.lock()->parent.lock()->children.begin()->second == game->debug.selected.lock())
+							{
+								game->debug.selected = game->debug.selected.lock()->parent;
+							}
+							else if(game->debug.selected.lock() != game->debug.selected.lock()->parent.lock()->children.begin()->second)
+							{
+								auto temp = std::prev(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName));	
+								if(temp->second->showChildren && temp->second->children.size())
+								{
+									game->debug.selected = std::prev(temp->second->children.end())->second;
+								}
+
+								else if(std::distance(game->debug.selected.lock()->parent.lock()->children.begin(),game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName)) > 0)
+								{
+									game->debug.selected = std::prev(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
+								}
+							}
+						}
+						else
+						{
+							while(game->debug.selected.lock()->showChildren && game->debug.selected.lock()->children.size())
+							{
+								game->debug.selected = std::prev(game->debug.selected.lock()->children.end())->second;
+							}
+						}
+						break;
+					case KEY_DOWN:
+						if(game->debug.selected.lock()->showChildren && game->debug.selected.lock()->children.size())
+						{
+							game->debug.selected = game->debug.selected.lock()->children.begin()->second;
+						}
+						else if(game->debug.selected.lock() != game->debug.profileHead)
+						{
+							if(std::distance(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName),game->debug.selected.lock()->parent.lock()->children.end()) > 1)
+							{
+								game->debug.selected = std::next(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
+							}
+							else
+							{
+								bool found = false;
+								while(!found)
+								{
+									game->debug.selected = game->debug.selected.lock()->parent;
+									if(game->debug.selected.lock()->parent.expired())
+									{
+										break;
+									}
+									if(std::distance(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName),game->debug.selected.lock()->parent.lock()->children.end()) > 1)
+									{
+										game->debug.selected = std::next(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
+										found = true;
+									}
+								}
+							}
+						}
+						break;
+					case KEY_ENTER:
+						game->debug.selected.lock()->showChildren = !game->debug.selected.lock()->showChildren;
+						break;
+					case KEY_TAB:
+						game->debug.toggleDebugOption(inputConsole);
+						break;
 					case KEY_P:
 						game->debug.setDebugOption(toggleProfiler);
 						break;
@@ -288,6 +256,35 @@ void inputMgr::handleDebugEvent(event* e)
 				{
 					inputStr = prevInput;
 				}
+				else if(e->value == KEY_ENTER)
+				{
+					if(inputStr == "reload")
+					{
+						game->debug.loadConsoleFuncs();
+						prevInput = inputStr;
+						inputStr = "";
+					}
+					else if(inputStr == "exit")
+					{
+						game->debug.clearDebugOption(inputConsole);
+						game->debug.clearDebugOption(renderDebugUI);
+						inputstate = input_gameplay;
+						prevInput = inputStr;
+						inputStr = "";
+					}
+					else
+					{
+						if(game->debug.callConsoleFunc(inputStr + " "))
+						{
+							prevInput = inputStr;
+							inputStr = "";
+						}
+					}
+				}
+				else if(e->value == KEY_TAB)
+				{
+					game->debug.toggleDebugOption(inputConsole);
+				}
 				else if(e->flags & FLAG_KEY_CTRL)
 				{
 					switch(e->value)
@@ -304,13 +301,9 @@ void inputMgr::handleDebugEvent(event* e)
 		}
 		else if(e->flags & FLAG_KEY_REPEAT)
 		{
-			if(e->value == KEY_BACKSPACE && inputStr.length())
+			if(game->debug.debugFlags & inputConsole && e->value == KEY_BACKSPACE && inputStr.length())
 			{
 				inputStr.pop_back();
-			}
-			else if(e->value == KEY_UP && prevInput.length())
-			{
-				inputStr = prevInput;
 			}
 		}
 	}

@@ -23,13 +23,14 @@ CONSOLE_FUNC(setPlayerPos)
 {
 	std::stringstream strStream(args);
 	int x, y, z, cx, cy, cz;
-	strStream >> x >> y >> z >> cx >> cy >> cz;
+	std::string playerID;
+	strStream >> playerID >> x >> y >> z >> cx >> cy >> cz;
 	if(!strStream.good())
 	{
 		game->logger.LogWarn("Error parsing input args");
 		return false;
 	}
-	std::weak_ptr<entity> player = game->map.getPlayerByID("p1");
+	std::weak_ptr<entity> player = game->map.getPlayerByID(playerID);
 	std::weak_ptr<component_position> pos = std::static_pointer_cast<component_position>(player.lock()->getComponent(ctype_position).lock());
 	pos.lock()->position = map_position(x,y,z,cx,cy,cz);
 	pos.lock()->position.realChunkOffset = chunk_position(cx,pos.lock()->position.chunkPos.y - cy,pos.lock()->position.chunkPos.z - cz);
