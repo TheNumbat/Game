@@ -70,14 +70,14 @@ struct component_position : public component
 
 		@param[in] _pos initial position
 	*/
-	component_position(const map_position& _pos = map_position(0,0,0,0,0,0));
+	GAME_API component_position(const map_position& _pos = map_position(0,0,0,0,0,0));
 
 	/**
 		@brief component_position destructor
 
 		Does nothing
 	*/
-	~component_position();
+	GAME_API ~component_position();
 
 	/// position
 	map_position position;
@@ -96,14 +96,14 @@ struct component_movement : public component
 		@param[in] vel initial velocity
 		@param[in] acc initial acceleration
 	*/
-	component_movement(const v2<real32>& vel = v2<real32>(0,0), const v2<real32>& acc = v2<real32>(0,0));
+	GAME_API component_movement(const v2<real32>& vel = v2<real32>(0,0), const v2<real32>& acc = v2<real32>(0,0));
 
 	/**
 		@brief component_movement destructor
 
 		Does nothing
 	*/
-	~component_movement();
+	GAME_API ~component_movement();
 
 	/// velocity
 	v2<real32> velocity;
@@ -125,14 +125,14 @@ struct component_texture : public component
 
 		@exception if both top and bot are set, neither will be set
 	*/
-	component_texture();
+	GAME_API component_texture();
 
 	/**
 		@brief component_texture destructor
 
 		Does nothing
 	*/
-	~component_texture();
+	GAME_API ~component_texture();
 
 	/**
 		@brief adds a texture to the texture component
@@ -150,10 +150,10 @@ struct component_texture : public component
 
 		@return success (always true)
 	*/
-	bool addTexture(const std::string& ID, const std::string& texID, const rect2<real32>& dstRect, 
-					const rect2<int32>& srcRect = rect2<int32>(0,0,0,0), int32 layer = 0, blendmode b = blend_alpha, 
-					color c = color(255,255,255,0), const v2<real32>& rotPoint = v2<real32>(0,0), real32 rot = 0,
-					uint32 flip = 0);
+	GAME_API bool addTexture(const std::string& ID, const std::string& texID, const rect2<real32>& dstRect, 
+							 const rect2<int32>& srcRect = rect2<int32>(0,0,0,0), int32 layer = 0, blendmode b = blend_alpha, 
+							 color c = color(255,255,255,0), const v2<real32>& rotPoint = v2<real32>(0,0), real32 rot = 0,
+							 uint32 flip = 0);
 
 	/**
 		@brief removes a texture from the component
@@ -164,7 +164,7 @@ struct component_texture : public component
 
 		@exception ID not found, returns false
 	*/
-	bool removeTexture(const std::string& ID);
+	GAME_API bool removeTexture(const std::string& ID);
 
 	struct sub_texture
 	{
@@ -194,12 +194,12 @@ struct component_text_texture : public component
 	/**
 		@brief component_text_texture constructor
 	*/
-	component_text_texture();
+	GAME_API component_text_texture();
 
 	/**
 		@brief component_text_texture destructor
 	*/
-	~component_text_texture();
+	GAME_API ~component_text_texture();
 
 	/**
 		@brief adds a text_texture to the text_texture component
@@ -218,10 +218,10 @@ struct component_text_texture : public component
 
 		@return success (always true)
 	*/
-	bool addText(const std::string& ID, const std::string& fontID, const std::string& message, const rect2<real32>& dstRect, 
-				 const rect2<int32>& srcRect = rect2<int32>(0,0,0,0), int32 layer = 0, blendmode b = blend_alpha, 
-				 color c = color(255,255,255,0), const v2<real32>& rotPoint = v2<real32>(0,0), real32 rot = 0,
-				 uint32 flip = 0);
+	GAME_API bool addText(const std::string& ID, const std::string& fontID, const std::string& message, const rect2<real32>& dstRect, 
+						  const rect2<int32>& srcRect = rect2<int32>(0,0,0,0), int32 layer = 0, blendmode b = blend_alpha, 
+						  color c = color(255,255,255,0), const v2<real32>& rotPoint = v2<real32>(0,0), real32 rot = 0,
+						  uint32 flip = 0);
 
 	/**
 		@brief removes a text_texture from the component
@@ -232,7 +232,7 @@ struct component_text_texture : public component
 
 		@exception ID not found, returns false
 	*/
-	bool removeText(const std::string& ID);
+	GAME_API bool removeText(const std::string& ID);
 
 	struct sub_text_texture
 	{
@@ -262,7 +262,7 @@ struct component_text_texture : public component
 
 	@return pointer to created component
 */
-std::shared_ptr<component> createComponent(component_type c);
+GAME_API std::shared_ptr<component> createComponent(component_type c);
 
 // Free function implementation  //////////////////////////////////////////////
 

@@ -46,35 +46,35 @@ struct modMgr
 		@param[in] g pointer to game state
 		@param[in] e pointer to engine state
 	*/
-	modMgr(game_state* g, engine_state* e);
+	GAME_API modMgr(game_state* g, engine_state* e);
 
 	/**
 		@brief modMgr destructor
 
 		Frees libraries
 	*/
-	~modMgr();
+	GAME_API ~modMgr();
 
 	/**
 		@brief loads and initializes mods 
 
 		Loads libraries and calls startup functions
 	*/
-	void startup();
+	GAME_API void startup();
 
 	/**
 		@brief updates mods as part of the game loop
 
 		Calls update functions
 	*/
-	void updateMods();
+	GAME_API void updateMods();
 
 	/**
 		@brief deinitializes mods 
 
 		Calls shutdown function
 	*/
-	void shutdown();
+	GAME_API void shutdown();
 
 	logMgr logger;
 

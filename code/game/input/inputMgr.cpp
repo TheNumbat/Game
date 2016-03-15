@@ -238,10 +238,11 @@ void inputMgr::handleDebugEvent(event* e)
 						}
 						else
 						{
-							game->debug.callConsoleFunc(inputStr);
-							game->debug.inputConsole = false;
+							if(game->debug.callConsoleFunc(inputStr + " "))
+							{
+								inputStr = "";
+							}
 						}
-						inputStr = "";
 					}
 					else
 					{
@@ -284,6 +285,13 @@ void inputMgr::handleDebugEvent(event* e)
 							break;
 					}
 				}
+			}
+		}
+		else if(e->flags & FLAG_KEY_REPEAT)
+		{
+			if(e->value == KEY_BACKSPACE && inputStr.length())
+			{
+				inputStr.pop_back();
 			}
 		}
 	}

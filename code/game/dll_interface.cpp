@@ -18,6 +18,12 @@
 
 #pragma once
 
+#ifdef GAME_EXPORTS
+#define DLL_OUT extern "C" __declspec(dllexport)
+#else
+#define DLL_OUT __declspec(dllimport)
+#endif
+
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "game_state.h"
@@ -37,7 +43,7 @@ class engine_state;
 	
 	@return pointer to the new game state
 */
-GAME_API game_state* startup(engine_state* engine) 
+DLL_OUT game_state* startup(engine_state* engine) 
 {
 	return new game_state(engine);
 }
@@ -51,7 +57,7 @@ GAME_API game_state* startup(engine_state* engine)
 
 	@return whether or not to continue running the game loop (otherwise shutdown())
 */
-GAME_API bool gameLoop(game_state* game)
+DLL_OUT bool gameLoop(game_state* game)
 {	
 	return game->gameLoop();
 }
@@ -63,7 +69,7 @@ GAME_API bool gameLoop(game_state* game)
 
 	@param[in] game pointer to the game state
 */
-GAME_API void shutdown(game_state* game)
+DLL_OUT void shutdown(game_state* game)
 {
 	delete game;
 }

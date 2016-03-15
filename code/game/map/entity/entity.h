@@ -45,7 +45,7 @@ struct entity
 
 		Assigns values, starts with no components
 	*/
-	entity(uint32 _UID, uint32 time);
+	GAME_API entity(uint32 _UID, uint32 time);
 
 	/**
 		@brief entity destructor
@@ -56,21 +56,21 @@ struct entity
 			  they are still accessable somewhere else, in which case they
 			  will delete when all copies go out of scope
 	*/
-	~entity();
+	GAME_API ~entity();
 
 	/**
 		@brief gets entity UID
 
 		@return entity UID
 	*/
-	uint64 getUID();
+	GAME_API uint64 getUID();
 
 	/**
 		@brief gets entity lastUpdate
 
 		@return entity lastUpdate in milliseconds
 	*/
-	uint32 getLastUpdate();
+	GAME_API uint32 getLastUpdate();
 
 	/**
 		@brief sets entity lastUpdate
@@ -79,7 +79,7 @@ struct entity
 
 		@return sucess
 	*/
-	bool setLastUpdate(uint32 time);
+	GAME_API bool setLastUpdate(uint32 time);
 
 	/**
 		@brief tests if entity contains component type
@@ -88,7 +88,7 @@ struct entity
 
 		@return bool contains component
 	*/
-	bool hasComponent(component_type c);
+	GAME_API bool hasComponent(component_type c);
 
 	/**
 		@brief adds a component to an entity
@@ -99,7 +99,7 @@ struct entity
 
 		@exception if entity already has component return it
 	*/
-	std::weak_ptr<component> addComponent(component_type c);
+	GAME_API std::weak_ptr<component> addComponent(component_type c);
 
 	/**
 		@brief gets a component from an entity
@@ -110,7 +110,7 @@ struct entity
 
 		@exception if entity does not have component return NULL
 	*/
-	std::weak_ptr<component> getComponent(component_type c);
+	GAME_API std::weak_ptr<component> getComponent(component_type c);
 
 	std::map<component_type,std::shared_ptr<component>> components;
 

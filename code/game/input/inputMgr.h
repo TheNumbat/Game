@@ -53,26 +53,26 @@ struct inputMgr
 		@param[in] g pointer to game state
 		@param[in] e pointer to engine state
 	*/
-	inputMgr(game_state* g, engine_state* e);
+	GAME_API inputMgr(game_state* g, engine_state* e);
 
 	/**
 		@brief mapMgr constructor
 
 		Does nothing;
 	*/
-	~inputMgr();
+	GAME_API ~inputMgr();
 
 	/**
 		@brief Handles all game input
 	*/
-	void handleEvents();
+	GAME_API void handleEvents();
 
 	/**
 		@brief Handles a normal gameplay event
 
 		@param[in] e current event
 	*/
-	void handleGameplayEvent(event* e);
+	GAME_API void handleGameplayEvent(event* e);
 
 	/**
 		@brief Handles a debug mode event
@@ -81,7 +81,7 @@ struct inputMgr
 
 		@param[in] e current event
 	*/
-	void handleDebugEvent(event* e);
+	GAME_API void handleDebugEvent(event* e);
 
 	/**
 		@brief Handles a text event
@@ -91,7 +91,7 @@ struct inputMgr
 		@param[in] e current event
 		@param[in] exclude don't edit inputStr if the text input contains anything in exclude
 	*/
-	void handleTextEvent(event* e, const std::string& exclude);
+	GAME_API void handleTextEvent(event* e, const std::string& exclude);
 
 	inputstates inputstate;
 

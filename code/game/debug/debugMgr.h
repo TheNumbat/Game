@@ -31,7 +31,7 @@
 struct game_state;
 class engine_state;
 
-typedef void (*consoleFunc)(game_state*,engine_state*,const std::string& args);
+typedef bool (*consoleFunc)(game_state*,engine_state*,const std::string& args);
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 
@@ -49,14 +49,14 @@ struct debugMgr
 		@param[in] e pointer to engine state
 		@param[in] g pointer to game state
 	*/
-	debugMgr(game_state* g, engine_state* e);
+	GAME_API debugMgr(game_state* g, engine_state* e);
 
 	/**
 		@brief debugMgr constructor
 
 		Does nothing;
 	*/
-	~debugMgr();
+	GAME_API ~debugMgr();
 
 	/**
 		@brief Calls a console func
@@ -66,31 +66,31 @@ struct debugMgr
 
 		@param[in] input string input
 	*/
-	void callConsoleFunc(const std::string& input);
+	GAME_API bool callConsoleFunc(const std::string& input);
 
 	/**
 		@brief Loads the console function library
 	*/
-	void loadConsoleFuncs();
+	GAME_API void loadConsoleFuncs();
 
 	/**
 		@brief Starts debug information for the frame
 	*/
-	void beginDebugFrame();
+	GAME_API void beginDebugFrame();
 
 	/**
 		@brief Ends debug information for the frame
 
 		Updates average, lastFrameTime, clears the profiler if not paused
 	*/
-	void endDebugFrame();
+	GAME_API void endDebugFrame();
 
 	/**
 		@brief Starts the profiling of a function
 
 		Will be included in the profiler tree
 	*/
-	void beginProfiledFunc(const std::string& name);
+	GAME_API void beginProfiledFunc(const std::string& name);
 	#define beginProfiledFunc() beginProfiledFunc(__func__);
 	
 	/**
@@ -98,26 +98,26 @@ struct debugMgr
 
 		Will be included in the profiler tree
 	*/
-	void endProfiledFunc();
+	GAME_API void endProfiledFunc();
 
 	/**
 		@brief Resets the average frame timer
 	*/
-	void resetAvgFrame();
+	GAME_API void resetAvgFrame();
 
 	/**
 		@brief Gets the average frame time
 
 		@return average frame time in performance units
 	*/
-	uint64 getAvgFrame();
+	GAME_API uint64 getAvgFrame();
 
 	/**
 		@brief Gets the last frame time
 
 		@return last frame time in performance units
 	*/
-	uint64 getLastFrame();
+	GAME_API uint64 getLastFrame();
 
 	/**
 		@brief Sets the fps to cap to (will just stay in a while loop)
@@ -126,19 +126,19 @@ struct debugMgr
 
 		@todo do something useful like simulate instead of a while loop
 	*/
-	void setFPSCap(uint8 fps = 0);
+	GAME_API void setFPSCap(uint8 fps = 0);
 
 	/**
 		@brief Gets the current fps cap
 
 		@return current fps cap
 	*/
-	uint8 getFPSCap();
+	GAME_API uint8 getFPSCap();
 
 	/**
 		@brief Pauses/resumes the profiler for functions
 	*/
-	void toggleProfiler();
+	GAME_API void toggleProfiler();
 
 	struct profileNode
 	{
@@ -147,7 +147,7 @@ struct debugMgr
 
 			Creates a new profiler node for a function
 		*/
-		profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
+		GAME_API profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
 	
 		std::string funcName;
 		bool showChildren;
@@ -164,7 +164,7 @@ struct debugMgr
 
 		@param[in] currentNode what to reset from
 	*/
-	void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
+	GAME_API void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
 
 	bool paused;
 	bool toggleAtEnd;

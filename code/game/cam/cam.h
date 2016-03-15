@@ -43,21 +43,21 @@ struct cam
 
 		Sets position to 0,0,0,0,0, zoom to 1, following to NULL
 	*/
-	cam();
+	GAME_API cam();
 
 	/**
 		@brief cam destructor.
 
 		Does nothing
 	*/
-	~cam();
+	GAME_API ~cam();
 
 	/**
 		@brief Sets position to a new place
 
 		@param[in] newPos new position to set to
 	*/
-	bool set(const map_position& newPos);
+	GAME_API bool set(const map_position& newPos);
 
 	/**
 		@brief Sets cam position to an entity
@@ -69,7 +69,7 @@ struct cam
 		@exception e NULL, will not update
 		@exception e doesn't have position component, will not update
 	*/
-	bool set(std::weak_ptr<entity> e);
+	GAME_API bool set(std::weak_ptr<entity> e);
 
 	/**
 		@brief Moves cam position by an offset
@@ -78,14 +78,14 @@ struct cam
 
 		@param[in] offset the movement to do
 	*/
-	bool move(const map_position& offset);
+	GAME_API bool move(const map_position& offset);
 
 	/**
 		@brief Gets the cam position
 
 		@return where the cam is positioned
 	*/
-	map_position getCenter();
+	GAME_API map_position getCenter();
 
 	/**
 		@brief Updates cam position based on followed entity
@@ -94,7 +94,7 @@ struct cam
 
 		@note calls set
 	*/
-	bool updateFollow();
+	GAME_API bool updateFollow();
 
 	/**
 		@brief Sets the cam following an entity
@@ -103,7 +103,7 @@ struct cam
 
 		@exception e does not have a position component, does nothing
 	*/
-	bool setFollowing(std::weak_ptr<entity> e = std::weak_ptr<entity>());
+	GAME_API bool setFollowing(std::weak_ptr<entity> e = std::weak_ptr<entity>());
 
 	real32 zoom;
 	map_position pos;

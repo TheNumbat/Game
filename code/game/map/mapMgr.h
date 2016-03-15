@@ -60,21 +60,21 @@ struct mapMgr
 
 		Sets up log and starts entity IDs
 	*/
-	mapMgr(game_state* g, engine_state* e, const std::string& simTimer);
+	GAME_API mapMgr(game_state* g, engine_state* e, const std::string& simTimer);
 
 	/**
 		@brief mapMgr denstructor
 
 		Does noting, entire map will delete itself
 	*/
-	~mapMgr();
+	GAME_API ~mapMgr();
 
 	/**
 		@brief Updates the map (runs physics)
 
 		@todo should this actually be a part of mapMgr? Probably
 	*/
-	void update();
+	GAME_API void update();
 
 	/**
 		@brief creates a new entity
@@ -88,7 +88,7 @@ struct mapMgr
 
 		@exception max entities exceeded, fatal error, returns weak_ptr to nothing
 	*/
-	std::weak_ptr<entity> addEntity(const map_position& pos, uint32 currentTimeMS);
+	GAME_API std::weak_ptr<entity> addEntity(const map_position& pos, uint32 currentTimeMS);
 
 	/**
 		@brief creates a new player entity
@@ -106,7 +106,7 @@ struct mapMgr
 
 		@note calls addEntity()
 	*/
-	std::weak_ptr<entity> addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS);
+	GAME_API std::weak_ptr<entity> addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS);
 
 	/**
 		@brief gets a player by it's ID (string name specificed on creation)
@@ -117,7 +117,7 @@ struct mapMgr
 
 		@exception player does not exist, returns weak_ptr to nothing
 	*/
-	std::weak_ptr<entity> getPlayerByID(const std::string& ID);
+	GAME_API std::weak_ptr<entity> getPlayerByID(const std::string& ID);
 
 	/**
 		@brief gets an entity by its UID -- searches through everything, very slow
@@ -128,7 +128,7 @@ struct mapMgr
 
 		@exception entity does not exist, returns weak_ptr to nothing
 	*/
-	std::weak_ptr<entity> getEntityByUID(uint32 UID);
+	GAME_API std::weak_ptr<entity> getEntityByUID(uint32 UID);
 
 	/**
 		@brief removes a player and its entity
@@ -141,7 +141,7 @@ struct mapMgr
 
 		@note calls removeEntity()
 	*/
-	bool removePlayer(const std::string& ID);
+	GAME_API bool removePlayer(const std::string& ID);
 
 	/**
 		@brief removes an entity
@@ -152,7 +152,7 @@ struct mapMgr
 
 		@exception entity does not exist, returns false
 	*/
-	bool removeEntity(const std::weak_ptr<entity>& e);
+	GAME_API bool removeEntity(const std::weak_ptr<entity>& e);
 
 	/**
 		@brief removes an entity by its UID -- searches through everything, very slow
@@ -163,7 +163,7 @@ struct mapMgr
 
 		@exception entity does not exist, returns false
 	*/
-	bool removeEntityByUID(uint32 UID);
+	GAME_API bool removeEntityByUID(uint32 UID);
 
 	/**
 		@brief updates an entity's position in the chunk map
@@ -176,7 +176,7 @@ struct mapMgr
 
 		@exception e does not have a position component, return false
 	*/
-	bool updateEntityMapPos(const std::weak_ptr<entity>& e);
+	GAME_API bool updateEntityMapPos(const std::weak_ptr<entity>& e);
 
 	/**
 		@brief creates a new chunk or returns one already in existance
@@ -189,7 +189,7 @@ struct mapMgr
 
 		@note if chunk already exists, it will be returned
 	*/
-	std::weak_ptr<chunk> addChunk(const chunk_position& pos);
+	GAME_API std::weak_ptr<chunk> addChunk(const chunk_position& pos);
 
 	/**
 		@brief removes a chunk - USE WITH CARE!
@@ -202,7 +202,7 @@ struct mapMgr
 
 		@exception if chunk does not exist, return false
 	*/
-	std::weak_ptr<chunk> getChunk(const chunk_position& pos);
+	GAME_API std::weak_ptr<chunk> getChunk(const chunk_position& pos);
 
 	/**
 		@brief gets a chunk 
@@ -215,7 +215,7 @@ struct mapMgr
 
 		@exception if chunk does not exist, return pointer to nothing
 	*/
-	bool removeChunk(const chunk_position& pos);
+	GAME_API bool removeChunk(const chunk_position& pos);
 
 	/**
 		@brief returns a chunk that an entity (says its) in 
@@ -228,7 +228,7 @@ struct mapMgr
 		@exception chunk does not exist, return pointer to nothing
 		@exception found chunk does not actually include entity, return pointer to nothing
 	*/
-	std::weak_ptr<chunk> getChunkFromEntity(const std::weak_ptr<entity>& e);
+	GAME_API std::weak_ptr<chunk> getChunkFromEntity(const std::weak_ptr<entity>& e);
 
 	/**
 		@brief returns the next chunk for a simluation thread to run on.
@@ -237,7 +237,7 @@ struct mapMgr
 
 		@exception map is empty, return nullptr
 	*/
-	std::weak_ptr<chunk> getNextChunkForSim();
+	GAME_API std::weak_ptr<chunk> getNextChunkForSim();
 
 	std::unordered_map<chunk_position,std::shared_ptr<chunk>> map;
 	std::map<std::string,std::weak_ptr<entity>> players;

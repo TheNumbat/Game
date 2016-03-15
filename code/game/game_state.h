@@ -39,12 +39,12 @@ class engine_state;
 */
 struct game_state
 {
-	game_state(engine_state* e);
-	~game_state();
+	GAME_API game_state(engine_state* e);
+	GAME_API ~game_state();
 
-	bool gameLoop();
-	void startup();
-	void shutdown();
+	GAME_API bool gameLoop();
+	GAME_API void startup();
+	GAME_API void shutdown();
 	
 	cam camera;
 	mapMgr map;

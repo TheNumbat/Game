@@ -47,7 +47,7 @@ struct base_position
 		@param[in] _y y value
 		@param[in] _z z value
 	*/
-	base_position(T _x = (T)0, T _y = (T)0, T _z = (T)0)
+	GAME_API base_position(T _x = (T)0, T _y = (T)0, T _z = (T)0)
 	{
 		x = _x;
 		y = _y;
@@ -61,7 +61,7 @@ struct base_position
 
 		@param[in] src position to copy
 	*/
-	base_position(const base_position& src)
+	GAME_API base_position(const base_position& src)
 	{
 		x = src.x;
 		y = src.y;
@@ -73,7 +73,7 @@ struct base_position
 
 		Does nothing
 	*/
-	~base_position()
+	GAME_API ~base_position()
 	{
 
 	}
@@ -89,7 +89,7 @@ struct base_position
 
 		@return self for chaining
 	*/
-	base_position& set(T _x, T _y, T _z)
+	GAME_API base_position& set(T _x, T _y, T _z)
 	{
 		x = _x;
 		y = _y;
@@ -108,7 +108,7 @@ struct base_position
 
 		@return self for chaining
 	*/
-	base_position& move(T _x, T _y, T _z)
+	GAME_API base_position& move(T _x, T _y, T _z)
 	{
 		x += _x;
 		y += _y;
@@ -125,7 +125,7 @@ struct base_position
 
 		@return bool equal
 	*/
-	bool operator==(const base_position& comp) const
+	GAME_API bool operator==(const base_position& comp) const
 	{
 		return x == comp.x &&
 			   y == comp.y &&
@@ -141,7 +141,7 @@ struct base_position
 
 		@return self for chaining
 	*/
-	base_position operator=(const base_position& src)
+	GAME_API base_position operator=(const base_position& src)
 	{
 		x = src.x;
 		y = src.y;
@@ -158,7 +158,7 @@ struct base_position
 
 		@return new added position
 	*/
-	base_position operator+(const base_position& src) const
+	GAME_API base_position operator+(const base_position& src) const
 	{
 		return base_position(x + src.x, y + src.y, z + src.z);
 	}
@@ -172,7 +172,7 @@ struct base_position
 
 		@return self for chaining
 	*/
-	base_position operator+=(const base_position& src)
+	GAME_API base_position operator+=(const base_position& src)
 	{
 		x += src.x;
 		y += src.y;
@@ -189,7 +189,7 @@ struct base_position
 
 		@return new subtracted position
 	*/
-	base_position operator-(const base_position& src) const
+	GAME_API base_position operator-(const base_position& src) const
 	{
 		return base_position(x - src.x, y - src.y, z - src.z);
 	}
@@ -203,7 +203,7 @@ struct base_position
 
 		@return self for chaining
 	*/
-	base_position operator-=(const base_position& src)
+	GAME_API base_position operator-=(const base_position& src)
 	{
 		x -= src.x;
 		y -= src.y;
@@ -242,8 +242,8 @@ struct map_position
 		@param[in] cy y chunk value
 		@param[in] cz z chunk value
 	*/
-	map_position(int32 cx = 0, int32 cy = 0, int32 cz = 0,
-							real32 x = 0, real32 y = 0, real32 z = 0);
+	GAME_API map_position(int32 cx = 0, int32 cy = 0, int32 cz = 0,
+						  real32 x = 0, real32 y = 0, real32 z = 0);
 
 	/**
 		@brief map position constructor
@@ -253,7 +253,7 @@ struct map_position
 		@param[in] r real position
 		@param[in] c chunk position
 	*/
-	map_position(const chunk_position& c, const real_position& r);
+	GAME_API map_position(const chunk_position& c, const real_position& r);
 
 	/**
 		@brief map position constructor
@@ -262,14 +262,14 @@ struct map_position
 
 		@param[in] src position to copy
 	*/
-	map_position(const map_position& src);
+	GAME_API map_position(const map_position& src);
 
 	/**
 		@brief map position destructor
 
 		Does nothing
 	*/
-	~map_position();
+	GAME_API ~map_position();
 
 	/**
 		@brief compares map positions
@@ -280,7 +280,7 @@ struct map_position
 
 		@return bool positions equal
 	*/
-	bool operator==(const map_position& comp) const;
+	GAME_API bool operator==(const map_position& comp) const;
 
 	/**
 		@brief assigns map positions
@@ -291,7 +291,7 @@ struct map_position
 
 		@return self for chaining
 	*/
-	map_position operator=(const map_position& src);
+	GAME_API map_position operator=(const map_position& src);
 
 	/**
 		@brief adds map positions
@@ -302,7 +302,7 @@ struct map_position
 
 		@return new added position
 	*/
-	map_position operator+(const map_position& src) const;
+	GAME_API map_position operator+(const map_position& src) const;
 
 	/**
 		@brief adds map positions
@@ -313,7 +313,7 @@ struct map_position
 
 		@return self for chaining
 	*/
-	map_position operator+=(const map_position& src);
+	GAME_API map_position operator+=(const map_position& src);
 
 	/**
 		@brief Subtracts map positions
@@ -324,7 +324,7 @@ struct map_position
 
 		@return self for chaining
 	*/
-	map_position operator-(const map_position& src) const;
+	GAME_API map_position operator-(const map_position& src) const;
 
 	/**
 		@brief Subtracts map positions
@@ -335,12 +335,12 @@ struct map_position
 
 		@return self for chaining
 	*/
-	map_position operator-=(const map_position& src);
+	GAME_API map_position operator-=(const map_position& src);
 
 	/**
 		@brief adjusts chunkPos/offset if realPos is out of bounds
 	*/
-	void clamp();
+	GAME_API void clamp();
 
 	real_position realPos;
 	chunk_position chunkPos;

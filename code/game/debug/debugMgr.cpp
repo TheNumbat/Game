@@ -71,7 +71,7 @@ debugMgr::profileNode::profileNode(const std::string& func, uint64 s, std::weak_
 	parent = parent_;
 }
 
-void debugMgr::callConsoleFunc(const std::string& input)
+bool debugMgr::callConsoleFunc(const std::string& input)
 {
 	std::string funcName = input.substr(0,input.find(' '));
 
@@ -82,15 +82,15 @@ void debugMgr::callConsoleFunc(const std::string& input)
 		if(!func)
 		{
 			logger.LogWarn("Could not find or load function name " + funcName);
-			return;
+			return false;
 		}
 
 		consoleFuncs.insert({funcName,(consoleFunc)func});
-		(*(consoleFunc)func)(game,engine,input.substr(input.find(' ') + 1,input.size()));
+		return (*(consoleFunc)func)(game,engine,input.substr(input.find(' ') + 1,input.size()));
 	}
 	else
 	{
-		(*entry->second)(game,engine,input.substr(input.find(' ') + 1,input.size()));		
+		return (*entry->second)(game,engine,input.substr(input.find(' ') + 1,input.size()));		
 	}
 }
 

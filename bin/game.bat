@@ -1,7 +1,5 @@
 @echo off
 
-call console.bat
-
 :: create target directory if it doesnt exist
 IF NOT EXIST W:\build mkdir w:\build
 pushd w:\build
@@ -23,3 +21,5 @@ cl /Fe:Game.dll %CompileFlags% %Files% /link %LinkFlags%
 
 :: go back to wherever we were
 popd
+
+call console.bat

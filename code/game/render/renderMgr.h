@@ -53,24 +53,24 @@ struct renderMgr
 		@param[in] g pointer to game state
 		@param[in] e pointer to engine state
 	*/
-	renderMgr(game_state* g, engine_state* e);
+	GAME_API renderMgr(game_state* g, engine_state* e);
 
 	/**
 		@brief renderMgr constructor
 
 		Does nothing;
 	*/
-	~renderMgr();
+	GAME_API ~renderMgr();
 
 	/**
 		@brief renders the map
 	*/
-	void renderMap();
+	GAME_API void renderMap();
 
 	/**
 		@brief renders the debugger/profiler/console UI
 	*/
-	void renderDebugUI();
+	GAME_API void renderDebugUI();
 
 	struct rawTex
 	{
@@ -79,7 +79,7 @@ struct renderMgr
 
 			Polymorphic
 		*/
-		virtual ~rawTex() = 0 {};
+		GAME_API virtual ~rawTex() = 0 {};
 		rect2<real32> pixelRect;
 		blendmode blend;
 		color mod;
@@ -95,12 +95,12 @@ struct renderMgr
 		/**
 			@brief rawTexture constructor
 		*/
-		rawTexture(const std::string& tID, const rect2<real32>& rect, blendmode b, color c, uint32 l,
-				   const rect2<int32>& spr, const v2<real32>& rpt, real32 r, uint32 f);
+		GAME_API rawTexture(const std::string& tID, const rect2<real32>& rect, blendmode b, color c, uint32 l,
+				  		    const rect2<int32>& spr, const v2<real32>& rpt, real32 r, uint32 f);
 		/**
 			@brief rawTexture constructor using a sub_texture
 		*/
-		rawTexture(const component_texture::sub_texture& t, real32 zoom, const v2<real32>& offset);
+		GAME_API rawTexture(const component_texture::sub_texture& t, real32 zoom, const v2<real32>& offset);
 		std::string ID;
 	};
 
@@ -109,12 +109,12 @@ struct renderMgr
 		/**
 			@brief rawText constructor
 		*/
-		rawText(const std::string& fID, const std::string& message, const rect2<real32>& rect, blendmode b, color c, uint32 l,
-			    const rect2<int32>& spr, const v2<real32>& rpt, real32 r, uint32 f);
+		GAME_API rawText(const std::string& fID, const std::string& message, const rect2<real32>& rect, blendmode b, color c, uint32 l,
+			    		 const rect2<int32>& spr, const v2<real32>& rpt, real32 r, uint32 f);
 		/**
 			@brief rawTexture constructor using a sub_text_texture
 		*/
-		rawText(const component_text_texture::sub_text_texture& t, real32 zoom, const v2<real32>& offset);
+		GAME_API rawText(const component_text_texture::sub_text_texture& t, real32 zoom, const v2<real32>& offset);
 		std::string fontID;
 		std::string text;
 	};
@@ -124,21 +124,21 @@ struct renderMgr
 
 		@param textures vector to sort
 	*/
-	void sortTextures(std::vector<renderMgr::rawTex*>& textures);
+	GAME_API void sortTextures(std::vector<renderMgr::rawTex*>& textures);
 
 	/**
 		@brief gets the textures from the currently visible portion of the map
 
 		@param[out] textures vector to put textures into
 	*/
-	void getMapTextures(std::vector<renderMgr::rawTex*>& textures);
+	GAME_API void getMapTextures(std::vector<renderMgr::rawTex*>& textures);
 
 	/**
 		@brief renders and deletes a vector of textures
 
 		@param[in] textures vector to render and delete
 	*/
-	void renderAndClearTextures(std::vector<renderMgr::rawTex*>& textures);
+	GAME_API void renderAndClearTextures(std::vector<renderMgr::rawTex*>& textures);
 
 	/**
 		@brief renders the profiler information
@@ -149,7 +149,7 @@ struct renderMgr
 
 		@return how many functions were rendered
 	*/
-	uint32 recursiveProfilerRender(std::weak_ptr<debugMgr::profileNode> node, uint32 pos, uint32 level = 0);
+	GAME_API uint32 recursiveProfilerRender(std::weak_ptr<debugMgr::profileNode> node, uint32 pos, uint32 level = 0);
 	
 	/**
 		@brief gets the distance between two map positions
@@ -160,7 +160,7 @@ struct renderMgr
 
 		@return vector distance in meters
 	*/
-	v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom);
+	GAME_API v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom);
 
 	game_state* game;
 	engine_state* engine;

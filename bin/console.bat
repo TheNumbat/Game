@@ -7,7 +7,7 @@ pushd w:\assets\console
 :: setup flags for cl.exe
 set CompileFlags=/I"W:\deps\include" /I"W:\code\engine" /I"W:\code\game" /Od /Zi /w /MD /EHsc /LD 
 
-set LinkFlags=/NODEFAULTLIB:msvcrtd.lib /subsystem:console,5.01 w:\build\Engine.lib
+set LinkFlags=/NODEFAULTLIB:msvcrtd.lib /subsystem:console,5.01 w:\build\Engine.lib w:\build\Game.lib
 
 set Files=w:\code\console\consoleFuncs.cpp
 
