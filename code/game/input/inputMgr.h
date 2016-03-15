@@ -96,6 +96,7 @@ struct inputMgr
 	inputstates inputstate;
 
 	std::string inputStr;
+	std::string prevInput;
 
 	game_state* game;
 	engine_state* engine;

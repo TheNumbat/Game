@@ -235,6 +235,7 @@ void inputMgr::handleDebugEvent(event* e)
 						if(inputStr == "reload")
 						{
 							game->debug.loadConsoleFuncs();
+							prevInput = inputStr;
 							inputStr = "";
 						}
 						else if(inputStr == "exit")
@@ -242,12 +243,14 @@ void inputMgr::handleDebugEvent(event* e)
 							game->debug.clearDebugOption(inputConsole);
 							game->debug.clearDebugOption(renderDebugUI);
 							inputstate = input_gameplay;
+							prevInput = inputStr;
 							inputStr = "";
 						}
 						else
 						{
 							if(game->debug.callConsoleFunc(inputStr + " "))
 							{
+								prevInput = inputStr;
 								inputStr = "";
 							}
 						}
@@ -281,6 +284,10 @@ void inputMgr::handleDebugEvent(event* e)
 				{
 					inputStr.pop_back();
 				}
+				else if(e->value == KEY_UP && prevInput.length())
+				{
+					inputStr = prevInput;
+				}
 				else if(e->flags & FLAG_KEY_CTRL)
 				{
 					switch(e->value)
@@ -300,6 +307,10 @@ void inputMgr::handleDebugEvent(event* e)
 			if(e->value == KEY_BACKSPACE && inputStr.length())
 			{
 				inputStr.pop_back();
+			}
+			else if(e->value == KEY_UP && prevInput.length())
+			{
+				inputStr = prevInput;
 			}
 		}
 	}
