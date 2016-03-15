@@ -1,4 +1,5 @@
 docs/latex/
+docs/html/
 
 build/*.exe
 build/*.obj
