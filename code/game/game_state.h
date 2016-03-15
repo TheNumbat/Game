@@ -39,11 +39,33 @@ class engine_state;
 */
 struct game_state
 {
+	/**
+		@brief game_state constructor, sets up the game
+
+		@param[in] e pointer to the engine state
+	*/
 	GAME_API game_state(engine_state* e);
+
+	/**
+		@brief game_state destructor, shuts down the game
+	*/
 	GAME_API ~game_state();
 
+	/**
+		@brief Runs the game loop.
+
+		@return whether or not to continue (running)
+	*/
 	GAME_API bool gameLoop();
+
+	/**
+		@brief Sets up the game. Called from constructor
+	*/
 	GAME_API void startup();
+
+	/**
+		@brief Shuts down the game. Called from destructor
+	*/
 	GAME_API void shutdown();
 	
 	cam camera;

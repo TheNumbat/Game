@@ -71,7 +71,10 @@ struct renderMgr
 		@brief renders the debugger/profiler/console UI
 	*/
 	GAME_API void renderDebugHUD();
-
+	
+	/**
+		@brief Describes shared information needed to render a texture
+	*/
 	struct rawTex
 	{
 		/**
@@ -90,6 +93,9 @@ struct renderMgr
 		uint32 flip;
 	};
 
+	/**
+		@brief Describes information needed to render a normal texture
+	*/
 	struct rawTexture : public rawTex
 	{
 		/**
@@ -104,6 +110,9 @@ struct renderMgr
 		std::string ID;
 	};
 
+	/**
+		@brief Describes information needed to render a text texture
+	*/
 	struct rawText : public rawTex
 	{
 		/**

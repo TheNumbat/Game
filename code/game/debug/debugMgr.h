@@ -142,6 +142,21 @@ struct debugMgr
 	*/
 	GAME_API uint8 getFPSCap();
 
+	/**
+		@brief Sets a debug flag
+	*/
+	GAME_API void setDebugOption(uint64 option);
+
+	/**
+		@brief Clears a debug flag
+	*/
+	GAME_API void clearDebugOption(uint64 option);
+
+	/**
+		@brief Toggles a debug flag
+	*/
+	GAME_API void toggleDebugOption(uint64 option);
+
 	struct profileNode
 	{
 		/**
@@ -167,10 +182,6 @@ struct debugMgr
 		@param[in] currentNode what to reset from
 	*/
 	GAME_API void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
-
-	GAME_API void setDebugOption(uint64 option);
-	GAME_API void clearDebugOption(uint64 option);
-	GAME_API void toggleDebugOption(uint64 option);
 
 	uint64 debugFlags;
 
