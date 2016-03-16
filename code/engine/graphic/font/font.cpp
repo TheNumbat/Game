@@ -44,9 +44,11 @@ font::~font()
 	free();
 }
 
-bool font::load(const std::string& path, int size)
+bool font::load(const std::string& path, int32 s)
 {
 	free();
+
+	size = s;
 
 	// Load font file
 	sdl_font = TTF_OpenFont(path.c_str(), size);

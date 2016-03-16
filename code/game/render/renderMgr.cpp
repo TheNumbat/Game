@@ -129,17 +129,19 @@ void renderMgr::renderDebugHUD()
 	std::string msg1 = "Average frame time (ms): " + std::to_string(avgFrame);
 	std::string msg2 = "Last frame time (ms): " + std::to_string(lastFrame);
 
+	int32 fontsize = engine->graphics.getFontSize("debugUI");
 	engine->graphics.renderText("debugUI","Press tab for console",rect2<int32>(10,10,0,0));
-	engine->graphics.renderText("debugUI",msg1,rect2<int32>(10,32,0,0));
-	engine->graphics.renderText("debugUI",msg2,rect2<int32>(10,54,0,0));
+	engine->graphics.renderText("debugUI",msg1,rect2<int32>(10,10 + fontsize,0,0));
+	engine->graphics.renderText("debugUI",msg2,rect2<int32>(10,10 + 2 * fontsize,0,0));
 
-	recursiveProfilerRender(game->debug.profileHead,76);
+	recursiveProfilerRender(game->debug.profileHead,10 + 3 * fontsize);
 
+	fontsize = engine->graphics.getFontSize("debugUI");
 	if(game->input.inputstate == input_console)
 	{
 		int sw, sh;
 		engine->graphics.getWinDim(sw,sh);
-		engine->graphics.renderText("debugUI_small"," >>> " + game->input.inputStr,rect2<int32>(10,sh - 36,0,0));
+		engine->graphics.renderText("debugUI_small"," >>> " + game->input.inputStr,rect2<int32>(10,sh - fontsize - 10,0,0));
 	}
 }
 

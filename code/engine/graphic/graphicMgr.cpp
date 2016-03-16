@@ -169,6 +169,17 @@ bool graphicMgr::displayFrame(bool clearAfter)
 	return true;
 }
 
+int32 graphicMgr::getFontSize(const std::string& ID)
+{
+	auto entry = fonts.find(ID);
+	if(entry == fonts.end())
+	{
+		logger.LogWarn("Font ID " + ID + " not found!");
+		return -1;
+	}	
+	return entry->second->size;
+}
+
 bool graphicMgr::getWinDim(int32& w, int32& h)
 {
 	// Test window

@@ -61,7 +61,7 @@ class font
 
 		@exception Unable to load font, will fail and return false
 	*/
-	bool load(const std::string& path, int size);
+	bool load(const std::string& path, int32 s);
 
 	/**
 		@brief Frees font
@@ -75,6 +75,7 @@ class font
 	bool free();
 
 	void* sdl_font;
+	int32 size;
 	bool good;
 
 	friend class graphicMgr;

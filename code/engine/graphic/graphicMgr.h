@@ -151,6 +151,17 @@ public:
 	ENGINE_API bool loadFont(const std::string& path, const std::string& ID = "", int size = 14);
 
 	/**
+		@brief Gets the font size of a loaded font
+
+		@param[in] ID of font to check
+
+		@return size of -1 on failure
+
+		@exception couldn't find font ID, returns -1
+	*/
+	ENGINE_API int32 getFontSize(const std::string& ID);
+
+	/**
 		@brief Changes a texture's blend mode
 
 		@param[in] ID of texture to use
