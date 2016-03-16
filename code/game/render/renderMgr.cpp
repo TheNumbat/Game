@@ -272,6 +272,15 @@ void renderMgr::getMapTextures(std::vector<renderMgr::rawTex*>& textures)
 						std::weak_ptr<component_position> ePosition = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
 						v2<real32> entityPixelPos = mapIntoPixelSpace(TLCpos,ePosition.lock()->position,camZoom);
 
+						if(game->debug.debugFlags & renderPositionText)
+						{
+							map_position entityPos = ePosition.lock()->position;
+							std::string positionText = std::to_string((int32)std::round(entityPos.chunkPos.x)) + " " + std::to_string((int32)std::round(entityPos.chunkPos.y)) + " " + std::to_string((int32)std::round(entityPos.chunkPos.z))
+												   + " " + std::to_string((int32)std::round(entityPos.realPos.x)) + " " + std::to_string((int32)std::round(entityPos.realPos.y)) + " " + std::to_string((int32)std::round(entityPos.realPos.z));
+							textures.push_back(new rawText("debugUI_verysmall",positionText,rect2<real32>(entityPixelPos.x,entityPixelPos.y,12*camZoom*positionText.length(),12*camZoom),blend_alpha,color(255,255,255,0),
+											     	  	   1000,rect2<int32>(0,0,0,0),v2<real32>(0,0),0,0));
+						}
+
 						if(e.lock()->hasComponent(ctype_texture))
 						{
 							// Get component

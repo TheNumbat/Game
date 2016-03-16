@@ -38,6 +38,7 @@ const uint64 toggleProfiler = 1<<1;
 const uint64 renderDebugUI = 1<<2;
 const uint64 renderChunkbounds = 1<<3;
 const uint64 renderCamera = 1<<4;
+const uint64 renderPositionText = 1<<5;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 

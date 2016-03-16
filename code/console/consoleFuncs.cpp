@@ -52,15 +52,21 @@ CONSOLE_FUNC(setZoom)
 	return true;
 }
 
-CONSOLE_FUNC(toggleDrawChunkbounds)
+CONSOLE_FUNC(drawChunkbounds)
 {
 	game->debug.toggleDebugOption(renderChunkbounds);
 	return true;
 }
 
-CONSOLE_FUNC(toggleDrawCamera)
+CONSOLE_FUNC(drawCamera)
 {
 	game->debug.toggleDebugOption(renderCamera);
+	return true;
+}
+
+CONSOLE_FUNC(drawPositionText)
+{
+	game->debug.toggleDebugOption(renderPositionText);
 	return true;
 }
 
