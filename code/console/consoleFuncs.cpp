@@ -63,3 +63,17 @@ CONSOLE_FUNC(toggleDrawCamera)
 	game->debug.toggleDebugOption(renderCamera);
 	return true;
 }
+
+CONSOLE_FUNC(toggleTimer)
+{
+	std::stringstream strStream(args);
+	std::string ID;
+	strStream >> ID;
+	if(!strStream.good())
+	{
+		game->logger.LogWarn("Error parsing input args");
+		return false;
+	}
+	engine->time.toggle(ID);
+	return true;
+}

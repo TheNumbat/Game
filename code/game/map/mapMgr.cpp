@@ -87,14 +87,15 @@ void mapMgr::update()
 
 							e.lock()->setLastUpdate(current);
 
-							if(updateEntityMapPos(e))
-							{
-								simChunk.lock()->entities.erase(entry++);
-							}
-							else
-							{
-								++entry;
-							}
+						}
+						
+						if(updateEntityMapPos(e))
+						{
+							simChunk.lock()->entities.erase(entry++);
+						}
+						else
+						{
+							++entry;
 						}
 					}
 				}
