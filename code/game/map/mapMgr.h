@@ -90,6 +90,20 @@ struct mapMgr
 	GAME_API std::weak_ptr<entity> addEntity(const map_position& pos, uint32 currentTimeMS);
 
 	/**
+		@brief creates a new entity
+
+		Creates a new entity with only a position
+
+		@param[in] pos position to add entity
+		@param[in] timeID id of timer to get current time from
+
+		@return weak_ptr to new entity or nothing if failure
+
+		@exception max entities exceeded, fatal error, returns weak_ptr to nothing
+	*/
+	GAME_API std::weak_ptr<entity> addEntity(const map_position& pos, std::string timerID);
+
+	/**
 		@brief creates a new player entity
 
 		Exact same as normally creating an entity, except it's added to the player
@@ -106,6 +120,24 @@ struct mapMgr
 		@note calls addEntity()
 	*/
 	GAME_API std::weak_ptr<entity> addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS);
+
+	/**
+		@brief creates a new player entity
+
+		Exact same as normally creating an entity, except it's added to the player
+		storage for easy access.
+
+		@param[in] ID of player to add
+		@param[in] pos position to add player
+		@param[in] timerID timer to get current time from
+
+		@return weak_ptr to new player or nothing if failure
+
+		@exception see addEntity()
+
+		@note calls addEntity()
+	*/
+	GAME_API std::weak_ptr<entity> addPlayer(const std::string& ID, const map_position& pos, std::string timerID);
 
 	/**
 		@brief gets a player by it's ID (string name specificed on creation)

@@ -55,6 +55,37 @@ const uint64 renderPositionText = 1<<5;
 */
 struct debugMgr
 {
+
+	/**
+		@brief Contains timing information about a function as well as pointers to children functions
+	*/
+	struct profileNode
+	{
+		/**
+			@brief profileNode constructor
+
+			Creates a new profiler node for a function
+		*/
+		GAME_API profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
+		
+		/// Name of function
+		std::string funcName;
+		/// Whether or not to display child functions
+		bool showChildren;
+		/// Start time
+		uint64 start;
+		/// Time spend on self without other function calls
+		uint64 self;
+		/// Total time spent in function with other function calls
+		uint64 heir;
+		/// Number of calls made this frame
+		uint32 calls;
+		/// Child profiler nodes
+		std::map<std::string,std::shared_ptr<profileNode>> children;
+		/// Parent profiler node
+		std::weak_ptr<profileNode> parent;
+	};
+	
 	/**
 		@brief debugMgr constructor
 
@@ -181,36 +212,6 @@ struct debugMgr
 		@param[in] currentNode what to reset from
 	*/
 	GAME_API void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
-
-	/**
-		@brief Contains timing information about a function as well as pointers to children functions
-	*/
-	struct profileNode
-	{
-		/**
-			@brief profileNode constructor
-
-			Creates a new profiler node for a function
-		*/
-		GAME_API profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
-		
-		/// Name of function
-		std::string funcName;
-		/// Whether or not to display child functions
-		bool showChildren;
-		/// Start time
-		uint64 start;
-		/// Time spend on self without other function calls
-		uint64 self;
-		/// Total time spent in function with other function calls
-		uint64 heir;
-		/// Number of calls made this frame
-		uint32 calls;
-		/// Child profiler nodes
-		std::map<std::string,std::shared_ptr<profileNode>> children;
-		/// Parent profiler node
-		std::weak_ptr<profileNode> parent;
-	};
 
 	/// Debug flags
 	uint64 debugFlags;

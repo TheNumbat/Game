@@ -19,6 +19,42 @@ CONSOLE_FUNC(print)
 	return true;
 }
 
+CONSOLE_FUNC(addEntity)
+{	
+	std::stringstream strStream(args);
+	int cx, cy, cz;
+	real32 x, y, z;
+	std::string timer;
+	strStream >> cx >> cy >> cz >> x >> y >> z >> timer;
+	if(!strStream.good())
+	{
+		game->logger.LogWarn("Error parsing input args");
+		return false;
+	}
+
+	map_position pos(cx,cy,cz,x,y,z);
+	game->map.addEntity(pos,timer);
+	return true;	
+}
+
+CONSOLE_FUNC(addPlayer)
+{
+	std::stringstream strStream(args);
+	int cx, cy, cz;
+	real32 x, y, z;
+	std::string timer, ID;
+	strStream >> ID >> cx >> cy >> cz >> x >> y >> z >> timer;
+	if(!strStream.good())
+	{
+		game->logger.LogWarn("Error parsing input args");
+		return false;
+	}
+
+	map_position pos(cx,cy,cz,x,y,z);
+	game->map.addPlayer(ID,pos,timer);
+	return true;
+}
+
 CONSOLE_FUNC(setPlayerPos)
 {
 	std::stringstream strStream(args);

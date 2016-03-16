@@ -65,8 +65,10 @@ void mapMgr::update()
 
 		if(!simChunk.expired())
 		{
-			for(auto entry = simChunk.lock()->entities.begin(); entry != simChunk.lock()->entities.end();)
+			bool moved = false;
+			for(auto entry = simChunk.lock()->entities.begin(); entry != simChunk.lock()->entities.end(); moved ? entry : ++entry)
 			{
+				moved = false;
 				std::weak_ptr<entity> e = entry->second;
 
 				if(!e.expired())
@@ -86,16 +88,12 @@ void mapMgr::update()
 							ePos.lock()->position += map_position(0,0,0,offset.x,offset.y,0);
 
 							e.lock()->setLastUpdate(current);
-
-						}
-						
-						if(updateEntityMapPos(e))
-						{
-							simChunk.lock()->entities.erase(entry++);
-						}
-						else
-						{
-							++entry;
+							
+							if(updateEntityMapPos(e))
+							{
+								simChunk.lock()->entities.erase(entry++);
+								moved = true;
+							}
 						}
 					}
 				}
@@ -105,6 +103,16 @@ void mapMgr::update()
 	while(!simChunk.expired());
 
 	game->debug.endProfiledFunc();
+}
+
+std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, std::string timerID)
+{
+	uint32 time = engine->time.get(timerID);
+	if(time)
+	{
+		return addEntity(pos,time);
+	}
+	return std::weak_ptr<entity>();
 }
 
 std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, uint32 currentTimeMS)
@@ -136,6 +144,24 @@ std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, uint32 currentT
 	// Failure
 	logger.LogFatal("Max entities exceeded!!!!");
 	return std::weak_ptr<entity>();
+}
+
+std::weak_ptr<entity> mapMgr::addPlayer(const std::string& ID, const map_position& pos, std::string timerID)
+{
+	// Add entity
+	std::weak_ptr<entity> newPlayer = addEntity(pos,timerID);
+
+	// Add to player database
+	if(!newPlayer.expired())
+	{
+		players.insert({ID,newPlayer});
+
+		#ifdef VERBOSE_MAP
+			logger.LogInfo("Added player ID: " + ID);
+		#endif
+	}
+
+	return newPlayer;
 }
 
 std::weak_ptr<entity> mapMgr::addPlayer(const std::string& ID, const map_position& pos, uint32 currentTimeMS)
