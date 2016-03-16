@@ -30,6 +30,18 @@
 #define GAME_API __declspec(dllimport)
 #endif
 
+#define LOAD_FONT(path,ID,size) engine->graphics.loadFont(path,ID,size)
+#define LOAD_TEXTURE(path,ID) engine->graphics.loadTexture(path,ID)
+#define LOAD_SOUND(path,ID) engine->audio.loadSound(path,ID)
+#define LOAD_FILE(path,type,access,ID) engine->file.loadFile(path,type,access,ID) 
+#define LOAD_LIB(path,ID) engine->file.loadLibrary(path,ID)
+
+#define FREE_FONT(path) engine->graphics.freeFont(ID)
+#define FREE_TEXTURE(path) engine->graphics.freeTexture(ID)
+#define FREE_SOUND(path) engine->audio.freeSound(ID)
+#define FREE_FILE(path) engine->file.freeFile(ID) 
+#define FREE_LIB(path) engine->file.freeLibrary(ID)
+
 // Typedefs ///////////////////////////////////////////////////////////////////
 
 /// Typedefs for style

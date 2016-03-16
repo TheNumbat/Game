@@ -83,3 +83,86 @@ CONSOLE_FUNC(toggleTimer)
 	engine->time.toggle(ID);
 	return true;
 }
+
+CONSOLE_FUNC(loadAsset)
+{
+	std::stringstream strStream(args);
+	std::string type, path, ID;
+	strStream >> type >> path >> ID;
+	if(!strStream.good())
+	{
+		game->logger.LogWarn("Error parsing input args");
+		return false;
+	}
+
+	if(type == "texture")
+	{
+		LOAD_TEXTURE(path,ID);
+	}
+	else if(type == "sound")
+	{
+		LOAD_SOUND(path,ID);
+	}
+	else if(type == "file")
+	{
+		uint8 type;
+		std::string access;
+		strStream >> type >> access;
+		if(!strStream.good())
+		{
+			game->logger.LogWarn("Error parsing input args");
+			return false;
+		}
+
+		LOAD_FILE(path,type,access,ID);
+	}
+	else if(type == "font")
+	{
+		int size;
+		strStream >> size;
+		if(!strStream.good())
+		{
+			game->logger.LogWarn("Error parsing input args");
+			return false;
+		}
+
+		LOAD_FONT(path,ID,size);
+	}
+	else if(type == "library")
+	{
+		LOAD_LIB(path,ID);
+	}
+}
+
+CONSOLE_FUNC(freeAsset)
+{
+	std::stringstream strStream(args);
+	std::string type, ID;
+	strStream >> type >> ID;
+	if(!strStream.good())
+	{
+		game->logger.LogWarn("Error parsing input args");
+		return false;
+	}
+
+	if(type == "texture")
+	{
+		FREE_TEXTURE(ID);
+	}
+	else if(type == "sound")
+	{
+		FREE_SOUND(ID);
+	}
+	else if(type == "file")
+	{
+		FREE_FILE(ID);
+	}
+	else if(type == "font")
+	{
+		FREE_FONT(ID);
+	}
+	else if(type == "library")
+	{
+		FREE_LIB(ID);
+	}
+}

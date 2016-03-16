@@ -18,11 +18,6 @@
 
 #include <engine_state.h>
 
-#define LOAD_FONT(path,ID,size) engine->graphics.loadFont((#path),(#ID),size)
-#define LOAD_TEXTURE(path,ID) engine->graphics.loadTexture((#path),(#ID))
-#define LOAD_SOUND(path,ID) engine->audio.loadSound((#path),(#ID))
-#define LOAD_FILE(path,ID) engine->file.loadFile((#path),(#ID)) 
-
 // Typedefs ///////////////////////////////////////////////////////////////////
 
 // Global constant definitions  ///////////////////////////////////////////////
@@ -76,19 +71,19 @@ void game_state::startup()
 	debug.setFPSCap(60);
 	debug.loadConsoleFuncs();
 
-	LOAD_TEXTURE( debug/camera.png , camera );
-	LOAD_TEXTURE( debug/chunkbounds.bmp , chunkbounds );
-	LOAD_TEXTURE( art/entities/dankdude_front.png , dankdude );
-	LOAD_TEXTURE( art/entities/yeti.png , yeti );
-	LOAD_TEXTURE( art/entities/light_circle.png , light );
+	LOAD_TEXTURE( "debug/camera.png" , "camera" );
+	LOAD_TEXTURE( "debug/chunkbounds.bmp" , "chunkbounds" );
+	LOAD_TEXTURE( "art/entities/dankdude_front.png" , "dankdude" );
+	LOAD_TEXTURE( "art/entities/yeti.png" , "yeti" );
+	LOAD_TEXTURE( "art/entities/light_circle.png" , "light" );
 
-	LOAD_FONT( fonts/aubrey.ttf , aubrey_24 , 24 );
-	LOAD_FONT( fonts/Cenobyte.ttf , cenobyte_24 , 24 );
-	LOAD_FONT( fonts/OpenSans.ttf , debugUI , 24 );
-	LOAD_FONT( fonts/OpenSans.ttf , debugUI_small , 16 );
-	LOAD_FONT( fonts/OpenSans.ttf , debugUI_verysmall , 12 );
+	LOAD_FONT( "fonts/aubrey.ttf" , "aubrey_24" , 24 );
+	LOAD_FONT( "fonts/Cenobyte.ttf" , "cenobyte_24" , 24 );
+	LOAD_FONT( "fonts/OpenSans.ttf" , "debugUI" , 24 );
+	LOAD_FONT( "fonts/OpenSans.ttf" , "debugUI_small" , 16 );
+	LOAD_FONT( "fonts/OpenSans.ttf" , "debugUI_verysmall" , 12 );
 
-	LOAD_SOUND( music/song1.wav , music );
+	LOAD_SOUND( "music/song1.wav" , "music" );
 
 	logger.LogInfo("Game code initialized");
 	running = true;

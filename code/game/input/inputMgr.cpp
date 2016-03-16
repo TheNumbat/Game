@@ -208,6 +208,18 @@ void inputMgr::handleDebugEvent(event* e)
 					break;
 			}
 		}
+		else if(e->flags & FLAG_KEY_REPEAT)
+		{
+			switch(e->value)
+			{
+				case KEY_UP:
+					game->debug.selectedUp();
+					break;
+				case KEY_DOWN:
+					game->debug.selectedDown();
+					break;
+			}
+		}
 	}
 
 	game->debug.endProfiledFunc();
