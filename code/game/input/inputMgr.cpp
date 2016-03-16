@@ -54,9 +54,13 @@ void inputMgr::handleEvents()
 	do
 	{
 		e = engine->events.getNextEvent();
-		if(e->type == EVT_BAD || e->type == EVT_END)
+		if(e->type == EVT_BAD)
 		{
 			continue;
+		}
+		else if(e->type == EVT_END)
+		{
+			break;
 		}
 
 		if(e->type == EVT_QUIT)
@@ -188,10 +192,12 @@ void inputMgr::handleDebugEvent(event* e)
 					game->debug.selected.lock()->showChildren = !game->debug.selected.lock()->showChildren;
 					break;
 				case KEY_GRAVE:
+					game->debug.toggleDebugOption(renderDebugUI);
 					inputstate = input_gameplay;
 					break;
 				case KEY_TAB:
 					inputstate = input_console;
+					engine->events.startTextInput();
 					break;
 				case KEY_P:
 					game->debug.setDebugOption(toggleProfiler);
@@ -211,55 +217,67 @@ void inputMgr::handleConsoleEvent(event* e)
 {
 	if(e->type == EVT_KEY)
 	{
-		if(e->value == KEY_BACKSPACE && inputStr.length())
+		if(e->flags & FLAG_KEY_PRESS)
 		{
-			inputStr.pop_back();
-		}
-		if(e->value == KEY_UP && prevInput.length())
-		{
-			inputStr = prevInput;
-		}
-		if(e->value == KEY_ENTER)
-		{
-			if(inputStr == "reload")
+			if(e->value == KEY_BACKSPACE && inputStr.length())
 			{
-				game->debug.loadConsoleFuncs();
-				prevInput = inputStr;
-				inputStr = "";
+				inputStr.pop_back();
 			}
-			else if(inputStr == "exit")
+			else if(e->value == KEY_UP && prevInput.length())
 			{
-				game->debug.clearDebugOption(renderDebugUI);
-				inputstate = input_gameplay;
-				prevInput = inputStr;
-				inputStr = "";
+				inputStr = prevInput;
 			}
-			else
+			else if(e->value == KEY_ENTER)
 			{
-				if(game->debug.callConsoleFunc(inputStr + " "))
+				if(inputStr == "reload")
 				{
+					game->debug.loadConsoleFuncs();
 					prevInput = inputStr;
 					inputStr = "";
 				}
+				else if(inputStr == "exit")
+				{
+					game->debug.clearDebugOption(renderDebugUI);
+					inputstate = input_gameplay;
+					engine->events.stopTextInput();
+					prevInput = inputStr;
+					inputStr = "";
+				}
+				else
+				{
+					if(game->debug.callConsoleFunc(inputStr + " "))
+					{
+						prevInput = inputStr;
+						inputStr = "";
+					}
+				}
 			}
-		}
-		if(e->value == KEY_TAB)
-		{
-			inputstate = input_debugger;
-		}
-		if(e->flags & FLAG_KEY_CTRL)
-		{
-			switch(e->value)
+			else if(e->value == KEY_TAB)
 			{
-				case KEY_V:
-					engine->events.paste(inputStr);
-					break;
-				case KEY_C:
-					engine->events.copy(inputStr);
-					break;
+				inputstate = input_debugger;
+				engine->events.stopTextInput();
+			}
+			else if(e->value == KEY_GRAVE)
+			{
+				game->debug.clearDebugOption(renderDebugUI);
+				inputstate = input_gameplay;
+				engine->events.stopTextInput();
+			}
+
+			if(e->flags & FLAG_KEY_CTRL)
+			{
+				switch(e->value)
+				{
+					case KEY_V:
+						engine->events.paste(inputStr);
+						break;
+					case KEY_C:
+						engine->events.copy(inputStr);
+						break;
+				}
 			}
 		}
-		if(e->flags & FLAG_KEY_REPEAT)
+		else if(e->flags & FLAG_KEY_REPEAT)
 		{
 			if(e->value == KEY_BACKSPACE && inputStr.length())
 			{

@@ -108,6 +108,9 @@ public:
 	*/
 	ENGINE_API bool copy(const std::string& text);
 
+	ENGINE_API void startTextInput();
+	ENGINE_API void stopTextInput();
+
 private:
 	/**
 		@brief translates SDL_Event to event using specific translate functions

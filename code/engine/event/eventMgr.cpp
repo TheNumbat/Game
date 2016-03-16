@@ -96,6 +96,16 @@ bool eventMgr::kill()
 	return false;
 }
 
+void eventMgr::startTextInput()
+{
+	SDL_StartTextInput();
+}
+
+void eventMgr::stopTextInput()
+{
+	SDL_StopTextInput();
+}
+
 event* eventMgr::getNextEvent()
 {
 	if(good)
