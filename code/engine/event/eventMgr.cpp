@@ -105,7 +105,7 @@ event* eventMgr::getNextEvent()
 		// Get next event from SDL
 		if(SDL_PollEvent(&sdlE) == 0)
 		{
-			event* ret = new event(EVT_BAD);
+			event* ret = new event(EVT_END);
 			#ifdef VERBOSE_EVENTS
 				logger.LogInfo("Did not get new event!");
 			#endif

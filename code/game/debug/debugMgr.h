@@ -156,6 +156,9 @@ struct debugMgr
 	*/
 	GAME_API void toggleDebugOption(uint64 option);
 
+	GAME_API void selectedUp();
+	GAME_API void selectedDown();
+
 	struct profileNode
 	{
 		/**

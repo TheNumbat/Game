@@ -135,7 +135,7 @@ void renderMgr::renderDebugHUD()
 
 	recursiveProfilerRender(game->debug.profileHead,76);
 
-	if(game->debug.debugFlags & inputConsole)
+	if(game->input.inputstate == input_console)
 	{
 		int sw, sh;
 		engine->graphics.getWinDim(sw,sh);

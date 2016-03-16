@@ -30,12 +30,13 @@
 
 // Event types
 const uint8 EVT_BAD = 0;
-const uint8 EVT_WINDOW = 1;
-const uint8 EVT_KEY = 2;
-const uint8 EVT_MOUSE = 3;
-const uint8 EVT_QUIT = 4;
-const uint8 EVT_JOYSTICK = 5;
-const uint8 EVT_TEXT = 6;
+const uint8 EVT_END = 1;
+const uint8 EVT_WINDOW = 2;
+const uint8 EVT_KEY = 3;
+const uint8 EVT_MOUSE = 4;
+const uint8 EVT_QUIT = 5;
+const uint8 EVT_JOYSTICK = 6;
+const uint8 EVT_TEXT = 7;
 
 // Key event values
 const uint64 KEY_0 = '0';
@@ -226,13 +227,6 @@ struct event
 		Polymorphic
 	*/
 	ENGINE_API virtual ~event();
-
-	/**
-		@brief tests if event is valid
-
-		Specifically, tests if the type is not EVT_BAD
-	*/
-	ENGINE_API operator bool() const;
 
 	/**
 		@brief overloaded assignment operator

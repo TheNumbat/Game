@@ -92,6 +92,71 @@ void debugMgr::toggleDebugOption(uint64 option)
 	}
 }
 
+void debugMgr::selectedUp()
+{
+	// My god this is ugly. Thanks STL.
+	if(selected.lock() != profileHead)
+	{
+		if(selected.lock()->parent.lock()->children.begin()->second == selected.lock())
+		{
+			selected = selected.lock()->parent;
+		}
+		else if(selected.lock() != selected.lock()->parent.lock()->children.begin()->second)
+		{
+			auto temp = std::prev(selected.lock()->parent.lock()->children.find(selected.lock()->funcName));	
+			if(temp->second->showChildren && temp->second->children.size())
+			{
+				selected = std::prev(temp->second->children.end())->second;
+			}
+
+			else if(std::distance(selected.lock()->parent.lock()->children.begin(),selected.lock()->parent.lock()->children.find(selected.lock()->funcName)) > 0)
+			{
+				selected = std::prev(selected.lock()->parent.lock()->children.find(selected.lock()->funcName))->second;
+			}
+		}
+	}
+	else
+	{
+		while(selected.lock()->showChildren && selected.lock()->children.size())
+		{
+			selected = std::prev(selected.lock()->children.end())->second;
+		}
+	}
+}
+
+void debugMgr::selectedDown()
+{
+	// My god this is ugly. Thanks STL.
+	if(selected.lock()->showChildren && selected.lock()->children.size())
+	{
+		selected = selected.lock()->children.begin()->second;
+	}
+	else if(selected.lock() != profileHead)
+	{
+		if(std::distance(selected.lock()->parent.lock()->children.find(selected.lock()->funcName),selected.lock()->parent.lock()->children.end()) > 1)
+		{
+			selected = std::next(selected.lock()->parent.lock()->children.find(selected.lock()->funcName))->second;
+		}
+		else
+		{
+			bool found = false;
+			while(!found)
+			{
+				selected = selected.lock()->parent;
+				if(selected.lock()->parent.expired())
+				{
+					break;
+				}
+				if(std::distance(selected.lock()->parent.lock()->children.find(selected.lock()->funcName),selected.lock()->parent.lock()->children.end()) > 1)
+				{
+					selected = std::next(selected.lock()->parent.lock()->children.find(selected.lock()->funcName))->second;
+					found = true;
+				}
+			}
+		}
+	}
+}
+
 bool debugMgr::callConsoleFunc(const std::string& input)
 {
 	std::string funcName = input.substr(0,input.find(' '));

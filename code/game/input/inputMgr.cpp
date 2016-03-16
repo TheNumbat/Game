@@ -54,6 +54,10 @@ void inputMgr::handleEvents()
 	do
 	{
 		e = engine->events.getNextEvent();
+		if(e->type == EVT_BAD || e->type == EVT_END)
+		{
+			continue;
+		}
 
 		if(e->type == EVT_QUIT)
 		{
@@ -74,7 +78,7 @@ void inputMgr::handleEvents()
 
 		delete e;
 
-	} while(e->type != EVT_BAD);
+	} while(e->type != EVT_END);
 
 	game->debug.endProfiledFunc();
 }
@@ -175,69 +179,19 @@ void inputMgr::handleDebugEvent(event* e)
 			switch(e->value)
 			{
 				case KEY_UP:
-					if(game->debug.selected.lock() != game->debug.profileHead)
-					{
-						if(game->debug.selected.lock()->parent.lock()->children.begin()->second == game->debug.selected.lock())
-						{
-							game->debug.selected = game->debug.selected.lock()->parent;
-						}
-						else if(game->debug.selected.lock() != game->debug.selected.lock()->parent.lock()->children.begin()->second)
-						{
-							auto temp = std::prev(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName));	
-							if(temp->second->showChildren && temp->second->children.size())
-							{
-								game->debug.selected = std::prev(temp->second->children.end())->second;
-							}
-
-							else if(std::distance(game->debug.selected.lock()->parent.lock()->children.begin(),game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName)) > 0)
-							{
-								game->debug.selected = std::prev(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
-							}
-						}
-					}
-					else
-					{
-						while(game->debug.selected.lock()->showChildren && game->debug.selected.lock()->children.size())
-						{
-							game->debug.selected = std::prev(game->debug.selected.lock()->children.end())->second;
-						}
-					}
+					game->debug.selectedUp();
 					break;
 				case KEY_DOWN:
-					if(game->debug.selected.lock()->showChildren && game->debug.selected.lock()->children.size())
-					{
-						game->debug.selected = game->debug.selected.lock()->children.begin()->second;
-					}
-					else if(game->debug.selected.lock() != game->debug.profileHead)
-					{
-						if(std::distance(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName),game->debug.selected.lock()->parent.lock()->children.end()) > 1)
-						{
-							game->debug.selected = std::next(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
-						}
-						else
-						{
-							bool found = false;
-							while(!found)
-							{
-								game->debug.selected = game->debug.selected.lock()->parent;
-								if(game->debug.selected.lock()->parent.expired())
-								{
-									break;
-								}
-								if(std::distance(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName),game->debug.selected.lock()->parent.lock()->children.end()) > 1)
-								{
-									game->debug.selected = std::next(game->debug.selected.lock()->parent.lock()->children.find(game->debug.selected.lock()->funcName))->second;
-									found = true;
-								}
-							}
-						}
-					}
+					game->debug.selectedDown();
 					break;
 				case KEY_ENTER:
 					game->debug.selected.lock()->showChildren = !game->debug.selected.lock()->showChildren;
 					break;
+				case KEY_GRAVE:
+					inputstate = input_gameplay;
+					break;
 				case KEY_TAB:
-					game->debug.toggleDebugOption(inputConsole);
+					inputstate = input_console;
 					break;
 				case KEY_P:
 					game->debug.setDebugOption(toggleProfiler);
@@ -248,11 +202,6 @@ void inputMgr::handleDebugEvent(event* e)
 					break;
 			}
 		}
-	}
-
-	if(game->debug.debugFlags & inputConsole && e->type == EVT_TEXT)
-	{	
-		handleTextEvent(e,"`");
 	}
 
 	game->debug.endProfiledFunc();
@@ -296,7 +245,7 @@ void inputMgr::handleConsoleEvent(event* e)
 		}
 		if(e->value == KEY_TAB)
 		{
-			inputstate = input_console;
+			inputstate = input_debugger;
 		}
 		if(e->flags & FLAG_KEY_CTRL)
 		{
@@ -317,6 +266,10 @@ void inputMgr::handleConsoleEvent(event* e)
 				inputStr.pop_back();
 			}
 		}
+	}
+	else if(e->type == EVT_TEXT)
+	{
+		handleTextEvent(e,"`");
 	}
 }
 

@@ -44,11 +44,6 @@ event::~event()
 	
 }
 
-event::operator bool() const
-{
-	return type != EVT_BAD;
-}
-
 event& event::operator=(const event& src)
 {
 	type = src.type;
