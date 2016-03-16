@@ -115,7 +115,9 @@ public:
 	ENGINE_API bool detachAll();
 
 private:
+	/// Logger
 	logMgr logger;
+	/// Map of current (accesible) threads
 	std::map<std::string,void*> threads;
 };
 

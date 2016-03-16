@@ -1,3 +1,3 @@
 @echo off
 
-doxygen w:\docs\doxyconfig
+doxygen w:\docs\doxyfile

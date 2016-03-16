@@ -108,7 +108,18 @@ public:
 	*/
 	ENGINE_API bool copy(const std::string& text);
 
+	/**
+		@brief Begins sending text events
+
+		Pair with stopTextInput()
+	*/
 	ENGINE_API void startTextInput();
+
+	/**
+		@brief Stops sending text events
+
+		Pair with startTextInput()
+	*/
 	ENGINE_API void stopTextInput();
 
 private:
@@ -170,8 +181,11 @@ private:
 	*/
 	event* translateTextEvent(void* SDL_ev);
 
+	/// logger
 	logMgr logger;
+	/// Pointer to keyboard state updated by SDL
 	uint8* sdl_kbstate;
+	/// Events are good
 	bool good;
 };
 

@@ -29,9 +29,13 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+/// Use default level specified at creation
 const int32 DEFAULT = 0;
+/// Append INFO to header
 const int32 INFO = 1;
+/// Append WARNING to header
 const int32 WARNING = 2;
+/// Append FATAL to header
 const int32 FATAL = 3;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -164,8 +168,11 @@ public:
 	ENGINE_API void ExitSec();
 
 private:
+	/// Matt bauer's logger
 	cl2::Log logger;
+	/// Default level text
 	std::string defaultLevel;
+	/// Logger is good
 	bool good;
 };
 

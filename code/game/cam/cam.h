@@ -105,9 +105,13 @@ struct cam
 	*/
 	GAME_API bool setFollowing(std::weak_ptr<entity> e = std::weak_ptr<entity>());
 
+	/// zoom
 	real32 zoom;
+	/// camera position
 	map_position pos;
+	/// followed entity
 	std::weak_ptr<entity> following;
+	/// logger
 	logMgr logger;
 };
 

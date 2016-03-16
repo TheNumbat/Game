@@ -77,14 +77,18 @@ class sound
 	*/
 	bool free();
 
+	/// Pointer to sdl mixer chunk
 	void* sdl_mixchunk;
-	int channel; /// used by soundMgr
+	/// Channel sound is playing on
+	int channel;
+	/// Sound is good
 	bool good;
 
 	friend class soundMgr;
 
-	/// @note 
+	/// Friendship for smart pointers
 	friend class std::default_delete<sound>;
+	/// Friendship for smart pointers
 	friend std::unique_ptr<sound> std::make_unique<sound>();
 };
 

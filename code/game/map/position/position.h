@@ -211,8 +211,11 @@ struct base_position
 		return *this;
 	}
 
+	/// x pos
 	T x;
+	/// y pos
 	T y;
+	/// z pos
 	T z;
 };
 
@@ -342,8 +345,11 @@ struct map_position
 	*/
 	GAME_API void clamp();
 
+	/// real32 position within chunk
 	real_position realPos;
+	/// Positoin within map (chunk)
 	chunk_position chunkPos;
+	/// Chunk offset from movement
 	chunk_position realChunkOffset;
 };
 

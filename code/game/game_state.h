@@ -68,15 +68,24 @@ struct game_state
 	*/
 	GAME_API void shutdown();
 	
+	/// Camera
 	cam camera;
+	/// Map manager
 	mapMgr map;
+	/// Debug manager
 	debugMgr debug;
+	/// Render manager
 	renderMgr render;
+	/// Input manager
 	inputMgr input;
+	/// Logger
 	logMgr logger;
+	/// Mod manager
 	modMgr mods;
 
+	/// Game is running
 	bool running;
+	/// Pointer to engine
 	engine_state* engine;
 };
 

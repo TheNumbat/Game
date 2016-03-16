@@ -25,23 +25,25 @@
 #endif
 
 #ifdef ENGINE_EXPORTS
+/// Expose functions in library
 #define ENGINE_API __declspec(dllexport)
 #else
+/// Do not expose functions in library
 #define ENGINE_API __declspec(dllimport)
 #endif
 
 // Typedefs ///////////////////////////////////////////////////////////////////
 
-/// Typedefs for style
-typedef float real32;
-typedef double real64;
-typedef int8_t int8;
-typedef uint8_t uint8;
-typedef int16_t int16;
-typedef uint16_t uint16;
-typedef int32_t int32;
-typedef uint32_t uint32;
-typedef int64_t  int64;
+/// For style
+typedef float real32; /// For style 
+typedef double real64; /// For style
+typedef int8_t int8; /// For style
+typedef uint8_t uint8; /// For style
+typedef int16_t int16; /// For style
+typedef uint16_t uint16; /// For style
+typedef int32_t int32; /// For style
+typedef uint32_t uint32; /// For style
+typedef int64_t  int64; /// For style
 typedef uint64_t uint64;
 
 // Global constant definitions  ///////////////////////////////////////////////

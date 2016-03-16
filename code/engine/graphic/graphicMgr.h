@@ -33,8 +33,11 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+/// Don't flip texture
 const uint32 FLIP_NONE = 0;
+/// Flip texture horizontally
 const uint32 FLIP_HORZ = 1<<0;
+/// Flip texture vertically
 const uint32 FLIP_VERT = 1<<1;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -332,13 +335,19 @@ public:
 	ENGINE_API bool setViewport(const rect2<int32>& port = rect2<int32>(0,0,0,0));
 
 private:
+	/// Logger
 	logMgr logger;
 
+	/// Map of loaded textures
 	std::map<std::string,std::unique_ptr<texture>> textures;
+	/// Map of loaded fonts
 	std::map<std::string,std::unique_ptr<font>> fonts;
 
+	/// Pointer to sdl renderer struct
 	void* sdl_renderer;
+	/// Pointer to sdl window struct
 	void* sdl_window;
+	/// Graphics are good
 	bool good;
 };
 

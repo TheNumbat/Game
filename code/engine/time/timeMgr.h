@@ -241,11 +241,15 @@ public:
 	ENGINE_API uint64 getPerfSinceStart();
 
 private:
+	/// Logger
 	logMgr logger;
 
+	/// Map of current timers
 	std::map<std::string,std::unique_ptr<timer>> timers;
+	/// Map of current callbacks
 	std::map<std::string,uint32> callbacks;
 	
+	/// Time system is good
 	bool good;
 };
 

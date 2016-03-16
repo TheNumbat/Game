@@ -31,13 +31,20 @@
 struct game_state;
 class engine_state;
 
+/// Defines prototype for console functions
 typedef bool (*consoleFunc)(game_state*,engine_state*,const std::string& args);
 
+/// Pauses the profiler after the current frame
 const uint64 profilerPaused = 1<<0;
+/// Used to note that the profiler will be toggled after the current frame
 const uint64 toggleProfiler = 1<<1;
+/// Whether or not to render the debug UI
 const uint64 renderDebugUI = 1<<2;
+/// Whether or not to render debug chunk background
 const uint64 renderChunkbounds = 1<<3;
+/// Whether or not to render debug camera
 const uint64 renderCamera = 1<<4;
+/// Whether or not to render every entity's position in text
 const uint64 renderPositionText = 1<<5;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -98,6 +105,7 @@ struct debugMgr
 		Will be included in the profiler tree
 	*/
 	GAME_API void beginProfiledFunc(const std::string& name);
+	/// Used to call beginProfiledFunc() with the current function name
 	#define beginProfiledFunc() beginProfiledFunc(__func__);
 	
 	/**
@@ -157,27 +165,15 @@ struct debugMgr
 	*/
 	GAME_API void toggleDebugOption(uint64 option);
 
+	/**
+		@brief Moves the selected proifle node up (vertically, not neccesarily to its parent)
+	*/
 	GAME_API void selectedUp();
+
+	/**
+		@brief Moves the selected proifle node down (vertically, not neccesarily to its children)
+	*/
 	GAME_API void selectedDown();
-
-	struct profileNode
-	{
-		/**
-			@brief profileNode constructor
-
-			Creates a new profiler node for a function
-		*/
-		GAME_API profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
-	
-		std::string funcName;
-		bool showChildren;
-		uint64 start;
-		uint64 self;
-		uint64 heir;
-		uint32 calls;
-		std::map<std::string,std::shared_ptr<profileNode>> children;
-		std::weak_ptr<profileNode> parent;
-	};
 
 	/**
 		@brief Resets all nodes to 0/0/0
@@ -186,23 +182,63 @@ struct debugMgr
 	*/
 	GAME_API void resetNodesRecursive(std::weak_ptr<profileNode> currentNode);
 
+	/**
+		@brief Contains timing information about a function as well as pointers to children functions
+	*/
+	struct profileNode
+	{
+		/**
+			@brief profileNode constructor
+
+			Creates a new profiler node for a function
+		*/
+		GAME_API profileNode(const std::string& func, uint64 s, std::weak_ptr<profileNode> parent_ = std::weak_ptr<profileNode>());
+		
+		/// Name of function
+		std::string funcName;
+		/// Whether or not to display child functions
+		bool showChildren;
+		/// Start time
+		uint64 start;
+		/// Time spend on self without other function calls
+		uint64 self;
+		/// Total time spent in function with other function calls
+		uint64 heir;
+		/// Number of calls made this frame
+		uint32 calls;
+		/// Child profiler nodes
+		std::map<std::string,std::shared_ptr<profileNode>> children;
+		/// Parent profiler node
+		std::weak_ptr<profileNode> parent;
+	};
+
+	/// Debug flags
 	uint64 debugFlags;
-
+	/// Total time spent on frames
 	uint64 totalFrameTime;
+	/// Frames as of yet
 	uint64 totalFrames;
-
+	/// Time spend on last frame
 	uint64 lastFrameTime;
 
+	/// FPS to cap at
 	uint8 fpsCap;
 
+	/// Head of profiler tree
 	std::shared_ptr<profileNode> profileHead;
+	/// Current profiled node in profiler tree
 	std::weak_ptr<profileNode> currentNode;
+	/// Selected node in profiler tree
 	std::weak_ptr<profileNode> selected;
 	
+	/// Loaded console functions
 	std::map<std::string,consoleFunc> consoleFuncs;
 
+	/// Pointer to game
 	game_state* game;
+	/// Pointer to engine
 	engine_state* engine;
+	/// logger
 	logMgr logger;
 };
 

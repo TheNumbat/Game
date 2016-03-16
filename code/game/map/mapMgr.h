@@ -30,6 +30,7 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+/// Chunk size in meters
 const real32 CHUNK_SIZE_METERS = 25.0f;
 
 struct game_state;
@@ -71,8 +72,6 @@ struct mapMgr
 
 	/**
 		@brief Updates the map (runs physics)
-
-		@todo should this actually be a part of mapMgr? Probably
 	*/
 	GAME_API void update();
 
@@ -239,16 +238,24 @@ struct mapMgr
 	*/
 	GAME_API std::weak_ptr<chunk> getNextChunkForSim();
 
+	/// Actual map of chunks
 	std::unordered_map<chunk_position,std::shared_ptr<chunk>> map;
+	/// Map of players for easy access
 	std::map<std::string,std::weak_ptr<entity>> players;
 
+	/// Next unused entity UID
 	uint32 nextUnusedID;
+	/// Logger
 	logMgr logger;
 
+	/// Pointer to engine
 	engine_state* engine;
+	/// Pointer to game
 	game_state* game;
+	/// ID of timer to use for simulation
 	std::string timerID;
 
+	/// Maximum number of entities that can exist
 	static const uint32 MAX_ENTITIES = 1000000;
 };
 

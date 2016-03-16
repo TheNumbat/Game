@@ -166,21 +166,37 @@ struct component_texture : public component
 	*/
 	GAME_API bool removeTexture(const std::string& ID);
 
+	/**
+		@brief contains information needed to describe an entity texture
+
+		Used to make the texture component AOS instead of SOA
+	*/
 	struct sub_texture
 	{
+		/// ID of loaded texture
 		std::string texID;
+		/// position/size of texture in meters relative to entity pos
 		rect2<real32> texRect;
+		/// Blend mode of texture
 		blendmode blend;
+		/// Color mod of texture
 		color mod;
+		/// Layer of texture
 		int32 layer;
 
+		/// Rect to take from loaded texture
 		rect2<int32> srcPixelRect;
+		/// Point to rotate about
 		v2<real32> rotPt;
+		/// Rotation in degrees
 		real32 rot;
+		/// Flip - see FLIP_NONE, FLIP_HORZ, FLIP_VERT
 		uint32 flip;
 	};
 
+	/// IDs of each sub texture
 	std::vector<std::string> IDs;
+	/// Sub textures
 	std::vector<sub_texture> textures;
 };
 
@@ -234,22 +250,39 @@ struct component_text_texture : public component
 	*/
 	GAME_API bool removeText(const std::string& ID);
 
+	/**
+		@brief contains information needed to describe an entity text texture
+
+		Used to make the text texture component AOS instead of SOA
+	*/
 	struct sub_text_texture
 	{
+		/// ID of loaded font
 		std::string fontID;
+		/// Actual text
 		std::string message;
+		/// position/size of text in meters relative to entity pos
 		rect2<real32> texRect;
+		/// rectange in pixels to pull from generated text texture (probably don't need this)
 		rect2<int32> srcPixelRect;
+		/// Blend mode of text
 		blendmode blend;
+		/// Color mod of text
 		color mod;
+		/// Layer of text
 		int32 layer;
 
+		/// Point to rotate about
 		v2<real32> rotPt;
+		/// Rotation in degrees
 		real32 rot;
+		/// Flip - see FLIP_NONE, FLIP_HORZ, FLIP_VERT
 		uint32 flip;
 	};
 
+	/// IDs of sub text textures
 	std::vector<std::string> IDs;
+	/// sub text textures
 	std::vector<sub_text_texture> textures;
 };
 

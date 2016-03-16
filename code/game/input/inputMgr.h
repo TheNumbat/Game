@@ -103,12 +103,17 @@ struct inputMgr
 	*/
 	GAME_API void handleTextEvent(event* e, const std::string& exclude);
 
+	/// Current input state @see inputstates
 	inputstates inputstate;
 
+	/// Current text input string
 	std::string inputStr;
+	/// Previous text input string
 	std::string prevInput;
 
+	/// Pointer to game
 	game_state* game;
+	/// Pointer to engine
 	engine_state* engine;
 };
 

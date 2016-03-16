@@ -208,12 +208,29 @@ public:
 	*/	
 	ENGINE_API std::vector<std::string> getNames(const std::string& path);
 
+	/**
+		@brief compies a binary file to another
+
+		Uses windows CopyFile() right now.
+
+		@todo remove windows call
+
+		@param[in] src path to file to copy from
+		@param[in] dest path to file to copy into
+
+		@return success
+
+		@exception unable to copy file, returns false
+	*/	
 	ENGINE_API bool copyFileBin(const std::string& src, const std::string& dest);
 
 private:
+	/// Map of loaded files
 	std::map<std::string,std::unique_ptr<file>> files;
+	/// Map of loaded libraries
 	std::map<std::string,void*> libraries;
 
+	/// logger
 	logMgr logger;
 };
 

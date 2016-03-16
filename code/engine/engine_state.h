@@ -42,13 +42,21 @@
 */
 struct engine_state
 {
+	/// Manges init/destory of SDL in general
 	sdlMgr sdl;	
+	/// Manages threads 
 	threadMgr thread;
+	/// Manages file IO
 	fileMgr file;
+	/// Manages event input
 	eventMgr events;
+	/// Manages graphical display
 	graphicMgr graphics;
+	/// Manages sound output
 	soundMgr audio;
+	/// Manages timing
 	timeMgr time;
+	/// Manages logging
 	logMgr logger;
 };
 

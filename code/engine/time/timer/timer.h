@@ -52,16 +52,21 @@ class timer
 	*/
 	~timer();
 
+	/// Start time (ms or perf)
 	uint64 start;
+	/// Time when paused (ms or perf)
 	uint64 pause;
+	/// Lag time behind current time (ms or perf)
 	uint64 lag;
 
-	bool perfCounter; // used by timeMgr to signify that it's a performance counter
+	/// If this timer is a performance counter or not
+	bool perfCounter;
 
 	friend class timeMgr;
 
-	// For memory
+	/// Friendship for smart pointers
 	friend class std::default_delete<timer>;
+	/// Friendship for smart pointers
 	friend std::unique_ptr<timer> std::make_unique<timer,uint64&,uint64,bool>(uint64&,uint64&&,bool&&);
 };
 

@@ -64,7 +64,9 @@ public:
 	ENGINE_API bool kill();
 
 private:
+	/// Logger
 	logMgr logger;
+	/// SDL is good
 	bool good;
 };
 

@@ -19,8 +19,10 @@
 #pragma once
 
 #ifdef GAME_EXPORTS
+/// Exposes fucntions in DLL
 #define DLL_OUT extern "C" __declspec(dllexport)
 #else
+/// Does not expose functions in DLL
 #define DLL_OUT __declspec(dllimport)
 #endif
 

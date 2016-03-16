@@ -39,6 +39,7 @@ struct chunk
 	GAME_API chunk();
 	GAME_API ~chunk();
 
+	/// map of entities contined in the chunk
 	std::map<uint64,std::shared_ptr<entity>> entities;
 };
 

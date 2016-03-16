@@ -112,9 +112,12 @@ struct entity
 	*/
 	GAME_API std::weak_ptr<component> getComponent(component_type c);
 
+	/// Current components
 	std::map<component_type,std::shared_ptr<component>> components;
 
+	/// Unique ID of entity
 	uint32 UID;
+	/// Last update in ms
 	uint32 lastUpdate;
 };
 

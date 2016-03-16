@@ -215,7 +215,7 @@ bool graphicMgr::addTextTexture(const std::string& texID, const std::string& fon
 	sdl_color.b = c.b;
 	sdl_color.a = c.a;
 
-	/// @todo more text rendering options
+	/// @todo more text rendering options?
 	SDL_Surface* textSurface = TTF_RenderText_Solid((TTF_Font*)fontEntry->second->sdl_font,text.c_str(),sdl_color);
 
 	if(!textSurface)

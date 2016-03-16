@@ -29,8 +29,11 @@
 struct game_state;
 class engine_state;
 
+/// Prototype of mod startup function
 typedef void (*startupFunc)(void*,void*);
+/// Prototype of mod update function
 typedef startupFunc updateFunc;
+/// Prototype of mod shutdown function
 typedef startupFunc shutdownFunc;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -76,15 +79,22 @@ struct modMgr
 	*/
 	GAME_API void shutdown();
 
+	/// Logger
 	logMgr logger;
 
+	/// IDs of mod loaded libraries
 	std::vector<std::string> modLibIDs;
 
+	/// Mod startup functions
 	std::vector<startupFunc> startupFuncs;
+	/// Mod update functions
 	std::vector<updateFunc> updateFuncs;
+	/// Mod shutdown functions
 	std::vector<shutdownFunc> shutdownFuncs;
 
+	/// Pointer to game
 	game_state* game;
+	/// Pointer to engine
 	engine_state* engine;
 };
 

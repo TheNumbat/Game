@@ -55,7 +55,7 @@ class font
 		Loads image file using SDL_Image
 
 		@param[in] path is the file path of the true type font file
-		@param[in] size the font size to use
+		@param[in] s the font size to use
 
 		@return success
 
@@ -74,14 +74,18 @@ class font
 	*/
 	bool free();
 
+	/// Pointer to SDL_ttf structure
 	void* sdl_font;
+	/// Font size
 	int32 size;
+	/// If font is good
 	bool good;
 
 	friend class graphicMgr;
 
-	/// @note Friendship for smart pointers
+	/// Friendship for smart pointers
 	friend class std::default_delete<font>;
+	/// Friendship for smart pointers
 	friend std::unique_ptr<font> std::make_unique<font>();
 };
 

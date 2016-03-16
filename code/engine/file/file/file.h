@@ -27,15 +27,23 @@
 // Global constant definitions  ///////////////////////////////////////////////
 
 // File types
+/// Open file as text
 const int8 file_text = 't';
+/// Open file as binary
 const int8 file_binary = 'b';
 
 // File access types
+/// Open file to read only
 const std::string file_read = "r";
+/// Open empty file to write only
 const std::string file_empty_write = "w";
+/// Open file to append only
 const std::string file_append = "a";
+/// Open file to read and write
 const std::string file_read_write = "r+";
+/// Open empty file to read and write
 const std::string file_empty_read_write = "w+";
+/// Open file to read and append only
 const std::string file_read_append = "a+";
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -89,13 +97,16 @@ class file
 	*/
 	bool free();
 
+	/// Pointer to SDL file struct
 	void* sdl_file;
+	/// If file is good
 	bool good;
 
 	friend class fileMgr;
 
-	/// @note Friendship for smart pointers
+	/// Friendship for smart pointers
 	friend class std::default_delete<file>;
+	/// Friendship for smart pointers
 	friend std::unique_ptr<file> std::make_unique<file>();
 };
 

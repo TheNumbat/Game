@@ -191,10 +191,13 @@ public:
 	ENGINE_API bool stop(const std::string& ID, int timeout = 0);
 
 private:
+	/// Logger
 	logMgr logger;
 
+	/// Map of loaded sounds
 	std::map<std::string,std::unique_ptr<sound>> sounds;
 	
+	/// Sound system is good
 	bool good;
 };
 

@@ -133,14 +133,18 @@ class texture
 	*/
 	bool free();
 
+	/// Pointer to sdl texture
 	void* sdl_texture;
+	/// Default blend mode
 	blendmode blend;
+	/// Texture is good
 	bool good;
 
 	friend class graphicMgr;
 
-	/// @note Friendship for smart pointers
+	/// Friendship for smart pointers
 	friend class std::default_delete<texture>;
+	/// Friendship for smart pointers
 	friend std::unique_ptr<texture> std::make_unique<texture>();
 };
 

@@ -31,7 +31,9 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+/// Conversion from meters to pixels
 const real32 METERS_TO_PIXELS = 64.0f;
+/// Conversion from pixels to meters
 const real32 PIXELS_TO_METERS = (1 / METERS_TO_PIXELS);
 
 struct game_state;
@@ -83,13 +85,22 @@ struct renderMgr
 			Polymorphic
 		*/
 		GAME_API virtual ~rawTex() = 0 {};
+
+		/// rectangle to render into on screen
 		rect2<real32> pixelRect;
+		/// blend mode
 		blendmode blend;
+		/// color mod
 		color mod;
+		/// layer
 		int32 layer;
+		/// rectangle to pull from loaded texture
 		rect2<int32> srcPixelRect;
+		/// point to rotate about
 		v2<real32> rotPoint;
+		/// rotation in degrees
 		real32 rot;
+		/// flip (FLIP_NONE,FLIP_HORZ,FLIP_VERT,FLIP_HORZ|FLIP_VERT)
 		uint32 flip;
 	};
 
@@ -107,6 +118,7 @@ struct renderMgr
 			@brief rawTexture constructor using a sub_texture
 		*/
 		GAME_API rawTexture(const component_texture::sub_texture& t, real32 zoom, const v2<real32>& offset);
+		/// ID of loaded texture to render
 		std::string ID;
 	};
 
@@ -124,7 +136,9 @@ struct renderMgr
 			@brief rawTexture constructor using a sub_text_texture
 		*/
 		GAME_API rawText(const component_text_texture::sub_text_texture& t, real32 zoom, const v2<real32>& offset);
+		/// ID of loaded font to use
 		std::string fontID;
+		/// Actual text to render
 		std::string text;
 	};
 
@@ -171,7 +185,9 @@ struct renderMgr
 	*/
 	GAME_API v2<real32>& mapIntoPixelSpace(const map_position& origin, const map_position& point, real32 zoom);
 
+	/// Pointer to game
 	game_state* game;
+	/// Pointer to engine
 	engine_state* engine;
 };
 
