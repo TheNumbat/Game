@@ -89,7 +89,7 @@ void mapMgr::update()
 
 							e.lock()->setLastUpdate(current);
 							
-							if(updateEntityMapPos(e))
+							if(updateEntityMapPos(e,false))
 							{
 								simChunk.lock()->entities.erase(entry++);
 								moved = true;
@@ -297,7 +297,7 @@ bool mapMgr::removeEntityByUID(uint32 UID)
 	return false;
 }
 
-bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
+bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e, bool remove)
 {
 
 	// Check that entity has component
@@ -322,6 +322,11 @@ bool mapMgr::updateEntityMapPos(const std::weak_ptr<entity>& e)
 
 	// Move entity
 	newChunk.lock()->entities.insert({e.lock()->getUID(),e.lock()});
+
+	if(remove)
+	{
+		oldChunk.lock()->entities.erase(e.lock()->getUID());
+	}
 
 	#ifdef VERBOSE_MAP
 		logger.LogInfo("Updated chunk position of entity UID: " + std::to_string(e.lock()->getUID()));

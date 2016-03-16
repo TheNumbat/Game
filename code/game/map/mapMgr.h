@@ -199,15 +199,16 @@ struct mapMgr
 	/**
 		@brief updates an entity's position in the chunk map
 
-		@note WILL NOT DELETE ENTITY IF IT IS MOVED, YOU MUST DO THIS
+		@note WILL NOT DELETE ENTITY IF REMOVE IS FALSE
 
 		@param[in] e pointer to entity to update
+		@param[in] remove whether or not to remove the enity from the chunk
 
 		@return success
 
 		@exception e does not have a position component, return false
 	*/
-	GAME_API bool updateEntityMapPos(const std::weak_ptr<entity>& e);
+	GAME_API bool updateEntityMapPos(const std::weak_ptr<entity>& e, bool remove = true);
 
 	/**
 		@brief creates a new chunk or returns one already in existance
