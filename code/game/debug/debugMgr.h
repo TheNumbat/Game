@@ -35,10 +35,9 @@ typedef bool (*consoleFunc)(game_state*,engine_state*,const std::string& args);
 
 const uint64 profilerPaused = 1<<0;
 const uint64 toggleProfiler = 1<<1;
-const uint64 inputConsole = 1<<2;
-const uint64 renderDebugUI = 1<<3;
-const uint64 renderChunkbounds = 1<<4;
-const uint64 renderCamera = 1<<5;
+const uint64 renderDebugUI = 1<<2;
+const uint64 renderChunkbounds = 1<<3;
+const uint64 renderCamera = 1<<4;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 

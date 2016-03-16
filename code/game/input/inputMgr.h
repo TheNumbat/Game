@@ -36,7 +36,8 @@ enum inputstates
 {
 	input_none,
 	input_gameplay,
-	input_debugger
+	input_debugger,
+	input_console
 };
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -77,11 +78,20 @@ struct inputMgr
 	/**
 		@brief Handles a debug mode event
 
-		Used for profiler, console, etc
+		Used for profiler, etc
 
 		@param[in] e current event
 	*/
 	GAME_API void handleDebugEvent(event* e);
+
+	/**
+		@brief Handles a console mode event
+
+		Used for profiler, console, etc
+
+		@param[in] e current event
+	*/
+	GAME_API void handleConsoleEvent(event* e);
 
 	/**
 		@brief Handles a text event
