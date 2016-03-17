@@ -123,18 +123,32 @@ void renderMgr::renderDebugHUD()
 		engine->graphics.renderText("debugUI","Press ~ to switch to profiler",rect2<int32>(10,10,0,0));
 		return;
 	}
-	
+
+	int32 lines = 0;
+	int32 fontsize = engine->graphics.getFontSize("debugUI");
+
+	engine->graphics.renderText("debugUI","Press tab for console",rect2<int32>(10,10 + lines * fontsize,0,0)); 
+	lines++;
+
 	real64 avgFrame = 1000.0f * (real64)game->debug.getAvgFrame() / (real64)engine->time.getPerfFreq();
 	real64 lastFrame = 1000.0f * (real64)game->debug.getLastFrame() / (real64)engine->time.getPerfFreq();
 	std::string msg1 = "Average frame time (ms): " + std::to_string(avgFrame);
 	std::string msg2 = "Last frame time (ms): " + std::to_string(lastFrame);
 
-	int32 fontsize = engine->graphics.getFontSize("debugUI");
-	engine->graphics.renderText("debugUI","Press tab for console",rect2<int32>(10,10,0,0));
-	engine->graphics.renderText("debugUI",msg1,rect2<int32>(10,10 + fontsize,0,0));
-	engine->graphics.renderText("debugUI",msg2,rect2<int32>(10,10 + 2 * fontsize,0,0));
+	engine->graphics.renderText("debugUI",msg1,rect2<int32>(10,10 + lines * fontsize,0,0));
+	lines++;
+	engine->graphics.renderText("debugUI",msg2,rect2<int32>(10,10 + lines * fontsize,0,0));
+	lines++;
 
-	recursiveProfilerRender(game->debug.profileHead,10 + 3 * fontsize);
+	engine->graphics.renderText("debugUI","Debug values:",rect2<int32>(10,10 + lines * fontsize,0,0));
+	lines++;
+	for(auto& entry : game->debug.debugValues)
+	{
+		engine->graphics.renderText("debugUI","   " + entry.first + " - " + entry.second->getStr(),rect2<int32>(10,10 + lines * fontsize,0,0));
+		lines++;
+	}
+
+	lines += recursiveProfilerRender(game->debug.profileHead,10 + lines * fontsize);
 
 	fontsize = engine->graphics.getFontSize("debugUI");
 	if(game->input.inputstate == input_console)

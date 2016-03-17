@@ -88,7 +88,8 @@ struct debugMgr
 
 	struct debugValue
 	{
-		virtual ~debugValue() {};
+		virtual ~debugValue() {}
+		virtual std::string getStr() {return "";}
 	};
 
 	template<typename T>
@@ -98,9 +99,9 @@ struct debugMgr
 		{
 			value = val;
 		}
-		T get()
+		std::string getStr()
 		{
-			return value;
+			return std::to_string(value);
 		}
 		T value;
 	};
@@ -112,9 +113,9 @@ struct debugMgr
 		{
 			value = val;
 		}
-		T get()
+		std::string getStr()
 		{
-			return *value;
+			return std::to_string(*value);
 		}
 		T* value;
 	};
@@ -279,7 +280,7 @@ struct debugMgr
 	/// Loaded console functions
 	std::map<std::string,consoleFunc> consoleFuncs;
 
-	std::map<std::string,debugValue> debugValues;
+	std::map<std::string,std::unique_ptr<debugValue>> debugValues;
 
 	/// Pointer to game
 	game_state* game;

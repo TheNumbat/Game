@@ -50,6 +50,8 @@ debugMgr::debugMgr(game_state* g, engine_state* e)
 	fpsCap = 0;
 	debugFlags = 0;
 
+	trackValue("lastFrameTime",&lastFrameTime);
+
 	profileHead = std::make_shared<profileNode>("profiler",0);
 	currentNode = profileHead;
 	selected = profileHead;
@@ -81,7 +83,7 @@ bool debugMgr::trackValue(const std::string& name, T* value)
 		logger.LogWarn("Debug value name " + name + " already in use!");
 		return false;
 	}
-	debugValues.insert({name,debugTrackedValue(value)});
+	debugValues.insert({name,std::make_unique<debugTrackedValue<T>>(value)});
 	return true;
 }
 
@@ -93,7 +95,7 @@ bool debugMgr::addValue(const std::string& name, T value)
 		logger.LogWarn("Debug value name " + name + " already in use!");
 		return false;
 	}
-	debugValues.insert({name,debugStaticValue(value)});	
+	debugValues.insert({name,std::make_unique<debugStaticValue<T>>(value)});	
 	return true;
 }
 
