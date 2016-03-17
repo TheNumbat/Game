@@ -85,6 +85,39 @@ struct debugMgr
 		/// Parent profiler node
 		std::weak_ptr<profileNode> parent;
 	};
+
+	struct debugValue
+	{
+		virtual ~debugValue() {};
+	};
+
+	template<typename T>
+	struct debugStaticValue : public debugValue
+	{
+		debugStaticValue(T val)
+		{
+			value = val;
+		}
+		T get()
+		{
+			return value;
+		}
+		T value;
+	};
+
+	template<typename T>
+	struct debugTrackedValue : public debugValue
+	{
+		debugTrackedValue(T* val)
+		{
+			value = val;
+		}
+		T get()
+		{
+			return *value;
+		}
+		T* value;
+	};
 	
 	/**
 		@brief debugMgr constructor
@@ -145,6 +178,17 @@ struct debugMgr
 		Will be included in the profiler tree
 	*/
 	GAME_API void endProfiledFunc();
+
+	template<typename T>
+	GAME_API bool trackValue(const std::string& name, T* value);
+	#define trackValue(value) trackValue(#value,&value)
+
+	template<typename T>
+	GAME_API bool addValue(const std::string& name, T value);
+	#define addValue(value) addValue(#value,value)
+
+	GAME_API bool releaseValue(const std::string& name);
+	#define releaseValue(value) releaseValue(#value)
 
 	/**
 		@brief Resets the average frame timer
@@ -234,6 +278,8 @@ struct debugMgr
 	
 	/// Loaded console functions
 	std::map<std::string,consoleFunc> consoleFuncs;
+
+	std::map<std::string,debugValue> debugValues;
 
 	/// Pointer to game
 	game_state* game;

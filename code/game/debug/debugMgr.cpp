@@ -23,6 +23,9 @@
 #include <engine_state.h>
 
 #undef beginProfiledFunc()
+#undef trackValue()
+#undef addValue()
+#undef releaseValue()
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -68,6 +71,42 @@ debugMgr::profileNode::profileNode(const std::string& func, uint64 s, std::weak_
 	heir = 0;
 	calls = 1;
 	parent = parent_;
+}
+
+template<typename T>
+bool debugMgr::trackValue(const std::string& name, T* value)
+{
+	if(debugValues.find(name) != debugValues.end())
+	{
+		logger.LogWarn("Debug value name " + name + " already in use!");
+		return false;
+	}
+	debugValues.insert({name,debugTrackedValue(value)});
+	return true;
+}
+
+template<typename T>
+bool debugMgr::addValue(const std::string& name, T value)
+{
+	if(debugValues.find(name) != debugValues.end())
+	{
+		logger.LogWarn("Debug value name " + name + " already in use!");
+		return false;
+	}
+	debugValues.insert({name,debugStaticValue(value)});	
+	return true;
+}
+
+bool debugMgr::releaseValue(const std::string& name)
+{
+	auto entry = debugValues.find(name);
+	if(entry == debugValues.end())
+	{
+		logger.LogWarn("Could not find debug value with name " + name);
+		return false;
+	}
+	debugValues.erase(entry);
+	return true;
 }
 
 void debugMgr::setDebugOption(uint64 option)
