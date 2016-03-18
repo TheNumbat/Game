@@ -10,7 +10,7 @@
 // THE MOST IMPORTANT PART OF THIS IS THAT YOU CAN DEFINE NEW COMMANDS DYNAMICALLY, SAY TO ADD A DEBUG VALUE
 // YOU CAN ADD A NEW FUNCTION THAT DOES ONLY THAT, RECOMPILE THE CONOSLE COMMANDS ONLY AND USE YOUR NEW COMMAND
 
-// THIS IS NOT POSSIBLE OTHERWISE, AS YOU CAN'T USE TEXT INPUT AS AN EXPRESSION
+// THIS IS NOT POSSIBLE OTHERWISE, AS YOU CAN'T USE TEXT INPUT AS AN EXPRESSION (c++ is not interpreted, lol)
 
 /* EXAMPLE:
 CONSOLE_FUNC(temp)
@@ -83,7 +83,8 @@ CONSOLE_FUNC(setPlayerPos)
 	std::weak_ptr<entity> player = game->map.getPlayerByID(playerID);
 	std::weak_ptr<component_position> pos = std::static_pointer_cast<component_position>(player.lock()->getComponent(ctype_position).lock());
 	pos.lock()->position = map_position(cx,cy,cz,x,y,z);
-	pos.lock()->position.realChunkOffset += chunk_position(pos.lock()->position.realChunkOffset.x + cx,pos.lock()->position.realChunkOffset.y + cy,pos.lock()->position.realChunkOffset.z + cz);
+	pos.lock()->position.realChunkOffset += chunk_position(pos.lock()->position.realChunkOffset.x + cx,pos.lock()->position.realChunkOffset.y + cy,
+														   pos.lock()->position.realChunkOffset.z + cz);
 	game->map.updateEntityMapPos(player);
 	return true;
 }
