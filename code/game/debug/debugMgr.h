@@ -46,6 +46,7 @@ const uint64 renderChunkbounds = 1<<3;
 const uint64 renderCamera = 1<<4;
 /// Whether or not to render every entity's position in text
 const uint64 renderPositionText = 1<<5;
+const uint64 renderCollisionBounds = 1<<6;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
 

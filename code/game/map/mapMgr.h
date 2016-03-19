@@ -27,6 +27,7 @@
 #include <memory>
 #include <unordered_map>
 #include <map>
+#include <set>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -37,6 +38,36 @@ struct game_state;
 class engine_state;
 
 // Class/Struct definitions  //////////////////////////////////////////////////
+
+enum collision_class
+{
+	collision_player,
+	collision_enviroment
+};
+
+struct collision_pair
+{
+	collision_pair(collision_class one, collision_class two);
+	~collision_pair();
+	bool operator==(const collision_pair& comp) const;
+	collision_class c1;
+	collision_class c2;
+};
+
+namespace std
+{
+	template<> 
+	struct hash<collision_pair>
+	{
+		uint64 operator()(const collision_pair& value) const
+		{
+            uint64 h1 = std::hash<int32>()((int32)value.c1);
+            uint64 h2 = std::hash<int32>()((int32)value.c2);
+
+            return h2 ^ (h1 << 1);
+		}
+	};
+}
 
 /**
 	@brief Describes an area of the map
@@ -74,6 +105,9 @@ struct mapMgr
 		@brief Updates the map (runs physics)
 	*/
 	GAME_API void update();
+
+	GAME_API void setCollisionRule(collision_class c1, collision_class c2, bool collides);
+	GAME_API bool getCollisionRule(collision_class c1, collision_class c2);
 
 	/**
 		@brief creates a new entity
@@ -270,6 +304,8 @@ struct mapMgr
 		@exception map is empty, return nullptr
 	*/
 	GAME_API std::weak_ptr<chunk> getNextChunkForSim();
+
+	std::unordered_map<collision_pair,bool> collisionRules;
 
 	/// Actual map of chunks
 	std::unordered_map<chunk_position,std::shared_ptr<chunk>> map;

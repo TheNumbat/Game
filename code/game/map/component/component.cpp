@@ -20,6 +20,7 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "component.h"
+#include "map/mapMgr.h"
 #include <algorithm>
 
 // Global constant definitions  ///////////////////////////////////////////////
@@ -46,10 +47,51 @@ std::shared_ptr<component> createComponent(component_type c)
 		case ctype_text_texture:
 			return std::static_pointer_cast<component>(std::make_shared<component_text_texture>());
 			break;
+		case ctype_collision:
+			return std::static_pointer_cast<component>(std::make_shared<component_collision>());
+			break;
 	}
 }
 
 // Class/Data Structure member implementations  ///////////////////////////////
+
+component_collision::component_collision()
+{
+	type = ctype_collision;
+	cClass = collision_enviroment;
+}
+
+component_collision::~component_collision()
+{
+
+}
+
+bool component_collision::addRect(const std::string& ID, rect2<real32> rect)
+{
+	if(std::find(IDs.begin(),IDs.end(),ID) != IDs.end())
+	{
+		return false;
+	}
+
+	IDs.push_back(ID);
+	cRects.push_back(rect);
+	return true;
+}
+
+bool component_collision::removeRect(const std::string& ID)
+{
+	auto tEntry = std::find(IDs.begin(),IDs.end(),ID);
+	if(tEntry == IDs.end())
+	{
+		return false;
+	}
+
+	int32 position = tEntry - IDs.begin();
+
+	IDs.erase(tEntry);
+	cRects.erase(cRects.begin() + position);
+	return true;
+}
 
 component_position::component_position(const map_position& _pos)
 {

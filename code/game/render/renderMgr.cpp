@@ -293,8 +293,20 @@ void renderMgr::getMapTextures(std::vector<renderMgr::rawTex*>& textures)
 							map_position entityPos = ePosition.lock()->position;
 							std::string positionText = std::to_string((int32)std::round(entityPos.chunkPos.x)) + " " + std::to_string((int32)std::round(entityPos.chunkPos.y)) + " " + std::to_string((int32)std::round(entityPos.chunkPos.z))
 												   + " " + std::to_string((int32)std::round(entityPos.realPos.x)) + " " + std::to_string((int32)std::round(entityPos.realPos.y)) + " " + std::to_string((int32)std::round(entityPos.realPos.z));
-							textures.push_back(new rawText("debugUI_verysmall",positionText,rect2<real32>(entityPixelPos.x,entityPixelPos.y,12*camZoom*positionText.length(),12*camZoom),blend_alpha,color(255,255,255,0),
+							int32 fSize = engine->graphics.getFontSize("debugUI_verysmall");
+							textures.push_back(new rawText("debugUI_verysmall",positionText,rect2<real32>(entityPixelPos.x,entityPixelPos.y,fSize*camZoom*positionText.length(),fSize*camZoom),blend_alpha,color(255,255,255,0),
 											     	  	   1000,rect2<int32>(0,0,0,0),v2<real32>(0,0),0,0));
+						}
+
+						if(game->debug.debugFlags & renderCollisionBounds && e.lock()->hasComponent(ctype_collision))
+						{
+							std::weak_ptr<component_collision> eColl = std::static_pointer_cast<component_collision>(e.lock()->getComponent(ctype_collision).lock());
+
+							for(int32 index = 0; index < eColl.lock()->IDs.size(); index++)
+							{
+								textures.push_back(new rawTexture("debug_rect",eColl.lock()->cRects[index] * METERS_TO_PIXELS * camZoom + entityPixelPos, blend_additive,
+												   				  color(255,255,255,0),-999,rect2<int32>(0,0,0,0),v2<real32>(0,0),0,0));
+							}
 						}
 
 						if(e.lock()->hasComponent(ctype_texture))

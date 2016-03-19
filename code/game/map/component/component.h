@@ -32,6 +32,8 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+enum collision_class;
+
 /**
 	@brief Holds types of components
 
@@ -42,7 +44,8 @@ enum component_type
 	ctype_position = 0,
 	ctype_movement = 1,
 	ctype_texture = 2,
-	ctype_text_texture = 3
+	ctype_text_texture = 3,
+	ctype_collision = 4
 };
 
 // Class/Struct definitions  //////////////////////////////////////////////////
@@ -284,6 +287,19 @@ struct component_text_texture : public component
 	std::vector<std::string> IDs;
 	/// sub text textures
 	std::vector<sub_text_texture> textures;
+};
+
+struct component_collision : public component
+{
+	component_collision();
+	~component_collision();
+
+	bool addRect(const std::string& ID, rect2<real32> rect);
+	bool removeRect(const std::string& ID); 
+
+	collision_class cClass;
+	std::vector<std::string> IDs;
+	std::vector<rect2<real32>> cRects;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

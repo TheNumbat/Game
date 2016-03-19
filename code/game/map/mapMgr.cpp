@@ -47,6 +47,51 @@ mapMgr::~mapMgr()
 	logger.LogInfo("Map uninitialized");
 }
 
+collision_pair::collision_pair(collision_class one, collision_class two)
+{
+	c1 = one;
+	c2 = two;
+}
+
+collision_pair::~collision_pair()
+{
+
+}
+
+bool collision_pair::operator==(const collision_pair& comp) const
+{
+	return (c1 == comp.c1 && c2 == comp.c2) ||
+		   (c1 == comp.c2 && c2 == comp.c1);
+}
+
+void mapMgr::setCollisionRule(collision_class c1, collision_class c2, bool collides)
+{
+	collision_pair cp(c1,c2);
+	auto entry = collisionRules.find(cp);
+	if(entry == collisionRules.end())
+	{
+		collisionRules.insert({cp,collides});
+	}
+	else
+	{
+		entry->second = collides;
+	}
+}
+
+bool mapMgr::getCollisionRule(collision_class c1, collision_class c2)
+{
+	collision_pair cp(c1,c2);
+	auto entry = collisionRules.find(cp);
+	if(entry == collisionRules.end())
+	{
+		return false;
+	}
+	else
+	{
+		return entry->second;
+	}
+}
+
 void mapMgr::update()
 {
 	game->debug.beginProfiledFunc();

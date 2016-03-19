@@ -109,6 +109,12 @@ CONSOLE_FUNC(drawChunkbounds)
 	return true;
 }
 
+CONSOLE_FUNC(drawCollisionBounds)
+{
+	game->debug.toggleDebugOption(renderCollisionBounds);
+	return true;
+}
+
 CONSOLE_FUNC(drawCamera)
 {
 	game->debug.toggleDebugOption(renderCamera);
