@@ -24,6 +24,8 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
+const real32 fudge = 0.001f; // :(
+
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 // Free function prototypes  //////////////////////////////////////////////////
@@ -110,7 +112,7 @@ void mapMgr::update()
 
 		if(!simChunk.expired())
 		{
-			bool moved = false;
+			bool moved;
 			for(auto entry = simChunk.lock()->entities.begin(); entry != simChunk.lock()->entities.end(); moved ? entry : ++entry)
 			{
 				moved = false;
@@ -118,6 +120,8 @@ void mapMgr::update()
 
 				if(!e.expired())
 				{
+					uint32 UID = e.lock()->UID;
+
 					if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_movement))
 					{
 						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
@@ -129,16 +133,53 @@ void mapMgr::update()
 						if(dT)
 						{
 							eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
-							v2<real32> offset = eMov.lock()->velocity * (dT / 1000.0f);
-							ePos.lock()->position += map_position(0,0,0,offset.x,offset.y,0);
+							v2<real32> dP = eMov.lock()->velocity * (dT / 1000.0f);
 
-							e.lock()->setLastUpdate(current);
-							
-							if(updateEntityMapPos(e,false))
+							if(dP)
 							{
-								simChunk.lock()->entities.erase(entry++);
-								moved = true;
+								segment<real32> sP(0,0,dP.x,dP.y);
+
+								// collision
+								// This is really pretty bad - needs to take into account collision rules, mlutiple rects in source entity,
+								// not simply cancel the movement due to collision, prevent edge fudging, more than just rects, allow
+								// things to slide smoothly
+								std::vector<rect2<real32>> nearbyRects = getPossibleRects(ePos.lock()->position,dP,e.lock()->UID);
+								for(rect2<real32>& rect : nearbyRects)
+								{
+									std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(e.lock()->getComponent(ctype_collision).lock());
+
+									rect2<real32> expand = rect.sweep(eCol.lock()->cRects[0]);
+									std::vector<segment<real32>> segments = expand.getSegments();
+									std::vector<v2<real32>> points;
+									for(segment<real32> seg : segments)
+									{
+										points.push_back(seg.intersect(sP));
+									}
+									v2<real32> point = getClosest(points);
+									
+									if(point == dP) // no collision
+									{
+										ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);
+									}
+									else // collision
+									{	
+										ePos.lock()->position += map_position(0,0,0,point.x,point.y,0);	
+										eMov.lock()->velocity = v2<real32>(0,0);
+									}
+								}
+								if(!nearbyRects.size())
+								{
+									ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);	
+								}
 							}
+						}
+
+						e.lock()->setLastUpdate(current);
+								
+						if(updateEntityMapPos(e,false))
+						{
+							simChunk.lock()->entities.erase(entry++);
+							moved = true;
 						}
 					}
 				}
@@ -148,6 +189,73 @@ void mapMgr::update()
 	while(!simChunk.expired());
 
 	game->debug.endProfiledFunc();
+}
+
+std::vector<rect2<real32>> mapMgr::getPossibleRects(const map_position& pos, const v2<real32>& dP, uint32 exclude)
+{
+	game->debug.beginProfiledFunc();
+
+	std::vector<rect2<real32>> rects;
+
+	v2<int32> area;
+	if(dP.x >= 0) area.x = std::floor(dP.x / CHUNK_SIZE_METERS);
+	else area.x = std::ceil(dP.x / CHUNK_SIZE_METERS);
+	if(dP.y >= 0) area.y = std::floor(dP.y / CHUNK_SIZE_METERS);
+	else area.y = std::ceil(dP.y / CHUNK_SIZE_METERS);
+
+	for(int32 x = pos.chunkPos.x - area.x; x <= pos.chunkPos.x + area.x; x++)
+	{
+		for(int32 y = pos.chunkPos.y - area.y; y <= pos.chunkPos.y + area.y; y++)	
+		{
+			std::weak_ptr<chunk> current = getChunk(chunk_position(x,y,pos.chunkPos.z));
+			if(!current.expired())
+			{
+				for(auto& entry : current.lock()->entities)
+				{
+					if(entry.second->UID != exclude)
+					{
+						std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(entry.second->getComponent(ctype_collision).lock());
+						if(!eCol.expired())
+						{
+							std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(entry.second->getComponent(ctype_position).lock());
+							for(auto& rectEntry : eCol.lock()->cRects)
+							{
+								rect2<real32> rect = rectEntry + getDistance(pos,ePos.lock()->position);
+								rects.push_back(rect);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	game->debug.endProfiledFunc();
+	return rects;
+}
+
+v2<real32> mapMgr::getClosest(const std::vector<v2<real32>>& points)
+{
+	game->debug.beginProfiledFunc();
+	v2<real32> least = points[0];
+	for(auto& point : points)
+	{
+		if(point.length() < least.length())
+		{
+			least = point;
+		}
+	}
+	game->debug.endProfiledFunc();
+	return least;
+}
+
+v2<real32> mapMgr::getDistance(const map_position& one, const map_position& two)
+{
+	game->debug.beginProfiledFunc();
+	v2<real32> relDistance( one.realPos.x - two.realPos.x , one.realPos.y - two.realPos.y );
+	v2<real32> chunkDistance( one.chunkPos.x - two.chunkPos.x , one.chunkPos.y - two.chunkPos.y );
+	game->debug.endProfiledFunc();
+	return ( chunkDistance * CHUNK_SIZE_METERS ) + relDistance;
 }
 
 std::weak_ptr<entity> mapMgr::addEntity(const map_position& pos, std::string timerID)

@@ -7,7 +7,9 @@
 // Header files ///////////////////////////////////////////////////////////////
 
 #include "vect.h"
+#include "line.h"
 #include <cmath>
+#include <vector>
 
 // Global constant definitions  ///////////////////////////////////////////////
 
@@ -30,6 +32,16 @@ struct rect2
 		y = _y;
 		w = _w;
 		h = _h;
+	}
+
+	std::vector<segment<T>> getSegments()
+	{
+		std::vector<segment<T>> result;
+		result.push_back(segment<T>(x,y,x+w,y));
+		result.push_back(segment<T>(x,y,x,y+h));
+		result.push_back(segment<T>(x,y+h,x+w,y+h));
+		result.push_back(segment<T>(x+w,y,x+w,y+h));
+		return result;
 	}
 
 	rect2<int32> round()
@@ -61,6 +73,11 @@ struct rect2
 	rect2 operator+(const rect2& src) const 
 	{
 		return rect2(x, y, w + src.w, h + src.h);
+	}
+
+	rect2 sweep(const rect2& src) const
+	{
+		return rect2(x - (src.w / (T)2), y - (src.h / (T)2), w + src.w, h + src.h);
 	}
 
 	rect2 operator+(const v2<T>& src) const 

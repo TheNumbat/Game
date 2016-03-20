@@ -117,12 +117,15 @@ void game_state::startup()
 	collision.lock()->addRect("player",rect2<real32>(-0.5,-0.5,1,1));
 
 
-	std::weak_ptr<entity> test = map.addEntity(map_position(0,0,0,3,3,0),0);
+	std::weak_ptr<entity> test = map.addEntity(map_position(0,0,0,5,3,0),0);
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
 	testtexture.lock()->addTexture("main","yeti",rect2<real32>(-0.5,-0.5,1,1),rect2<int32>(0,0,0,0),2);
 
-	mov = std::static_pointer_cast<component_movement>(test.lock()->addComponent(ctype_movement).lock());
-	mov.lock()->velocity = v2<real32>(3,0);
+	// mov = std::static_pointer_cast<component_movement>(test.lock()->addComponent(ctype_movement).lock());
+	// mov.lock()->velocity = v2<real32>(3,0);
+
+	collision = std::static_pointer_cast<component_collision>(test.lock()->addComponent(ctype_collision).lock());
+	collision.lock()->addRect("test",rect2<real32>(-0.5,-0.5,1,1));
 
 	camera.setFollowing(player);
 }

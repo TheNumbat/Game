@@ -26,6 +26,7 @@
 
 #include <memory>
 #include <unordered_map>
+#include <vector>
 #include <map>
 #include <set>
 
@@ -106,6 +107,9 @@ struct mapMgr
 	*/
 	GAME_API void update();
 
+	GAME_API std::vector<rect2<real32>> getPossibleRects(const map_position& pos, const v2<real32>& dP, uint32 exclude);
+	GAME_API v2<real32> getDistance(const map_position& one, const map_position& two);
+	GAME_API v2<real32> getClosest(const std::vector<v2<real32>>& points);
 	GAME_API void setCollisionRule(collision_class c1, collision_class c2, bool collides);
 	GAME_API bool getCollisionRule(collision_class c1, collision_class c2);
 

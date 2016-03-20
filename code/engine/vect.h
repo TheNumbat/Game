@@ -38,17 +38,27 @@ struct v2
 		T b;
 	};
 
-	v2<int32> round()
+	v2<int32> round() const
 	{
 		return v2<int32>(std::round(x),std::round(y));
 	}
 
-	T length() 
+	v2<int32> floor() const
+	{
+		return v2<int32>(std::floor(x),std::floor(y));
+	}
+
+	v2<int32> ceil() const
+	{
+		return v2<int32>(std::ceil(x),std::ceil(y));
+	}
+
+	T length() const
 	{
 		return (T)sqrt(x*x + y*y);
 	}
 
-	v2& normal() 
+	v2& normal() const
 	{
 		return v2<T>(x / length(), y / length());
 	}
@@ -88,6 +98,12 @@ struct v2
 		return *this;
 	}
 
+	bool fudgeEq(const v2& comp, real32 fudge)
+	{
+		return (x >= comp.x - fudge && x <= comp.x + fudge) &&
+			   (y >= comp.y - fudge && y <= comp.y + fudge);
+	}
+
 	bool operator==(const v2& comp) const 
 	{
 		return (x == comp.x && y == comp.y);
@@ -95,7 +111,7 @@ struct v2
 
 	bool operator!=(const v2& comp) const 
 	{
-		return !(x == comp.x && y == comp.y)
+		return !(x == comp.x && y == comp.y);
 	}
 
 	v2 operator+(const v2& src) const 
@@ -148,9 +164,23 @@ struct v2
 		return *this;
 	}
 
+	template <typename S>
+	v2 operator/(const S& src) const
+	{
+		return v2(x / src, y / src);
+	}
+
+	template <typename S>
+	v2& operator/=(const S& src) 
+	{
+		x /= src;
+		y /= src;
+		return *this;
+	}
+
 	operator bool() const 
 	{
-		return x && y;
+		return x || y;
 	}
 };
 
@@ -284,7 +314,7 @@ struct v3
 
 	operator bool() const 
 	{
-		return x && y && z;
+		return x || y || z;
 	}
 };
 
@@ -330,7 +360,7 @@ struct v4
 		T a;
 	};
 
-	T length() 
+	T length() const
 	{
 		return (T)sqrt(x*x + y*y + z*z + w*w);
 	}
@@ -432,7 +462,7 @@ struct v4
 
 	operator bool() const 
 	{
-		return x && y && z && w;
+		return x || y || z || w;
 	}
 };
 
