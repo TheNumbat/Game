@@ -33,6 +33,21 @@ CONSOLE_FUNC(print)
 	return true;
 }
 
+CONSOLE_FUNC(fps)
+{
+	std::stringstream strStream(args);
+	int fps;
+	strStream >> fps;
+	if(!strStream.good())
+	{
+		game->logger.LogWarn("Error parsing input args");
+		return false;
+	}
+
+	game->debug.setFPSCap(fps);
+	return true;		
+}
+
 CONSOLE_FUNC(addEntity)
 {	
 	std::stringstream strStream(args);

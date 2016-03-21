@@ -77,7 +77,7 @@ struct rect2
 
 	rect2 sweep(const rect2& src) const
 	{
-		return rect2(x - (src.w / (T)2), y - (src.h / (T)2), w + src.w, h + src.h);
+		return rect2(x - (src.w / 2), y - (src.h / 2), w + src.w, h + src.h);
 	}
 
 	rect2 operator+(const v2<T>& src) const 

@@ -101,11 +101,28 @@ void inputMgr::handleGameplayEvent(event* e)
 {
 	game->debug.beginProfiledFunc();
 
-	if (e->type == EVT_KEY)
+	// movement
+	std::weak_ptr<entity> player = game->map.getPlayerByID("p1");
+	std::weak_ptr<component_movement> mov = std::static_pointer_cast<component_movement>(player.lock()->getComponent(ctype_movement).lock());
+	if(engine->events.keyPressed(KEY_UP))
 	{
-		std::weak_ptr<entity> player = game->map.getPlayerByID("p1");
-		std::weak_ptr<component_movement> mov = std::static_pointer_cast<component_movement>(player.lock()->getComponent(ctype_movement).lock());
+		mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x,-5);
+	}
+	if(engine->events.keyPressed(KEY_DOWN))
+	{
+		mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x,5);
+	}
+	if(engine->events.keyPressed(KEY_LEFT))
+	{
+		mov.lock()->velocity = v2<real32>(-5,mov.lock()->velocity.y);
+	}
+	if(engine->events.keyPressed(KEY_RIGHT))
+	{
+		mov.lock()->velocity = v2<real32>(5,mov.lock()->velocity.y);
+	}
 
+	if(e->type == EVT_KEY)
+	{
 		if(e->flags & FLAG_KEY_PRESS)
 		{
 			switch(e->value)
@@ -115,18 +132,6 @@ void inputMgr::handleGameplayEvent(event* e)
 					break;
 				case KEY_PLUS:
 					game->camera.zoom *= 2;
-					break;
-				case KEY_LEFT:
-					mov.lock()->velocity = v2<real32>(-5,mov.lock()->velocity.y);
-					break;
-				case KEY_RIGHT:
-					mov.lock()->velocity = v2<real32>(5,mov.lock()->velocity.y);
-					break;
-				case KEY_UP:
-					mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x,-5);
-					break;
-				case KEY_DOWN:
-					mov.lock()->velocity = v2<real32>(mov.lock()->velocity.x,5);
 					break;
 				case KEY_P:
 					game->debug.setDebugOption(toggleProfiler);

@@ -86,6 +86,11 @@ struct v2
 		return arctan(y/x);
 	}
 
+	v2 parallel(const v2& src) const
+	{
+		return src.normal() * (*this * src.normal());
+	}
+	
 	T operator*(const v2& src) const 
 	{
 		return (x * src.x + y * src.y);

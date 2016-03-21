@@ -39,6 +39,11 @@ struct segment
 		return sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
 	}
 
+	v2<T> vec() const
+	{
+		return v2<T>(x2 - x1, y2 - y1);
+	}
+
 	v2<T> intersect(const segment& other) const
 	{
 		T m1 = slope();

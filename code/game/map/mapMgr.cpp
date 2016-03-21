@@ -121,66 +121,75 @@ void mapMgr::update()
 				if(!e.expired())
 				{
 					uint32 UID = e.lock()->UID;
+					uint64 current = engine->time.get(timerID);
+					uint64 dT = current - e.lock()->getLastUpdate();
 
 					if(e.lock()->hasComponent(ctype_position) && e.lock()->hasComponent(ctype_movement))
 					{
 						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
 						std::weak_ptr<component_movement> eMov = std::static_pointer_cast<component_movement>(e.lock()->getComponent(ctype_movement).lock());
 
-						uint64 current = engine->time.get(timerID);
-						uint64 dT = current - e.lock()->getLastUpdate();
-
-						if(dT)
+						while(dT > 0)
 						{
 							eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
 							v2<real32> dP = eMov.lock()->velocity * (dT / 1000.0f);
 
-							if(dP)
+							if(!dP) break;
+
+							segment<real32> sP(0,0,dP.x,dP.y);
+
+							// collision
+							// This is really pretty bad - needs to take into account collision rules,
+							// more than just rects, STOP TUNNELING INTO THINGS
+							std::vector<rect2<real32>> nearbyRects = getPossibleRects(ePos.lock()->position,dP,e.lock()->UID);
+							for(rect2<real32> rect : nearbyRects)
 							{
-								segment<real32> sP(0,0,dP.x,dP.y);
+								std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(e.lock()->getComponent(ctype_collision).lock());
 
-								// collision
-								// This is really pretty bad - needs to take into account collision rules, mlutiple rects in source entity,
-								// not simply cancel the movement due to collision, prevent edge fudging, more than just rects, allow
-								// things to slide smoothly
-								std::vector<rect2<real32>> nearbyRects = getPossibleRects(ePos.lock()->position,dP,e.lock()->UID);
-								for(rect2<real32>& rect : nearbyRects)
+								for(rect2<real32> thisRect : eCol.lock()->cRects)
 								{
-									std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(e.lock()->getComponent(ctype_collision).lock());
-
-									rect2<real32> expand = rect.sweep(eCol.lock()->cRects[0]);
+									rect2<real32> expand = rect.sweep(rect2<real32>(0,0,0.1,0.1));
 									std::vector<segment<real32>> segments = expand.getSegments();
-									std::vector<v2<real32>> points;
-									for(segment<real32> seg : segments)
+
+									v2<real32> closest = segments[0].intersect(sP);
+									segment<real32> closestSeg = segments[0];
+									for(int32 index = 1; index < segments.size(); index++)
 									{
-										points.push_back(seg.intersect(sP));
+										v2<real32> newP = segments[index].intersect(sP);
+										if(newP.length() < closest.length())
+										{
+											closest = newP;
+											closestSeg = segments[index];
+										}
 									}
-									v2<real32> point = getClosest(points);
 									
-									if(point == dP) // no collision
+									if(closest == dP) // no collision
 									{
 										ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);
+										dT = 0;
 									}
 									else // collision
 									{	
-										ePos.lock()->position += map_position(0,0,0,point.x,point.y,0);	
-										eMov.lock()->velocity = v2<real32>(0,0);
+										game->logger.LogInfo("x: " + std::to_string(closest.x) + " y: " + std::to_string(closest.y));
+										ePos.lock()->position += map_position(0,0,0,closest.x,closest.y,0);	
+										eMov.lock()->velocity = eMov.lock()->velocity.parallel(closestSeg.vec());
+										dT *= std::abs(closest.x / dP.x);
 									}
 								}
-								if(!nearbyRects.size())
-								{
-									ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);	
-								}
+							}
+							if(!nearbyRects.size())
+							{
+								ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);	
 							}
 						}
+					}
 
-						e.lock()->setLastUpdate(current);
-								
-						if(updateEntityMapPos(e,false))
-						{
-							simChunk.lock()->entities.erase(entry++);
-							moved = true;
-						}
+					e.lock()->setLastUpdate(current);
+							
+					if(updateEntityMapPos(e,false))
+					{
+						simChunk.lock()->entities.erase(entry++);
+						moved = true;
 					}
 				}
 			}
@@ -232,21 +241,6 @@ std::vector<rect2<real32>> mapMgr::getPossibleRects(const map_position& pos, con
 
 	game->debug.endProfiledFunc();
 	return rects;
-}
-
-v2<real32> mapMgr::getClosest(const std::vector<v2<real32>>& points)
-{
-	game->debug.beginProfiledFunc();
-	v2<real32> least = points[0];
-	for(auto& point : points)
-	{
-		if(point.length() < least.length())
-		{
-			least = point;
-		}
-	}
-	game->debug.endProfiledFunc();
-	return least;
 }
 
 v2<real32> mapMgr::getDistance(const map_position& one, const map_position& two)
