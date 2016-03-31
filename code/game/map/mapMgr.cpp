@@ -148,7 +148,7 @@ void mapMgr::update()
 
 								for(rect2<real32> thisRect : eCol.lock()->cRects)
 								{
-									rect2<real32> expand = rect.sweep(rect2<real32>(0,0,0.1,0.1));
+									rect2<real32> expand = rect.sweep(thisRect);
 									std::vector<segment<real32>> segments = expand.getSegments();
 
 									v2<real32> closest = segments[0].intersect(sP);
@@ -170,7 +170,7 @@ void mapMgr::update()
 									}
 									else // collision
 									{	
-										game->logger.LogInfo("x: " + std::to_string(closest.x) + " y: " + std::to_string(closest.y));
+										// game->logger.LogInfo("x: " + std::to_string(closest.x) + " y: " + std::to_string(closest.y));
 										ePos.lock()->position += map_position(0,0,0,closest.x,closest.y,0);	
 										eMov.lock()->velocity = eMov.lock()->velocity.parallel(closestSeg.vec());
 										dT *= std::abs(closest.x / dP.x);
@@ -179,7 +179,8 @@ void mapMgr::update()
 							}
 							if(!nearbyRects.size())
 							{
-								ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);	
+								ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);
+								dT = 0;
 							}
 						}
 					}
