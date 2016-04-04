@@ -90,8 +90,12 @@ void game_state::startup()
 
 	LOAD_SOUND( "music/song1.wav" , "music" );
 
-	// Collision rules
+	// Collision rules - default rule is false, default class is environment
+	map.setCollisionRule(collision_enviroment,collision_enviroment,true);
 	map.setCollisionRule(collision_player,collision_enviroment,true);
+	map.setCollisionRule(collision_enviroment,collision_player,true);
+	// technically you don't need any false rules
+	map.setCollisionRule(collision_player,collision_player,false);
 
 	// Done
 	logger.LogInfo("Game code initialized");
@@ -118,8 +122,8 @@ void game_state::startup()
 	text.lock()->addText("main","cenobyte_24","ayy lmao",rect2<real32>(-0.5,-0.75,0.8,0.25),rect2<int32>(0,0,0,0),1000,blend_alpha,color(255,255,0,0));
 
 	std::weak_ptr<component_collision> collision = std::static_pointer_cast<component_collision>(player.lock()->addComponent(ctype_collision).lock());
+	collision.lock()->cClass = collision_player;
 	collision.lock()->addRect("player",rect2<real32>(-0.5,-0.5,1,1));
-
 
 	std::weak_ptr<entity> test = map.addEntity(map_position(0,0,0,5,3,0),0);
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());

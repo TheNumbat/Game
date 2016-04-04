@@ -128,27 +128,26 @@ void mapMgr::update()
 					{
 						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
 						std::weak_ptr<component_movement> eMov = std::static_pointer_cast<component_movement>(e.lock()->getComponent(ctype_movement).lock());
+							
+						eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
 
 						while(dT > 0)
 						{
-							eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f); // @todo this is a problem, uses full dT
 							v2<real32> dP = eMov.lock()->velocity * (dT / 1000.0f);
 
 							if(!dP) break;
 
 							segment<real32> sP(0,0,dP.x,dP.y);
 
-							// collision
-							// This is really pretty bad - needs to take into account collision rules,
-							// more than just rects, STOP TUNNELING INTO THINGS
-							std::vector<rect2<real32>> nearbyRects = getPossibleRects(ePos.lock()->position,dP,e.lock()->UID);
+							std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(e.lock()->getComponent(ctype_collision).lock());
+
+							std::vector<rect2<real32>> nearbyRects = getPossibleRects(ePos.lock()->position,dP,e.lock()->UID,eCol.lock()->cClass);
 							for(rect2<real32> rect : nearbyRects)
 							{
-								std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(e.lock()->getComponent(ctype_collision).lock());
 
 								for(rect2<real32> thisRect : eCol.lock()->cRects)
 								{
-									rect2<real32> expand = rect;//.sweep(thisRect);
+									rect2<real32> expand = rect.sweep(thisRect);
 									std::vector<segment<real32>> segments = expand.getSegments();
 
 									v2<real32> closest = segments[0].intersect(sP);
@@ -201,7 +200,7 @@ void mapMgr::update()
 	game->debug.endProfiledFunc();
 }
 
-std::vector<rect2<real32>> mapMgr::getPossibleRects(const map_position& pos, const v2<real32>& dP, uint32 exclude)
+std::vector<rect2<real32>> mapMgr::getPossibleRects(const map_position& pos, const v2<real32>& dP, uint32 exclude, collision_class currentClass)
 {
 	game->debug.beginProfiledFunc();
 
@@ -225,7 +224,7 @@ std::vector<rect2<real32>> mapMgr::getPossibleRects(const map_position& pos, con
 					if(entry.second->UID != exclude)
 					{
 						std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(entry.second->getComponent(ctype_collision).lock());
-						if(!eCol.expired())
+						if(!eCol.expired() && getCollisionRule(currentClass,eCol.lock()->cClass));
 						{
 							std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(entry.second->getComponent(ctype_position).lock());
 							for(auto& rectEntry : eCol.lock()->cRects)
