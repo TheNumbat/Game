@@ -131,7 +131,7 @@ void mapMgr::update()
 
 						while(dT > 0)
 						{
-							eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
+							eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f); // @todo this is a problem, uses full dT
 							v2<real32> dP = eMov.lock()->velocity * (dT / 1000.0f);
 
 							if(!dP) break;
@@ -148,7 +148,7 @@ void mapMgr::update()
 
 								for(rect2<real32> thisRect : eCol.lock()->cRects)
 								{
-									rect2<real32> expand = rect.sweep(thisRect);
+									rect2<real32> expand = rect;//.sweep(thisRect);
 									std::vector<segment<real32>> segments = expand.getSegments();
 
 									v2<real32> closest = segments[0].intersect(sP);

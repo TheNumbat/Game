@@ -244,7 +244,10 @@ void debugMgr::endDebugFrame()
 
 	if(fpsCap)
 	{
-		while(engine->time.get("debug") < engine->time.getPerfFreq() / fpsCap);
+		while(engine->time.get("debug") < engine->time.getPerfFreq() / fpsCap)
+		{
+			// game->map.update();
+		}
 	}
 	uint64 frame = engine->time.get("debug");
 	lastFrameTime = frame;

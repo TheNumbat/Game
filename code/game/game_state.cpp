@@ -80,6 +80,7 @@ void game_state::startup()
 	LOAD_TEXTURE( "art/entities/yeti.png" , "yeti" );
 	LOAD_TEXTURE( "art/entities/light_circle.png" , "light" );
 	LOAD_TEXTURE( "debug/chunkbounds.bmp" , "debug_rect");
+	LOAD_TEXTURE( "hh/test2/tree00.bmp" , "tree1");
 
 	LOAD_FONT( "fonts/aubrey.ttf" , "aubrey_24" , 24 );
 	LOAD_FONT( "fonts/Cenobyte.ttf" , "cenobyte_24" , 24 );
@@ -122,7 +123,7 @@ void game_state::startup()
 
 	std::weak_ptr<entity> test = map.addEntity(map_position(0,0,0,5,3,0),0);
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
-	testtexture.lock()->addTexture("main","yeti",rect2<real32>(-0.5,-0.5,1,1),rect2<int32>(0,0,0,0),2);
+	testtexture.lock()->addTexture("main","tree1",rect2<real32>(-0.5,-0.5,0.75,1),rect2<int32>(0,0,0,0),2);
 
 	// mov = std::static_pointer_cast<component_movement>(test.lock()->addComponent(ctype_movement).lock());
 	// mov.lock()->velocity = v2<real32>(3,0);
