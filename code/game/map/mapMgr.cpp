@@ -220,7 +220,7 @@ std::vector<rect2<real32>> mapMgr::getPossibleRects(const map_position& pos, con
 					if(entry.second->UID != exclude)
 					{
 						std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(entry.second->getComponent(ctype_collision).lock());
-						if(!eCol.expired() && getCollisionRule(currentClass,eCol.lock()->cClass));
+						if(!eCol.expired() && getCollisionRule(currentClass,eCol.lock()->cClass))
 						{
 							std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(entry.second->getComponent(ctype_position).lock());
 							for(auto& rectEntry : eCol.lock()->cRects)
