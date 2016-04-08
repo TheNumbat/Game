@@ -24,8 +24,6 @@
 
 // Global constant definitions  ///////////////////////////////////////////////
 
-const real32 fudge = 0.001f; // :(
-
 // Class/Struct definitions  //////////////////////////////////////////////////
 
 // Free function prototypes  //////////////////////////////////////////////////
@@ -144,7 +142,6 @@ void mapMgr::update()
 							std::vector<rect2<real32>> nearbyRects = getPossibleRects(ePos.lock()->position,dP,e.lock()->UID,eCol.lock()->cClass);
 							for(rect2<real32> rect : nearbyRects)
 							{
-
 								for(rect2<real32> thisRect : eCol.lock()->cRects)
 								{
 									rect2<real32> expand = rect.sweep(thisRect);
@@ -169,7 +166,6 @@ void mapMgr::update()
 									}
 									else // collision
 									{	
-										// game->logger.LogInfo("x: " + std::to_string(closest.x) + " y: " + std::to_string(closest.y));
 										ePos.lock()->position += map_position(0,0,0,closest.x,closest.y,0);	
 										eMov.lock()->velocity = eMov.lock()->velocity.parallel(closestSeg.vec());
 										dT *= std::abs(closest.x / dP.x);
@@ -229,7 +225,7 @@ std::vector<rect2<real32>> mapMgr::getPossibleRects(const map_position& pos, con
 							std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(entry.second->getComponent(ctype_position).lock());
 							for(auto& rectEntry : eCol.lock()->cRects)
 							{
-								rect2<real32> rect = rectEntry + getDistance(pos,ePos.lock()->position);
+								rect2<real32> rect = rectEntry - getDistance(pos,ePos.lock()->position);
 								rects.push_back(rect);
 							}
 						}
@@ -245,10 +241,10 @@ std::vector<rect2<real32>> mapMgr::getPossibleRects(const map_position& pos, con
 
 v2<real32> mapMgr::getDistance(const map_position& one, const map_position& two)
 {
-	game->debug.beginProfiledFunc();
+	// game->debug.beginProfiledFunc();
 	v2<real32> relDistance( one.realPos.x - two.realPos.x , one.realPos.y - two.realPos.y );
 	v2<real32> chunkDistance( one.chunkPos.x - two.chunkPos.x , one.chunkPos.y - two.chunkPos.y );
-	game->debug.endProfiledFunc();
+	// game->debug.endProfiledFunc();
 	return ( chunkDistance * CHUNK_SIZE_METERS ) + relDistance;
 }
 

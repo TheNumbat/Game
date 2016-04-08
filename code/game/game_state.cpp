@@ -91,9 +91,9 @@ void game_state::startup()
 	LOAD_SOUND( "music/song1.wav" , "music" );
 
 	// Collision rules - default rule is false, default class is environment
-	map.setCollisionRule(collision_enviroment,collision_enviroment,true);
-	map.setCollisionRule(collision_player,collision_enviroment,true);
-	map.setCollisionRule(collision_enviroment,collision_player,true);
+	map.setCollisionRule(collision_enviroment,collision_enviroment,false);
+	map.setCollisionRule(collision_player,collision_enviroment,false);
+	map.setCollisionRule(collision_enviroment,collision_player,false);
 	// technically you don't need any false rules
 	map.setCollisionRule(collision_player,collision_player,false);
 
@@ -133,7 +133,7 @@ void game_state::startup()
 	// mov.lock()->velocity = v2<real32>(3,0);
 
 	collision = std::static_pointer_cast<component_collision>(test.lock()->addComponent(ctype_collision).lock());
-	collision.lock()->addRect("test",rect2<real32>(-0.5,-0.5,1,1));
+	collision.lock()->addRect("test",rect2<real32>(-0.5,0,1,2));
 
 	camera.setFollowing(player);
 }
