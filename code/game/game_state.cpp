@@ -91,9 +91,9 @@ void game_state::startup()
 	LOAD_SOUND( "music/song1.wav" , "music" );
 
 	// Collision rules - default rule is false, default class is environment
-	map.setCollisionRule(collision_enviroment,collision_enviroment,false);
-	map.setCollisionRule(collision_player,collision_enviroment,false);
-	map.setCollisionRule(collision_enviroment,collision_player,false);
+	map.setCollisionRule(collision_enviroment,collision_enviroment,true);
+	map.setCollisionRule(collision_player,collision_enviroment,true);
+	map.setCollisionRule(collision_enviroment,collision_player,true);
 	// technically you don't need any false rules
 	map.setCollisionRule(collision_player,collision_player,false);
 
