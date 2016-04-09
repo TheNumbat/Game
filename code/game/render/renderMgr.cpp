@@ -123,7 +123,7 @@ void renderMgr::renderDebugHUD()
 		engine->graphics.renderText("debugUI","Press ~ to switch to profiler",rect2<int32>(10,10,0,0));
 		return;
 	}
-
+	
 	int32 lines = 0;
 	int32 fontsize = engine->graphics.getFontSize("debugUI");
 

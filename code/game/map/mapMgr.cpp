@@ -168,7 +168,7 @@ void mapMgr::update()
 									{	
 										ePos.lock()->position += map_position(0,0,0,closest.x,closest.y,0);	
 										eMov.lock()->velocity = eMov.lock()->velocity.parallel(closestSeg.vec());
-										dT *= std::abs(closest.x / dP.x);
+										dT = std::round((real32)dT * std::abs(closest.x / dP.x));
 									}
 								}
 							}
