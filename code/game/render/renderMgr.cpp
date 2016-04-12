@@ -291,8 +291,8 @@ void renderMgr::getMapTextures(std::vector<renderMgr::rawTex*>& textures)
 						if(game->debug.debugFlags & renderPositionText)
 						{
 							map_position entityPos = ePosition.lock()->position;
-							std::string positionText = std::to_string((int32)std::round(entityPos.chunkPos.x)) + " " + std::to_string((int32)std::round(entityPos.chunkPos.y)) + " " + std::to_string((int32)std::round(entityPos.chunkPos.z))
-												   + " " + std::to_string((int32)std::round(entityPos.realPos.x)) + " " + std::to_string((int32)std::round(entityPos.realPos.y)) + " " + std::to_string((int32)std::round(entityPos.realPos.z));
+							std::string positionText = std::to_string(entityPos.chunkPos.x) + " " + std::to_string(entityPos.chunkPos.y) + " " + std::to_string(entityPos.chunkPos.z)
+												   + " " + std::to_string(entityPos.realPos.x) + " " + std::to_string(entityPos.realPos.y) + " " + std::to_string(entityPos.realPos.z);
 							int32 fSize = engine->graphics.getFontSize("debugUI_verysmall");
 							textures.push_back(new rawText("debugUI_verysmall",positionText,rect2<real32>(entityPixelPos.x,entityPixelPos.y,fSize*camZoom*positionText.length(),fSize*camZoom),blend_alpha,color(255,255,255,0),
 											     	  	   1000,rect2<int32>(0,0,0,0),v2<real32>(0,0),0,0));

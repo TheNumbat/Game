@@ -55,7 +55,7 @@ struct v2
 
 	T length() const
 	{
-		return (T)sqrt(x*x + y*y);
+		return std::sqrt(x*x + y*y);
 	}
 
 	v2& normal() const
@@ -67,7 +67,6 @@ struct v2
 	{
 		x /= length();
 		y /= length();
-		z /= length();
 	}
 
 	v2 rotated(double angle) 

@@ -133,7 +133,8 @@ void game_state::startup()
 	// mov.lock()->velocity = v2<real32>(3,0);
 
 	collision = std::static_pointer_cast<component_collision>(test.lock()->addComponent(ctype_collision).lock());
-	collision.lock()->addRect("test",rect2<real32>(-0.5,0,1,2));
+	collision.lock()->addRect("test1",rect2<real32>(0,0,1,1));
+	// collision.lock()->addRect("test2",rect2<real32>(1,0,1,1));
 
 	camera.setFollowing(player);
 }

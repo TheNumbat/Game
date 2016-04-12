@@ -129,6 +129,7 @@ void mapMgr::update()
 							
 						eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
 
+						// @todo make better
 						while(dT > 0)
 						{
 							v2<real32> dP = eMov.lock()->velocity * (dT / 1000.0f);
@@ -137,45 +138,51 @@ void mapMgr::update()
 
 							segment<real32> sP(0,0,dP.x,dP.y);
 
+							// @todo fix
 							std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(e.lock()->getComponent(ctype_collision).lock());
 
 							std::vector<rect2<real32>> nearbyRects = getPossibleRects(ePos.lock()->position,dP,e.lock()->UID,eCol.lock()->cClass);
-							for(rect2<real32> rect : nearbyRects)
-							{
-								for(rect2<real32> thisRect : eCol.lock()->cRects)
-								{
-									rect2<real32> expand = rect.sweep(thisRect);
-									std::vector<segment<real32>> segments = expand.getSegments();
-
-									v2<real32> closest = segments[0].intersect(sP);
-									segment<real32> closestSeg = segments[0];
-									for(int32 index = 1; index < segments.size(); index++)
-									{
-										v2<real32> newP = segments[index].intersect(sP);
-										if(newP.length() < closest.length())
-										{
-											closest = newP;
-											closestSeg = segments[index];
-										}
-									}
-									
-									if(closest == dP) // no collision
-									{
-										ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);
-										dT = 0;
-									}
-									else // collision
-									{	
-										ePos.lock()->position += map_position(0,0,0,closest.x,closest.y,0);	
-										eMov.lock()->velocity = eMov.lock()->velocity.parallel(closestSeg.vec());
-										dT = std::round((real32)dT * std::abs(closest.x / dP.x));
-									}
-								}
-							}
 							if(!nearbyRects.size())
 							{
 								ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);
 								dT = 0;
+								break;
+							}
+
+							// @todo make better
+							v2<real32> closest(100000,100000);
+							segment<real32> closestSeg(0,0,100000,100000);
+							for(rect2<real32> eRect : eCol.lock()->cRects)
+							{
+								for(rect2<real32> oRect : nearbyRects)
+								{
+									rect2<real32> oeRect = oRect.sweep(eRect);
+									std::vector<segment<real32>> segs = oeRect.getSegments();
+
+									for(segment<real32> seg : segs)
+									{
+										v2<real32> pt = seg.intersect(sP);
+										if(pt.length() < closest.length())
+										{
+											closest = pt;
+											closestSeg = seg;
+										}
+									}
+								}
+							}
+
+							if(closest == dP) // no collision
+							{
+								ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);
+								dT = 0;
+							}
+							else // collision
+							{	
+								dT = std::round((real32)dT * std::abs(closest.x / dP.x));
+
+								ePos.lock()->position += map_position(0,0,0,closest.x,closest.y,0);	
+								eMov.lock()->velocity = eMov.lock()->velocity.parallel(closestSeg.vec());
+								// @todo make better
 							}
 						}
 					}
