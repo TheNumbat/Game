@@ -12,7 +12,6 @@
 // Global constant definitions  ///////////////////////////////////////////////
 
 // Class/Struct definitions  //////////////////////////////////////////////////
-
 template <typename T>
 struct segment
 {
@@ -36,19 +35,23 @@ struct segment
 
 	T length() const
 	{
-		return sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
+		return sqrt(((y2 - y1) * (y2 - y1)) + ((x2 - x1) * (x2 - x1)));
 	}
 
 	bool includes(v2<T> point) const
 	{
-		if(x1 < x2)
+		if(x1 < x2) {
 			if(point.x < x1 || point.x > x2) return false;
-		else if(x2 < x1)
+		}
+		else if(x2 < x1) {
 			if(point.x < x2 || point.x > x1) return false;
-		if(y1 < y2)
+		}
+		if(y1 < y2) {
 			if(point.y < y1 || point.y > y2) return false;
-		else if(y2 < y1)
+		}
+		else if(y2 < y1) {
 			if(point.y < y2 || point.y > y1) return false;
+		}
 		
 		segment<T> one(x1,y1,point.x,point.y);
 		segment<T> two(point.x,point.y,x2,y2);
@@ -78,13 +81,13 @@ struct segment
 		else if(isinf(m1))
 		{
 			x = x1;
-			y = m2 * (x1 - other.x1) + other.y1;
+			y = (m2 * (x1 - other.x1)) + other.y1;
 		}
 		// Other is vertical
 		else if(isinf(m2))
 		{
 			x = other.x1;
-			y = m1 * (other.x1 - x1) + y1;
+			y = (m1 * (other.x1 - x1)) + y1;
 		} 
 		// Neither is vertical
 		else
