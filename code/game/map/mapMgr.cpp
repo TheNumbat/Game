@@ -103,7 +103,14 @@ void mapMgr::update()
 		engine->time.addTimer(timerID);
 	}
 
-	/// @todo update this to use simulation region around the player, and to not neccesarily sim the entire map every frame
+	/// @todo
+	/// 	Acceleration
+	/// 	Sim around player + chunks, not entire map
+	/// 	Threading
+	/// 	Rotated rectangles
+	/// 	Circles/rounded rectangles
+	/// 	Call registered collision callbacks
+	/// 	improve performance
 	do
 	{
 		simChunk = getNextChunkForSim();
@@ -126,10 +133,9 @@ void mapMgr::update()
 					{
 						std::weak_ptr<component_position> ePos = std::static_pointer_cast<component_position>(e.lock()->getComponent(ctype_position).lock());
 						std::weak_ptr<component_movement> eMov = std::static_pointer_cast<component_movement>(e.lock()->getComponent(ctype_movement).lock());
-							
-						eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
+						std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(e.lock()->getComponent(ctype_collision).lock());
 
-						// @todo make better
+						// @todo improve
 						while(dT > 0)
 						{
 							v2<real32> dP = eMov.lock()->velocity * (dT / 1000.0f);
@@ -138,18 +144,21 @@ void mapMgr::update()
 
 							segment<real32> sP(0,0,dP.x,dP.y);
 
-							// @todo fix
-							std::weak_ptr<component_collision> eCol = std::static_pointer_cast<component_collision>(e.lock()->getComponent(ctype_collision).lock());
 
-							std::vector<rect2<real32>> nearbyRects = getPossibleRects(ePos.lock()->position,dP,e.lock()->UID,eCol.lock()->cClass);
+							std::vector<rect2<real32>> nearbyRects;
+							if(!eCol.expired())
+							{
+								nearbyRects = getPossibleRects(ePos.lock()->position,dP,e.lock()->UID,eCol.lock()->cClass);
+							}
 							if(!nearbyRects.size())
 							{
 								ePos.lock()->position += map_position(0,0,0,dP.x,dP.y,0);
+								eMov.lock()->velocity += eMov.lock()->acceleration * (dT / 1000.0f);
 								dT = 0;
 								break;
 							}
 
-							// @todo make better
+							// @todo improve
 							v2<real32> closest(100000,100000);
 							segment<real32> closestSeg(0,0,100000,100000);
 							for(rect2<real32> eRect : eCol.lock()->cRects)
@@ -183,34 +192,11 @@ void mapMgr::update()
 							}
 							else // collision
 							{	
-								// dT -= std::round((real32)dT * std::abs(closest.x / dP.x));
-								dT = 0; // @todo fix
-
-								// real32 fudge = 0.01f;
-								// if(closest.x > 0)
-								// {
-								// 	if(closest.x < fudge) closest.x = 0;
-								// 	closest.x -= fudge;
-								// }
-								// else if(closest.x < 0)
-								// {
-								// 	if(closest.x > -fudge) closest.x = 0;
-								// 	closest.x += fudge;
-								// }
-								// if(closest.y > 0)
-								// {
-								// 	if(closest.y < fudge) closest.y = 0;
-								// 	closest.y -= fudge;
-								// }
-								// else if(closest.y < 0)
-								// {
-								// 	if(closest.y > -fudge) closest.y = 0;
-								// 	closest.y += fudge;
-								// }
+								uint64 tUsed = std::round((real32)dT * std::abs(closest.x / dP.x));
+								dT -= tUsed;
 
 								ePos.lock()->position += map_position(0,0,0,closest.x,closest.y,0);	
 								eMov.lock()->velocity = eMov.lock()->velocity.parallel(closestSeg.vec());
-								// @todo make better
 							}
 						}
 					}
