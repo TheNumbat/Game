@@ -44,6 +44,14 @@ struct rect2
 		return result;
 	}
 
+	bool includes(v2<T> pt)
+	{
+		return pt.x > x &&
+			   pt.x < x + w &&
+			   pt.y > y && 
+			   pt.y < y + h;
+	}
+
 	rect2<int32> round()
 	{
 		return rect2<int32>(std::round(x),std::round(y),std::round(w),std::round(h));

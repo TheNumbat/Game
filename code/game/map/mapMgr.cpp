@@ -161,6 +161,11 @@ void mapMgr::update()
 
 									for(segment<real32> seg : segs)
 									{
+										if(seg.includes(v2<real32>(0,0)) && oeRect.includes(dP))
+										{
+											closest = v2<real32>(0,0);
+											closestSeg = seg;
+										}
 										v2<real32> pt = seg.intersect(sP);
 										if(pt.length() < closest.length())
 										{
@@ -178,7 +183,30 @@ void mapMgr::update()
 							}
 							else // collision
 							{	
-								dT = std::round((real32)dT * std::abs(closest.x / dP.x));
+								// dT -= std::round((real32)dT * std::abs(closest.x / dP.x));
+								dT = 0; // @todo fix
+
+								// real32 fudge = 0.01f;
+								// if(closest.x > 0)
+								// {
+								// 	if(closest.x < fudge) closest.x = 0;
+								// 	closest.x -= fudge;
+								// }
+								// else if(closest.x < 0)
+								// {
+								// 	if(closest.x > -fudge) closest.x = 0;
+								// 	closest.x += fudge;
+								// }
+								// if(closest.y > 0)
+								// {
+								// 	if(closest.y < fudge) closest.y = 0;
+								// 	closest.y -= fudge;
+								// }
+								// else if(closest.y < 0)
+								// {
+								// 	if(closest.y > -fudge) closest.y = 0;
+								// 	closest.y += fudge;
+								// }
 
 								ePos.lock()->position += map_position(0,0,0,closest.x,closest.y,0);	
 								eMov.lock()->velocity = eMov.lock()->velocity.parallel(closestSeg.vec());

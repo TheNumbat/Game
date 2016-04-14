@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include <cmath>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 // Header files ///////////////////////////////////////////////////////////////
 
@@ -71,18 +72,18 @@ struct v2
 
 	v2 rotated(double angle) 
 	{
-		return v2<T>(length() * cos(angle + angle()), length() * sin(angle + angle()));
+		return v2<T>(length() * std::cos(angle + angle()), length() * std::sin(angle + angle()));
 	}
 
 	void rotate(double angle) 
 	{
-		x = length() * cos(angle + angle());
-		y = length() * sin(angle + angle());
+		x = length() * std::cos(angle + angle());
+		y = length() * std::sin(angle + angle());
 	}
 
 	double angle() 
 	{
-		return arctan(y/x);
+		return std::atan(y/x);
 	}
 
 	v2 parallel(const v2& src) const
