@@ -103,14 +103,6 @@ void mapMgr::update()
 		engine->time.addTimer(timerID);
 	}
 
-	/// @todo
-	/// 	Acceleration
-	/// 	Sim around player + chunks, not entire map
-	/// 	Threading
-	/// 	Rotated rectangles
-	/// 	Circles/rounded rectangles
-	/// 	Call registered collision callbacks
-	/// 	improve performance
 	do
 	{
 		simChunk = getNextChunkForSim();
@@ -165,7 +157,7 @@ void mapMgr::update()
 							{
 								for(rect2<real32> oRect : nearbyRects)
 								{
-									rect2<real32> oeRect = oRect.sweep(eRect);
+									rect2<real32> oeRect = oRect.sweep(eRect) - v2<real32>(eRect.x+(eRect.w/2.0f),eRect.y+(eRect.h/2.0f));
 									std::vector<segment<real32>> segs = oeRect.getSegments();
 
 									for(segment<real32> seg : segs)

@@ -108,6 +108,7 @@ void game_state::startup()
 
 	debug.setDebugOption(renderCollisionBounds);
 	debug.setDebugOption(renderChunkbounds);
+	debug.setDebugOption(renderPositionText);
 
 	/// @todo Move this!!!
 	std::weak_ptr<entity> player = map.addPlayer("p1",map_position(0,0,0,3,3,0),0);
@@ -116,14 +117,15 @@ void game_state::startup()
 
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
 	texture.lock()->addTexture("glow","light",rect2<real32>(-3.5,-3.5,7,7),rect2<int32>(0,0,0,0),1,blend_additive);
-	texture.lock()->addTexture("main","dankdude",rect2<real32>(-0.5,-0.5,1,1),rect2<int32>(0,0,0,0),10,blend_alpha,color(255,255,255,0),v2<real32>(0.5,0.5));
+	texture.lock()->addTexture("main","dankdude",rect2<real32>(-0.5,-0.75,1,1),rect2<int32>(0,0,0,0),10,blend_alpha,color(255,255,255,0),v2<real32>(0.5,0.5));
 
 	std::weak_ptr<component_text_texture> text = std::static_pointer_cast<component_text_texture>(player.lock()->addComponent(ctype_text_texture).lock());
 	text.lock()->addText("main","cenobyte_24","ayy lmao",rect2<real32>(-0.5,-0.75,0.8,0.25),rect2<int32>(0,0,0,0),1000,blend_alpha,color(255,255,0,0));
 
 	std::weak_ptr<component_collision> collision = std::static_pointer_cast<component_collision>(player.lock()->addComponent(ctype_collision).lock());
 	collision.lock()->cClass = collision_player;
-	collision.lock()->addRect("player",rect2<real32>(-0.5,-0.5,1,1));
+	// collision.lock()->addRect("player1",rect2<real32>(-0.5,-0.5,1,1));
+	collision.lock()->addRect("player1",rect2<real32>(-0.25,0.15,0.5,0.3));
 
 	std::weak_ptr<entity> test = map.addEntity(map_position(0,0,0,5,3,0),0);
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
@@ -133,8 +135,8 @@ void game_state::startup()
 	// mov.lock()->velocity = v2<real32>(3,0);
 
 	collision = std::static_pointer_cast<component_collision>(test.lock()->addComponent(ctype_collision).lock());
-	collision.lock()->addRect("test1",rect2<real32>(0,0,1,1));
-	collision.lock()->addRect("test2",rect2<real32>(1,1,1,1));
+	collision.lock()->addRect("test1",rect2<real32>(1,1,1,1));
+	collision.lock()->addRect("test2",rect2<real32>(0,0,0.5,1));
 	// collision.lock()->addRect("test2",rect2<real32>(1,0,1,1));
 
 	camera.setFollowing(player);
@@ -148,3 +150,4 @@ void game_state::shutdown()
 // Free function prototypes  //////////////////////////////////////////////////
 
 // Terminating precompiler directives  ////////////////////////////////////////
+
