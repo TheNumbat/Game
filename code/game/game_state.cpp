@@ -90,6 +90,12 @@ void game_state::startup()
 
 	LOAD_SOUND( "music/song1.wav" , "music" );
 
+	// NOTE: USE TEXTURES FOR STATIC TEXT, IT'S A TON FASTER THAN RE-RENDERING 
+	//	     TEXT OR A TEXT COMPONENT EVERY FRAME
+
+	// Static text textures
+	engine->graphics.addTextTexture("lmao","cenobyte_24","ayy lmao",color(255,255,0,0));
+
 	// Collision rules - default rule is false, default class is environment
 	map.setCollisionRule(collision_enviroment,collision_enviroment,true);
 	map.setCollisionRule(collision_player,collision_enviroment,true);
@@ -118,9 +124,7 @@ void game_state::startup()
 	std::weak_ptr<component_texture> texture = std::static_pointer_cast<component_texture>(player.lock()->addComponent(ctype_texture).lock());
 	texture.lock()->addTexture("glow","light",rect2<real32>(-3.5,-3.5,7,7),rect2<int32>(0,0,0,0),1,blend_additive);
 	texture.lock()->addTexture("main","dankdude",rect2<real32>(-0.5,-0.75,1,1),rect2<int32>(0,0,0,0),10,blend_alpha,color(255,255,255,0),v2<real32>(0.5,0.5));
-
-	std::weak_ptr<component_text_texture> text = std::static_pointer_cast<component_text_texture>(player.lock()->addComponent(ctype_text_texture).lock());
-	text.lock()->addText("main","cenobyte_24","ayy lmao",rect2<real32>(-0.5,-0.75,0.8,0.25),rect2<int32>(0,0,0,0),1000,blend_alpha,color(255,255,0,0));
+	texture.lock()->addTexture("lmao","lmao",rect2<real32>(-0.5,-0.75,0.8,0.25),rect2<int32>(0,0,0,0),1000);
 
 	std::weak_ptr<component_collision> collision = std::static_pointer_cast<component_collision>(player.lock()->addComponent(ctype_collision).lock());
 	collision.lock()->cClass = collision_player;

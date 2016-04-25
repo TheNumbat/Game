@@ -12,10 +12,11 @@
 
 // THIS IS NOT POSSIBLE OTHERWISE, AS YOU CAN'T USE TEXT INPUT AS AN EXPRESSION (c++ is not interpreted, lol)
 
-/* EXAMPLE:
+/* Example
 CONSOLE_FUNC(temp)
 {
 	game->debug.trackValue(game->debug.totalFrameTime);
+	return true;
 }
 */
 

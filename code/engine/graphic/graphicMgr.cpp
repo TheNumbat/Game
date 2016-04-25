@@ -634,7 +634,7 @@ bool graphicMgr::setViewport(const rect2<int32>& port)
 {
 	SDL_Rect viewport;
 
-	if(port.x == 0 || port.y == 0)
+	if(port.w == 0 || port.h == 0)
 	{
 		int32 sw, sh;
 		if(!getWinDim(sw,sh))
