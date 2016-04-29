@@ -61,6 +61,11 @@ struct segment
 		return true;
 	}
 
+	segment move(T x, T y)
+	{
+		return segment(x1+x,y1+y,x2+x,y2+y);
+	}
+
 	v2<T> vec() const
 	{
 		return v2<T>(x2 - x1, y2 - y1);

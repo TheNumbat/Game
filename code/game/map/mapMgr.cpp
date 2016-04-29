@@ -152,18 +152,19 @@ void mapMgr::update()
 
 							// @todo improve
 							v2<real32> closest(100000,100000);
-							segment<real32> closestSeg(0,0,100000,100000);
+							segment<real32> closestSeg;
 							for(rect2<real32> eRect : eCol.lock()->cRects)
 							{
 								for(rect2<real32> oRect : nearbyRects)
 								{
-									rect2<real32> oeRect = oRect.sweep(eRect) - v2<real32>(eRect.x+(eRect.w/2.0f),eRect.y+(eRect.h/2.0f));
+									rect2<real32> oeRect = oRect.sweep_move(eRect);
 									std::vector<segment<real32>> segs = oeRect.getSegments();
 
 									for(segment<real32> seg : segs)
 									{
 										if(seg.includes(v2<real32>(0,0)) && oeRect.includes(dP))
 										{
+											logger.LogInfo("uwot");
 											closest = v2<real32>(0,0);
 											closestSeg = seg;
 										}

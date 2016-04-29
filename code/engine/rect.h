@@ -88,6 +88,12 @@ struct rect2
 		return rect2(x - (src.w / 2.0f), y - (src.h / 2.0f), w + src.w, h + src.h);
 	}
 
+	rect2 sweep_move(const rect2& src) const
+	{
+		// return sweep(src) - v2<T>(src.x+(src.w/2.0f),src.y+(src.h/2.0f));
+		return rect2(x - src.x - src.w, y - src.y - src.h, w + src.w, h + src.h);
+	}
+
 	rect2 operator+(const v2<T>& src) const 
 	{
 		return rect2(x + src.x, y + src.y, w, h);
@@ -153,114 +159,6 @@ struct rect2
 	}
 
 	T x, y, w, h;
-};
-
-template <typename T>
-struct rect3 
-{
-	rect3() 
-	{
-		x = (T)0;
-		y = (T)0;
-		z = (T)0;
-		w = (T)0;
-		h = (T)0;
-		d = (T)0;
-	}
-
-	rect3(T _x, T _y, T _z, T _w, T _h, T _d) 
-	{
-		x = _x;
-		y = _y;
-		z = _z;
-		w = _w;
-		h = _h;
-		d = _d;
-	}
-
-	rect3& operator=(const rect3& src) 
-	{
-		x = src.x;
-		y = src.y;
-		z = src.z;
-		w = src.w;
-		h = src.h;
-		d = src.d;
-	}
-
-	bool operator==(const rect3& comp) const 
-	{
-		return (x == comp.x && y == comp.y &&
-				w == comp.w && h == comp.h &&
-				z == comp.z && d == comp.d);
-	}
-
-	bool operator!=(const rect3& comp) const 
-	{
-		return !(x == comp.x && y == comp.y &&
-				 w == comp.w && h == comp.h &&
-				 z == comp.z && d == comp.d);
-	}
-
-	rect3 operator+(const rect3& src) const 
-	{
-		return rect3(x, y, z, w + src.w, h + src.h, d + src.d);
-	}
-
-	rect3& operator+=(const rect3& src) 
-	{
-		w += src.w;
-		h += src.h;
-		d += src.d;
-		return *this;	
-	}
-
-	rect3 operator-(const rect3& src) const 
-	{
-		return rect3(x, y, z, w - src.w, h - src.h, d - src.d);
-	}
-
-	rect3& operator-=(const rect3& src) 
-	{
-		w -= src.w;
-		h -= src.h;
-		d -= src.d;
-		return *this;
-	}
-
-	rect3 operator*(const T& src) const 
-	{
-		return rect3(x * src, y * src, z * src, w * src, h * src, d * src);
-	}
-
-	rect3& operator*=(const T& src) 
-	{
-		x *= src;
-		y *= src;
-		z *= src;
-		h *= src;
-		w *= src;
-		d *= src;
-		return *this;
-	}
-
-	rect3 operator*(const rect3& src) const 
-	{
-		return rect3(x * src.x, y * src.y, z * src.z w * src.w, h * src.h, d * src.d);
-	}
-
-	rect3& operator*=(const rect3& src) 
-	{
-		x *= src.x;
-		y *= src.y;
-		z *= src.z;
-		w *= src.w;
-		h *= src.h;
-		d *= src.d;
-		return *this;
-	}
-
-	T x, y, z, w, h, d;
 };
 
 // Free function prototypes  //////////////////////////////////////////////////

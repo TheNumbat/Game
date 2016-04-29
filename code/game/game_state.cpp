@@ -129,7 +129,7 @@ void game_state::startup()
 	std::weak_ptr<component_collision> collision = std::static_pointer_cast<component_collision>(player.lock()->addComponent(ctype_collision).lock());
 	collision.lock()->cClass = collision_player;
 	// collision.lock()->addRect("player1",rect2<real32>(-0.5,-0.5,1,1));
-	collision.lock()->addRect("player1",rect2<real32>(-0.25,0.15,0.5,0.3));
+	collision.lock()->addRect("player1",rect2<real32>(-0.4,0,0.5,0.3));
 
 	std::weak_ptr<entity> test = map.addEntity(map_position(0,0,0,5,3,0),0);
 	std::weak_ptr<component_texture> testtexture = std::static_pointer_cast<component_texture>(test.lock()->addComponent(ctype_texture).lock());
@@ -140,7 +140,7 @@ void game_state::startup()
 
 	collision = std::static_pointer_cast<component_collision>(test.lock()->addComponent(ctype_collision).lock());
 	collision.lock()->addRect("test1",rect2<real32>(1,1,1,1));
-	collision.lock()->addRect("test2",rect2<real32>(0,0,0.5,1));
+	collision.lock()->addRect("test2",rect2<real32>(0,0,1,0.5));
 	// collision.lock()->addRect("test2",rect2<real32>(1,0,1,1));
 
 	camera.setFollowing(player);
