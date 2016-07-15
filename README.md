@@ -4,9 +4,6 @@ Game Development Project, currently unnamed.
   
 Clone the repository to %userprofile%/GitHub and run Shell.lnk.  
 You can then run the "bin" commands from that shell.  
-  
-Read more at http://tiny.cc/gamedoc  
-Documentation at http://thenumbat.github.io/Game/  
 
 # Libraries
 
