@@ -19,11 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="common.h" />
-    <ClInclude Include="engine.h" />
+    <ClInclude Include="..\src\Engine\audio\audio.h" />
+    <ClInclude Include="..\src\Engine\common.h" />
+    <ClInclude Include="..\src\Engine\engine.h" />
+    <ClInclude Include="..\src\Engine\file\file.h" />
+    <ClInclude Include="..\src\Engine\gfx\gfx.h" />
+    <ClInclude Include="..\src\Engine\input\input.h" />
+    <ClInclude Include="..\src\Engine\log\log.h" />
+    <ClInclude Include="..\src\Engine\time\time.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="engine.cpp" />
+    <ClCompile Include="..\src\Engine\audio\audio.cpp" />
+    <ClCompile Include="..\src\Engine\engine.cpp" />
+    <ClCompile Include="..\src\Engine\file\file.cpp" />
+    <ClCompile Include="..\src\Engine\gfx\gfx.cpp" />
+    <ClCompile Include="..\src\Engine\input\input.cpp" />
+    <ClCompile Include="..\src\Engine\log\log.cpp" />
+    <ClCompile Include="..\src\Engine\time\time.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{28ED7B27-2524-4A16-B7F3-28796A87C171}</ProjectGuid>

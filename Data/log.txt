@@ -1,0 +1,13 @@
+
+
+   ENGINE LOG STARTUP
+   ==================
+
+11:22:41 [ENGINE/LOG]: Initialized log.
+11:22:41 [ENGINE/ENGINE]: Initializing engine...
+11:22:41    [ENGINE/ENGINE]: Done initializing engine.
+11:22:41 [ENGINE/GAME]: Initializing game...
+11:22:41    [ENGINE/GAME]: Done initializing game.
+11:22:41 [ENGINE/ENGINE]: Shutting down engine...
+11:22:41    [ENGINE/ENGINE]: Done shutting down engine.
+11:22:41 [ENGINE/LOG]: Shut down log.
