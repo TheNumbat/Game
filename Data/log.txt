@@ -3,11 +3,28 @@
    ENGINE LOG STARTUP
    ==================
 
-11:22:41 [ENGINE/LOG]: Initialized log.
-11:22:41 [ENGINE/ENGINE]: Initializing engine...
-11:22:41    [ENGINE/ENGINE]: Done initializing engine.
-11:22:41 [ENGINE/GAME]: Initializing game...
-11:22:41    [ENGINE/GAME]: Done initializing game.
-11:22:41 [ENGINE/ENGINE]: Shutting down engine...
-11:22:41    [ENGINE/ENGINE]: Done shutting down engine.
-11:22:41 [ENGINE/LOG]: Shut down log.
+16:20:45 [ENGINE\LOG]: Initialized log.
+16:20:45 [ENGINE\ENGINE]: Initializing engine...
+16:20:45    [ENGINE\GRAPHICS]: Initializing Graphics...
+16:20:45       [ENGINE\GRAPHICS]: Initializing SDL Video
+16:20:45       [ENGINE\GRAPHICS]: Initializing SDL_Image
+16:20:45       [ENGINE\GRAPHICS]: Initializing SDL_TTF
+16:20:45       [ENGINE\GRAPHICS]: Creating Window and Renderer
+16:20:45       [ENGINE\GRAPHICS]: Done initializing graphics.
+16:20:45    [ENGINE\ENGINE]: Done initializing engine.
+16:20:45 [ENGINE\GAME]: Initializing game...
+16:20:45    [ENGINE\GAME]: Done initializing game.
+16:20:45 [ENGINE\GRPAHICS]: Loaded texture ID: test from test.png
+16:20:45 [ENGINE\GRPAHICS]: WARNING: gfx.cpp, line 309: Could not clear renderer, error: 
+16:20:48 [ENGINE\GRPAHICS]: Deinitializing game...
+16:20:48    [ENGINE\GRPAHICS]: Done deinitializing game.
+16:20:48 [ENGINE\ENGINE]: Shutting down engine...
+16:20:48    [ENGINE\GRPAHICS]: Deinitializing Graphics
+16:20:48    [ENGINE\GRPAHICS]: Destroying Renderer
+16:20:48    [ENGINE\GRPAHICS]: Destroying Window
+16:20:48    [ENGINE\GRPAHICS]: Quitting SDL Video
+16:20:48    [ENGINE\GRPAHICS]: Quitting SDL_Image
+16:20:48    [ENGINE\GRPAHICS]: Quitting SDL_TTF
+16:20:48    [ENGINE\GRPAHICS]: Done deinitializing graphics.
+16:20:48 [ENGINE\ENGINE]: Done shutting down engine.
+16:20:48 [ENGINE\LOG]: Shut down log.

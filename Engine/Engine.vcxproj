@@ -26,7 +26,10 @@
     <ClInclude Include="..\src\Engine\gfx\gfx.h" />
     <ClInclude Include="..\src\Engine\input\input.h" />
     <ClInclude Include="..\src\Engine\log\log.h" />
+    <ClInclude Include="..\src\Engine\r2.h" />
+    <ClInclude Include="..\src\Engine\seg.h" />
     <ClInclude Include="..\src\Engine\time\time.h" />
+    <ClInclude Include="..\src\Engine\v2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Engine\audio\audio.cpp" />
@@ -103,7 +106,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

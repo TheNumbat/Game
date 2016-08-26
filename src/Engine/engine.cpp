@@ -12,6 +12,9 @@ engine::engine()
 	logMsg("Initializing engine...");
 	logEnterSec();
 
+	gfx.init("Game",1280,720);
+
+	logSetContext("ENGINE");
 	logMsg("Done initializing engine.");
 	logExitSec();
 }
@@ -23,6 +26,9 @@ engine::~engine()
 	logMsg("Shutting down engine...");
 	logEnterSec();
 	
+	gfx.kill();
+
+	logSetContext("ENGINE");
 	logMsg("Done shutting down engine.");
 	logExitSec();
 	logQuit();

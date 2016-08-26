@@ -4,7 +4,7 @@
 
 int main() {
 	
-	engine e;
+	engine* e = new engine;
 
 	logSetContext("GAME");
 	logMsg("Initializing game...");
@@ -12,6 +12,20 @@ int main() {
 
 	logMsg("Done initializing game.");
 	logExitSec();
+
+
+	e->gfx.loadTexture("test", "test.png");
+	e->gfx.renderTexture("test", r2<s32>(0, 0, 1280, 720));
+	e->gfx.swapFrame();
+
+
+	logMsg("Deinitializing game...");
+	logEnterSec();
+
+	logMsg("Done deinitializing game.");
+	logExitSec();
+
+	delete e;
 
 	return 0;
 }

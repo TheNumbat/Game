@@ -8,6 +8,8 @@
 #undef logErr
 #undef logWarn
 
+// TODO Push log output onto queue for another thread
+
 Log* logger;
 
 #ifdef FLOG
@@ -38,15 +40,23 @@ Log::~Log() {
 }
 
 void Log::logMsg(const std::string& msg) {
+#ifdef TIMESTAMPS
 	std::time_t t(NULL);
 	time(&t);
 	struct tm buf;
 	localtime_s(&buf, &t);
+#endif // TIMESTAMPS
 	for (std::ostream* o : out) {
+#ifdef TIMESTAMPS
 		*o << std::put_time(&buf, "%H:%M:%S");
+#endif // TIMESTAMPS
 		for (int i = 0; i < sec; i++)
 			*o << "   ";
-		*o <<" [ENGINE/" << context << "]: " << msg << std::endl;
+		*o << " [ENGINE";
+#ifdef LOGCONTEXT
+		*o << "\\" << context;
+#endif // LOGCONTEXT
+		*o << "]: " << msg << std::endl;
 	}
 }
 
