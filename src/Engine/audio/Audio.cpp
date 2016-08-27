@@ -49,7 +49,7 @@ Audio::~Audio() {
 bool Audio::init() {
 	logSetContext("AUDIO");
 	
-	logMsg("Initalizing audio...");
+	logInfo("Initializing audio...");
 	logEnterSec();
 
 	if (good) {
@@ -57,7 +57,7 @@ bool Audio::init() {
 		return false;
 	}
 
-	logMsg("Opening audio stream");
+	logInfo("Opening audio stream");
 	int result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	assert(result == 0);
 	if (result != 0) {
@@ -66,7 +66,7 @@ bool Audio::init() {
 	}
 	
 	good = true;
-	logMsg("Sound initialized");
+	logInfo("Sound initialized");
 	logExitSec();
 	return true;
 }
@@ -79,17 +79,17 @@ bool Audio::kill() {
 		return false;
 	}
 
-	logMsg("Deinitializing audio...");
+	logInfo("Destroying audio...");
 	logEnterSec();
 
-	logMsg("Stopping all sounds");
+	logInfo("Stopping all sounds");
 	stopAll();
 
-	logMsg("Quitting SDL_Mixer");
+	logInfo("Quitting SDL_Mixer");
 	Mix_Quit();
 
 	good = false;
-	logMsg("Sound deinitialized.");
+	logInfo("Done destroying audio.");
 	logExitSec();
 	return true;
 }
@@ -111,7 +111,7 @@ bool Audio::loadSound(const std::string& sID, const std::string& path) {
 	}
 
 	sounds.insert({sID,newS});
-	logMsg("Loaded sound ID " + sID + " from path " + path);
+	logInfo("Loaded sound ID " + sID + " from path " + path);
 	return true;
 }
 
@@ -135,7 +135,7 @@ bool Audio::loadSoundFolder(const std::string& path) {
 		return false;
 	}
 
-	logMsg("Loading sound directory at " + dirPath);
+	logInfo("Loading sound directory at " + dirPath);
 	logEnterSec();
 
 	while (entry = readdir(directory)) {
@@ -233,7 +233,7 @@ bool Audio::pauseAll() {
 	logSetContext("AUDIO");
 	
 	Mix_Pause(-1);
-	logMsg("Paused all currently playing audio");
+	logInfo("Paused all currently playing audio");
 
 	return true;
 }
@@ -242,7 +242,7 @@ bool Audio::resumeAll() {
 	logSetContext("AUDIO");
 
 	Mix_Resume(-1);
-	logMsg("Resumed all currently paused audio");
+	logInfo("Resumed all currently paused audio");
 	
 	return true;
 }
@@ -251,7 +251,7 @@ bool Audio::stopAll(u32 timeout) {
 	logSetContext("AUDIO");
 	
 	Mix_ExpireChannel(-1, timeout);
-	logMsg("Stopped or begun timeout of all currently playing audio");
+	logInfo("Stopped or begun timeout of all currently playing audio");
 
 	return true;
 }

@@ -31,10 +31,10 @@ bool Time::init() {
 		return false;
 	}
 
-	logMsg("Initializing timer...");
+	logInfo("Initializing timer...");
 	logEnterSec();
 
-	logMsg("Initialzing SDL timer subsystem");
+	logInfo("Initializing SDL timer subsystem");
 	int result = SDL_InitSubSystem(SDL_INIT_TIMER);
 	assert(result == 0);
 	if (result != 0) {
@@ -42,7 +42,7 @@ bool Time::init() {
 		return false;
 	}
 
-	logMsg("Done initializing timer.");
+	logInfo("Done initializing timer.");
 	logExitSec();
 	good = true;
 	return true;
@@ -56,13 +56,13 @@ bool Time::kill() {
 		return false;
 	}
 
-	logMsg("Deinitializing timer...");
+	logInfo("Destroying timer...");
 	logEnterSec();
 
-	logMsg("Quitting timer subsystem");
+	logInfo("Quitting timer subsystem");
 	SDL_QuitSubSystem(SDL_INIT_TIMER);
 
-	logMsg("Done deinitializing timer.");
+	logInfo("Done destroying timer.");
 	logExitSec();
 
 	good = false;
@@ -148,9 +148,9 @@ bool Time::removeCallback(const std::string& tID) {
 		return false;
 	}
 
-	bool result = SDL_RemoveTimer(entry->second);
+	int result = SDL_RemoveTimer(entry->second);
 	callbacks.erase(entry);
-	if (!result) {
+	if (result == 0) {
 		logWarn("Could not remove saved callback ID " + tID + ", already ended.");
 		return false;
 	}

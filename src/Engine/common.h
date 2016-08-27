@@ -4,7 +4,7 @@
 #define ASSERTS
 
 // Logging Defines
-#define VERBOSE 3			// 0 = nothing, 1 = errors, 2 = warnings, 3 = messages
+#define VERBOSE 3			// 0 = nothing, 1 = errors, 2 = warnings, 3 = info
 #define CLOG				// log to console
 #define FLOG "log.txt"		// log to file
 #define LOGCONTEXT			// log contexts
@@ -30,12 +30,12 @@
 #if VERBOSE == 0
 	#define logErr(a)
 	#define logWarn(a) 
-	#define logMsg(a)
+	#define logInfo(a)
 #elif VERBOSE == 1
 	#define logWarn(a) 
-	#define logMsg(a)
+	#define logInfo(a)
 #elif VERBOSE == 2
-	#define logMsg(a)
+	#define logInfo(a)
 #endif // VERBOSE
 
 #ifndef LOGCONTEXT

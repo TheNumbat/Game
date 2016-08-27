@@ -8,12 +8,11 @@ int main() {
 	engine* e = new engine;
 
 	logSetContext("GAME");
-	logMsg("Initializing game...");
+	logInfo("Initializing game...");
 	logEnterSec();
 
-	logMsg("Done initializing game.");
+	logInfo("Done initializing game.");
 	logExitSec();
-
 
 	e->gfx.loadTexture("test", "test.png");
 	e->gfx.renderTexture("test", r2<s32>(0, 0, 1280, 720));
@@ -22,17 +21,12 @@ int main() {
 	e->audio.loadSound("test", "test.mp3");
 	e->audio.play("test");
 
-	e->time.addPerfCounter("test");
-	for (int i = 0; i < 10; i++) {
-		logMsg(std::to_string(e->time.get("test")));
-	}
-
 	system("pause");
 
-	logMsg("Deinitializing game...");
+	logInfo("Destroying game...");
 	logEnterSec();
 
-	logMsg("Done deinitializing game.");
+	logInfo("Done destroying game.");
 	logExitSec();
 
 	delete e;

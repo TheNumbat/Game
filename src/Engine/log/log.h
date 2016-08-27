@@ -14,7 +14,7 @@ ENGINE_API void logExitSec();
 
 ENGINE_API void logErr(const std::string& msg, const std::string& file, const std::string& line);
 ENGINE_API void logWarn(const std::string& msg, const std::string& file, const std::string& line);
-ENGINE_API void logMsg(const std::string& msg);
+ENGINE_API void logInfo(const std::string& msg);
 
 class Log {
 	Log();
@@ -23,7 +23,7 @@ class Log {
 	std::string context;
 	int sec;
 
-	void logMsg(const std::string& lvl, const std::string& msg);
+	void logInfo(const std::string& lvl, const std::string& msg);
 
 	friend void logInit();
 	friend void logQuit();
@@ -32,7 +32,7 @@ class Log {
 	friend void logExitSec();
 	friend void logErr(const std::string& msg, const std::string& file, const std::string& line);
 	friend void logWarn(const std::string& msg, const std::string& file, const std::string& line);
-	friend void logMsg(const std::string& msg);
+	friend void logInfo(const std::string& msg);
 };
 extern Log* logger;
 

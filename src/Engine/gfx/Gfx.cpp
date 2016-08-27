@@ -201,10 +201,10 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 		return false;
 	}
 
-	logMsg("Initializing Graphics...");
+	logInfo("Initializing Graphics...");
 	logEnterSec();
 
-	logMsg("Initializing SDL Video");
+	logInfo("Initializing SDL Video");
 	bool result = SDL_InitSubSystem(SDL_INIT_VIDEO) == 0;
 	assert(result);
 	if (!result) {
@@ -212,7 +212,7 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 		return false;
 	}
 
-	logMsg("Initializing SDL_Image");
+	logInfo("Initializing SDL_Image");
 	result = IMG_Init(IMG_INIT_JPG | IMG_INIT_JPG) != 0;
 	assert(result);
 	if (!result) {
@@ -220,7 +220,7 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 		return false;
 	}
 
-	logMsg("Initializing SDL_TTF");
+	logInfo("Initializing SDL_TTF");
 	result = TTF_Init() == 0;
 	assert(result);
 	if (!result) {
@@ -228,7 +228,7 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 		return false;
 	}
 
-	logMsg("Creating Window and Renderer");
+	logInfo("Creating Window and Renderer");
 	// TODO OpenGL
 	SDL_Window* temp1;
 	SDL_Renderer* temp2;
@@ -241,7 +241,7 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 	sdl_window = temp1;
 	sdl_renderer = temp2;
 
-	logMsg("Done initializing graphics.");
+	logInfo("Done initializing graphics.");
 	logExitSec();
 
 	good = true;
@@ -256,24 +256,25 @@ bool Gfx::kill() {
 		return false;
 	}
 
-	logMsg("Deinitializing Graphics");
+	logInfo("Destroying Graphics");
+	logEnterSec();
 
-	logMsg("Destroying Renderer");
+	logInfo("Destroying Renderer");
 	SDL_DestroyRenderer((SDL_Renderer*)sdl_renderer);
-	logMsg("Destroying Window");
+	logInfo("Destroying Window");
 	SDL_DestroyWindow((SDL_Window*)sdl_window);
 
 	sdl_renderer = NULL;
 	sdl_window = NULL;
 
-	logMsg("Quitting SDL Video");
+	logInfo("Quitting SDL Video");
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
-	logMsg("Quitting SDL_Image");
+	logInfo("Quitting SDL_Image");
 	IMG_Quit();
-	logMsg("Quitting SDL_TTF");
+	logInfo("Quitting SDL_TTF");
 	TTF_Quit();
 
-	logMsg("Done deinitializing graphics.");
+	logInfo("Done destroying graphics.");
 	logExitSec();
 
 	good = false;
@@ -360,7 +361,7 @@ bool Gfx::loadFont(const std::string& fontID, const std::string& path, s32 size)
 	}
 
 	fonts.insert({fontID, newF});
-	logMsg("Loaded font ID: " + fontID + " from " + path);
+	logInfo("Loaded font ID: " + fontID + " from " + path);
 	return true;
 }
 
@@ -383,7 +384,7 @@ bool Gfx::loadTexture(const std::string& texID, const std::string& path, blendmo
 	}
 
 	textures.insert({texID, newT});
-	logMsg("Loaded texture ID: " + texID + " from " + path);
+	logInfo("Loaded texture ID: " + texID + " from " + path);
 	return true;
 }
 
@@ -514,7 +515,7 @@ bool Gfx::loadTexFolder(const std::string& path) {
 		return false;
 	}
 
-	logMsg("Loading texture directory at " + dirPath);
+	logInfo("Loading texture directory at " + dirPath);
 	logEnterSec();
 
 	while (entry = readdir(directory)) {
@@ -553,7 +554,7 @@ bool Gfx::loadFontFolder(const std::string& path, s32 size) {
 		return false;
 	}
 
-	logMsg("Loading font directory at " + dirPath);
+	logInfo("Loading font directory at " + dirPath);
 	logEnterSec();
 
 	while (entry = readdir(directory))
