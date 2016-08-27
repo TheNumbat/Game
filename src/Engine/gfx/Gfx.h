@@ -12,10 +12,10 @@ enum blendmode {
 };
 
 enum flipmode {
-	flip_none = 0,
-	flip_horz = 1<<0,
-	flip_vert = 1<<1,
-	flip_both = flip_horz|flip_vert
+	flip_none,
+	flip_horz,
+	flip_vert,
+	flip_both
 };
 
 struct color {

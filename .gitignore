@@ -38,7 +38,6 @@ local.properties
 
 # User-specific files
 *.suo
-*.user
 *.sln.docstates
 
 # Build results
@@ -215,6 +214,4 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 Data/log.txt
-Game/Game.VC.VC.opendb
-Engine/Engine.VC.db
-Game/Game.VC.db
+
