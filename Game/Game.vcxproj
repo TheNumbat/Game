@@ -72,8 +72,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\mslat\GitHub\Game\src\Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\mslat\GitHub\Game\Engine\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDirectory)..\src\Engine;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDirectory)..\Engine\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
