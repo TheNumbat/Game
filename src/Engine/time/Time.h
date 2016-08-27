@@ -35,6 +35,7 @@ public:
 	ENGINE_API bool pause(const std::string& tID);
 	ENGINE_API bool resume(const std::string& tID);
 	ENGINE_API bool reset(const std::string& tID);
+	ENGINE_API bool toggle(const std::string& tID);
 
 	ENGINE_API u64 get(const std::string& tID);
 

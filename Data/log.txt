@@ -3,28 +3,52 @@
    ENGINE LOG STARTUP
    ==================
 
-16:20:45 [ENGINE\LOG]: Initialized log.
-16:20:45 [ENGINE\ENGINE]: Initializing engine...
-16:20:45    [ENGINE\GRAPHICS]: Initializing Graphics...
-16:20:45       [ENGINE\GRAPHICS]: Initializing SDL Video
-16:20:45       [ENGINE\GRAPHICS]: Initializing SDL_Image
-16:20:45       [ENGINE\GRAPHICS]: Initializing SDL_TTF
-16:20:45       [ENGINE\GRAPHICS]: Creating Window and Renderer
-16:20:45       [ENGINE\GRAPHICS]: Done initializing graphics.
-16:20:45    [ENGINE\ENGINE]: Done initializing engine.
-16:20:45 [ENGINE\GAME]: Initializing game...
-16:20:45    [ENGINE\GAME]: Done initializing game.
-16:20:45 [ENGINE\GRPAHICS]: Loaded texture ID: test from test.png
-16:20:45 [ENGINE\GRPAHICS]: WARNING: gfx.cpp, line 309: Could not clear renderer, error: 
-16:20:48 [ENGINE\GRPAHICS]: Deinitializing game...
-16:20:48    [ENGINE\GRPAHICS]: Done deinitializing game.
-16:20:48 [ENGINE\ENGINE]: Shutting down engine...
-16:20:48    [ENGINE\GRPAHICS]: Deinitializing Graphics
-16:20:48    [ENGINE\GRPAHICS]: Destroying Renderer
-16:20:48    [ENGINE\GRPAHICS]: Destroying Window
-16:20:48    [ENGINE\GRPAHICS]: Quitting SDL Video
-16:20:48    [ENGINE\GRPAHICS]: Quitting SDL_Image
-16:20:48    [ENGINE\GRPAHICS]: Quitting SDL_TTF
-16:20:48    [ENGINE\GRPAHICS]: Done deinitializing graphics.
-16:20:48 [ENGINE\ENGINE]: Done shutting down engine.
-16:20:48 [ENGINE\LOG]: Shut down log.
+22:30:36 [INFO\LOG]: Initialized log.
+22:30:36 [INFO\ENGINE]: Initializing engine...
+22:30:36    [INFO\GRAPHICS]: Initializing Graphics...
+22:30:36       [INFO\GRAPHICS]: Initializing SDL Video
+22:30:36       [INFO\GRAPHICS]: Initializing SDL_Image
+22:30:36       [INFO\GRAPHICS]: Initializing SDL_TTF
+22:30:36       [INFO\GRAPHICS]: Creating Window and Renderer
+22:30:36       [INFO\GRAPHICS]: Done initializing graphics.
+22:30:36    [INFO\AUDIO]: Initalizing audio...
+22:30:36       [INFO\AUDIO]: Opening audio stream
+22:30:36       [INFO\AUDIO]: Sound initialized
+22:30:36    [INFO\TIME]: Initializing timer...
+22:30:36       [INFO\TIME]: Initialzing SDL timer subsystem
+22:30:36       [INFO\TIME]: Done initializing timer.
+22:30:36    [INFO\ENGINE]: Done initializing engine.
+22:30:36 [INFO\GAME]: Initializing game...
+22:30:36    [INFO\GAME]: Done initializing game.
+22:30:36 [INFO\GRPAHICS]: Loaded texture ID: test from test.png
+22:30:36 [INFO\AUDIO]: Loaded sound ID test from path test.mp3
+22:30:36 [INFO\TIME]: 73
+22:30:36 [INFO\TIME]: 1162
+22:30:36 [INFO\TIME]: 2253
+22:30:36 [INFO\TIME]: 3175
+22:30:36 [INFO\TIME]: 4221
+22:30:36 [INFO\TIME]: 5167
+22:30:36 [INFO\TIME]: 6192
+22:30:36 [INFO\TIME]: 8179
+22:30:36 [INFO\TIME]: 10450
+22:30:36 [INFO\TIME]: 12234
+22:30:41 [INFO\TIME]: Deinitializing game...
+22:30:41    [INFO\TIME]: Done deinitializing game.
+22:30:41 [INFO\ENGINE]: Shutting down engine...
+22:30:41    [INFO\GRPAHICS]: Deinitializing Graphics
+22:30:41    [INFO\GRPAHICS]: Destroying Renderer
+22:30:41    [INFO\GRPAHICS]: Destroying Window
+22:30:41    [INFO\GRPAHICS]: Quitting SDL Video
+22:30:41    [INFO\GRPAHICS]: Quitting SDL_Image
+22:30:41    [INFO\GRPAHICS]: Quitting SDL_TTF
+22:30:41    [INFO\GRPAHICS]: Done deinitializing graphics.
+22:30:41 [INFO\AUDIO]: Deinitializing audio...
+22:30:41    [INFO\AUDIO]: Stopping all sounds
+22:30:41    [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
+22:30:41    [INFO\AUDIO]: Quitting SDL_Mixer
+22:30:41    [INFO\AUDIO]: Sound deinitialized.
+22:30:41 [INFO\TIME]: Deinitializing timer...
+22:30:41    [INFO\TIME]: Quitting timer subsystem
+22:30:41    [INFO\TIME]: Done deinitializing timer.
+22:30:41 [INFO\ENGINE]: Done shutting down engine.
+22:30:41 [INFO\LOG]: Shut down log.

@@ -1,6 +1,7 @@
 
 #include <engine.h>
 #include <iostream>
+#include <string>
 
 int main() {
 	
@@ -20,6 +21,11 @@ int main() {
 
 	e->audio.loadSound("test", "test.mp3");
 	e->audio.play("test");
+
+	e->time.addPerfCounter("test");
+	for (int i = 0; i < 10; i++) {
+		logMsg(std::to_string(e->time.get("test")));
+	}
 
 	system("pause");
 

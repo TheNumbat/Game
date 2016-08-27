@@ -305,7 +305,7 @@ bool Gfx::swapFrame(bool clear) {
 	SDL_RenderPresent((SDL_Renderer*)sdl_renderer);
 
 	if (clear) {
-		if (!SDL_RenderClear((SDL_Renderer*)sdl_renderer)) {
+		if (SDL_RenderClear((SDL_Renderer*)sdl_renderer)) {
 			logWarn((std::string) "Could not clear renderer, error: " + SDL_GetError());
 			return false;
 		}

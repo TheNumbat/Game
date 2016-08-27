@@ -23,7 +23,7 @@ class Log {
 	std::string context;
 	int sec;
 
-	void logMsg(const std::string& msg);
+	void logMsg(const std::string& lvl, const std::string& msg);
 
 	friend void logInit();
 	friend void logQuit();

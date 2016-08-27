@@ -31,15 +31,15 @@ Log::Log() {
 			<< "   ==================" << std::endl
 			<< std::endl;
 	}
-	logMsg("Initialized log.");
+	logMsg("INFO", "Initialized log.");
 }
 
 Log::~Log() {
 	logSetContext("LOG");
-	logMsg("Shut down log.");
+	logMsg("INFO", "Shut down log.");
 }
 
-void Log::logMsg(const std::string& msg) {
+void Log::logMsg(const std::string& lvl, const std::string& msg) {
 #ifdef TIMESTAMPS
 	std::time_t t(NULL);
 	time(&t);
@@ -52,7 +52,7 @@ void Log::logMsg(const std::string& msg) {
 #endif // TIMESTAMPS
 		for (int i = 0; i < sec; i++)
 			*o << "   ";
-		*o << " [ENGINE";
+		*o << " [" << lvl;
 #ifdef LOGCONTEXT
 		*o << "\\" << context;
 #endif // LOGCONTEXT
@@ -81,13 +81,13 @@ ENGINE_API void logExitSec() {
 }
 
 ENGINE_API void logErr(const std::string& msg, const std::string& file, const std::string& line) {
-	logger->logMsg("ERROR: " + file.substr(file.find_last_of("\\/") + 1, file.find_last_of("\\/") - file.length()) + ", line " + line + ": " + msg);
+	logger->logMsg("ERROR", file.substr(file.find_last_of("\\/") + 1, file.find_last_of("\\/") - file.length()) + ", line " + line + ": " + msg);
 }
 
 ENGINE_API void logWarn(const std::string& msg, const std::string& file, const std::string& line) {
-	logger->logMsg("WARNING: " + file.substr(file.find_last_of("\\/") + 1, file.find_last_of("\\/") - file.length()) + ", line " + line + ": " + msg);
+	logger->logMsg("WARNING", file.substr(file.find_last_of("\\/") + 1, file.find_last_of("\\/") - file.length()) + ", line " + line + ": " + msg);
 }
 
 ENGINE_API void logMsg(const std::string& msg) {
-	logger->logMsg(msg);
+	logger->logMsg("INFO", msg);
 }

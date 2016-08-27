@@ -14,6 +14,7 @@ engine::engine()
 
 	gfx.init("Game",1280,720);
 	audio.init();
+	time.init();
 
 	logSetContext("ENGINE");
 	logMsg("Done initializing engine.");
@@ -29,6 +30,7 @@ engine::~engine()
 	
 	gfx.kill();
 	audio.kill();
+	time.kill();
 
 	logSetContext("ENGINE");
 	logMsg("Done shutting down engine.");
