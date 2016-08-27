@@ -213,6 +213,5 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-Data/log.txt
-
-Game/Game.VC.db
+*.db
+*.txt
