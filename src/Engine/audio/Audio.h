@@ -27,7 +27,7 @@ public:
 	ENGINE_API bool kill();
 
 	ENGINE_API bool loadSound(const std::string& sID, const std::string& path);
-	ENGINE_API bool laodSoundFolder(const std::string& path);
+	ENGINE_API bool loadSoundFolder(const std::string& path);
 
 	ENGINE_API bool freeSound(const std::string& sID);
 

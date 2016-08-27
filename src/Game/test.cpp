@@ -18,6 +18,10 @@ int main() {
 	e->gfx.renderTexture("test", r2<s32>(0, 0, 1280, 720));
 	e->gfx.swapFrame();
 
+	e->audio.loadSound("test", "test.mp3");
+	e->audio.play("test");
+
+	system("pause");
 
 	logMsg("Deinitializing game...");
 	logEnterSec();
