@@ -22,6 +22,7 @@ engine::engine()
 	gfx.init("Game",1280,720);
 	audio.init();
 	time.init();
+	file.init();
 
 	logSetContext("ENGINE");
 	logInfo("Done initializing engine.");
@@ -38,6 +39,7 @@ engine::~engine()
 	gfx.kill();
 	audio.kill();
 	time.kill();
+	file.kill();
 
 	logSetContext("ENGINE");
 	logInfo("Destroying SDL");

@@ -21,8 +21,11 @@ int main() {
 	e->audio.loadSound("test", "test.mp3");
 	e->audio.play("test");
 
+	e->file.loadFile("test", "test.png", file_binary, file_read);
+
 	system("pause");
 
+	logSetContext("GAME");
 	logInfo("Destroying game...");
 	logEnterSec();
 

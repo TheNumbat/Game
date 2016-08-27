@@ -3,52 +3,47 @@
    ENGINE LOG STARTUP
    ==================
 
-22:30:36 [INFO\LOG]: Initialized log.
-22:30:36 [INFO\ENGINE]: Initializing engine...
-22:30:36    [INFO\GRAPHICS]: Initializing Graphics...
-22:30:36       [INFO\GRAPHICS]: Initializing SDL Video
-22:30:36       [INFO\GRAPHICS]: Initializing SDL_Image
-22:30:36       [INFO\GRAPHICS]: Initializing SDL_TTF
-22:30:36       [INFO\GRAPHICS]: Creating Window and Renderer
-22:30:36       [INFO\GRAPHICS]: Done initializing graphics.
-22:30:36    [INFO\AUDIO]: Initalizing audio...
-22:30:36       [INFO\AUDIO]: Opening audio stream
-22:30:36       [INFO\AUDIO]: Sound initialized
-22:30:36    [INFO\TIME]: Initializing timer...
-22:30:36       [INFO\TIME]: Initialzing SDL timer subsystem
-22:30:36       [INFO\TIME]: Done initializing timer.
-22:30:36    [INFO\ENGINE]: Done initializing engine.
-22:30:36 [INFO\GAME]: Initializing game...
-22:30:36    [INFO\GAME]: Done initializing game.
-22:30:36 [INFO\GRPAHICS]: Loaded texture ID: test from test.png
-22:30:36 [INFO\AUDIO]: Loaded sound ID test from path test.mp3
-22:30:36 [INFO\TIME]: 73
-22:30:36 [INFO\TIME]: 1162
-22:30:36 [INFO\TIME]: 2253
-22:30:36 [INFO\TIME]: 3175
-22:30:36 [INFO\TIME]: 4221
-22:30:36 [INFO\TIME]: 5167
-22:30:36 [INFO\TIME]: 6192
-22:30:36 [INFO\TIME]: 8179
-22:30:36 [INFO\TIME]: 10450
-22:30:36 [INFO\TIME]: 12234
-22:30:41 [INFO\TIME]: Deinitializing game...
-22:30:41    [INFO\TIME]: Done deinitializing game.
-22:30:41 [INFO\ENGINE]: Shutting down engine...
-22:30:41    [INFO\GRPAHICS]: Deinitializing Graphics
-22:30:41    [INFO\GRPAHICS]: Destroying Renderer
-22:30:41    [INFO\GRPAHICS]: Destroying Window
-22:30:41    [INFO\GRPAHICS]: Quitting SDL Video
-22:30:41    [INFO\GRPAHICS]: Quitting SDL_Image
-22:30:41    [INFO\GRPAHICS]: Quitting SDL_TTF
-22:30:41    [INFO\GRPAHICS]: Done deinitializing graphics.
-22:30:41 [INFO\AUDIO]: Deinitializing audio...
-22:30:41    [INFO\AUDIO]: Stopping all sounds
-22:30:41    [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
-22:30:41    [INFO\AUDIO]: Quitting SDL_Mixer
-22:30:41    [INFO\AUDIO]: Sound deinitialized.
-22:30:41 [INFO\TIME]: Deinitializing timer...
-22:30:41    [INFO\TIME]: Quitting timer subsystem
-22:30:41    [INFO\TIME]: Done deinitializing timer.
-22:30:41 [INFO\ENGINE]: Done shutting down engine.
-22:30:41 [INFO\LOG]: Shut down log.
+15:40:09 [INFO\LOG]: Initialized log.
+15:40:09 [INFO\ENGINE]: Initializing engine...
+15:40:09    [INFO\ENGINE]: Initializing SDL
+15:40:09    [INFO\GRAPHICS]: Initializing Graphics...
+15:40:09       [INFO\GRAPHICS]: Initializing SDL Video
+15:40:09       [INFO\GRAPHICS]: Initializing SDL_Image
+15:40:09       [INFO\GRAPHICS]: Initializing SDL_TTF
+15:40:09       [INFO\GRAPHICS]: Creating Window and Renderer
+15:40:09       [INFO\GRAPHICS]: Done initializing graphics.
+15:40:09    [INFO\AUDIO]: Initializing audio...
+15:40:09       [INFO\AUDIO]: Opening audio stream
+15:40:09       [INFO\AUDIO]: Sound initialized
+15:40:09    [INFO\TIME]: Initializing timer...
+15:40:09       [INFO\TIME]: Initializing SDL timer subsystem
+15:40:09       [INFO\TIME]: Done initializing timer.
+15:40:09    [INFO\FILE]: File IO initialized.
+15:40:09    [INFO\ENGINE]: Done initializing engine.
+15:40:09 [INFO\GAME]: Initializing game...
+15:40:09    [INFO\GAME]: Done initializing game.
+15:40:09 [INFO\GRPAHICS]: Loaded texture ID: test from test.png
+15:40:09 [INFO\AUDIO]: Loaded sound ID test from path test.mp3
+15:40:09 [INFO\FILE]: Loaded file ID test from path test.png
+15:40:09 [INFO\GAME]: Destroying game...
+15:40:09    [INFO\GAME]: Done destroying game.
+15:40:09 [INFO\ENGINE]: Shutting down engine...
+15:40:09    [INFO\GRPAHICS]: Destroying Graphics
+15:40:09       [INFO\GRPAHICS]: Destroying Renderer
+15:40:09       [INFO\GRPAHICS]: Destroying Window
+15:40:09       [INFO\GRPAHICS]: Quitting SDL Video
+15:40:09       [INFO\GRPAHICS]: Quitting SDL_Image
+15:40:09       [INFO\GRPAHICS]: Quitting SDL_TTF
+15:40:09       [INFO\GRPAHICS]: Done destroying graphics.
+15:40:09    [INFO\AUDIO]: Destroying audio...
+15:40:09       [INFO\AUDIO]: Stopping all sounds
+15:40:09       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
+15:40:09       [INFO\AUDIO]: Quitting SDL_Mixer
+15:40:09       [INFO\AUDIO]: Done destroying audio.
+15:40:09    [INFO\TIME]: Destroying timer...
+15:40:09       [INFO\TIME]: Quitting timer subsystem
+15:40:09       [INFO\TIME]: Done destroying timer.
+15:40:09    [INFO\FILE]: File IO destroyed.
+15:40:09    [INFO\ENGINE]: Destroying SDL
+15:40:10    [INFO\ENGINE]: Done shutting down engine.
+15:40:10 [INFO\LOG]: Shut down log.

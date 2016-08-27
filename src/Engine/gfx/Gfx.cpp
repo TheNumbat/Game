@@ -523,11 +523,10 @@ bool Gfx::loadTexFolder(const std::string& path) {
 
 		if (entryName != ".." && entryName != ".") {
 			// TODO actually test for file vs. folder 
-			if (entryName[entryName.size() - 4] == '.') {
+			if (entryName[entryName.size() - 4] == '.')
 				loadTexture(entryName.substr(0,entryName.length() - 4), dirPath + entryName);
-			} else {
+			else
 				loadTexFolder(dirPath + entryName + '/');
-			}
 		}
 	}
 
@@ -563,11 +562,10 @@ bool Gfx::loadFontFolder(const std::string& path, s32 size) {
 
 		if (entryName != ".." && entryName != ".") {
 			// TODO actually test for file vs. folder 
-			if (entryName[entryName.size() - 4] == '.') {
+			if (entryName[entryName.size() - 4] == '.')
 				loadFont(entryName.substr(0, entryName.length() - 4), dirPath + entryName, size);
-			} else {
+			else
 				loadFontFolder(dirPath + entryName + '/', size);
-			}
 		}
 	}
 

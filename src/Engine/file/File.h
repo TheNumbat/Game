@@ -43,16 +43,17 @@ public:
 	ENGINE_API File();
 	ENGINE_API ~File();
 
-	// no init/kill, just needs SDL in general to be initialized
+	ENGINE_API bool init();
+	ENGINE_API bool kill();
 
 	ENGINE_API bool loadFile(const std::string& fID, const std::string& path, filetype type, fileaccess access);
 	ENGINE_API bool freeFile(const std::string& fID);
 
 	ENGINE_API bool read(const std::string& fID, void* buf, u32 size, u32 numobjs = 1);
-	ENGINE_API bool write(const std::string& fID, void* buf, u32 size, u32 numobjs = 1);
+	ENGINE_API bool write(const std::string& fID, void* buf, u32 size, s32 numobjs = 1);
 
 	ENGINE_API u64 getOffset(const std::string& fID);
-	ENGINE_API u64 setOffset(const std::string& fID, u64 offset, fileseek start = file_start);
+	ENGINE_API u64 setOffset(const std::string& fID, s64 offset, fileseek start = file_start);
 
 	ENGINE_API bool loadLib(const std::string& lID, const std::string& path);
 	ENGINE_API bool loadLibFolder(const std::string& path);
@@ -62,6 +63,8 @@ public:
 
 	ENGINE_API std::vector<std::string> getNamesInFolder(const std::string& path);
 	ENGINE_API bool copyFile(const std::string& src, const std::string& dest);
+
+	static std::string getAccessString(filetype type, fileaccess access);
 
 private:
 	std::map<std::string, _file*> files;

@@ -143,12 +143,10 @@ bool Audio::loadSoundFolder(const std::string& path) {
 
 		if (entryName != ".." && entryName != ".") {
 			// TODO actually test for file vs. folder 
-			if (entryName[entryName.size() - 4] == '.') {
+			if (entryName[entryName.size() - 4] == '.')
 				loadSound(entryName.substr(0, entryName.length() - 4), dirPath + entryName);
-			}
-			else {
+			else
 				loadSoundFolder(dirPath + entryName + '/');
-			}
 		}
 	}
 
