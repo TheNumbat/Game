@@ -21,4 +21,3 @@ public:
 	Input input;
 	Time time;
 };
-
