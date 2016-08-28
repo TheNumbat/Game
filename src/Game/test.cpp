@@ -27,6 +27,7 @@ s32 main() {
 	while (cont) {
 		event* evt = e->input.getNext();
 		if (evt->type == evt_quit) cont = false;
+		delete evt;
 	}
 
 	logSetContext("GAME");
