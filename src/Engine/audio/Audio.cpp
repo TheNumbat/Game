@@ -58,10 +58,10 @@ bool Audio::init() {
 	}
 
 	logInfo("Opening audio stream");
-	int result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	s32 result = Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	assert(result == 0);
 	if (result != 0) {
-		logErr((std::string)"Failed to initalize sound, Error: " + Mix_GetError());
+		logErr((std::string)"Failed to initialize sound, Error: " + Mix_GetError());
 		return false;
 	}
 	
@@ -75,7 +75,7 @@ bool Audio::kill() {
 	logSetContext("AUDIO");
 
 	if (!good) {
-		logWarn("Audio already deinitialized");
+		logWarn("Audio already destroyed");
 		return false;
 	}
 
@@ -142,7 +142,7 @@ bool Audio::loadSoundFolder(const std::string& path) {
 		std::string entryName = entry->d_name;
 
 		if (entryName != ".." && entryName != ".") {
-			// TODO actually test for file vs. folder 
+			// TODO: actually test for file vs. folder 
 			if (entryName[entryName.size() - 4] == '.')
 				loadSound(entryName.substr(0, entryName.length() - 4), dirPath + entryName);
 			else
@@ -159,7 +159,7 @@ bool Audio::freeSound(const std::string& sID) {
 
 	auto entry = sounds.find(sID);
 	if (entry == sounds.end()) {
-		logWarn("Cannot fint to free sound ID: " + sID);
+		logWarn("Cannot fs32 to free sound ID: " + sID);
 		return false;
 	}
 
@@ -177,7 +177,7 @@ bool Audio::play(const std::string& sID, u32 loop, s32 timeout) {
 		return false;
 	}
 
-	int result = Mix_PlayChannelTimed(-1, (Mix_Chunk*)entry->second->sdl_mixchunk, loop, timeout);
+	s32 result = Mix_PlayChannelTimed(-1, (Mix_Chunk*)entry->second->sdl_mixchunk, loop, timeout);
 	if (result == -1) {
 		logWarn("Failed to play sound ID: " + sID + ", Error: " + Mix_GetError());
 		return false;

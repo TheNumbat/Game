@@ -8,7 +8,7 @@
 #undef logErr
 #undef logWarn
 
-// TODO Push log output onto queue for another thread
+// TODO: Push log output onto queue for another thread
 
 Log* logger;
 
@@ -50,7 +50,7 @@ void Log::logInfo(const std::string& lvl, const std::string& msg) {
 #ifdef TIMESTAMPS
 		*o << std::put_time(&buf, "%H:%M:%S");
 #endif // TIMESTAMPS
-		for (int i = 0; i < sec; i++)
+		for (s32 i = 0; i < sec; i++)
 			*o << "   ";
 		*o << " [" << lvl;
 #ifdef LOGCONTEXT

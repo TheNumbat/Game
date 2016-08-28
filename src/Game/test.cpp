@@ -3,8 +3,8 @@
 #include <iostream>
 #include <string>
 
-int main() {
-	
+s32 main() {
+
 	engine* e = new engine;
 
 	logSetContext("GAME");
@@ -23,7 +23,11 @@ int main() {
 
 	e->file.loadFile("test", "test.png", file_binary, file_read);
 
-	system("pause");
+	bool cont = true;
+	while (cont) {
+		event* evt = e->input.getNext();
+		if (evt->type == evt_quit) cont = false;
+	}
 
 	logSetContext("GAME");
 	logInfo("Destroying game...");

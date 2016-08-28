@@ -85,7 +85,7 @@ bool texture::free() {
 }
 
 bool texture::setBlendmode(blendmode b) {
-	int result = 1;
+	s32 result = 1;
 
 	switch (b)
 	{
@@ -119,7 +119,7 @@ blendmode texture::getBlendmode() {
 }
 
 bool texture::setColormod(color c) {
-	int result = SDL_SetTextureColorMod((SDL_Texture*)sdl_texture, c.r, c.g, c.b);
+	s32 result = SDL_SetTextureColorMod((SDL_Texture*)sdl_texture, c.r, c.g, c.b);
 	assert(result == 0);
 	if (result != 0) {
 		logSetContext("GRAPHICS");
@@ -229,7 +229,7 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 	}
 
 	logInfo("Creating Window and Renderer");
-	// TODO OpenGL
+	// TODO: OpenGL
 	SDL_Window* temp1;
 	SDL_Renderer* temp2;
 	result = SDL_CreateWindowAndRenderer(width, height, NULL, &temp1, &temp2) == 0;
@@ -408,7 +408,7 @@ bool Gfx::addTextTexture(const std::string& texID, const std::string& fontID, co
 	sdl_color.b = c.b;
 	sdl_color.a = c.a;
 
-	// TODO more text rendering options
+	// TODO: more text rendering options
 	SDL_Surface* textSurface = TTF_RenderText_Solid((TTF_Font*)fontEntry->second->sdl_font,text.c_str(),sdl_color);
 
 	assert(textSurface);
@@ -522,7 +522,7 @@ bool Gfx::loadTexFolder(const std::string& path) {
 		std::string entryName = entry->d_name;
 
 		if (entryName != ".." && entryName != ".") {
-			// TODO actually test for file vs. folder 
+			// TODO: actually test for file vs. folder 
 			if (entryName[entryName.size() - 4] == '.')
 				loadTexture(entryName.substr(0,entryName.length() - 4), dirPath + entryName);
 			else
@@ -561,7 +561,7 @@ bool Gfx::loadFontFolder(const std::string& path, s32 size) {
 		std::string entryName = entry->d_name;
 
 		if (entryName != ".." && entryName != ".") {
-			// TODO actually test for file vs. folder 
+			// TODO: actually test for file vs. folder 
 			if (entryName[entryName.size() - 4] == '.')
 				loadFont(entryName.substr(0, entryName.length() - 4), dirPath + entryName, size);
 			else
@@ -615,7 +615,7 @@ bool Gfx::renderTexture(const std::string& texID, r2<s32> dest_rect) {
 		return false;
 	}
 
-	int tw, th;
+	s32 tw, th;
 	if (SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&tw,&th) != 0) {
 		logWarn((std::string)"Couldn't query texture, SDL_Error: " + SDL_GetError());
 		return false;
@@ -643,7 +643,7 @@ bool Gfx::renderTexture(const std::string& texID, r2<s32> dest_rect) {
 	return true;
 }
 
-bool Gfx::renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> src_rect, v2<s32> rot_point, r32 rotation, flipmode flip) {
+bool Gfx::renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> src_rect, v2<s32> rot_pos32, r32 rotation, flipmode flip) {
 	logSetContext("GRAPHICS");
 
 	if (!good) {
@@ -657,7 +657,7 @@ bool Gfx::renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> s
 		return false;
 	}
 
-	int tw, th;
+	s32 tw, th;
 	if (SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&tw,&th) != 0)
 	{
 		logWarn((std::string)"Couldn't query texture, Error: " + SDL_GetError());
@@ -690,9 +690,9 @@ bool Gfx::renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> s
 	else
 		sdl_src_rect.h = src_rect.h;
 
-	SDL_Point sdl_rot_point;
-	sdl_rot_point.x = rot_point.x;
-	sdl_rot_point.y = rot_point.y;
+	SDL_Point sdl_rot_pos32;
+	sdl_rot_pos32.x = rot_pos32.x;
+	sdl_rot_pos32.y = rot_pos32.y;
 
 	SDL_RendererFlip sdl_flip = SDL_FLIP_NONE;
 	switch(flip) {
@@ -708,7 +708,7 @@ bool Gfx::renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> s
 	}
 
 	if (SDL_RenderCopyEx((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,
-						 &sdl_src_rect,&sdl_dest_rect,rotation,&sdl_rot_point,sdl_flip) != 0) {
+						 &sdl_src_rect,&sdl_dest_rect,rotation,&sdl_rot_pos32,sdl_flip) != 0) {
 		logWarn("Failed to Render texture ID: " + texID + ", Error: " + SDL_GetError());
 		return false;
 	}
@@ -734,14 +734,14 @@ bool Gfx::renderText(const std::string& fontID, const std::string& text, r2<s32>
 	return true;
 }
 
-bool Gfx::renderTextEx(const std::string& fontID, const std::string& text, r2<s32> dest_rect, r2<s32> src_rect, blendmode b, color c, v2<s32> rot_point, r32 rot, flipmode flip) {
+bool Gfx::renderTextEx(const std::string& fontID, const std::string& text, r2<s32> dest_rect, r2<s32> src_rect, blendmode b, color c, v2<s32> rot_pos32, r32 rot, flipmode flip) {
 	logSetContext("GRAPHICS");
 
 	if(!addTextTexture("textrender_temp",fontID,text,b,c))
 	{
 		return false;
 	}
-	if(!renderTextureEx("textrender_temp",dest_rect,src_rect,rot_point,rot,flip))
+	if(!renderTextureEx("textrender_temp",dest_rect,src_rect,rot_pos32,rot,flip))
 	{
 		return false;
 	}

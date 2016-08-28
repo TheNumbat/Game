@@ -221,7 +221,7 @@ bool File::loadLibFolder(const std::string& path) {
 		std::string entryName = entry->d_name;
 
 		if (entryName != ".." && entryName != ".") {
-			// TODO actually test for file vs. folder 
+			// TODO: actually test for file vs. folder 
 			if (entryName[entryName.size() - 4] == '.')
 				loadLib(entryName.substr(0, entryName.length() - 4), dirPath + entryName);
 			else
@@ -299,7 +299,7 @@ std::vector<std::string> File::getNamesInFolder(const std::string& path) {
 	return names;
 }
 
-// TODO remove windows
+// TODO: remove windows
 #include <windows.h>
 bool File::copyFile(const std::string& src, const std::string& dest) {
 	logSetContext("FILE");

@@ -95,10 +95,10 @@ public:
 	ENGINE_API bool freeFont(const std::string& fontID);
 
 	ENGINE_API bool renderTexture(const std::string& texID, r2<s32> dest_rect);
-	ENGINE_API bool renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> src_rect, v2<s32> rot_point, r32 rotation, flipmode flip);
+	ENGINE_API bool renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> src_rect, v2<s32> rot_pos32, r32 rotation, flipmode flip);
 
 	ENGINE_API bool renderText(const std::string& fontID, const std::string& text, r2<s32> dest_rect, blendmode b = blend_alpha, color c = color(255, 255, 255, 0));
-	ENGINE_API bool renderTextEx(const std::string& fontID, const std::string& text, r2<s32> dest_rect, r2<s32> src_rect, blendmode b, color c, v2<s32> rot_point, r32 rot, flipmode flip);
+	ENGINE_API bool renderTextEx(const std::string& fontID, const std::string& text, r2<s32> dest_rect, r2<s32> src_rect, blendmode b, color c, v2<s32> rot_pos32, r32 rot, flipmode flip);
 
 private:
 	std::map<std::string, texture*> textures;

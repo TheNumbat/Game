@@ -21,7 +21,7 @@ class Log {
 	~Log();
 	std::vector<std::ostream*> out;
 	std::string context;
-	int sec;
+	s32 sec;
 
 	void logInfo(const std::string& lvl, const std::string& msg);
 

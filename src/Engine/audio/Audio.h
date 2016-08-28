@@ -12,7 +12,7 @@ class sound {
 	bool free();
 
 	void* sdl_mixchunk;
-	int channel;
+	s32 channel;
 	bool good;
 
 	friend class Audio;

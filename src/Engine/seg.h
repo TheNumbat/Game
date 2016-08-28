@@ -29,23 +29,23 @@ struct seg
 		return sqrt(((y2 - y1) * (y2 - y1)) + ((x2 - x1) * (x2 - x1)));
 	}
 
-	bool includes(v2<T> point) const
+	bool includes(v2<T> pos32) const
 	{
 		if (x1 < x2) {
-			if (point.x < x1 || point.x > x2) return false;
+			if (pos32.x < x1 || pos32.x > x2) return false;
 		}
 		else if (x2 < x1) {
-			if (point.x < x2 || point.x > x1) return false;
+			if (pos32.x < x2 || pos32.x > x1) return false;
 		}
 		if (y1 < y2) {
-			if (point.y < y1 || point.y > y2) return false;
+			if (pos32.y < y1 || pos32.y > y2) return false;
 		}
 		else if (y2 < y1) {
-			if (point.y < y2 || point.y > y1) return false;
+			if (pos32.y < y2 || pos32.y > y1) return false;
 		}
 
-		seg<T> one(x1, y1, point.x, point.y);
-		seg<T> two(point.x, point.y, x2, y2);
+		seg<T> one(x1, y1, pos32.x, pos32.y);
+		seg<T> two(pos32.x, pos32.y, x2, y2);
 		T m1 = one.slope(), m2 = two.slope();
 		if (isinf(m1) && isinf(m2)) return true;
 		if (isinf(m1) || isinf(m2) || m1 != m2) return false;
@@ -62,7 +62,7 @@ struct seg
 		return v2<T>(x2 - x1, y2 - y1);
 	}
 
-	v2<T> intersect(const seg& other) const
+	v2<T> s32ersect(const seg& other) const
 	{
 		T m1 = slope();
 		T m2 = other.slope();

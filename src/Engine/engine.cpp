@@ -23,6 +23,7 @@ engine::engine()
 	audio.init();
 	time.init();
 	file.init();
+	input.init();
 
 	logSetContext("ENGINE");
 	logInfo("Done initializing engine.");
@@ -40,6 +41,7 @@ engine::~engine()
 	audio.kill();
 	time.kill();
 	file.kill();
+	input.kill();
 
 	logSetContext("ENGINE");
 	logInfo("Destroying SDL");
