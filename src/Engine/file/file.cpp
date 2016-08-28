@@ -221,10 +221,10 @@ bool File::loadLibFolder(const std::string& path) {
 		std::string entryName = entry->d_name;
 
 		if (entryName != ".." && entryName != ".") {
-			// TODO: actually test for file vs. folder 
-			if (entryName[entryName.size() - 4] == '.')
+			std::string ext = entryName.substr(entryName.length() - 4, entryName.length());
+			if (ext == ".dll")
 				loadLib(entryName.substr(0, entryName.length() - 4), dirPath + entryName);
-			else
+			else if (ext[0] != '.')
 				loadLibFolder(dirPath + entryName + '/');
 		}
 	}

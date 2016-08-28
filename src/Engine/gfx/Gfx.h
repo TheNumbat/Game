@@ -101,6 +101,7 @@ public:
 	ENGINE_API bool renderTextEx(const std::string& fontID, const std::string& text, r2<s32> dest_rect, r2<s32> src_rect, blendmode b, color c, v2<s32> rot_pos32, r32 rot, flipmode flip);
 
 private:
+	// TODO: region allocation, free list
 	std::map<std::string, texture*> textures;
 	std::map<std::string, font*> fonts;
 

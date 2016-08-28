@@ -229,7 +229,6 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 	}
 
 	logInfo("Creating Window and Renderer");
-	// TODO: OpenGL
 	SDL_Window* temp1;
 	SDL_Renderer* temp2;
 	result = SDL_CreateWindowAndRenderer(width, height, NULL, &temp1, &temp2) == 0;
@@ -522,10 +521,13 @@ bool Gfx::loadTexFolder(const std::string& path) {
 		std::string entryName = entry->d_name;
 
 		if (entryName != ".." && entryName != ".") {
-			// TODO: actually test for file vs. folder 
-			if (entryName[entryName.size() - 4] == '.')
+			std::string ext = entryName.substr(entryName.length() - 4, entryName.length());
+			if (ext == ".bmp" ||
+				ext == ".gif" ||
+				ext == ".jpg" ||
+				ext == ".png" )
 				loadTexture(entryName.substr(0,entryName.length() - 4), dirPath + entryName);
-			else
+			else if (ext[0] != '.')
 				loadTexFolder(dirPath + entryName + '/');
 		}
 	}
@@ -561,10 +563,10 @@ bool Gfx::loadFontFolder(const std::string& path, s32 size) {
 		std::string entryName = entry->d_name;
 
 		if (entryName != ".." && entryName != ".") {
-			// TODO: actually test for file vs. folder 
-			if (entryName[entryName.size() - 4] == '.')
+			std::string ext = entryName.substr(entryName.length() - 4, entryName.length());
+			if (ext == ".ttf")
 				loadFont(entryName.substr(0, entryName.length() - 4), dirPath + entryName, size);
-			else
+			else if (ext[0] != '.')
 				loadFontFolder(dirPath + entryName + '/', size);
 		}
 	}

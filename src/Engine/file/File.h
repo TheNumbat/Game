@@ -67,6 +67,7 @@ public:
 	static std::string getAccessString(filetype type, fileaccess access);
 
 private:
+	// TODO: region allocation, free list
 	std::map<std::string, _file*> files;
 	std::map<std::string, void*> libs;
 };

@@ -19,26 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Engine\audio\audio.h" />
+    <ClInclude Include="..\src\Engine\audio\Audio.h" />
     <ClInclude Include="..\src\Engine\common.h" />
     <ClInclude Include="..\src\Engine\engine.h" />
-    <ClInclude Include="..\src\Engine\file\file.h" />
-    <ClInclude Include="..\src\Engine\gfx\gfx.h" />
-    <ClInclude Include="..\src\Engine\input\input.h" />
-    <ClInclude Include="..\src\Engine\log\log.h" />
+    <ClInclude Include="..\src\Engine\file\File.h" />
+    <ClInclude Include="..\src\Engine\gfx\Gfx.h" />
+    <ClInclude Include="..\src\Engine\input\Input.h" />
+    <ClInclude Include="..\src\Engine\log\Log.h" />
     <ClInclude Include="..\src\Engine\r2.h" />
     <ClInclude Include="..\src\Engine\seg.h" />
-    <ClInclude Include="..\src\Engine\time\time.h" />
+    <ClInclude Include="..\src\Engine\thread\Thread.h" />
+    <ClInclude Include="..\src\Engine\time\Time.h" />
     <ClInclude Include="..\src\Engine\v2.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\Engine\audio\audio.cpp" />
+    <ClCompile Include="..\src\Engine\audio\Audio.cpp" />
     <ClCompile Include="..\src\Engine\engine.cpp" />
-    <ClCompile Include="..\src\Engine\file\file.cpp" />
-    <ClCompile Include="..\src\Engine\gfx\gfx.cpp" />
-    <ClCompile Include="..\src\Engine\input\input.cpp" />
-    <ClCompile Include="..\src\Engine\log\log.cpp" />
-    <ClCompile Include="..\src\Engine\time\time.cpp" />
+    <ClCompile Include="..\src\Engine\file\File.cpp" />
+    <ClCompile Include="..\src\Engine\gfx\Gfx.cpp" />
+    <ClCompile Include="..\src\Engine\input\Input.cpp" />
+    <ClCompile Include="..\src\Engine\log\Log.cpp" />
+    <ClCompile Include="..\src\Engine\thread\Thread.cpp" />
+    <ClCompile Include="..\src\Engine\time\Time.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{28ED7B27-2524-4A16-B7F3-28796A87C171}</ProjectGuid>

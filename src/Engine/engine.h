@@ -8,6 +8,7 @@
 #include "input\input.h"
 #include "time\time.h"
 #include "log\log.h"
+#include "thread\thread.h"
 
 class engine
 {
@@ -20,4 +21,5 @@ public:
 	Gfx gfx;
 	Input input;
 	Time time;
+	Thread thread;
 };

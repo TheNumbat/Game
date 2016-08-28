@@ -14,14 +14,14 @@ s32 main() {
 	logInfo("Done initializing game.");
 	logExitSec();
 
-	e->gfx.loadTexture("test", "test.png");
+	e->gfx.loadTexFolder("test/");
 	e->gfx.renderTexture("test", r2<s32>(0, 0, 1280, 720));
 	e->gfx.swapFrame();
 
-	e->audio.loadSound("test", "test.mp3");
+	e->audio.loadSoundFolder("test/");
 	e->audio.play("test");
 
-	e->file.loadFile("test", "test.png", file_binary, file_read);
+	e->file.loadFile("test", "test/test.png", file_binary, file_read);
 
 	bool cont = true;
 	while (cont) {
