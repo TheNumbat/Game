@@ -24,6 +24,7 @@ engine::engine()
 	time.init();
 	file.init();
 	input.init();
+	thread.init();
 
 	logSetContext("ENGINE");
 	logInfo("Done initializing engine.");
@@ -42,6 +43,7 @@ engine::~engine()
 	time.kill();
 	file.kill();
 	input.kill();
+	thread.kill();
 
 	logSetContext("ENGINE");
 	logInfo("Destroying SDL");

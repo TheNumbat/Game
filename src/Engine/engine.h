@@ -10,9 +10,8 @@
 #include "log\log.h"
 #include "thread\thread.h"
 
-class engine
+struct engine
 {
-public:
 	ENGINE_API engine();
 	ENGINE_API ~engine();
 
