@@ -8,6 +8,8 @@ bool run = true;
 s32 threadTest(void* data) {
 	engine* e = (engine*)data;
 	while (run) {
+		logSetContext("TEST THREAD");
+		logInfo("TEST THREAD OUTPUT");
 		e->thread.delay(1000);
 	}
 	return 0;
