@@ -21,4 +21,5 @@ struct engine
 	Input input;
 	Time time;
 	Thread thread;
+	Log log;
 };

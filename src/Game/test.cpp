@@ -35,7 +35,8 @@ s32 main() {
 
 	e->file.loadFile("test", "test/test.png", file_binary, file_read);
 
-	e->thread.add("test", &threadTest, e);
+	for(int i = 0; i < 10; i++)
+		e->thread.add("test" + std::to_string(i), &threadTest, e);
 
 	bool cont = true;
 	while (cont) {
@@ -46,9 +47,9 @@ s32 main() {
 
 	run = false;
 	int ret;
-	e->thread.wait("test",ret);
+	for (int i = 0; i < 10; i++)
+		e->thread.wait("test" + std::to_string(i), ret);
 
-	logSetContext("GAME");
 	logInfo("Destroying game...");
 	logEnterSec();
 

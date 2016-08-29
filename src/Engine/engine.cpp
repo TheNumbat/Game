@@ -5,9 +5,11 @@
 
 #include <SDL.h>
 
-engine::engine()
+engine::engine() : log(this)
 {
-	logInit();
+	globalLog = &log;
+	log.init();
+
 	logSetContext("ENGINE");
 	logInfo("Initializing engine...");
 	logEnterSec();
@@ -26,7 +28,6 @@ engine::engine()
 	input.init();
 	thread.init();
 
-	logSetContext("ENGINE");
 	logInfo("Done initializing engine.");
 	logExitSec();
 }
@@ -45,11 +46,7 @@ engine::~engine()
 	input.kill();
 	thread.kill();
 
-	logSetContext("ENGINE");
-	logInfo("Destroying SDL");
-	SDL_Quit();
-
 	logInfo("Done shutting down engine.");
-	logExitSec();
-	logQuit();
+	log.kill();
+	SDL_Quit();
 }

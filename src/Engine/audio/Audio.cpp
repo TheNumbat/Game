@@ -16,6 +16,8 @@ sound::~sound() {
 }
 
 bool sound::load(const std::string& path) {
+	logSetContext("AUDIO");
+
 	free();
 
 	sdl_mixchunk = Mix_LoadWAV(path.c_str());

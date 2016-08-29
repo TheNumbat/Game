@@ -4,6 +4,7 @@
 #include <map>
 
 typedef void* mutex;
+typedef void* cond_var;
 
 enum mutex_status {
 	mutex_locked,
@@ -37,6 +38,14 @@ public:
 	ENGINE_API mutex_status tryLockMutex(mutex m);
 	ENGINE_API mutex_status lockMutex(mutex m);
 	ENGINE_API mutex_status unlockMutex(mutex m);
+
+	ENGINE_API cond_var makeCondVar();
+	ENGINE_API void freeCondVar(cond_var v);
+
+	ENGINE_API bool condBroadcast(cond_var v);
+	ENGINE_API bool condSignal(cond_var v);
+	ENGINE_API bool condWait(cond_var v, mutex m);
+	ENGINE_API bool condWaitTimeout(cond_var v, mutex m, u32 ms);
 
 private:
 	std::map<std::string, void*> threads;

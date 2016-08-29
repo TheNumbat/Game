@@ -3,77 +3,85 @@
    ENGINE LOG STARTUP
    ==================
 
-17:31:32 [INFO\LOG]: Initialized log.
-17:31:32 [INFO\ENGINE]: Initializing engine...
-17:31:32    [INFO\ENGINE]: Initializing SDL
-17:31:32    [INFO\GRAPHICS]: Initializing Graphics...
-17:31:32       [INFO\GRAPHICS]: Initializing SDL Video
-17:31:33       [INFO\GRAPHICS]: Initializing SDL_Image
-17:31:33       [INFO\GRAPHICS]: Initializing SDL_TTF
-17:31:33       [INFO\GRAPHICS]: Creating Window and Renderer
-17:31:33       [INFO\GRAPHICS]: Done initializing graphics.
-17:31:33    [INFO\AUDIO]: Initializing audio...
-17:31:33       [INFO\AUDIO]: Opening audio stream
-17:31:33       [INFO\AUDIO]: Sound initialized
-17:31:33    [INFO\TIME]: Initializing timer...
-17:31:33       [INFO\TIME]: Initializing SDL timer subsystem
-17:31:33       [INFO\TIME]: Done initializing timer.
-17:31:33    [INFO\FILE]: File IO initialized.
-17:31:33    [INFO\INPUT]: Initializing input...
-17:31:33       [INFO\INPUT]: Initializing event system
-17:31:33       [INFO\INPUT]: Getting keyboard state
-17:31:33       [INFO\INPUT]: Input initialized
-17:31:33    [INFO\THREAD]: Threading initialized.
-17:31:33    [INFO\ENGINE]: Done initializing engine.
-17:31:33 [INFO\GAME]: Initializing game...
-17:31:33    [INFO\GAME]: Done initializing game.
-17:31:33 [INFO\GRAPHICS]: Loading texture directory at test/
-17:31:33    [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
-17:31:33 [INFO\AUDIO]: Loading sound directory at test/
-17:31:33    [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
-17:31:33 [INFO\FILE]: Loaded file ID test from path test/test.png
-17:31:33 [17:31:33 [INFOINFO\DERP THREAD\]: DERP THREADTESTTESTJKLSDFJKLSDF]: 
-Created thread ID test
-17:31:34 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:35 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:36 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:37 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:38 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:39 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:40 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:41 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:42 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:43 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:44 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:45 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:46 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:47 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:48 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:49 [INFO\INPUT]: TESTTESTJKLSDFJKLSDF
-17:31:50 [INFO\THREAD]: Wating on thread ID test
-17:31:50 [INFO\GAME]: Destroying game...
-17:31:50    [INFO\GAME]: Done destroying game.
-17:31:50 [INFO\ENGINE]: Shutting down engine...
-17:31:50    [INFO\GRPAHICS]: Destroying Graphics
-17:31:50       [INFO\GRPAHICS]: Destroying Renderer
-17:31:50       [INFO\GRPAHICS]: Destroying Window
-17:31:50       [INFO\GRPAHICS]: Quitting SDL Video
-17:31:50       [INFO\GRPAHICS]: Quitting SDL_Image
-17:31:50       [INFO\GRPAHICS]: Quitting SDL_TTF
-17:31:50       [INFO\GRPAHICS]: Done destroying graphics.
-17:31:50    [INFO\AUDIO]: Destroying audio...
-17:31:50       [INFO\AUDIO]: Stopping all sounds
-17:31:50       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
-17:31:50       [INFO\AUDIO]: Quitting SDL_Mixer
-17:31:50       [INFO\AUDIO]: Done destroying audio.
-17:31:50    [INFO\TIME]: Destroying timer...
-17:31:50       [INFO\TIME]: Quitting timer subsystem
-17:31:50       [INFO\TIME]: Done destroying timer.
-17:31:50    [INFO\FILE]: File IO destroyed.
-17:31:50    [INFO\INPUT]: Destroying input...
-17:31:50       [INFO\INPUT]: Quitting subsystem
-17:31:50       [INFO\INPUT]: Done destroying input.
-17:31:50    [INFO\THREAD]: Threading destroyed.
-17:31:50    [INFO\ENGINE]: Destroying SDL
-17:31:50    [INFO\ENGINE]: Done shutting down engine.
-17:31:50 [INFO\LOG]: Shut down log.
+20:30:04 [INFO\LOG]: Initialized log.
+20:30:04 [INFO\ENGINE]: Initializing engine...
+20:30:04    [INFO\ENGINE]: Initializing SDL
+20:30:04    [INFO\GRAPHICS]: Initializing Graphics...
+20:30:04       [INFO\GRAPHICS]: Initializing SDL Video
+20:30:04       [INFO\GRAPHICS]: Initializing SDL_Image
+20:30:04       [INFO\GRAPHICS]: Initializing SDL_TTF
+20:30:04       [INFO\GRAPHICS]: Creating Window and Renderer
+20:30:04       [INFO\GRAPHICS]: Done initializing graphics.
+20:30:04    [INFO\AUDIO]: Initializing audio...
+20:30:04       [INFO\AUDIO]: Opening audio stream
+20:30:04       [INFO\AUDIO]: Sound initialized
+20:30:04    [INFO\TIME]: Initializing timer...
+20:30:04       [INFO\TIME]: Initializing SDL timer subsystem
+20:30:04       [INFO\TIME]: Done initializing timer.
+20:30:04    [INFO\FILE]: File IO initialized.
+20:30:04    [INFO\INPUT]: Initializing input...
+20:30:04       [INFO\INPUT]: Initializing event system
+20:30:04       [INFO\INPUT]: Getting keyboard state
+20:30:04       [INFO\INPUT]: Input initialized
+20:30:04    [INFO\ENGINE]: Done initializing engine.
+20:30:04 [INFO\GAME]: Initializing game...
+20:30:04    [INFO\GAME]: Done initializing game.
+20:30:04 [INFO\GRAPHICS]: Loading texture directory at test/
+20:30:04    [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
+20:30:04 [INFO\AUDIO]: Loading sound directory at test/
+20:30:04    [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
+20:30:04 [INFO\FILE]: Loaded file ID test from path test/test.png
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+20:30:07 [INFO\GAME]: Destroying game...
+20:30:07    [INFO\GAME]: Done destroying game.
+20:30:07 [INFO\ENGINE]: Shutting down engine...
+20:30:07    [INFO\GRPAHICS]: Destroying Graphics
+20:30:07       [INFO\GRPAHICS]: Destroying Renderer
+20:30:07       [INFO\GRPAHICS]: Destroying Window
+20:30:07       [INFO\GRPAHICS]: Quitting SDL Video
+20:30:07       [INFO\GRPAHICS]: Quitting SDL_Image
+20:30:07       [INFO\GRPAHICS]: Quitting SDL_TTF
+20:30:07       [INFO\GRPAHICS]: Done destroying graphics.
+20:30:07    [INFO\AUDIO]: Destroying audio...
+20:30:07       [INFO\AUDIO]: Stopping all sounds
+20:30:07       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
+20:30:07       [INFO\AUDIO]: Quitting SDL_Mixer
+20:30:07       [INFO\AUDIO]: Done destroying audio.
+20:30:07    [INFO\TIME]: Destroying timer...
+20:30:07       [INFO\TIME]: Quitting timer subsystem
+20:30:07       [INFO\TIME]: Done destroying timer.
+20:30:07    [INFO\FILE]: File IO destroyed.
+20:30:07    [INFO\INPUT]: Destroying input...
+20:30:07       [INFO\INPUT]: Quitting subsystem
+20:30:07       [INFO\INPUT]: Done destroying input.
+20:30:07    [INFO\ENGINE]: Done shutting down engine.
+20:30:07    [INFO\LOG]: Shut down log.
