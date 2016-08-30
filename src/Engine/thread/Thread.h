@@ -19,8 +19,8 @@ public:
 	ENGINE_API Thread();
 	ENGINE_API ~Thread();
 
-	ENGINE_API bool init();
-	ENGINE_API bool kill();
+	bool init();
+	bool kill();
 
 	ENGINE_API bool add(const std::string& tID, int(*func)(void*), void* param);
 	ENGINE_API bool wait(const std::string& tID, int& ret);

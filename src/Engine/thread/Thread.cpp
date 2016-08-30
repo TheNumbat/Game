@@ -15,39 +15,39 @@ Thread::~Thread() {
 }
 
 bool Thread::init() {
-	// logSetContext("THREAD");
-	// logInfo("Threading initialized.");
+	logSetContext("THREAD");
+	logInfo("Threading initialized.");
 	return true;
 }
 
 bool Thread::kill() {
-	// logSetContext("THREAD");
-	// logInfo("Threading destroyed.");
+	logSetContext("THREAD");
+	logInfo("Threading destroyed.");
 	return true;
 }
 
 bool Thread::add(const std::string& tID, int(*func)(void*), void* param) {
-	// logSetContext("THREAD");
+	logSetContext("THREAD");
 
 	SDL_Thread* newT = SDL_CreateThread(func, tID.c_str(), param);
 	assert(newT);
 	if (!newT) {
-		// logWarn("Could not create thread ID " + tID + ", Error: " + SDL_GetError());
+		logWarn("Could not create thread ID " + tID + ", Error: " + SDL_GetError());
 		return false;
 	}
 
-	// logInfo("Created thread ID " + tID);
+	logInfo("Created thread ID " + tID);
 	threads.insert({tID, newT});
 	return true;
 }
 
 bool Thread::wait(const std::string& tID, int& ret) {
-	// logSetContext("THREAD");
+	logSetContext("THREAD");
 
-	// logInfo("Wating on thread ID " + tID);
+	logInfo("Wating on thread ID " + tID);
 	auto entry = threads.find(tID);
 	if (entry == threads.end()) {
-		// logWarn("Could not find thread to wait on, ID " + tID);
+		logWarn("Could not find thread to wait on, ID " + tID);
 		return false;
 	}
 
@@ -57,24 +57,24 @@ bool Thread::wait(const std::string& tID, int& ret) {
 }
 
 bool Thread::detach(const std::string& tID) {
-	// logSetContext("THREAD");
+	logSetContext("THREAD");
 
 	auto entry = threads.find(tID);
 	if(entry == threads.end()) {
-		// logWarn("Could not find thread to detach, ID " + tID);
+		logWarn("Could not find thread to detach, ID " + tID);
 		return false;
 	}
 
-	// logInfo("Detached thread ID " + tID);
+	logInfo("Detached thread ID " + tID);
 	SDL_DetachThread((SDL_Thread*)entry->second);
 	threads.erase(entry);
 	return true;
 }
 
 bool Thread::waitAll() {
-	// logSetContext("THREAD");
+	logSetContext("THREAD");
 
-	// logInfo("Waiting on all threads");
+	logInfo("Waiting on all threads");
 
 	int temp;
 	while (threads.size()) {
@@ -85,9 +85,9 @@ bool Thread::waitAll() {
 }
 
 bool Thread::detachAll() {
-	// logSetContext("THREAD");
+	logSetContext("THREAD");
 
-	// logInfo("Detaching on all threads");
+	logInfo("Detaching on all threads");
 
 	while (threads.size()) {
 		detach(threads.begin()->first);

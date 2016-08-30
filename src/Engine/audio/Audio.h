@@ -23,8 +23,8 @@ public:
 	ENGINE_API Audio();
 	ENGINE_API ~Audio();
 
-	ENGINE_API bool init();
-	ENGINE_API bool kill();
+	bool init();
+	bool kill();
 
 	ENGINE_API bool loadSound(const std::string& sID, const std::string& path);
 	ENGINE_API bool loadSoundFolder(const std::string& path);

@@ -21,8 +21,8 @@ public:
 	ENGINE_API Time();
 	ENGINE_API ~Time();
 
-	ENGINE_API bool init();
-	ENGINE_API bool kill();
+	bool init();
+	bool kill();
 
 	ENGINE_API bool addTimer(const std::string& tID, bool startPaused = false);
 	ENGINE_API bool addPerfCounter(const std::string& tID, bool startPaused = false);

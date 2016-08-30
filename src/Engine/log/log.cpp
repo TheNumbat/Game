@@ -22,7 +22,7 @@ std::ofstream fout(FLOG);
 s32 logThread(void* data) {
 	engine* e = (engine*)data;
 	while (e->log.running) {
-		e->thread.lockMutex(e->log.qlock);		
+		e->thread.lockMutex(e->log.qlock);
 		if (e->log.mq.size()) {
 			Log::message m = e->log.mq.front();
 			e->log.mq.pop();

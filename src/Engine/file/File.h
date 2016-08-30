@@ -43,8 +43,8 @@ public:
 	ENGINE_API File();
 	ENGINE_API ~File();
 
-	ENGINE_API bool init();
-	ENGINE_API bool kill();
+	bool init();
+	bool kill();
 
 	ENGINE_API bool loadFile(const std::string& fID, const std::string& path, filetype type, fileaccess access);
 	ENGINE_API bool freeFile(const std::string& fID);

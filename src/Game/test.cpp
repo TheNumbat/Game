@@ -38,6 +38,7 @@ s32 main() {
 	for(int i = 0; i < 10; i++)
 		e->thread.add("test" + std::to_string(i), &threadTest, e);
 
+	// TODO: make a way to block the thread while waiting for an event
 	bool cont = true;
 	while (cont) {
 		event* evt = e->input.getNext();

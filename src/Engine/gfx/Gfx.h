@@ -70,8 +70,8 @@ public:
 	// Call kill() before destroying
 	~Gfx();
 
-	ENGINE_API bool init(const std::string& win, u32 width, u32 height);
-	ENGINE_API bool kill();
+	bool init(const std::string& win, u32 width, u32 height);
+	bool kill();
 
 	ENGINE_API bool getWinDim(s32& w, s32& h);
 	ENGINE_API bool swapFrame(bool clear = true);

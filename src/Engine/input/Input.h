@@ -220,8 +220,8 @@ public:
 	ENGINE_API Input();
 	ENGINE_API ~Input();
 
-	ENGINE_API bool init();
-	ENGINE_API bool kill();
+	bool init();
+	bool kill();
 
 	// straight up allocates a new event, need to delete
 		// TODO: should this use region based memory?

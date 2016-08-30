@@ -3,85 +3,118 @@
    ENGINE LOG STARTUP
    ==================
 
-20:30:04 [INFO\LOG]: Initialized log.
-20:30:04 [INFO\ENGINE]: Initializing engine...
-20:30:04    [INFO\ENGINE]: Initializing SDL
-20:30:04    [INFO\GRAPHICS]: Initializing Graphics...
-20:30:04       [INFO\GRAPHICS]: Initializing SDL Video
-20:30:04       [INFO\GRAPHICS]: Initializing SDL_Image
-20:30:04       [INFO\GRAPHICS]: Initializing SDL_TTF
-20:30:04       [INFO\GRAPHICS]: Creating Window and Renderer
-20:30:04       [INFO\GRAPHICS]: Done initializing graphics.
-20:30:04    [INFO\AUDIO]: Initializing audio...
-20:30:04       [INFO\AUDIO]: Opening audio stream
-20:30:04       [INFO\AUDIO]: Sound initialized
-20:30:04    [INFO\TIME]: Initializing timer...
-20:30:04       [INFO\TIME]: Initializing SDL timer subsystem
-20:30:04       [INFO\TIME]: Done initializing timer.
-20:30:04    [INFO\FILE]: File IO initialized.
-20:30:04    [INFO\INPUT]: Initializing input...
-20:30:04       [INFO\INPUT]: Initializing event system
-20:30:04       [INFO\INPUT]: Getting keyboard state
-20:30:04       [INFO\INPUT]: Input initialized
-20:30:04    [INFO\ENGINE]: Done initializing engine.
-20:30:04 [INFO\GAME]: Initializing game...
-20:30:04    [INFO\GAME]: Done initializing game.
-20:30:04 [INFO\GRAPHICS]: Loading texture directory at test/
-20:30:04    [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
-20:30:04 [INFO\AUDIO]: Loading sound directory at test/
-20:30:04    [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
-20:30:04 [INFO\FILE]: Loaded file ID test from path test/test.png
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-20:30:07 [INFO\GAME]: Destroying game...
-20:30:07    [INFO\GAME]: Done destroying game.
-20:30:07 [INFO\ENGINE]: Shutting down engine...
-20:30:07    [INFO\GRPAHICS]: Destroying Graphics
-20:30:07       [INFO\GRPAHICS]: Destroying Renderer
-20:30:07       [INFO\GRPAHICS]: Destroying Window
-20:30:07       [INFO\GRPAHICS]: Quitting SDL Video
-20:30:07       [INFO\GRPAHICS]: Quitting SDL_Image
-20:30:07       [INFO\GRPAHICS]: Quitting SDL_TTF
-20:30:07       [INFO\GRPAHICS]: Done destroying graphics.
-20:30:07    [INFO\AUDIO]: Destroying audio...
-20:30:07       [INFO\AUDIO]: Stopping all sounds
-20:30:07       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
-20:30:07       [INFO\AUDIO]: Quitting SDL_Mixer
-20:30:07       [INFO\AUDIO]: Done destroying audio.
-20:30:07    [INFO\TIME]: Destroying timer...
-20:30:07       [INFO\TIME]: Quitting timer subsystem
-20:30:07       [INFO\TIME]: Done destroying timer.
-20:30:07    [INFO\FILE]: File IO destroyed.
-20:30:07    [INFO\INPUT]: Destroying input...
-20:30:07       [INFO\INPUT]: Quitting subsystem
-20:30:07       [INFO\INPUT]: Done destroying input.
-20:30:07    [INFO\ENGINE]: Done shutting down engine.
-20:30:07    [INFO\LOG]: Shut down log.
+21:35:39 [INFO\THREAD]: Created thread ID log
+21:35:39 [INFO\LOG]: Initialized log.
+21:35:39 [INFO\ENGINE]: Initializing engine...
+21:35:39    [INFO\ENGINE]: Initializing SDL
+21:35:39    [INFO\GRAPHICS]: Initializing Graphics...
+21:35:39       [INFO\GRAPHICS]: Initializing SDL Video
+21:35:39       [INFO\GRAPHICS]: Initializing SDL_Image
+21:35:39       [INFO\GRAPHICS]: Initializing SDL_TTF
+21:35:39       [INFO\GRAPHICS]: Creating Window and Renderer
+21:35:39       [INFO\GRAPHICS]: Done initializing graphics.
+21:35:39    [INFO\AUDIO]: Initializing audio...
+21:35:39       [INFO\AUDIO]: Opening audio stream
+21:35:39       [INFO\AUDIO]: Sound initialized
+21:35:39    [INFO\TIME]: Initializing timer...
+21:35:39       [INFO\TIME]: Initializing SDL timer subsystem
+21:35:39       [INFO\TIME]: Done initializing timer.
+21:35:39    [INFO\FILE]: File IO initialized.
+21:35:39    [INFO\INPUT]: Initializing input...
+21:35:39       [INFO\INPUT]: Initializing event system
+21:35:39       [INFO\INPUT]: Getting keyboard state
+21:35:39       [INFO\INPUT]: Input initialized
+21:35:39    [INFO\THREAD]: Threading initialized.
+21:35:39    [INFO\ENGINE]: Done initializing engine.
+21:35:39 [INFO\GAME]: Initializing game...
+21:35:39    [INFO\GAME]: Done initializing game.
+21:35:39 [INFO\GRAPHICS]: Loading texture directory at test/
+21:35:39    [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
+21:35:39 [INFO\AUDIO]: Loading sound directory at test/
+21:35:39    [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
+21:35:39 [INFO\FILE]: Loaded file ID test from path test/test.png
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test0
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test1
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test2
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test3
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test4
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test5
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test6
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test7
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test8
+21:35:39 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:39 [INFO\THREAD]: Created thread ID test9
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:40 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:41 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:42 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+21:35:43 [INFO\THREAD]: Wating on thread ID test0
+21:35:43 [INFO\THREAD]: Wating on thread ID test1
+21:35:43 [INFO\THREAD]: Wating on thread ID test2
+21:35:43 [INFO\THREAD]: Wating on thread ID test3
+21:35:43 [INFO\THREAD]: Wating on thread ID test4
+21:35:43 [INFO\THREAD]: Wating on thread ID test5
+21:35:43 [INFO\THREAD]: Wating on thread ID test6
+21:35:43 [INFO\THREAD]: Wating on thread ID test7
+21:35:43 [INFO\THREAD]: Wating on thread ID test8
+21:35:43 [INFO\THREAD]: Wating on thread ID test9
+21:35:43 [INFO\GAME]: Destroying game...
+21:35:43    [INFO\GAME]: Done destroying game.
+21:35:43 [INFO\ENGINE]: Shutting down engine...
+21:35:43    [INFO\GRPAHICS]: Destroying Graphics
+21:35:43       [INFO\GRPAHICS]: Destroying Renderer
+21:35:43       [INFO\GRPAHICS]: Destroying Window
+21:35:43       [INFO\GRPAHICS]: Quitting SDL Video
+21:35:43       [INFO\GRPAHICS]: Quitting SDL_Image
+21:35:43       [INFO\GRPAHICS]: Quitting SDL_TTF
+21:35:43       [INFO\GRPAHICS]: Done destroying graphics.
+21:35:43    [INFO\AUDIO]: Destroying audio...
+21:35:43       [INFO\AUDIO]: Stopping all sounds
+21:35:43       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
+21:35:43       [INFO\AUDIO]: Quitting SDL_Mixer
+21:35:43       [INFO\AUDIO]: Done destroying audio.
+21:35:43    [INFO\TIME]: Destroying timer...
+21:35:43       [INFO\TIME]: Quitting timer subsystem
+21:35:43       [INFO\TIME]: Done destroying timer.
+21:35:43    [INFO\FILE]: File IO destroyed.
+21:35:43    [INFO\INPUT]: Destroying input...
+21:35:43       [INFO\INPUT]: Quitting subsystem
+21:35:43       [INFO\INPUT]: Done destroying input.
+21:35:43    [INFO\THREAD]: Threading destroyed.
+21:35:43    [INFO\ENGINE]: Done shutting down engine.
+21:35:43    [INFO\LOG]: Shut down log.
