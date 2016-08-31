@@ -1,8 +1,7 @@
 
 #include "common.h"
-
 #include "engine.h"
-
+#include "log/log.h"
 #include <SDL.h>
 
 engine::engine() : log(this)

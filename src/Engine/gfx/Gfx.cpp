@@ -1,10 +1,10 @@
-#include "gfx.h"
 
+#include "gfx.h"
+#include "..\log\log.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <dirent.h>
-#include "..\log\log.h"
 
 color::color() {
 	r = 0;

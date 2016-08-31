@@ -6,6 +6,20 @@
 #include <ostream>
 #include <queue>
 
+// TODO: probably shouldn't do this
+#pragma push_macro("logErr")
+#pragma push_macro("logWarn")
+#pragma push_macro("logSetContext")
+#pragma push_macro("logEnterSec")
+#pragma push_macro("logExitSec")
+#pragma push_macro("logInfo")
+#undef logErr
+#undef logWarn
+#undef logSetContext
+#undef logEnterSec
+#undef logExitSec
+#undef logInfo
+
 class Log {
 	struct message {
 		message(const std::string& c, const std::string& l, const std::string& m, s32 s);
@@ -44,13 +58,11 @@ private:
 	friend s32 logThread(void*);
 };
 
-// You must call this ONCE, AT THE TOP, of each function you want to use logging in
-#define logSetContext(a) const std::string LOG_CONTEXT(a)
-
-#define logErr(a) globalLog->logErr(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
-#define logWarn(a) globalLog->logWarn(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
-#define logInfo(a) globalLog->logInfo(LOG_CONTEXT,a)
-#define logEnterSec() globalLog->enterSec()
-#define logExitSec() globalLog->exitSec()
-
 ENGINE_API extern Log* globalLog;
+
+#pragma pop_macro("logErr")
+#pragma pop_macro("logWarn")
+#pragma pop_macro("logSetContext")
+#pragma pop_macro("logEnterSec")
+#pragma pop_macro("logExitSec")
+#pragma pop_macro("logInfo")

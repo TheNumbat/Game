@@ -1,5 +1,5 @@
-#include "time.h"
 
+#include "time.h"
 #include "..\log\log.h"
 #include <SDL.h>
 

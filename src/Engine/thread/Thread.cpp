@@ -1,5 +1,5 @@
-#include "thread.h"
 
+#include "thread.h"
 #include "..\log\log.h"
 #include <SDL.h>
 #include <SDL_thread.h>

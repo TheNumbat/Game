@@ -1,5 +1,5 @@
-#include "file.h"
 
+#include "file.h"
 #include "..\log\log.h"
 #include <SDL.h>
 #include <dirent.h>

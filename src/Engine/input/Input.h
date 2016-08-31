@@ -1,7 +1,6 @@
 #pragma once
 
 #include "..\common.h"
-#include "..\log\log.h"
 
 // TODO: controllers (joystick)
 enum eventtype : u8 {

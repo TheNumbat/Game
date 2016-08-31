@@ -1,9 +1,8 @@
+
 #include "audio.h"
-
-#include "..\log\log.h"
-
 #include <SDL_mixer.h>
 #include <dirent.h>
+#include "..\log\log.h"
 
 sound::sound() {
 	sdl_mixchunk = NULL;
