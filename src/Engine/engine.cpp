@@ -19,6 +19,8 @@ engine::engine() : log(this)
 	assert(result);
 	if (!result) {
 		logErr((std::string) "Failed to initialize SDL! Error: " + SDL_GetError());
+		logExitSec();
+		return;
 	}
 
 	gfx.init("Game",1280,720);
