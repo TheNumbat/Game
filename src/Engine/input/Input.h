@@ -4,7 +4,7 @@
 #include "..\log\log.h"
 
 // TODO: controllers (joystick)
-enum eventtype {
+enum eventtype : u8 {
 	evt_bad,
 	evt_endstream,
 	evt_window,
@@ -14,7 +14,7 @@ enum eventtype {
 	evt_text
 };
 
-enum key {
+enum key : u8 {
 	key_0,
 	key_1,
 	key_2,
@@ -115,7 +115,7 @@ enum key {
 	key_scrolllock
 };
 
-enum keyflags {
+enum keyflags : u16 {
 	flag_key_press = 1<<0,
 	flag_key_release = 1<<1,
 	flag_key_repeat = 1<<2,
@@ -136,7 +136,7 @@ enum keyflags {
 	flag_key_altgr = 1<<13
 };
 
-enum mouseflags {
+enum mouseflags : u16 {
 	flag_mouse_press = 1<<0,
 	flag_mouse_release = 1<<1,
 	flag_mouse_wheel = 1<<2,
@@ -151,7 +151,7 @@ enum mouseflags {
 	flag_mouse_click = flag_mouse_rclick | flag_mouse_lclick | flag_mouse_mclick | flag_mouse_x1click | flag_mouse_x2click
 };
 
-enum windowflags {
+enum windowflags : u16 {
 	flag_window_resized = 1<<0,
 	flag_window_moved = 1<<1,
 	flag_window_shown = 1<<2,

@@ -4,14 +4,14 @@
 #include "..\r2.h"
 #include <map>
 
-enum blendmode {
+enum blendmode : u8 {
 	blend_none,
 	blend_alpha,
 	blend_additive,
 	blend_modulate
 };
 
-enum flipmode {
+enum flipmode : u8 {
 	flip_none,
 	flip_horz,
 	flip_vert,
