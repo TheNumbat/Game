@@ -6,13 +6,6 @@
 #include <iomanip>
 #include "..\engine.h"
 
-#undef logErr
-#undef logWarn
-#undef logSetContext
-#undef logEnterSec
-#undef logExitSec
-#undef logInfo
-
 Log* globalLog;
 
 #ifdef FLOG
