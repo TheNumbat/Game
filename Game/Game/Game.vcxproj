@@ -70,7 +70,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(ProjectDir)..\..\src\Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\mslat\GitHub\Game\Game\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\Engine\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

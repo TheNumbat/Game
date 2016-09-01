@@ -304,9 +304,9 @@ std::vector<std::string> File::getNamesInFolder(const std::string& path) {
 bool File::copyFile(const std::string& src, const std::string& dest) {
 	logSetContext("FILE");
 
-	s32 result = CopyFileA(src.c_str(),dest.c_str(),false);
-	if (result != 0) {
-		logWarn("Failed to copy file from " + src + " to " + dest);
+	s32 result = CopyFileA(src.c_str(), dest.c_str(), false);
+	if (result == 0) {
+		logWarn("Failed to copy file from " + src + " to " + dest + " Erorr: " + std::to_string(GetLastError()));
 		return false;
 	}
 	return true;

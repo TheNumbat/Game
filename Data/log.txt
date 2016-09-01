@@ -3,132 +3,235 @@
    ENGINE LOG STARTUP
    ==================
 
-22:04:0222:04:02 [ [INFOINFO\\LOGTHREAD]: ]: Initialized log.Created thread ID log
-
-22:04:02 [INFO\ENGINE]: Initializing engine...
-22:04:02    [INFO\ENGINE]: Initializing SDL
-22:04:02    [INFO\GRAPHICS]: Initializing Graphics...
-22:04:02       [INFO\GRAPHICS]: Initializing SDL Video
-22:04:02       [INFO\GRAPHICS]: Initializing SDL_Image
-22:04:02       [INFO\GRAPHICS]: Initializing SDL_TTF
-22:04:02       [INFO\GRAPHICS]: Creating Window and Renderer
-22:04:02       [INFO\GRAPHICS]: Done initializing graphics.
-22:04:02    [INFO\AUDIO]: Initializing audio...
-22:04:02       [INFO\AUDIO]: Opening audio stream
-22:04:03       [INFO\AUDIO]: Sound initialized
-22:04:03    [INFO\TIME]: Initializing timer...
-22:04:03       [INFO\TIME]: Initializing SDL timer subsystem
-22:04:03       [INFO\TIME]: Done initializing timer.
-22:04:03    [INFO\FILE]: File IO initialized.
-22:04:03    [INFO\INPUT]: Initializing input...
-22:04:03       [INFO\INPUT]: Initializing event system
-22:04:03       [INFO\INPUT]: Getting keyboard state
-22:04:03       [INFO\INPUT]: Input initialized
-22:04:03    [INFO\THREAD]: Threading initialized.
-22:04:03    [INFO\ENGINE]: Done initializing engine.
-22:04:03 [INFO\FILE]: Loaded library ID game from game.dll
-22:04:03 [INFO\GAME]: Initializing game...
-22:04:03    [INFO\GAME]: Loading stuff
-22:04:03    [INFO\GRAPHICS]: Loading texture directory at test/
-22:04:03       [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
-22:04:03    [INFO\AUDIO]: Loading sound directory at test/
-22:04:03       [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
-22:04:03    [INFO\FILE]: Loaded file ID test from path test/test.png
-22:04:03    [INFO\GAME]: Spawning threads
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test0
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test1
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test2
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test3
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test4
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test5
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test6
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test7
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test8
-22:04:03 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:03    [INFO\THREAD]: Created thread ID test9
-22:04:03    [INFO\GAME]: Done initializing game.
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:04 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:06 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-22:04:07 [INFO\GAME]: Destroying game...
-22:04:07    [INFO\GAME]: Shutting down threads.
-22:04:07    [INFO\THREAD]: Waiting on thread ID test0
-22:04:08    [INFO\THREAD]: Waiting on thread ID test1
-22:04:08    [INFO\THREAD]: Waiting on thread ID test2
-22:04:08    [INFO\THREAD]: Waiting on thread ID test3
-22:04:08    [INFO\THREAD]: Waiting on thread ID test4
-22:04:08    [INFO\THREAD]: Waiting on thread ID test5
-22:04:08    [INFO\THREAD]: Waiting on thread ID test6
-22:04:08    [INFO\THREAD]: Waiting on thread ID test7
-22:04:08    [INFO\THREAD]: Waiting on thread ID test8
-22:04:08    [INFO\THREAD]: Waiting on thread ID test9
-22:04:08    [INFO\GAME]: Done destroying game.
-22:04:08 [INFO\ENGINE]: Shutting down engine...
-22:04:08    [INFO\GRPAHICS]: Destroying Graphics
-22:04:08       [INFO\GRPAHICS]: Destroying Renderer
-22:04:08       [INFO\GRPAHICS]: Destroying Window
-22:04:08       [INFO\GRPAHICS]: Quitting SDL Video
-22:04:08       [INFO\GRPAHICS]: Quitting SDL_Image
-22:04:08       [INFO\GRPAHICS]: Quitting SDL_TTF
-22:04:08       [INFO\GRPAHICS]: Done destroying graphics.
-22:04:08    [INFO\AUDIO]: Destroying audio...
-22:04:08       [INFO\AUDIO]: Stopping all sounds
-22:04:08       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
-22:04:08       [INFO\AUDIO]: Quitting SDL_Mixer
-22:04:08       [INFO\AUDIO]: Done destroying audio.
-22:04:08    [INFO\TIME]: Destroying timer...
-22:04:08       [INFO\TIME]: Quitting timer subsystem
-22:04:08       [INFO\TIME]: Done destroying timer.
-22:04:08    [INFO\FILE]: File IO destroyed.
-22:04:08    [INFO\INPUT]: Destroying input...
-22:04:08       [INFO\INPUT]: Quitting subsystem
-22:04:08       [INFO\INPUT]: Done destroying input.
-22:04:08    [INFO\THREAD]: Threading destroyed.
-22:04:08    [INFO\ENGINE]: Done shutting down engine.
-22:04:08    [INFO\LOG]: Shut down log.
+11:15:24 [INFO\LOG]: Initialized log.
+11:15:24 [INFO\THREAD]: Created thread ID log
+11:15:24 [INFO\ENGINE]: Initializing engine...
+11:15:24    [INFO\ENGINE]: Initializing SDL
+11:15:24    [INFO\GRAPHICS]: Initializing Graphics...
+11:15:24       [INFO\GRAPHICS]: Initializing SDL Video
+11:15:24       [INFO\GRAPHICS]: Initializing SDL_Image
+11:15:24       [INFO\GRAPHICS]: Initializing SDL_TTF
+11:15:24       [INFO\GRAPHICS]: Creating Window and Renderer
+11:15:25       [INFO\GRAPHICS]: Done initializing graphics.
+11:15:25    [INFO\AUDIO]: Initializing audio...
+11:15:25       [INFO\AUDIO]: Opening audio stream
+11:15:26       [INFO\AUDIO]: Sound initialized
+11:15:26    [INFO\TIME]: Initializing timer...
+11:15:26       [INFO\TIME]: Initializing SDL timer subsystem
+11:15:26       [INFO\TIME]: Done initializing timer.
+11:15:26    [INFO\FILE]: File IO initialized.
+11:15:26    [INFO\INPUT]: Initializing input...
+11:15:26       [INFO\INPUT]: Initializing event system
+11:15:26       [INFO\INPUT]: Getting keyboard state
+11:15:26       [INFO\INPUT]: Input initialized
+11:15:26    [INFO\THREAD]: Threading initialized.
+11:15:26    [INFO\ENGINE]: Done initializing engine.
+11:15:26 [INFO\FILE]: Loaded library ID game from gameTemp.dll
+11:15:26 [INFO\GAME]: Initializing game...
+11:15:26    [INFO\GAME]: Loading stuff
+11:15:26    [INFO\GRAPHICS]: Loading texture directory at test/
+11:15:26       [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
+11:15:26    [INFO\AUDIO]: Loading sound directory at test/
+11:15:26       [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
+11:15:26    [INFO\FILE]: Loaded file ID test from path test/test.png
+11:15:26    [INFO\GAME]: Spawning threads
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26    [INFO\THREAD]: Created thread ID test0
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26    [INFO\THREAD]: Created thread ID test1
+11:15:26    [INFO\THREAD]: Created thread ID test2
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26    [INFO\THREAD]: Created thread ID test3
+11:15:26    [INFO\THREAD]: Created thread ID test4
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26    [INFO\THREAD]: Created thread ID test5
+11:15:26    [INFO\THREAD]: Created thread ID test6
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26    [INFO\THREAD]: Created thread ID test7
+11:15:26    [INFO\THREAD]: Created thread ID test8
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:26    [INFO\THREAD]: Created thread ID test9
+11:15:26    [INFO\GAME]: Done initializing game.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:26 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:27 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Beginning frame.
+11:15:28 [INFO\GAME]: Destroying game...
+11:15:28    [INFO\GAME]: Shutting down threads.
+11:15:28    [INFO\THREAD]: Waiting on thread ID test0
+11:15:28    [INFO\THREAD]: Waiting on thread ID test1
+11:15:28    [INFO\THREAD]: Waiting on thread ID test2
+11:15:28    [INFO\THREAD]: Waiting on thread ID test3
+11:15:28    [INFO\THREAD]: Waiting on thread ID test4
+11:15:28    [INFO\THREAD]: Waiting on thread ID test5
+11:15:28    [INFO\THREAD]: Waiting on thread ID test6
+11:15:28    [INFO\THREAD]: Waiting on thread ID test7
+11:15:28    [INFO\THREAD]: Waiting on thread ID test8
+11:15:28    [INFO\THREAD]: Waiting on thread ID test9
+11:15:28    [INFO\GAME]: Done destroying game.
+11:15:28 [INFO\ENGINE]: Shutting down engine...
+11:15:29    [INFO\GRPAHICS]: Destroying Graphics
+11:15:29       [INFO\GRPAHICS]: Destroying Renderer
+11:15:29       [INFO\GRPAHICS]: Destroying Window
+11:15:29       [INFO\GRPAHICS]: Quitting SDL Video
+11:15:29       [INFO\GRPAHICS]: Quitting SDL_Image
+11:15:29       [INFO\GRPAHICS]: Quitting SDL_TTF
+11:15:29       [INFO\GRPAHICS]: Done destroying graphics.
+11:15:29    [INFO\AUDIO]: Destroying audio...
+11:15:29       [INFO\AUDIO]: Stopping all sounds
+11:15:29       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
+11:15:29       [INFO\AUDIO]: Quitting SDL_Mixer
+11:15:29    [INFO\LOG]: Shut down log.
