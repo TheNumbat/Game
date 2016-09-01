@@ -2,12 +2,12 @@
 
 #include "common.h"
 
+#include "log\log.h"
 #include "audio\audio.h"
 #include "file\file.h"
 #include "gfx\gfx.h"
 #include "input\input.h"
 #include "time\time.h"
-#include "log\log.h"
 #include "thread\thread.h"
 
 struct engine

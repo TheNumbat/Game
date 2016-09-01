@@ -18,9 +18,15 @@
     <ClCompile Include="..\..\src\Game\dll_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Game\game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Game\common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Game\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

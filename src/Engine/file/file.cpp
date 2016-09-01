@@ -44,10 +44,10 @@ File::File() {
 }
 
 File::~File() {
-	for(auto i : files)
+	for (auto i : files)
 		delete i.second;
-	for(auto i : libs)
-		freeLib(i.first);
+	for (auto i : libs)
+		SDL_UnloadObject(i.second);
 }
 
 bool File::init() {

@@ -43,25 +43,38 @@ typedef uint64_t	u64;
 
 #if VERBOSE == 0
 	#define logErr(a)
+	#define logErrLvl(a,b)
 	#define logWarn(a) 
+	#define logWarnLvl(a,b)
 	#define logInfo(a)
+	#define logInfoLvl(a,b)
 #elif VERBOSE == 1
-	#define logErr(a) globalLog->logErr(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
+	#define logErr(a) globalLog->log_Err(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
+	#define logErrLvl(a,b) globalLog->log_Err(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__),b)
 	#define logWarn(a) 
+	#define logWarnLvl(a,b)
 	#define logInfo(a)
+	#define logInfoLvl(a,b)
 #elif VERBOSE == 2
-	#define logErr(a) globalLog->logErr(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
-	#define logWarn(a) globalLog->logWarn(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
+	#define logErr(a) globalLog->log_Err(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
+	#define logErrLvl(a,b) globalLog->log_Err(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__),b)
+	#define logWarn(a) globalLog->log_Warn(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
+	#define logWarnLvl(a,b) globalLog->log_Warn(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__),b)
 	#define logInfo(a)
+	#define logInfoLvl(a,b)
 #elif VERBOSE == 3
-	#define logErr(a) globalLog->logErr(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
-	#define logWarn(a) globalLog->logWarn(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
-	#define logInfo(a) globalLog->logInfo(LOG_CONTEXT,a)
-#endif// VERBOSE
+	#define logErr(a) globalLog->log_Err(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__))
+	#define logErrLvl(a,b) globalLog->log_Err(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__),b)
+	#define logWarn(a) globalLog->log_Warn(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__)) 
+	#define logWarnLvl(a,b) globalLog->log_Warn(LOG_CONTEXT,a,(std::string)__FILE__,std::to_string(__LINE__),b)
+	#define logInfo(a) globalLog->log_Info(LOG_CONTEXT,a)
+	#define logInfoLvl(a,b) globalLog->log_Info(LOG_CONTEXT,a,b)
+#endif // VERBOSE
 
 #ifdef LOGCONTEXT
-	// Call this ONCE at the start of a function
+	// Call this ONCE at the start of each function that uses logging
 	#define logSetContext(a) const std::string LOG_CONTEXT(a)
 #else
-	#define setLogContext(a)
+	#define logSetContext(a)
+	#define LOG_CONTEXT ""
 #endif // CONTEXT

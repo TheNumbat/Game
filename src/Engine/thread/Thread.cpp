@@ -44,7 +44,7 @@ bool Thread::add(const std::string& tID, int(*func)(void*), void* param) {
 bool Thread::wait(const std::string& tID, int& ret) {
 	logSetContext("THREAD");
 
-	logInfo("Wating on thread ID " + tID);
+	logInfo("Waiting on thread ID " + tID);
 	auto entry = threads.find(tID);
 	if (entry == threads.end()) {
 		logWarn("Could not find thread to wait on, ID " + tID);

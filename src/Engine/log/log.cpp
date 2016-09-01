@@ -63,7 +63,7 @@ void Log::logRaw(Log::message msg) {
 #ifdef TIMESTAMPS
 		*o << std::put_time(&buf, "%H:%M:%S");
 #endif // TIMESTAMPS
-		for (s32 i = 0; i < msg.sec; i++)
+		for (u8 i = 0; i < msg.sec; i++)
 			*o << "   ";
 		*o << " [" << msg.lvl;
 #ifdef LOGCONTEXT
@@ -133,26 +133,26 @@ void Log::exitSec() {
 	e->thread.unlockMutex(qlock);
 }
 
-void Log::logErr(const std::string& c, const std::string& msg, const std::string& file, const std::string& line) {
+void Log::log_Err(const std::string& c, const std::string& msg, const std::string& file, const std::string& line, s16 lvl) {
 	engine* e = (engine*)eng;
 	e->thread.lockMutex(qlock);
-	mq.push(message(c,"ERROR", file.substr(file.find_last_of("\\/") + 1, file.find_last_of("\\/") - file.length()) + ", line " + line + ": " + msg, sec));
+	mq.push(message(c,"ERROR", file.substr(file.find_last_of("\\/") + 1, file.find_last_of("\\/") - file.length()) + ", line " + line + ": " + msg, lvl == -1 ? sec : lvl));
 	e->thread.condSignal(cond);
 	e->thread.unlockMutex(qlock);
 }
 
-void Log::logWarn(const std::string& c, const std::string& msg, const std::string& file, const std::string& line) {
+void Log::log_Warn(const std::string& c, const std::string& msg, const std::string& file, const std::string& line, s16 lvl) {
 	engine* e = (engine*)eng;
 	e->thread.lockMutex(qlock);
-	mq.push(message(c,"WARNING", file.substr(file.find_last_of("\\/") + 1, file.find_last_of("\\/") - file.length()) + ", line " + line + ": " + msg, sec));
+	mq.push(message(c,"WARNING", file.substr(file.find_last_of("\\/") + 1, file.find_last_of("\\/") - file.length()) + ", line " + line + ": " + msg, lvl == -1 ? sec : lvl));
 	e->thread.condSignal(cond);
 	e->thread.unlockMutex(qlock);
 }
 
-void Log::logInfo(const std::string& c, const std::string& msg) {
+void Log::log_Info(const std::string& c, const std::string& msg, s16 lvl) {
 	engine* e = (engine*)eng;
 	e->thread.lockMutex(qlock);
-	mq.push(message(c,"INFO", msg, sec));
+	mq.push(message(c,"INFO", msg, lvl == -1 ? sec : lvl));
 	e->thread.condSignal(cond);
 	e->thread.unlockMutex(qlock);
 }
