@@ -218,3 +218,5 @@ pip-log.txt
 Data/log.txt
 Engine/Engine.VC.db
 Game/Game.VC.db
+Data/gameTemp.dll
+Data/log.txt

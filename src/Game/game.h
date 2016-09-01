@@ -9,5 +9,6 @@ public:
 	~game();
 
 	bool running;
+	bool runThreads;
 	engine* e;
 };

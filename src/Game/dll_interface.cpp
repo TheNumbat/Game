@@ -3,17 +3,17 @@
 #include <engine.h>
 #include "game.h"
 
-bool runThreads = true;
-s32 threadTest(void* data) {
-	engine* e = (engine*)data;
-	while (runThreads) {
+// NO GLOBALS OR STATICS
+
+s32 threadTest(void* _g) {
+	game* g = (game*) _g;
+	while (g->runThreads) {
 		logSetContext("TEST THREAD");
 		logInfoLvl("TEST THREAD OUTPUT", 0);
-		e->thread.delay(1000);
+		g->e->thread.delay(1000);
 	}
 	return 0;
 }
-
 
 GAME_API void* startup(engine* e) {
 	logSetContext("GAME");
@@ -33,8 +33,9 @@ GAME_API void* startup(engine* e) {
 	e->file.loadFile("test", "test/test.png", file_binary, file_read);
 
 	logInfo("Spawning threads");
+	g->runThreads = true;
 	for (int i = 0; i < 5; i++)
-		e->thread.add("test" + std::to_string(i), &threadTest, e);
+		e->thread.add("test" + std::to_string(i), &threadTest, g);
 
 	logInfo("Done initializing game.");
 	logExitSec();
@@ -54,7 +55,7 @@ GAME_API bool run(game* g) {
 GAME_API void startReload(game* g) {
 	logSetContext("RELOAD");
 	logInfo("Shutting down threads.");
-	runThreads = false;
+	g->runThreads = false;
 	int ret;
 	for (int i = 0; i < 5; i++)
 		g->e->thread.wait("test" + std::to_string(i), ret);
@@ -63,8 +64,9 @@ GAME_API void startReload(game* g) {
 GAME_API void endReload(game* g) {
 	logSetContext("RELOAD");
 	logInfo("Spawning threads");
+	g->runThreads = true;
 	for (int i = 0; i < 5; i++)
-		g->e->thread.add("test" + std::to_string(i), &threadTest, g->e);
+		g->e->thread.add("test" + std::to_string(i), &threadTest, g);
 }
 
 GAME_API void shutdown(game* g) {
@@ -74,7 +76,7 @@ GAME_API void shutdown(game* g) {
 	logEnterSec();
 
 	logInfo("Shutting down threads.");
-	runThreads = false;
+	g->runThreads = false;
 	int ret;
 	for (int i = 0; i < 5; i++)
 		g->e->thread.wait("test" + std::to_string(i), ret);
