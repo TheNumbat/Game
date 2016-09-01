@@ -5,7 +5,7 @@
 
 bool load(engine* e);
 void unload(engine* e);
-bool reload(engine* e);
+bool reload(engine* e, void* g);
 
 typedef void* (*startupFunc)(engine*);
 typedef bool (*runFunc)(void*);
@@ -25,16 +25,16 @@ s32 main() {
 	engine* e = new engine;
 
 	if ( !load(e) ) {
-		return 1;
+		assert(false);
 	}
 
 	void* game = (*startup)(e);
 
 	while ((*run)(game)) {
-		if( !reload(e) ) return 1;
+		if( !reload(e, game) ) assert(false);
 	}
 
-	shut_down(game);
+	(*shut_down)(game);
 	unload(e);
 	delete e;
 	return 0;
@@ -42,25 +42,27 @@ s32 main() {
 
 // TODO: remove windows
 #include <windows.h>
-bool reload(engine* e) {
+bool reload(engine* e, void* g) {
 	logSetContext("LAUNCHER");
 
 	WIN32_FILE_ATTRIBUTE_DATA FData;
 	int result = GetFileAttributesEx("../Game/Debug/Game.dll", GetFileExInfoStandard, &FData);
-	assert(result);
 	if (!result) {
-		logErr("Failed to get dll file attributes!");
 		return false;
 	}
 
 	static FILETIME LastWriteTime = FData.ftLastWriteTime;
 	if (CompareFileTime(&FData.ftLastWriteTime, &LastWriteTime) == 1) {
 		logInfo("STARTING GAME RELOAD");
-		(*startReload)(e);
+		(*startReload)(g);
 		unload(e);
 		load(e);
-		(*endReload)(e);
+		(*endReload)(g);
 		logInfo("FINISHED GAME RELOAD");
+
+		// TODO: find out why this gets changed since the first time it's read
+		GetFileAttributesEx("../Game/Debug/Game.dll", GetFileExInfoStandard, &FData);
+		LastWriteTime = FData.ftLastWriteTime;
 	}
 	return true;
 }
@@ -70,7 +72,7 @@ bool load(engine* e) {
 
 	// TODO: fix infinite loop
 	// TODO: fix path for standalone build
-	while (!e->file.copyFile("../Game/Debug/Game.dll", "gameTemp.dll"));
+	while (!e->file.copyFile("../Game/Debug/Game.dll", "gameTemp.dll")) e->thread.delay(10);
 
 	if (!e->file.loadLib("game", "gameTemp.dll")) {
 		logErr("Failed to load game library!");

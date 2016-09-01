@@ -33,7 +33,7 @@ GAME_API void* startup(engine* e) {
 	e->file.loadFile("test", "test/test.png", file_binary, file_read);
 
 	logInfo("Spawning threads");
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 5; i++)
 		e->thread.add("test" + std::to_string(i), &threadTest, e);
 
 	logInfo("Done initializing game.");
@@ -45,8 +45,6 @@ GAME_API void* startup(engine* e) {
 }
 
 GAME_API bool run(game* g) {
-	logSetContext("GAME");
-	logInfo("Beginning frame.");
 	event* evt = g->e->input.getNext();
 	if (evt->type == evt_quit) g->running = false;
 	delete evt;
@@ -58,14 +56,14 @@ GAME_API void startReload(game* g) {
 	logInfo("Shutting down threads.");
 	runThreads = false;
 	int ret;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 5; i++)
 		g->e->thread.wait("test" + std::to_string(i), ret);
 }
 
 GAME_API void endReload(game* g) {
 	logSetContext("RELOAD");
 	logInfo("Spawning threads");
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 5; i++)
 		g->e->thread.add("test" + std::to_string(i), &threadTest, g->e);
 }
 
@@ -78,7 +76,7 @@ GAME_API void shutdown(game* g) {
 	logInfo("Shutting down threads.");
 	runThreads = false;
 	int ret;
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 5; i++)
 		g->e->thread.wait("test" + std::to_string(i), ret);
 
 	delete g;
