@@ -86,6 +86,10 @@
       <StripPrivateSymbols>
       </StripPrivateSymbols>
     </Link>
+    <PreBuildEvent>
+      <Command>cd $(ProjectDir)..\Debug
+del *.pdb</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
