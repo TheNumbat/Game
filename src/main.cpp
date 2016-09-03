@@ -1,17 +1,20 @@
 
-#include <engine.h>
 #include <iostream>
 #include <string>
+#include <assert.h>
+#include <windows.h>
 
-bool load(engine* e);
-void unload(engine* e);
-bool reload(engine* e, void* g);
+bool load();
+void unload();
+bool reload(void* g);
 
-typedef void* (*startupFunc)(engine*);
+typedef void* (*startupFunc)();
 typedef bool (*runFunc)(void*);
 typedef void (*shutdownFunc)(void*);
 typedef void (*startReloadFunc)(void*);
 typedef void (*endReloadFunc)(void*);
+
+void* lib;
 
 startupFunc startup;
 runFunc run;
@@ -19,32 +22,23 @@ shutdownFunc shut_down;
 startReloadFunc startReload;
 endReloadFunc endReload;
 
-s32 main() {
-	logSetContext("LAUNCHER");
-
-	engine* e = new engine;
-
-	if ( !load(e) ) {
+int main() {
+	if ( !load() ) {
 		assert(false);
 	}
 
-	void* game = (*startup)(e);
+	void* game = (*startup)();
 
 	while ((*run)(game)) {
-		if( !reload(e, game) ) assert(false);
+		if( !reload(game) ) assert(false);
 	}
 
 	(*shut_down)(game);
-	unload(e);
-	delete e;
+	unload();
 	return 0;
 }
 
-// TODO: remove windows
-#include <windows.h>
-bool reload(engine* e, void* g) {
-	logSetContext("LAUNCHER");
-
+bool reload(void* g) {
 	WIN32_FILE_ATTRIBUTE_DATA FData;
 	int result = GetFileAttributesEx("../Game/Debug/Game.dll", GetFileExInfoStandard, &FData);
 	if (!result) {
@@ -53,12 +47,10 @@ bool reload(engine* e, void* g) {
 
 	static FILETIME LastWriteTime = FData.ftLastWriteTime;
 	if (CompareFileTime(&FData.ftLastWriteTime, &LastWriteTime) == 1) {
-		logInfo("STARTING GAME RELOAD");
 		(*startReload)(g);
-		unload(e);
-		load(e);
+		unload();
+		load();
 		(*endReload)(g);
-		logInfo("FINISHED GAME RELOAD");
 
 		// TODO: find out why this gets changed since the first time it's read
 		GetFileAttributesEx("../Game/Debug/Game.dll", GetFileExInfoStandard, &FData);
@@ -67,33 +59,34 @@ bool reload(engine* e, void* g) {
 	return true;
 }
 
-bool load(engine* e) {
-	logSetContext("LAUNCHER");
-
+bool load() {
 	// TODO: fix infinite loop
 	// TODO: fix path for standalone build
-	while (!e->file.copyFile("../Game/Debug/Game.dll", "gameTemp.dll")) e->thread.delay(10);
+	while ( !CopyFileA( "../Game/Debug/Game.dll", "gameTemp.dll", false )) Sleep(10);
 
-	if (!e->file.loadLib("game", "gameTemp.dll")) {
-		logErr("Failed to load game library!");
+	char buf[MAX_PATH];
+	GetCurrentDirectory(sizeof(buf), buf);
+
+	lib = LoadLibrary("gameTemp.dll");
+	if (!lib) {
 		return false;
 	}
 
-	startup = (startupFunc) e->file.loadFunc("game", "startup");
-	run = (runFunc) e->file.loadFunc("game", "run");
-	shut_down = (shutdownFunc) e->file.loadFunc("game", "shutdown");
-	startReload = (startReloadFunc) e->file.loadFunc("game", "startReload");
-	endReload = (endReloadFunc) e->file.loadFunc("game", "endReload");
+	startup = (startupFunc) GetProcAddress((HMODULE) lib, "startup");
+	run = (runFunc) GetProcAddress((HMODULE) lib, "run");
+	shut_down = (shutdownFunc) GetProcAddress((HMODULE) lib, "shutdown");
+	startReload = (startReloadFunc) GetProcAddress((HMODULE) lib, "startReload");
+	endReload = (endReloadFunc) GetProcAddress((HMODULE) lib, "endReload");
 
 	if (!startup || !run || !shut_down || !startReload || !endReload) {
-		unload(e);
+		unload();
 		return false;
 	}
 	return true;
 }
 
-void unload(engine* e) {
-	e->file.freeLib("game");
+void unload() {
+	FreeLibrary((HMODULE) lib);
 	startup = NULL;
 	run = NULL;
 	shut_down = NULL;
