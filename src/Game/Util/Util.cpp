@@ -49,9 +49,8 @@ Util::Util(engine* _e, game* _g) {
 }
 
 Util::~Util() {
-	logSetContext("DEBUG");
 	e->time.remove("debug");
-	logInfo("Debug system destroyed.");
+	delete head;
 }
 
 bool Util::callConsoleFunc(const std::string& input) {
