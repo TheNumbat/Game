@@ -14,7 +14,7 @@ class Log {
 		std::string msg;
 		s16 sec;
 	};
-
+	
 public:
 	Log(void* en);
 	~Log();

@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifdef GAME_EXPORT
-	#define GAME_API extern "C" __declspec(dllexport)
+	#define DLL_OUT extern "C" __declspec(dllexport)
 #else
-	#define GAME_API __declspec(dllimport)
+	#define DLL_OUT __declspec(dllimport)
 #endif // ENGINE_EXPORT

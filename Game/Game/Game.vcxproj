@@ -126,11 +126,19 @@ del *.pdb</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Game\dll_interface.cpp" />
+    <ClCompile Include="..\..\src\Game\Events\Events.cpp" />
     <ClCompile Include="..\..\src\Game\game.cpp" />
+    <ClCompile Include="..\..\src\Game\Map\Map.cpp" />
+    <ClCompile Include="..\..\src\Game\Render\Render.cpp" />
+    <ClCompile Include="..\..\src\Game\Util\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Game\common.h" />
+    <ClInclude Include="..\..\src\Game\Events\Events.h" />
     <ClInclude Include="..\..\src\Game\game.h" />
+    <ClInclude Include="..\..\src\Game\Map\Map.h" />
+    <ClInclude Include="..\..\src\Game\Render\Render.h" />
+    <ClInclude Include="..\..\src\Game\Util\Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

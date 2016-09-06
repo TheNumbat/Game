@@ -3,7 +3,7 @@
 #include "game.h"
 
 s32 threadTest(void* _g) {
-	game* g = (game*)_g;
+	game* g = (game*) _g;
 	while (g->runThreads) {
 		logSetContext("TEST THREAD");
 		logInfoLvl("TEST THREAD OUTPUT", 0);
@@ -12,12 +12,21 @@ s32 threadTest(void* _g) {
 	return 0;
 }
 
-game::game(engine* _e) {
+game::game(engine* _e) 
+	: events(_e, this), debug(_e, this), map(_e, this), ren(_e, this) {
+
 	logSetContext("GAME");
 	e = _e;
+	e->init("Game", 1280, 720);
 
-	logInfo("Intializing game...");
+	u64 perfFreq = e->time.getPerfFreq();
+
+	//////////////////////////////////////////////////////////////////////////////
+
+	logInfo("Initializing game...");
 	logEnterSec();
+
+	//////////////////////////////////////////////////////////////////////////////
 
 	logInfo("Loading resources...");
 	logEnterSec();
@@ -34,13 +43,17 @@ game::game(engine* _e) {
 	logInfo("Loading files");
 	e->file.loadFile("test", "test/test.png", file_binary, file_read);
 
+	logInfo("Done loading resources.");
+	logExitSec();
+
+	//////////////////////////////////////////////////////////////////////////////
+
 	logInfo("Spawning threads");
 	runThreads = true;
 	for (int i = 0; i < 5; i++)
 		e->thread.add("test" + std::to_string(i), &threadTest, this);
 
-	logInfo("Done loading resources");
-	logExitSec();
+	//////////////////////////////////////////////////////////////////////////////
 
 	logInfo("Done initializing game.");
 	logExitSec();
@@ -54,6 +67,8 @@ game::~game() {
 	logInfo("Shutting down game...");
 	logEnterSec();
 
+	//////////////////////////////////////////////////////////////////////////////
+
 	logInfo("Shutting down threads");
 	logEnterSec();
 	runThreads = false;
@@ -62,14 +77,24 @@ game::~game() {
 		e->thread.wait("test" + std::to_string(i), ret);
 	logExitSec();
 
+	//////////////////////////////////////////////////////////////////////////////
+
 	logInfo("Done destroying game.");
 	logExitSec();
+
+	e->kill();
 }
 
 bool game::run() {
+	debug.beginFrame();
+	debug.beginFunc();
+
 	event* evt = e->input.getNext();
 	if (evt->type == evt_quit) running = false;
 	delete evt;
+
+	debug.endFunc();
+	debug.endFrame();
 	return running;
 }
 

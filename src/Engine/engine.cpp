@@ -8,7 +8,9 @@ engine::engine() : log(this)
 {
 	globalLog = &log;
 	log.init();
+}
 
+bool engine::init(const std::string& wTitle, s32 wW, s32 wH) {
 	logSetContext("ENGINE");
 	logInfo("Initializing engine...");
 	logEnterSec();
@@ -19,10 +21,10 @@ engine::engine() : log(this)
 	if (!result) {
 		logErr((std::string) "Failed to initialize SDL! Error: " + SDL_GetError());
 		logExitSec();
-		return;
+		return false;
 	}
 
-	gfx.init("Game",1280,720);
+	gfx.init(wTitle, wW, wH);
 	audio.init();
 	time.init();
 	file.init();
@@ -31,15 +33,14 @@ engine::engine() : log(this)
 
 	logInfo("Done initializing engine.");
 	logExitSec();
+	return true;
 }
 
-
-engine::~engine()
-{
+bool engine::kill() {
 	logSetContext("ENGINE");
 	logInfo("Shutting down engine...");
 	logEnterSec();
-	
+
 	gfx.kill();
 	audio.kill();
 	time.kill();
@@ -50,4 +51,10 @@ engine::~engine()
 	logInfo("Done shutting down engine.");
 	log.kill();
 	SDL_Quit();
+	return true;
+}
+
+engine::~engine()
+{
+
 }

@@ -222,8 +222,7 @@ public:
 	bool init();
 	bool kill();
 
-	// straight up allocates a new event, need to delete
-		// TODO: should this use region based memory?
+	// allocates a new event, need to delete
 	ENGINE_API event* getNext();
 
 	ENGINE_API bool testKey(key k);

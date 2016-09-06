@@ -15,6 +15,9 @@ struct engine
 	ENGINE_API engine();
 	ENGINE_API ~engine();
 
+	ENGINE_API bool init(const std::string& wTitle, s32 wW, s32 wH);
+	ENGINE_API bool kill();
+
 	Audio audio;
 	File file;
 	Gfx gfx;

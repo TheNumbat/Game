@@ -41,7 +41,6 @@ public:
 	ENGINE_API bool stopAll(u32 timeout = 0);
 
 private:
-	// TODO: region allocation, free list
 	std::map<std::string, sound*> sounds;
 	bool good;
 };

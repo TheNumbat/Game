@@ -44,7 +44,6 @@ public:
 	ENGINE_API u64 perfSinceStart();
 
 private:
-	// TODO: region allocation, free list
 	std::map<std::string, timer*> timers;
 	std::map<std::string, u32> callbacks;
 	bool good;
