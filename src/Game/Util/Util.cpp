@@ -3,9 +3,10 @@
 #include "..\game.h"
 #include "Util.h"
 
-#undef beginFunc()
-#undef trackVal()
-#undef releaseVal()
+#undef beginFunc
+#undef trackVal
+#undef releaseVal
+#undef addVal
 
 Util::profNode::profNode(const std::string& n, u64 s, profNode* p) {
 	name = n;
@@ -132,11 +133,42 @@ void Util::endFunc() {
 
 template<typename T>
 bool Util::trackVal(const std::string& ID, T* val) {
-	return false;
+	logSetContext("DEBUG");
+
+	if (values.find(ID) != values.end()) {
+		logWarn("Value ID " + ID + "already in use!");
+		return false;
+	}
+
+	values.insert({ ID, new trackedVal<T>(val) });
+	return true;
+}
+
+template<typename T>
+bool Util::addVal(const std::string& ID, T val) {
+	logSetContext("DEBUG");
+
+	if (values.find(ID) != values.end()) {
+		logWarn("Value ID " + ID + "already in use!");
+		return false;
+	}
+
+	values.insert({ ID, new staticVal<T>(val) });
+	return true;
 }
 
 bool Util::releaseVal(const std::string& ID) {
-	return false;
+	logSetContext("DEBUG");
+
+	auto entry = values.find(ID);
+	if (entry == values.end()) {
+		logWarn("Value ID " + ID + "not found!");
+		return false;
+	}
+
+	delete entry->second;
+	values.erase(entry);
+	return true;
 }
 
 void Util::resetAvgFrame() {

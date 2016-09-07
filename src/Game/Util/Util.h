@@ -29,11 +29,22 @@ class Util {
 		bool showChildren;
 	};
 
-	template<typename T>
 	struct utilVal {
-		utilVal(T* v) {val = v};
-		std::string getStr() {return std::to_string(*val)};
+		virtual std::string getStr() = 0;
+	};
+
+	template<typename T>
+	struct trackedVal : public utilVal {
+		trackedVal(T* v) { val = v; }
+		std::string getStr() { return std::to_string(*val); }
 		T* val;
+	};
+
+	template<typename T>
+	struct staticVal : public utilVal {
+		staticVal(T v) { val = v; }
+		std::string getStr() { return std::to_string(val); }
+		T val;
 	};
 
 public:
@@ -52,7 +63,11 @@ public:
 
 	template<typename T>
 	bool trackVal(const std::string& ID, T* val);
-	#define trackVal(val) trackVal(#val,&val);
+	#define trackVal(val) trackVal(#val, &val);
+	template<typename T>
+	bool addVal(const std::string& ID, T val);
+	#define addVal(val) addVal(#val, val)
+
 	bool releaseVal(const std::string& ID);
 	#define releaseVal(val) releaseVal(#val)
 
@@ -78,7 +93,7 @@ public:
 private:
 	u8 fpsCap;
 	u16 flags;
-	u32 lastFrameTime;
+	u64 lastFrameTime;
 	u64 totalFrameTime;
 	u64 totalFrames;
 
@@ -90,6 +105,7 @@ private:
 
 	// TODO: set this up in constructor + reload function
 	std::map<std::string, consoleFunc> consoleFuncs;
+	std::map<std::string, utilVal*> values;
 
 	engine* e;
 	game* g;
