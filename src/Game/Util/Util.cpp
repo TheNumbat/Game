@@ -1,7 +1,9 @@
 #pragma once
 
 #include "..\game.h"
+#include "..\console.h"
 #include "Util.h"
+#include <sstream>
 
 #undef beginFunc
 #undef trackVal
@@ -46,6 +48,8 @@ Util::Util(engine* _e, game* _g) {
 	current = head;
 	selected = head;
 
+	reloadConsoleFuncs();
+
 	logInfo("Debug system initialized.");
 }
 
@@ -55,11 +59,36 @@ Util::~Util() {
 }
 
 bool Util::callConsoleFunc(const std::string& input) {
-	return false;
+	logSetContext("DEBUG");
+
+	std::stringstream ss(input);
+	std::string name;
+	ss >> name;
+	if (ss.fail()) {
+		logWarn("Failed to parse func name from input.");
+		return false;
+	}
+
+	std::string arg = input.substr(name.size(), input.size());
+	name = "console::" + name;
+
+	auto entry = consoleFuncs.find(name);
+	if (entry == consoleFuncs.end()) {
+		logWarn("Failed to find funtion name " + name);
+		return false;
+	}
+
+	// function will log error
+	return (*entry->second)(g, e, arg);
 }
 
+#define ADD_FUNC(name) consoleFuncs.insert({#name,&name})
 void Util::reloadConsoleFuncs() {
+	consoleFuncs.clear();
 
+	// Add all console functions here
+	ADD_FUNC(console::quit);
+	ADD_FUNC(console::log);
 }
 
 void Util::beginFrame() {
@@ -172,47 +201,96 @@ bool Util::releaseVal(const std::string& ID) {
 }
 
 void Util::resetAvgFrame() {
-
+	totalFrames = 0;
+	totalFrameTime = 0;
 }
 
 u64 Util::getAvgFrame() {
-	return 0;
+	return totalFrameTime / totalFrames;
 }
 
 u64 Util::getLastFrame() {
-	return 0;
+	return lastFrameTime;
 }
 
-void Util::setFpsCap(u16 fps) {
-
+void Util::setFpsCap(u8 fps) {
+	fpsCap = fps;
 }
 
+#pragma warning (disable : 4800)
 bool Util::getFlag(debug_flag f) {
-	return false;
+	return flags & (u16) f;
 }
 
 void Util::setFlag(debug_flag f) {
-
+	flags |= (u16) f;
 }
 
 void Util::clearFlag(debug_flag f) {
-
+	flags &= ~((u16) f);
 }
 
 void Util::toggleFlag(debug_flag f) {
-
+	if (getFlag(f)) {
+		clearFlag(f);
+	} else {
+		setFlag(f);
+	}
 }
 
 void Util::toggleProfiler() {
 	toggleProf = true;
 }
 
+// TODO: test this
 void Util::selectedNodeUp() {
-
+	if (selected != head) {
+		// If selected: first node of children
+		if (selected->parent->children.begin()->second == selected) {
+			selected = selected->parent;
+		// Else move up a child
+		} else {
+			// Iterator to previous child
+			auto temp = std::prev(selected->parent->children.find(selected->name));
+			selected = temp->second;
+			// Move to bottom shown node under temp
+			while (selected->showChildren && selected->children.size()) {
+				selected = std::prev(selected->children.end())->second;
+			}
+		}
+	} else {
+		// Move to bottom shown node
+		while (selected->showChildren && selected->children.size()) {
+			selected = std::prev(selected->children.end())->second;
+		}
+	}
 }
 
+// TODO: test this
 void Util::selectedNodeDown() {
-
+	// Move to first child if possible
+	if (selected->showChildren && selected->children.size()) {
+		selected = selected->children.begin()->second;
+	} else if (selected != head) {
+		// Move to next child
+		if (std::distance(selected->parent->children.find(selected->name), selected->parent->children.end()) > 1) {
+			selected = std::next(selected->parent->children.find(selected->name))->second;
+		} else {
+			bool found = false;
+			while (!found) {
+				// Move up 
+				selected = selected->parent;
+				if (selected == head) {
+					break;
+				}
+				// If the parent was not at the end of its parent's children we've found where we want
+				if (std::distance(selected->parent->children.find(selected->name), selected->parent->children.end()) > 1) {
+					selected = std::next(selected->parent->children.find(selected->name))->second;
+					found = true;
+				}
+			}
+		}
+	}
 }
 
 void Util::resetProfNodesRec(profNode* place) {
