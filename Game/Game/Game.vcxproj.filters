@@ -53,5 +53,8 @@
     <ClInclude Include="..\..\src\Game\Render\Render.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Game\console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

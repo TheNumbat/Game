@@ -51,6 +51,8 @@ public:
 	Util(engine* _e, game* _g);
 	~Util();
 
+	// For mapping a string through a table of function pointers
+		// (game chat console)
 	bool callConsoleFunc(const std::string& input);
 	void reloadConsoleFuncs();
 
@@ -75,7 +77,7 @@ public:
 	u64 getAvgFrame();
 	u64 getLastFrame();
 
-	void setFpsCap(u16 fps = 0);
+	void setFpsCap(u8 fps = 0);
 
 	bool getFlag(debug_flag f);
 	void setFlag(debug_flag f);
@@ -94,6 +96,7 @@ private:
 	u8 fpsCap;
 	u16 flags;
 	u64 lastFrameTime;
+	// are reset with resetavgframe
 	u64 totalFrameTime;
 	u64 totalFrames;
 

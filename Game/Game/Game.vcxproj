@@ -134,6 +134,7 @@ del *.pdb</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Game\common.h" />
+    <ClInclude Include="..\..\src\Game\console.h" />
     <ClInclude Include="..\..\src\Game\Events\Events.h" />
     <ClInclude Include="..\..\src\Game\game.h" />
     <ClInclude Include="..\..\src\Game\Map\Map.h" />

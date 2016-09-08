@@ -58,6 +58,8 @@ game::game(engine* _e)
 	logInfo("Done initializing game.");
 	logExitSec();
 
+	debug.callConsoleFunc("log CONSOLE testing callConsoleFunc");
+
 	running = true;
 }
 

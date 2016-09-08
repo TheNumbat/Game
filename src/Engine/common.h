@@ -73,8 +73,10 @@ typedef uint64_t	u64;
 
 #ifdef LOGCONTEXT
 	// Call this ONCE at the start of each function that uses logging
-	#define logSetContext(a) const std::string LOG_CONTEXT(a)
+	#define logSetContext(a) std::string LOG_CONTEXT(a)
+	#define logChangeContext(a) LOG_CONTEXT = a
 #else
 	#define logSetContext(a)
+	#define logChangeContext(a)
 	#define LOG_CONTEXT ""
 #endif // CONTEXT
