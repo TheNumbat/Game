@@ -55,6 +55,11 @@ game::game(engine* _e)
 
 	//////////////////////////////////////////////////////////////////////////////
 
+	entity e = emgr.create();
+	component epos1 = emgr.addC(e, ct_pos);
+	component epos2 = emgr.getC(e, ct_pos);
+	component emov = emgr.getC(e, ct_mov);
+
 	logInfo("Done initializing game.");
 	logExitSec();
 
@@ -112,6 +117,7 @@ void game::startReload() {
 void game::endReload() {
 	logSetContext("RELOAD");
 	logInfo("Spawning threads");
+	debug.reloadConsoleFuncs();
 	runThreads = true;
 	for (int i = 0; i < 5; i++)
 		e->thread.add("test" + std::to_string(i), &threadTest, this);

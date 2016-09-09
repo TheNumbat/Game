@@ -3,98 +3,57 @@
    ENGINE LOG STARTUP
    ==================
 
-16:55:26 [INFO\THREAD]: Created thread ID log
-16:55:26 [INFO\LOG]: Initialized log.
-16:55:26 [INFO\FILE]: Loaded library ID game from gameTemp.dll
-16:55:26 [INFO\DEBUG]: Debug system initialized.
-16:55:26 [INFO\ENGINE]: Initializing engine...
-16:55:26    [INFO\ENGINE]: Initializing SDL
-16:55:26    [INFO\GRAPHICS]: Initializing Graphics...
-16:55:26       [INFO\GRAPHICS]: Initializing SDL Video
-16:55:26       [INFO\GRAPHICS]: Initializing SDL_Image
-16:55:26       [INFO\GRAPHICS]: Initializing SDL_TTF
-16:55:26       [INFO\GRAPHICS]: Creating Window and Renderer
-16:55:27       [INFO\GRAPHICS]: Done initializing graphics.
-16:55:27    [INFO\AUDIO]: Initializing audio...
-16:55:27       [INFO\AUDIO]: Opening audio stream
-16:55:27       [INFO\AUDIO]: Sound initialized
-16:55:27    [INFO\TIME]: Initializing timer...
-16:55:27       [INFO\TIME]: Initializing SDL timer subsystem
-16:55:27       [INFO\TIME]: Done initializing timer.
-16:55:27    [INFO\FILE]: File IO initialized.
-16:55:27    [INFO\INPUT]: Initializing input...
-16:55:27       [INFO\INPUT]: Initializing event system
-16:55:27       [INFO\INPUT]: Getting keyboard state
-16:55:27       [INFO\INPUT]: Input initialized
-16:55:27    [INFO\THREAD]: Threading initialized.
-16:55:27    [INFO\ENGINE]: Done initializing engine.
-16:55:27 [INFO\GAME]: Initializing game...
-16:55:27    [INFO\GAME]: Loading resources...
-16:55:27       [INFO\GAME]: Loading textures
-16:55:27       [INFO\GRAPHICS]: Loading texture directory at test/
-16:55:27          [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
-16:55:28       [INFO\GAME]: Loading sounds
-16:55:28       [INFO\AUDIO]: Loading sound directory at test/
-16:55:28          [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
-16:55:28       [INFO\GAME]: Loading files
-16:55:28       [INFO\FILE]: Loaded file ID test from path test/test.png
-16:55:28       [INFO\GAME]: Done loading resources.
-16:55:28    [INFO\GAME]: Spawning threads
-16:55:28 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:28    [INFO\THREAD]: Created thread ID test0
-16:55:28 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:28    [INFO\THREAD]: Created thread ID test1
-16:55:28 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:28    [INFO\THREAD]: Created thread ID test2
-16:55:28 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:28    [INFO\THREAD]: Created thread ID test3
-16:55:28 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:28    [INFO\THREAD]: Created thread ID test4
-16:55:28    [INFO\GAME]: Done initializing game.
-16:55:28 [INFO\KEK]: ayy lmao
-16:55:29 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:29 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:29 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:29 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:29 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:30 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:30 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:30 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:30 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:30 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:31 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:31 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:31 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:31 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:31 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-16:55:31 [INFO\GAME]: Shutting down game...
-16:55:31    [INFO\GAME]: Shutting down threads
-16:55:31       [INFO\THREAD]: Waiting on thread ID test0
-16:55:32       [INFO\THREAD]: Waiting on thread ID test1
-16:55:32       [INFO\THREAD]: Waiting on thread ID test2
-16:55:32       [INFO\THREAD]: Waiting on thread ID test3
-16:55:32       [INFO\THREAD]: Waiting on thread ID test4
-16:55:32    [INFO\GAME]: Done destroying game.
-16:55:32 [INFO\ENGINE]: Shutting down engine...
-16:55:32    [INFO\GRPAHICS]: Destroying Graphics
-16:55:32       [INFO\GRPAHICS]: Destroying Renderer
-16:55:32       [INFO\GRPAHICS]: Destroying Window
-16:55:32       [INFO\GRPAHICS]: Quitting SDL Video
-16:55:32       [INFO\GRPAHICS]: Quitting SDL_Image
-16:55:32       [INFO\GRPAHICS]: Quitting SDL_TTF
-16:55:32       [INFO\GRPAHICS]: Done destroying graphics.
-16:55:32    [INFO\AUDIO]: Destroying audio...
-16:55:32       [INFO\AUDIO]: Stopping all sounds
-16:55:32       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
-16:55:32       [INFO\AUDIO]: Quitting SDL_Mixer
-16:55:32       [INFO\AUDIO]: Done destroying audio.
-16:55:32    [INFO\TIME]: Destroying timer...
-16:55:32       [INFO\TIME]: Quitting timer subsystem
-16:55:32       [INFO\TIME]: Done destroying timer.
-16:55:32    [INFO\FILE]: File IO destroyed.
-16:55:32    [INFO\INPUT]: Destroying input...
-16:55:32       [INFO\INPUT]: Quitting subsystem
-16:55:32       [INFO\INPUT]: Done destroying input.
-16:55:32    [INFO\THREAD]: Threading destroyed.
-16:55:32    [INFO\ENGINE]: Done shutting down engine.
-16:55:32    [INFO\LOG]: Shut down log.
+22:38:52 [INFO\LOG]: Initialized log.
+22:38:52 [INFO\THREAD]: Created thread ID log
+22:38:52 [INFO\FILE]: Loaded library ID game from gameTemp.dll
+22:38:52 [INFO\DEBUG]: Debug system initialized.
+22:38:52 [INFO\ENGINE]: Initializing engine...
+22:38:52    [INFO\ENGINE]: Initializing SDL
+22:38:52    [INFO\GRAPHICS]: Initializing Graphics...
+22:38:52       [INFO\GRAPHICS]: Initializing SDL Video
+22:38:52       [INFO\GRAPHICS]: Initializing SDL_Image
+22:38:52       [INFO\GRAPHICS]: Initializing SDL_TTF
+22:38:52       [INFO\GRAPHICS]: Creating Window and Renderer
+22:38:52       [INFO\GRAPHICS]: Done initializing graphics.
+22:38:52    [INFO\AUDIO]: Initializing audio...
+22:38:52       [INFO\AUDIO]: Opening audio stream
+22:38:52       [INFO\AUDIO]: Sound initialized
+22:38:52    [INFO\TIME]: Initializing timer...
+22:38:52       [INFO\TIME]: Initializing SDL timer subsystem
+22:38:52       [INFO\TIME]: Done initializing timer.
+22:38:52    [INFO\FILE]: File IO initialized.
+22:38:52    [INFO\INPUT]: Initializing input...
+22:38:52       [INFO\INPUT]: Initializing event system
+22:38:52       [INFO\INPUT]: Getting keyboard state
+22:38:52       [INFO\INPUT]: Input initialized
+22:38:52    [INFO\THREAD]: Threading initialized.
+22:38:52    [INFO\ENGINE]: Done initializing engine.
+22:38:52 [INFO\GAME]: Initializing game...
+22:38:52    [INFO\GAME]: Loading resources...
+22:38:52       [INFO\GAME]: Loading textures
+22:38:52       [INFO\GRAPHICS]: Loading texture directory at test/
+22:38:52          [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
+22:38:52       [INFO\GAME]: Loading sounds
+22:38:52       [INFO\AUDIO]: Loading sound directory at test/
+22:38:52          [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
+22:38:52       [INFO\GAME]: Loading files
+22:38:52       [INFO\FILE]: Loaded file ID test from path test/test.png
+22:38:52       [INFO\GAME]: Done loading resources.
+22:38:52    [INFO\GAME]: Spawning threads
+22:38:52 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:38:52    [INFO\THREAD]: Created thread ID test0
+22:38:52 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:38:52    [INFO\THREAD]: Created thread ID test1
+22:38:52 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:38:52    [INFO\THREAD]: Created thread ID test2
+22:38:52 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:38:52    [INFO\THREAD]: Created thread ID test3
+22:38:52 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:39:06    [INFO\THREAD]: Created thread ID test4
+22:41:05    [WARNING\ENTITY]: entity.cpp, line 41: Failed to find component type 2 in entity ID2
+22:41:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:41:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:41:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:41:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:41:05    [INFO\GAME]: Done initializing game.
+22:41:05 [INFO\TEST THREAD]: TEST THREAD OUTPUT
