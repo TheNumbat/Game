@@ -60,6 +60,13 @@ game::game(engine* _e)
 	component epos2 = emgr.getC(e, ct_pos);
 	component emov = emgr.getC(e, ct_mov);
 
+	chunk* c1 = map.addChunk(cpos(0, 0, 0));
+	chunk* c2 = map.getChunk(cpos(0, 0, 0));
+
+	c2->insert(e);
+
+	epos1.pos->pos.real = rpos(5, 12, 4.5);
+
 	logInfo("Done initializing game.");
 	logExitSec();
 

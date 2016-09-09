@@ -20,11 +20,12 @@ enum c_type : u8 {
 };
 
 struct c_pos {
-
+	mpos pos;
 };
 
 struct c_mov {
-
+	v2<r32> velocity;
+	v2<r32> accel;
 };
 
 struct c_tex {

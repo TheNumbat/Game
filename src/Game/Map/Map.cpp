@@ -2,13 +2,7 @@
 
 #include "..\game.h"
 #include "Map.h"
-
-template<typename T>
-bool pos<T>::operator==(const pos& other) const {
-	return x == other.x &&
-		   y == other.y &&
-		   z == other.z;
-}
+#include "..\Entity\Entity.h"
 
 Map::Map(engine* _e, game* _g) {
 	e = _e;
@@ -24,12 +18,11 @@ chunk* Map::addChunk(cpos p) {
 
 	auto entry = chunks.find(p);
 	if (entry == chunks.end()) {
-		chunk* newC = new chunk();
-		chunks.insert({ p, newC });
-		return newC;
+		auto iter = chunks.insert({ p, chunk() }).first;
+		return &iter->second;
 	}
 
-	return entry->second;
+	return &entry->second;
 }
 
 chunk* Map::getChunk(cpos p) {
@@ -41,5 +34,5 @@ chunk* Map::getChunk(cpos p) {
 		return NULL;
 	}
 
-	return entry->second;
+	return &entry->second;
 }

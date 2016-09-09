@@ -2,24 +2,25 @@
 
 #include "common.h"
 #include <engine.h>
-#include <map> // heh
+#include <set>
 #include <unordered_map>
 
-#include "..\Entity\entity.h"
-
 struct game;
+typedef u32 entity;
 
 const r32 CHUNK_SIZE_METERS = 25.0f;
-typedef std::map<u64, entity*> chunk;
+typedef std::set<entity> chunk;
 
 template<typename T>
-struct pos {
+struct basepos {
 	// TODO: implement stuff
-	bool operator==(const pos& other) const;
+	basepos() { x = y = z = 0; }
+	basepos(T _x, T _y, T _z) { x = _x; y = _y; z = _z; }
+	bool operator==(const basepos& other) const { return x == other.x && y == other.y && z == other.z; }
 	T x, y, z;
 };
-typedef pos<r32> rpos; // real position (used for within chunk)
-typedef pos<s32> cpos; // chunk position
+typedef basepos<r32> rpos; // real position (used for within chunk)
+typedef basepos<s32> cpos; // chunk position
 
 struct mpos { // combined position (for entity)
 	// TODO: implement stuff
@@ -49,8 +50,11 @@ public:
 	chunk* addChunk(cpos p);
 	chunk* getChunk(cpos p);
 
+	bool addEntity(entity e); // e needs a c_pos
+	bool updateEntity(entity e);
+
 private:
-	std::unordered_map<cpos, chunk*> chunks;
+	std::unordered_map<cpos, chunk> chunks;
 
 	engine* e;
 	game* g;
