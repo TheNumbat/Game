@@ -126,6 +126,7 @@ del *.pdb</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Game\dll_interface.cpp" />
+    <ClCompile Include="..\..\src\Game\Entity\Entity.cpp" />
     <ClCompile Include="..\..\src\Game\Events\Events.cpp" />
     <ClCompile Include="..\..\src\Game\game.cpp" />
     <ClCompile Include="..\..\src\Game\Map\Map.cpp" />
@@ -135,6 +136,7 @@ del *.pdb</Command>
   <ItemGroup>
     <ClInclude Include="..\..\src\Game\common.h" />
     <ClInclude Include="..\..\src\Game\console.h" />
+    <ClInclude Include="..\..\src\Game\Entity\Entity.h" />
     <ClInclude Include="..\..\src\Game\Events\Events.h" />
     <ClInclude Include="..\..\src\Game\game.h" />
     <ClInclude Include="..\..\src\Game\Map\Map.h" />

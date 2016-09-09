@@ -7,6 +7,8 @@
 #include "Util\Util.h"
 #include "Map\Map.h"
 #include "Render\Render.h"
+#include "Entity\Entity.h"
+#include "Map\Map.h"
 
 struct game {
 	game(engine* _e);
@@ -20,6 +22,7 @@ struct game {
 	Util debug;
 	Map map;
 	Render ren;
+	entityMgr emgr;
 
 	bool running;
 	bool runThreads;
