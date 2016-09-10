@@ -103,17 +103,23 @@ void Util::endFrame() {
 		profilerPaused = !profilerPaused;
 	}
 
+	u64 perf = e->time.getPerfFreq();
 	if (fpsCap) {
-		// TODO: actually do something, don't waste CPU time
-		while(e->time.get("debug") < e->time.getPerfFreq() / fpsCap);
+		// TODO: actually do something or at least make blocking more accurate
+		if (e->time.get("debug") < perf / (fpsCap - 1)) {
+			r32 msperframe = 1000.0f / (fpsCap - 1);
+			r32 mselapsed = 1000.0f * e->time.get("debug") / perf;
+			u8 wait = std::round(msperframe - mselapsed);
+			e->thread.delay(wait == 0 ? wait : wait - 2 );
+		}
 	}
 
 	lastFrameTime = e->time.get("debug");
 	totalFrameTime += lastFrameTime;
 	totalFrames++;
 
-	if (fpsCap && lastFrameTime > e->time.getPerfFreq() / (fpsCap - 1)) {
-		logWarn("Last frame took " + std::to_string(1000.0f * lastFrameTime / (r64) e->time.getPerfFreq()) + " ms!");
+	if (fpsCap && lastFrameTime > perf / fpsCap) {
+		logWarn("Last frame took " + std::to_string(1000.0f * lastFrameTime / (r64) perf) + " ms!");
 	}
 
 	if (!profilerPaused) {

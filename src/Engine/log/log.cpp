@@ -16,12 +16,12 @@ s32 logThread(void* data) {
 	engine* e = (engine*)data;
 	while (e->log.running) {
 		e->thread.lockMutex(e->log.qlock);
+		e->thread.condWait(e->log.cond, e->log.qlock);
 		while (e->log.mq.size()) {
 			Log::message m = e->log.mq.front();
 			e->log.mq.pop();
 			e->log.logRaw(m);
 		}
-		e->thread.condWait(e->log.cond, e->log.qlock);
 		e->thread.unlockMutex(e->log.qlock);
 	}
 	return 0;

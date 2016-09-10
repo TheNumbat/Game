@@ -44,7 +44,7 @@ struct r2
 
 	r2<s32> round()
 	{
-		return r2<s3232>(std::round(x), std::round(y), std::round(w), std::round(h));
+		return r2<s32>(std::round(x), std::round(y), std::round(w), std::round(h));
 	}
 
 	r2& operator=(const r2& src)

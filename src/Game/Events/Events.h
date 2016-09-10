@@ -22,11 +22,11 @@ public:
 	void setState(input_state s);
 
 private:
-	void handleGame(event* e);
-	void handleProfiler(event* e);
-	void handleConsole(event* e);
+	void handleGame(event* ev);
+	void handleProfiler(event* ev);
+	void handleConsole(event* ev);
 
-	void screenText(event_text* e, const std::string& exclude);
+	void screenText(event_text* ev, const std::string& exclude);
 
 	std::string inStr;
 	std::vector<std::string> inStrBuf;

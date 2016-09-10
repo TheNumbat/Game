@@ -26,6 +26,8 @@ game::game(engine* _e)
 	logInfo("Initializing game...");
 	logEnterSec();
 
+	debug.setFpsCap(60);
+
 	//////////////////////////////////////////////////////////////////////////////
 
 	logInfo("Loading resources...");
@@ -33,8 +35,6 @@ game::game(engine* _e)
 
 	logInfo("Loading textures");
 	e->gfx.loadTexFolder("test/");
-	e->gfx.renderTexture("test", r2<s32>(0, 0, 1280, 720));
-	e->gfx.swapFrame();
 
 	logInfo("Loading sounds");
 	e->audio.loadSoundFolder("test/");
@@ -48,24 +48,14 @@ game::game(engine* _e)
 
 	//////////////////////////////////////////////////////////////////////////////
 
-	logInfo("Spawning threads");
-	runThreads = true;
-	for (int i = 0; i < 5; i++)
-		e->thread.add("test" + std::to_string(i), &threadTest, this);
-
-	//////////////////////////////////////////////////////////////////////////////
-
 	entity e = emgr.create();
-	component epos1 = emgr.addC(e, ct_pos);
-	component epos2 = emgr.getC(e, ct_pos);
-	component emov = emgr.getC(e, ct_mov);
-
-	chunk* c1 = map.addChunk(cpos(0, 0, 0));
-	chunk* c2 = map.getChunk(cpos(0, 0, 0));
-
-	c2->insert(e);
-
-	epos1.pos->pos.real = rpos(5, 12, 4.5);
+	component epos = emgr.addC(e, ct_pos);
+	component etex = emgr.addC(e, ct_tex);
+	epos.pos->pos.chunk = cpos(-1, -1, 0);
+	epos.pos->pos.real = rpos(20, 20, 0);
+	etex.tex->ID = "test";
+	etex.tex->posRect = r2<r32>(0, 0, 10, 10);
+	map.addEntity(e);
 
 	logInfo("Done initializing game.");
 	logExitSec();
@@ -83,16 +73,6 @@ game::~game() {
 
 	//////////////////////////////////////////////////////////////////////////////
 
-	logInfo("Shutting down threads");
-	logEnterSec();
-	runThreads = false;
-	int ret;
-	for (int i = 0; i < 5; i++)
-		e->thread.wait("test" + std::to_string(i), ret);
-	logExitSec();
-
-	//////////////////////////////////////////////////////////////////////////////
-
 	logInfo("Done destroying game.");
 	logExitSec();
 
@@ -103,9 +83,9 @@ bool game::run() {
 	debug.beginFrame();
 	debug.beginFunc();
 
-	event* evt = e->input.getNext();
-	if (evt->type == evt_quit) running = false;
-	delete evt;
+	events.handleEvents();
+	ren.renderMap();
+	ren.end();
 
 	debug.endFunc();
 	debug.endFrame();
@@ -115,17 +95,12 @@ bool game::run() {
 void game::startReload() {
 	logSetContext("RELOAD");
 	logInfo("Shutting down threads.");
-	runThreads = false;
-	int ret;
-	for (int i = 0; i < 5; i++)
-		e->thread.wait("test" + std::to_string(i), ret);
+	ren.stopThread();
 }
 
 void game::endReload() {
 	logSetContext("RELOAD");
 	logInfo("Spawning threads");
 	debug.reloadConsoleFuncs();
-	runThreads = true;
-	for (int i = 0; i < 5; i++)
-		e->thread.add("test" + std::to_string(i), &threadTest, this);
+	ren.startThread();
 }

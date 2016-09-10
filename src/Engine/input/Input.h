@@ -111,7 +111,8 @@ enum key : u8 {
 	key_numlock,
 	key_pgup,
 	key_pgdown,
-	key_scrolllock
+	key_scrolllock,
+	key_none
 };
 
 enum keyflags : u16 {
@@ -179,7 +180,7 @@ struct event_endstream : public event {
 };
 
 struct event_window : public event {
-	event_window() { type = evt_window; }
+	event_window() { type = evt_window; x = y = flags = 0; }
 	~event_window() {}
 
 	u32 x, y;
@@ -187,7 +188,7 @@ struct event_window : public event {
 };
 
 struct event_key : public event {
-	event_key() { type = evt_key; }
+	event_key() { type = evt_key; flags = 0; k = key_none; }
 	~event_key() {}
 
 	key k;
@@ -195,7 +196,7 @@ struct event_key : public event {
 };
 
 struct event_mouse : public event {
-	event_mouse() { type = evt_mouse; }
+	event_mouse() { type = evt_mouse; x = y = flags = 0; }
 	~event_mouse() {}
 
 	u32 x, y;

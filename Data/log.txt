@@ -3,50 +3,68 @@
    ENGINE LOG STARTUP
    ==================
 
-10:46:53 [INFO\THREAD]: Created thread ID log
-10:46:53 [INFO\LOG]: Initialized log.
-10:46:53 [INFO\FILE]: Loaded library ID game from gameTemp.dll
-10:46:53 [INFO\DEBUG]: Debug system initialized.
-10:46:53 [INFO\ENGINE]: Initializing engine...
-10:46:53    [INFO\ENGINE]: Initializing SDL
-10:46:53    [INFO\GRAPHICS]: Initializing Graphics...
-10:46:53       [INFO\GRAPHICS]: Initializing SDL Video
-10:46:53       [INFO\GRAPHICS]: Initializing SDL_Image
-10:46:53       [INFO\GRAPHICS]: Initializing SDL_TTF
-10:46:53       [INFO\GRAPHICS]: Creating Window and Renderer
-10:46:53       [INFO\GRAPHICS]: Done initializing graphics.
-10:46:53    [INFO\AUDIO]: Initializing audio...
-10:46:53       [INFO\AUDIO]: Opening audio stream
-10:46:54       [INFO\AUDIO]: Sound initialized
-10:46:54    [INFO\TIME]: Initializing timer...
-10:46:54       [INFO\TIME]: Initializing SDL timer subsystem
-10:46:54       [INFO\TIME]: Done initializing timer.
-10:46:54    [INFO\FILE]: File IO initialized.
-10:46:54    [INFO\INPUT]: Initializing input...
-10:46:54       [INFO\INPUT]: Initializing event system
-10:46:54       [INFO\INPUT]: Getting keyboard state
-10:46:54       [INFO\INPUT]: Input initialized
-10:46:54    [INFO\THREAD]: Threading initialized.
-10:46:54    [INFO\ENGINE]: Done initializing engine.
-10:46:54 [INFO\GAME]: Initializing game...
-10:46:54    [INFO\GAME]: Loading resources...
-10:46:54       [INFO\GAME]: Loading textures
-10:46:54       [INFO\GRAPHICS]: Loading texture directory at test/
-10:46:54          [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
-10:46:54       [INFO\GAME]: Loading sounds
-10:46:54       [INFO\AUDIO]: Loading sound directory at test/
-10:46:54          [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
-10:46:54       [INFO\GAME]: Loading files
-10:46:54       [INFO\FILE]: Loaded file ID test from path test/test.png
-10:46:54       [INFO\GAME]: Done loading resources.
-10:46:54    [INFO\GAME]: Spawning threads
-10:46:54    [INFO\THREAD]: Created thread ID test0
-10:46:54 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-10:46:54 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-10:46:54    [INFO\THREAD]: Created thread ID test1
-10:46:54 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-10:46:54    [INFO\THREAD]: Created thread ID test2
-10:46:54    [INFO\THREAD]: Created thread ID test3
-10:46:54 [INFO\TEST THREAD]: TEST THREAD OUTPUT
-10:46:54    [INFO\THREAD]: Created thread ID test4
-10:46:54 [INFO\TEST THREAD]: TEST THREAD OUTPUT
+22:33:12 [INFO\THREAD]: Created thread ID log
+22:33:12 [INFO\LOG]: Initialized log.
+22:33:12 [INFO\FILE]: Loaded library ID game from gameTemp.dll
+22:33:12 [INFO\DEBUG]: Debug system initialized.
+22:33:12 [INFO\THREAD]: Created thread ID render
+22:33:12 [INFO\ENGINE]: Initializing engine...
+22:33:12    [INFO\ENGINE]: Initializing SDL
+22:33:12    [INFO\GRAPHICS]: Initializing Graphics...
+22:33:12       [INFO\GRAPHICS]: Initializing SDL Video
+22:33:12       [INFO\GRAPHICS]: Initializing SDL_Image
+22:33:12       [INFO\GRAPHICS]: Initializing SDL_TTF
+22:33:12       [INFO\GRAPHICS]: Creating Window and Renderer
+22:33:12       [INFO\GRAPHICS]: Done initializing graphics.
+22:33:12    [INFO\AUDIO]: Initializing audio...
+22:33:12       [INFO\AUDIO]: Opening audio stream
+22:33:12       [INFO\AUDIO]: Sound initialized
+22:33:12    [INFO\TIME]: Initializing timer...
+22:33:12       [INFO\TIME]: Initializing SDL timer subsystem
+22:33:12       [INFO\TIME]: Done initializing timer.
+22:33:12    [INFO\FILE]: File IO initialized.
+22:33:12    [INFO\INPUT]: Initializing input...
+22:33:12       [INFO\INPUT]: Initializing event system
+22:33:12       [INFO\INPUT]: Getting keyboard state
+22:33:12       [INFO\INPUT]: Input initialized
+22:33:12    [INFO\THREAD]: Threading initialized.
+22:33:12    [INFO\ENGINE]: Done initializing engine.
+22:33:12 [INFO\GAME]: Initializing game...
+22:33:12    [INFO\GAME]: Loading resources...
+22:33:12       [INFO\GAME]: Loading textures
+22:33:12       [INFO\GRAPHICS]: Loading texture directory at test/
+22:33:12          [INFO\GRPAHICS]: Loaded texture ID: test from test/test.png
+22:33:12       [INFO\GAME]: Loading sounds
+22:33:12       [INFO\AUDIO]: Loading sound directory at test/
+22:33:12          [INFO\AUDIO]: Loaded sound ID test from path test/test.mp3
+22:33:12       [INFO\GAME]: Loading files
+22:33:12       [INFO\FILE]: Loaded file ID test from path test/test.png
+22:33:12       [INFO\GAME]: Done loading resources.
+22:33:12    [INFO\GAME]: Done initializing game.
+22:33:12 [INFO\CONSOLE]: testing callConsoleFunc
+22:33:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 81.850984 ms!
+22:33:24 [INFO\GAME]: Shutting down game...
+22:33:24    [INFO\GAME]: Done destroying game.
+22:33:24 [INFO\ENGINE]: Shutting down engine...
+22:33:24    [INFO\GRPAHICS]: Destroying Graphics
+22:33:24       [INFO\GRPAHICS]: Destroying Renderer
+22:33:24       [INFO\GRPAHICS]: Destroying Window
+22:33:24       [INFO\GRPAHICS]: Quitting SDL Video
+22:33:24       [INFO\GRPAHICS]: Quitting SDL_Image
+22:33:24       [INFO\GRPAHICS]: Quitting SDL_TTF
+22:33:24       [INFO\GRPAHICS]: Done destroying graphics.
+22:33:24    [INFO\AUDIO]: Destroying audio...
+22:33:24       [INFO\AUDIO]: Stopping all sounds
+22:33:24       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
+22:33:24       [INFO\AUDIO]: Quitting SDL_Mixer
+22:33:24       [INFO\AUDIO]: Done destroying audio.
+22:33:24    [INFO\TIME]: Destroying timer...
+22:33:24       [INFO\TIME]: Quitting timer subsystem
+22:33:24       [INFO\TIME]: Done destroying timer.
+22:33:24    [INFO\FILE]: File IO destroyed.
+22:33:24    [INFO\INPUT]: Destroying input...
+22:33:24       [INFO\INPUT]: Quitting subsystem
+22:33:24       [INFO\INPUT]: Done destroying input.
+22:33:24    [INFO\THREAD]: Threading destroyed.
+22:33:24    [INFO\ENGINE]: Done shutting down engine.
+22:33:24    [INFO\LOG]: Shut down log.
