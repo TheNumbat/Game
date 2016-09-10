@@ -64,7 +64,7 @@ void Render::stopThread() {
 	e->thread.condSignal(condRun);
 	e->thread.unlockMutex(qlock);
 	int buf;
-	e->thread.wait("log", buf);
+	e->thread.wait("render", buf);
 }
 
 void Render::zIn(r32 factor) {
