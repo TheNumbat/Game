@@ -110,7 +110,7 @@ void Util::endFrame() {
 			r32 msperframe = 1000.0f / (fpsCap - 1);
 			r32 mselapsed = 1000.0f * e->time.get("debug") / perf;
 			u8 wait = std::round(msperframe - mselapsed);
-			e->thread.delay(wait == 0 ? wait : wait - 2 );
+			e->thread.delay(wait <= 2 ? wait : wait - 2 );
 		}
 	}
 

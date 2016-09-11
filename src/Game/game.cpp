@@ -2,6 +2,9 @@
 
 #include "game.h"
 
+// TODO: ew
+#define GET_C(type,cmp) ((type*)emgr.get(cmp))
+
 s32 threadTest(void* _g) {
 	game* g = (game*) _g;
 	while (g->runThreads) {
@@ -18,6 +21,7 @@ game::game(engine* _e)
 	logSetContext("GAME");
 	e = _e;
 	e->init("Game", 1280, 720);
+	ren.init();
 
 	u64 perfFreq = e->time.getPerfFreq();
 
@@ -34,14 +38,14 @@ game::game(engine* _e)
 	logEnterSec();
 
 	logInfo("Loading textures");
-	e->gfx.loadTexFolder("test/");
+	e->gfx.loadTexture("test", "test.png");
 
 	logInfo("Loading sounds");
-	e->audio.loadSoundFolder("test/");
+	e->audio.loadSound("test","test.mp3");
 	e->audio.play("test");
 
 	logInfo("Loading files");
-	e->file.loadFile("test", "test/test.png", file_binary, file_read);
+	e->file.loadFile("test", "test.png", file_binary, file_read);
 
 	logInfo("Done loading resources.");
 	logExitSec();
@@ -50,12 +54,20 @@ game::game(engine* _e)
 
 	entity e = emgr.create();
 	component epos = emgr.addC(e, ct_pos);
+
+	GET_C(c_pos,epos)->pos.real = rpos(3, 3, 0);
+
 	component etex = emgr.addC(e, ct_tex);
-	epos.pos->pos.chunk = cpos(-1, -1, 0);
-	epos.pos->pos.real = rpos(20, 20, 0);
-	etex.tex->ID = "test";
-	etex.tex->posRect = r2<r32>(0, 0, 10, 10);
+	GET_C(c_tex, etex)->ID = "test";
+	GET_C(c_tex, etex)->posRect = r2<r32>(0, 0, 10, 10);
+
+	etex = emgr.addC(e, ct_tex);
+	GET_C(c_tex, etex)->ID = "debug_camera";
+	GET_C(c_tex, etex)->posRect = r2<r32>(-.5, -.5, 1, 1);
 	map.addEntity(e);
+
+	debug.setFlag(renderChunkbounds);
+	debug.setFlag(renderCamera);
 
 	logInfo("Done initializing game.");
 	logExitSec();
@@ -81,13 +93,25 @@ game::~game() {
 
 bool game::run() {
 	debug.beginFrame();
+	
+	//////////////////////////////////////////////////////////////////////////////
+
 	debug.beginFunc();
 
-	events.handleEvents();
 	ren.renderMap();
-	ren.end();
+
+	events.handleEvents();
+
+	ren.endBatch();
 
 	debug.endFunc();
+
+	//////////////////////////////////////////////////////////////////////////////
+
+	ren.renderDebugHUD();
+	ren.endBatch();
+	e->gfx.swapFrame();
+
 	debug.endFrame();
 	return running;
 }

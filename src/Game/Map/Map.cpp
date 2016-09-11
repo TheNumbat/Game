@@ -4,6 +4,9 @@
 #include "Map.h"
 #include "..\Entity\Entity.h"
 
+// TODO: ew
+#define GET_C(type,cmp) ((type*)g->emgr.get(cmp))
+
 mpos::mpos() {};
 
 mpos::mpos(rpos r, cpos c, cpos o) {
@@ -118,7 +121,7 @@ bool Map::addEntity(entity e) {
 		return false;
 	}
 
-	chunk* c = reqChunk(pos.pos->pos.chunk);
+	chunk* c = reqChunk(GET_C(c_pos,pos)->pos.chunk);
 	c->insert(e);
 	return true;
 }
@@ -132,17 +135,17 @@ bool Map::updateEntity(entity e) {
 		return false;
 	}
 
-	chunk* old = getChunk(pos.pos->pos.chunk - pos.pos->pos.offset);
+	chunk* old = getChunk(GET_C(c_pos, pos)->pos.chunk - GET_C(c_pos, pos)->pos.offset);
 	if (!old) {
-		int x = pos.pos->pos.chunk.x, y = pos.pos->pos.chunk.y, z = pos.pos->pos.chunk.z;
+		int x = GET_C(c_pos, pos)->pos.chunk.x, y = GET_C(c_pos, pos)->pos.chunk.y, z = GET_C(c_pos, pos)->pos.chunk.z;
 		logWarn("Could not find chunk at pos " + std::to_string(x) + " " + std::to_string(y) + " " + std::to_string(x));
 		return false;
 	}
-	chunk* _new = reqChunk(pos.pos->pos.chunk);
+	chunk* _new = reqChunk(GET_C(c_pos, pos)->pos.chunk);
 
 	old->erase(e);
 	_new->insert(e);
 
-	pos.pos->pos.offset = cpos(0, 0, 0);
+	GET_C(c_pos, pos)->pos.offset = cpos(0, 0, 0);
 	return true;
 }

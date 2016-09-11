@@ -54,18 +54,10 @@ struct c_phys {
 };
 
 struct component {
-	component(c_type t, void* data);
+	component(c_type t, u32 i);
+	component(const component& src);
 	c_type type;
-	union {
-		void* any;
-
-		// ptrs to components held in manager
-		c_pos* pos;
-		c_mov* mov;
-		c_tex* tex;
-		c_text* text;
-		c_phys* phys;
-	};
+	u32 index;
 };
 
 namespace std {
@@ -88,6 +80,7 @@ public:
 	entityMgr();
 	~entityMgr();
 
+	void* get(component c);
 	entity create();
 	component getC(entity e, c_type type);
 	component reqC(entity e, c_type type);

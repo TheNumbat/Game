@@ -3,6 +3,9 @@
 #include "..\game.h"
 #include "Render.h"
 
+// TODO: ew
+#define GET_C(type,cmp) ((type*)g->emgr.get(cmp))
+
 s32 renderThread(void* _g) {
 	game* g = (game*)_g;
 	
@@ -36,7 +39,7 @@ void Render::camera::update(game* g) {
 		return;
 	}
 
-	pos = cpos.pos->pos;
+	pos = GET_C(c_pos,cpos)->pos;
 }
 
 Render::Render(engine* _e, game* _g) {
@@ -45,6 +48,23 @@ Render::Render(engine* _e, game* _g) {
 	qlock = e->thread.makeMutex();
 	condRun = e->thread.makeCondVar();
 	startThread();
+}
+
+void Render::init() {
+	e->gfx.loadTexture("debug_chunkbounds", "debug/chunkbounds.bmp");
+	e->gfx.loadTexture("debug_camera", "debug/camera.png");
+
+	c_tex db;
+
+	db.ID = "debug_chunkbounds";
+	db.layer = INT16_MIN;
+	db.posRect = r2<r32>(0, 0, CHUNK_SIZE_METERS, CHUNK_SIZE_METERS);
+	debugTextures.push_back(db);
+
+	db.ID = "debug_camera";
+	db.layer = INT16_MAX;
+	db.posRect = r2<r32>(-0.5, -0.5, 1, 1);
+	debugTextures.push_back(db);
 }
 
 Render::~Render() {
@@ -102,8 +122,10 @@ void Render::renderMap() {
 
 			if (!currentC) continue;
 
-			// TODO: Debug: draw chunk boundary
-			// TODO: Debug: draw camera
+			// Debug: draw chunk boundary
+			if (g->debug.getFlag(renderChunkbounds)) {
+				texq.push({ mpos(rpos(), currentCPos), &debugTextures[dt_chunkbounds] });
+			}
 
 			for (entity e : *currentC) {
 				component epos = g->emgr.getC(e, ct_pos);
@@ -117,11 +139,17 @@ void Render::renderMap() {
 				if (!etexs.size()) continue;
 
 				for (component& c : etexs) {
-					texq.push({ epos.pos->pos, c.tex });
+					texq.push({ GET_C(c_pos,epos)->pos, GET_C(c_tex,c) });
 				}
 			}
 		}
 	}
+
+	// Debug: draw camera
+	if (g->debug.getFlag(renderCamera)) {
+		texq.push({ cam.pos, &debugTextures[dt_camera] });
+	}
+
 	e->thread.condSignal(condRun);
 	e->thread.unlockMutex(qlock);
 	g->debug.endFunc();
@@ -131,9 +159,8 @@ void Render::renderDebugHUD() {
 	
 }
 
-void Render::end() {
+void Render::endBatch() {
 	e->thread.lockMutex(qlock);
-	e->gfx.swapFrame();
 	e->thread.unlockMutex(qlock);
 }
 

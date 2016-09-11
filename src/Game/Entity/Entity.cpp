@@ -3,9 +3,14 @@
 #include "..\game.h"
 #include "Entity.h"
 
-component::component(c_type t, void* data) {
+component::component(c_type t, u32 i) {
 	type = t;
-	any = data;
+	index = i;
+}
+
+component::component(const component& src) {
+	type = src.type;
+	index = src.index;
 }
 
 c_tex::c_tex() {
@@ -33,6 +38,26 @@ entity entityMgr::create() {
 	lastUID++;
 	edata.insert({ lastUID, entitydata() });
 	return lastUID;
+}
+
+void* entityMgr::get(component c) {
+	switch (c.type) {
+		case ct_pos:
+			return &pos[c.index];
+			break;
+		case ct_mov:
+			return &mov[c.index];
+			break;
+		case ct_tex:
+			return &tex[c.index];
+			break;
+		case ct_text:
+			return &text[c.index];
+			break;
+		case ct_phys:
+			return &phys[c.index];
+			break;
+	}
 }
 
 component entityMgr::getC(entity e, c_type type) {
@@ -81,28 +106,28 @@ component entityMgr::addC(entity e, c_type type) {
 	switch (type) {
 		case ct_pos:
 			pos.push_back(c_pos());
-			eEntry->second.insert({ type, component(type, &pos.back()) });
-			return component(type, &pos.back());
+			eEntry->second.insert({ type, component(type, pos.size() - 1) });
+			return component(type, pos.size() - 1);
 			break;
 		case ct_mov:
 			mov.push_back(c_mov());
-			eEntry->second.insert({ type, component(type, &mov.back()) });
-			return component(type, &mov.back());
+			eEntry->second.insert({ type, component(type, mov.size() - 1) });
+			return component(type, mov.size() - 1);
 			break;
 		case ct_tex:
 			tex.push_back(c_tex());
-			eEntry->second.insert({ type, component(type, &tex.back()) });
-			return component(type, &tex.back());
+			eEntry->second.insert({ type, component(type, tex.size() - 1) });
+			return component(type, tex.size() - 1);
 			break;
 		case ct_text:
 			text.push_back(c_text());
-			eEntry->second.insert({ type, component(type, &text.back()) });
-			return component(type, &text.back());
+			eEntry->second.insert({ type, component(type, text.size() - 1) });
+			return component(type, text.size() - 1);
 			break;
 		case ct_phys:
 			phys.push_back(c_phys());
-			eEntry->second.insert({ type, component(type, &phys.back()) });
-			return component(type, &phys.back());
+			eEntry->second.insert({ type, component(type, phys.size() - 1) });
+			return component(type, phys.size() - 1);
 			break;
 	}
 	assert(false);
@@ -120,7 +145,7 @@ std::vector<component> entityMgr::getMultiC(entity e, c_type type) {
 
 	std::vector<component> ret;
 	auto cRange = eEntry->second.equal_range(type);
-	for (auto& itr = cRange.first; itr != cRange.second; ++itr) {
+	for (auto itr = cRange.first; itr != cRange.second; ++itr) {
 		ret.push_back(itr->second);
 	}
 	return ret;

@@ -27,7 +27,9 @@ public:
 	Render(engine* _e, game* _g);
 	~Render();
 
-	void end();
+	void init(); // loads debug textures
+
+	void endBatch();
 
 	void renderMap();
 	void renderDebugHUD();
@@ -45,7 +47,14 @@ private:
 
 	camera cam;
 
+	std::vector<c_tex> debugTextures;
+	enum debugtexturename { // index into debugTextures
+		dt_chunkbounds = 0,
+		dt_camera = 1
+	};
+
 	// for render thread
+		// TODO: c_text
 	std::priority_queue<std::pair<mpos,c_tex*>> texq;
 	mutex qlock;
 	cond_var condRun;
