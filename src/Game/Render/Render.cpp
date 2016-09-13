@@ -3,9 +3,6 @@
 #include "..\game.h"
 #include "Render.h"
 
-// TODO: ew
-#define GET_C(type,cmp) ((type*)g->emgr.get(cmp))
-
 s32 renderThread(void* _g) {
 	game* g = (game*)_g;
 	
@@ -39,7 +36,7 @@ void Render::camera::update(game* g) {
 		return;
 	}
 
-	pos = GET_C(c_pos,cpos)->pos;
+	pos = cpos.pos->pos;
 }
 
 Render::Render(engine* _e, game* _g) {
@@ -51,8 +48,8 @@ Render::Render(engine* _e, game* _g) {
 }
 
 void Render::init() {
-	e->gfx.loadTexture("debug_chunkbounds", "debug/chunkbounds.bmp");
-	e->gfx.loadTexture("debug_camera", "debug/camera.png");
+	e->gfx.loadTexture("debug_chunkbounds", "debug_assets/chunkbounds.bmp");
+	e->gfx.loadTexture("debug_camera", "debug_assets/camera.png");
 
 	c_tex db;
 
@@ -139,7 +136,7 @@ void Render::renderMap() {
 				if (!etexs.size()) continue;
 
 				for (component& c : etexs) {
-					texq.push({ GET_C(c_pos,epos)->pos, GET_C(c_tex,c) });
+					texq.push({ epos.pos->pos, c.tex });
 				}
 			}
 		}

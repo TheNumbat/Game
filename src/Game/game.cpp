@@ -2,9 +2,6 @@
 
 #include "game.h"
 
-// TODO: ew
-#define GET_C(type,cmp) ((type*)emgr.get(cmp))
-
 s32 threadTest(void* _g) {
 	game* g = (game*) _g;
 	while (g->runThreads) {
@@ -55,15 +52,21 @@ game::game(engine* _e)
 	entity e = emgr.create();
 	component epos = emgr.addC(e, ct_pos);
 
-	GET_C(c_pos,epos)->pos.real = rpos(3, 3, 0);
+	epos.pos->pos.real = rpos(3, 3, 0);
 
 	component etex = emgr.addC(e, ct_tex);
-	GET_C(c_tex, etex)->ID = "test";
-	GET_C(c_tex, etex)->posRect = r2<r32>(0, 0, 10, 10);
+	etex.tex->ID = "test";
+	etex.tex->posRect = r2<r32>(0, 0, 10, 10);
 
 	etex = emgr.addC(e, ct_tex);
-	GET_C(c_tex, etex)->ID = "debug_camera";
-	GET_C(c_tex, etex)->posRect = r2<r32>(-.5, -.5, 1, 1);
+	etex.tex->ID = "debug_camera";
+	etex.tex->posRect = r2<r32>(-.5, -.5, 1, 1);
+
+	component etext = emgr.addC(e, ct_text);
+	etext.text->font = "ayy";
+	etext.text->msg = "lmao";
+	etext.text->posRect = r2<r32>(-.5, -.5, 1, 1);
+
 	map.addEntity(e);
 
 	debug.setFlag(renderChunkbounds);
@@ -98,10 +101,9 @@ bool game::run() {
 
 	debug.beginFunc();
 
-	ren.renderMap();
-
 	events.handleEvents();
 
+	ren.renderMap();
 	ren.endBatch();
 
 	debug.endFunc();

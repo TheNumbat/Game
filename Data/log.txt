@@ -3,69 +3,69 @@
    ENGINE LOG STARTUP
    ==================
 
-21:26:52 [INFO\THREAD]: Created thread ID log
-21:26:52 [INFO\LOG]: Initialized log.
-21:26:52 [INFO\FILE]: Loaded library ID game from gameTemp.dll
-21:26:52 [INFO\DEBUG]: Debug system initialized.
-21:26:52 [INFO\THREAD]: Created thread ID render
-21:26:52 [INFO\ENGINE]: Initializing engine...
-21:26:52    [INFO\ENGINE]: Initializing SDL
-21:26:52    [INFO\GRAPHICS]: Initializing Graphics...
-21:26:52       [INFO\GRAPHICS]: Initializing SDL Video
-21:26:52       [INFO\GRAPHICS]: Initializing SDL_Image
-21:26:52       [INFO\GRAPHICS]: Initializing SDL_TTF
-21:26:52       [INFO\GRAPHICS]: Creating Window and Renderer
-21:26:52       [INFO\GRAPHICS]: Done initializing graphics.
-21:26:52    [INFO\AUDIO]: Initializing audio...
-21:26:52       [INFO\AUDIO]: Opening audio stream
-21:26:53       [INFO\AUDIO]: Sound initialized
-21:26:53    [INFO\TIME]: Initializing timer...
-21:26:53       [INFO\TIME]: Initializing SDL timer subsystem
-21:26:53       [INFO\TIME]: Done initializing timer.
-21:26:53    [INFO\FILE]: File IO initialized.
-21:26:53    [INFO\INPUT]: Initializing input...
-21:26:53       [INFO\INPUT]: Initializing event system
-21:26:53       [INFO\INPUT]: Getting keyboard state
-21:26:53       [INFO\INPUT]: Input initialized
-21:26:53    [INFO\THREAD]: Threading initialized.
-21:26:53    [INFO\ENGINE]: Done initializing engine.
-21:26:53 [INFO\GRPAHICS]: Loaded texture ID: debug_chunkbounds from debug/chunkbounds.bmp
-21:26:53 [INFO\GRPAHICS]: Loaded texture ID: debug_camera from debug/camera.png
-21:26:53 [INFO\GAME]: Initializing game...
-21:26:53    [INFO\GAME]: Loading resources...
-21:26:53       [INFO\GAME]: Loading textures
-21:26:53       [INFO\GRPAHICS]: Loaded texture ID: test from test.png
-21:26:53       [INFO\GAME]: Loading sounds
-21:26:53       [INFO\AUDIO]: Loaded sound ID test from path test.mp3
-21:26:53       [INFO\GAME]: Loading files
-21:26:53       [INFO\FILE]: Loaded file ID test from path test.png
-21:26:53       [INFO\GAME]: Done loading resources.
-21:26:54    [INFO\GAME]: Done initializing game.
-21:26:54 [INFO\CONSOLE]: testing callConsoleFunc
-21:26:57 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 3148.813767 ms!
-21:27:00 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 74.851773 ms!
-21:27:00 [INFO\GAME]: Shutting down game...
-21:27:00    [INFO\GAME]: Done destroying game.
-21:27:00 [INFO\ENGINE]: Shutting down engine...
-21:27:00    [INFO\GRPAHICS]: Destroying Graphics
-21:27:00       [INFO\GRPAHICS]: Destroying Renderer
-21:27:00       [INFO\GRPAHICS]: Destroying Window
-21:27:00       [INFO\GRPAHICS]: Quitting SDL Video
-21:27:00       [INFO\GRPAHICS]: Quitting SDL_Image
-21:27:00       [INFO\GRPAHICS]: Quitting SDL_TTF
-21:27:00       [INFO\GRPAHICS]: Done destroying graphics.
-21:27:00    [INFO\AUDIO]: Destroying audio...
-21:27:00       [INFO\AUDIO]: Stopping all sounds
-21:27:00       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
-21:27:00       [INFO\AUDIO]: Quitting SDL_Mixer
-21:27:00       [INFO\AUDIO]: Done destroying audio.
-21:27:00    [INFO\TIME]: Destroying timer...
-21:27:00       [INFO\TIME]: Quitting timer subsystem
-21:27:00       [INFO\TIME]: Done destroying timer.
-21:27:00    [INFO\FILE]: File IO destroyed.
-21:27:00    [INFO\INPUT]: Destroying input...
-21:27:00       [INFO\INPUT]: Quitting subsystem
-21:27:00       [INFO\INPUT]: Done destroying input.
-21:27:00    [INFO\THREAD]: Threading destroyed.
-21:27:00    [INFO\ENGINE]: Done shutting down engine.
-21:27:00    [INFO\LOG]: Shut down log.
+16:56:45 [16:56:45 [INFOINFO\\THREADLOG]: ]: Created thread ID logInitialized log.
+
+16:56:45 [INFO\FILE]: Loaded library ID game from gameTemp.dll
+16:56:45 [INFO\DEBUG]: Debug system initialized.
+16:56:45 [INFO\THREAD]: Created thread ID render
+16:56:45 [INFO\ENGINE]: Initializing engine...
+16:56:45    [INFO\ENGINE]: Initializing SDL
+16:56:45    [INFO\GRAPHICS]: Initializing Graphics...
+16:56:45       [INFO\GRAPHICS]: Initializing SDL Video
+16:56:45       [INFO\GRAPHICS]: Initializing SDL_Image
+16:56:45       [INFO\GRAPHICS]: Initializing SDL_TTF
+16:56:45       [INFO\GRAPHICS]: Creating Window and Renderer
+16:56:46       [INFO\GRAPHICS]: Done initializing graphics.
+16:56:46    [INFO\AUDIO]: Initializing audio...
+16:56:46       [INFO\AUDIO]: Opening audio stream
+16:56:47       [INFO\AUDIO]: Sound initialized
+16:56:47    [INFO\TIME]: Initializing timer...
+16:56:47       [INFO\TIME]: Initializing SDL timer subsystem
+16:56:47       [INFO\TIME]: Done initializing timer.
+16:56:47    [INFO\FILE]: File IO initialized.
+16:56:47    [INFO\INPUT]: Initializing input...
+16:56:47       [INFO\INPUT]: Initializing event system
+16:56:47       [INFO\INPUT]: Getting keyboard state
+16:56:47       [INFO\INPUT]: Input initialized
+16:56:47    [INFO\THREAD]: Threading initialized.
+16:56:47    [INFO\ENGINE]: Done initializing engine.
+16:56:47 [INFO\GRPAHICS]: Loaded texture ID: debug_chunkbounds from debug_assets/chunkbounds.bmp
+16:56:47 [INFO\GRPAHICS]: Loaded texture ID: debug_camera from debug_assets/camera.png
+16:56:47 [INFO\GAME]: Initializing game...
+16:56:47    [INFO\GAME]: Loading resources...
+16:56:47       [INFO\GAME]: Loading textures
+16:56:47       [INFO\GRPAHICS]: Loaded texture ID: test from test.png
+16:56:47       [INFO\GAME]: Loading sounds
+16:56:47       [INFO\AUDIO]: Loaded sound ID test from path test.mp3
+16:56:47       [INFO\GAME]: Loading files
+16:56:47       [INFO\FILE]: Loaded file ID test from path test.png
+16:56:47       [INFO\GAME]: Done loading resources.
+16:56:47    [INFO\GAME]: Done initializing game.
+16:56:47 [INFO\CONSOLE]: testing callConsoleFunc
+16:56:48 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 53.749039 ms!
+16:56:50 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 133.402825 ms!
+16:56:50 [INFO\GAME]: Shutting down game...
+16:56:50    [INFO\GAME]: Done destroying game.
+16:56:50 [INFO\ENGINE]: Shutting down engine...
+16:56:50    [INFO\GRPAHICS]: Destroying Graphics
+16:56:50       [INFO\GRPAHICS]: Destroying Renderer
+16:56:50       [INFO\GRPAHICS]: Destroying Window
+16:56:50       [INFO\GRPAHICS]: Quitting SDL Video
+16:56:50       [INFO\GRPAHICS]: Quitting SDL_Image
+16:56:50       [INFO\GRPAHICS]: Quitting SDL_TTF
+16:56:50       [INFO\GRPAHICS]: Done destroying graphics.
+16:56:50    [INFO\AUDIO]: Destroying audio...
+16:56:50       [INFO\AUDIO]: Stopping all sounds
+16:56:50       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
+16:56:50       [INFO\AUDIO]: Quitting SDL_Mixer
+16:56:50       [INFO\AUDIO]: Done destroying audio.
+16:56:50    [INFO\TIME]: Destroying timer...
+16:56:50       [INFO\TIME]: Quitting timer subsystem
+16:56:50       [INFO\TIME]: Done destroying timer.
+16:56:50    [INFO\FILE]: File IO destroyed.
+16:56:50    [INFO\INPUT]: Destroying input...
+16:56:50       [INFO\INPUT]: Quitting subsystem
+16:56:50       [INFO\INPUT]: Done destroying input.
+16:56:50    [INFO\THREAD]: Threading destroyed.
+16:56:50    [INFO\ENGINE]: Done shutting down engine.
+16:56:50    [INFO\LOG]: Shut down log.

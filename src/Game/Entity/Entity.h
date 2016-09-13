@@ -4,6 +4,7 @@
 #include <engine.h>
 #include "..\Map\Map.h"
 #include <map>
+#include "..\sarr.h"
 
 struct game;
 
@@ -15,10 +16,9 @@ typedef u32 entity;
 
 enum c_type : u8 {
 	ct_pos = 1 << 0,
-	ct_mov = 1 << 1,
-	ct_tex = 1 << 2,
-	ct_text = 1 << 3,
-	ct_phys = 1 << 4,
+	ct_tex = 1 << 1,
+	ct_text = 1 << 2,
+	ct_phys = 1 << 3,
 
 	ct_none = 0xff
 };
@@ -27,13 +27,11 @@ struct c_pos {
 	mpos pos;
 };
 
-struct c_mov {
-	v2<r32> velocity;
-	v2<r32> accel;
-};
-
 struct c_tex {
 	c_tex();
+	c_tex(const c_tex& src);
+	c_tex& operator=(const c_tex& src);
+
 	std::string ID;
 	s16 layer;
 	r2<r32> posRect; // meters
@@ -45,19 +43,32 @@ struct c_tex {
 	blendmode blend;
 };
 
-struct c_text {
-
+struct c_text : public c_tex { // inherited just for member reuse
+	// does not use ID member
+	c_text();
+	c_text(const c_text& src);
+	c_text& operator=(const c_text& src);
+	std::string font;
+	std::string msg;
 };
 
 struct c_phys {
-
+	v2<r32> velocity;
+	v2<r32> accel;
 };
 
 struct component {
-	component(c_type t, u32 i);
+	component(c_type t, void* data);
 	component(const component& src);
 	c_type type;
-	u32 index;
+	union {
+		void* any;
+
+		c_pos* pos;
+		c_tex* tex;
+		c_text* text;
+		c_phys* phys;
+	};
 };
 
 namespace std {
@@ -80,7 +91,6 @@ public:
 	entityMgr();
 	~entityMgr();
 
-	void* get(component c);
 	entity create();
 	component getC(entity e, c_type type);
 	component reqC(entity e, c_type type);
@@ -96,9 +106,8 @@ private:
 
 	// SOA entity components - will be accessed by different systems all at once so this should be cache efficient...I think
 		// TODO: there's no good way to deleting stuff from here. Free list?
-	std::vector<c_pos> pos;
-	std::vector<c_mov> mov;
-	std::vector<c_tex> tex;
-	std::vector<c_text> text;
-	std::vector<c_phys> phys;
+	static_growing_array<c_pos> pos;
+	static_growing_array<c_tex> tex;
+	static_growing_array<c_text> text;
+	static_growing_array<c_phys> phys;
 };

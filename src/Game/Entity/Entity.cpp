@@ -3,14 +3,14 @@
 #include "..\game.h"
 #include "Entity.h"
 
-component::component(c_type t, u32 i) {
+component::component(c_type t, void* data) {
 	type = t;
-	index = i;
+	any = data;
 }
 
 component::component(const component& src) {
 	type = src.type;
-	index = src.index;
+	any = src.any;
 }
 
 c_tex::c_tex() {
@@ -21,43 +21,62 @@ c_tex::c_tex() {
 	mod = color(255, 255, 255, 0);
 }
 
+c_tex::c_tex(const c_tex& src) {
+	*this = src;
+}
+
+c_tex& c_tex::operator=(const c_tex& src) {
+	if (this != &src) {
+		ID = src.ID;
+		layer = src.layer;
+		posRect = src.posRect;
+		srcPxlRect = src.srcPxlRect;
+		rotPt = src.rotPt;
+		rot = src.rot;
+		flip = src.flip;
+		mod = src.mod;
+		blend = src.blend;
+	}
+	return *this;
+}
+
+c_text::c_text() {
+
+}
+
+c_text::c_text(const c_text& src) {
+	*this = src;
+}
+
+c_text& c_text::operator=(const c_text& src) {
+	if (this != &src) {
+		ID = src.ID; // unused
+		font = src.font;
+		msg = src.msg;
+		layer = src.layer;
+		posRect = src.posRect;
+		srcPxlRect = src.srcPxlRect;
+		rotPt = src.rotPt;
+		rot = src.rot;
+		flip = src.flip;
+		mod = src.mod;
+		blend = src.blend;
+	}
+	return *this;
+}
+
 entityMgr::entityMgr() {
 	lastUID = 1;
 }
 
 entityMgr::~entityMgr() {
 	edata.clear();
-	pos.clear();
-	mov.clear();
-	tex.clear();
-	text.clear();
-	phys.clear();
 }
 
 entity entityMgr::create() {
 	lastUID++;
 	edata.insert({ lastUID, entitydata() });
 	return lastUID;
-}
-
-void* entityMgr::get(component c) {
-	switch (c.type) {
-		case ct_pos:
-			return &pos[c.index];
-			break;
-		case ct_mov:
-			return &mov[c.index];
-			break;
-		case ct_tex:
-			return &tex[c.index];
-			break;
-		case ct_text:
-			return &text[c.index];
-			break;
-		case ct_phys:
-			return &phys[c.index];
-			break;
-	}
 }
 
 component entityMgr::getC(entity e, c_type type) {
@@ -104,31 +123,30 @@ component entityMgr::addC(entity e, c_type type) {
 	}
 
 	switch (type) {
-		case ct_pos:
-			pos.push_back(c_pos());
-			eEntry->second.insert({ type, component(type, pos.size() - 1) });
-			return component(type, pos.size() - 1);
+		case ct_pos: {
+			c_pos* cpos = pos.push(c_pos());
+			eEntry->second.insert({ type, component(type, cpos) });
+			return component(type, cpos);
+			break; 
+		}
+		case ct_tex: {
+			c_tex* ctex = tex.push(c_tex());
+			eEntry->second.insert({ type, component(type, ctex) });
+			return component(type, ctex);
+			break; 
+		}
+		case ct_text: {
+			c_text* ctext = text.push(c_text());
+			eEntry->second.insert({ type, component(type, ctext) });
+			return component(type, ctext);
+			break; 
+		}
+		case ct_phys: {
+			c_phys* cphys = phys.push(c_phys());
+			eEntry->second.insert({ type, component(type, cphys) });
+			return component(type, cphys);
 			break;
-		case ct_mov:
-			mov.push_back(c_mov());
-			eEntry->second.insert({ type, component(type, mov.size() - 1) });
-			return component(type, mov.size() - 1);
-			break;
-		case ct_tex:
-			tex.push_back(c_tex());
-			eEntry->second.insert({ type, component(type, tex.size() - 1) });
-			return component(type, tex.size() - 1);
-			break;
-		case ct_text:
-			text.push_back(c_text());
-			eEntry->second.insert({ type, component(type, text.size() - 1) });
-			return component(type, text.size() - 1);
-			break;
-		case ct_phys:
-			phys.push_back(c_phys());
-			eEntry->second.insert({ type, component(type, phys.size() - 1) });
-			return component(type, phys.size() - 1);
-			break;
+		}
 	}
 	assert(false);
 	return component(ct_none, NULL);

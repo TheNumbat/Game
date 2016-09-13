@@ -141,6 +141,7 @@ del *.pdb</Command>
     <ClInclude Include="..\..\src\Game\game.h" />
     <ClInclude Include="..\..\src\Game\Map\Map.h" />
     <ClInclude Include="..\..\src\Game\Render\Render.h" />
+    <ClInclude Include="..\..\src\Game\sarr.h" />
     <ClInclude Include="..\..\src\Game\Util\Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
