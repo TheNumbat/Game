@@ -186,12 +186,7 @@ Gfx::Gfx() {
 	good = false;
 }
 
-Gfx::~Gfx() {
-	for (auto i : textures)
-		delete i.second;
-	for (auto i : fonts)
-		delete i.second;
-}
+Gfx::~Gfx() {}
 
 bool Gfx::init(const std::string& win, u32 width, u32 height) {
 	logSetContext("GRAPHICS");
@@ -257,6 +252,11 @@ bool Gfx::kill() {
 
 	logInfo("Destroying Graphics");
 	logEnterSec();
+
+	for (auto i : textures)
+		delete i.second;
+	for (auto i : fonts)
+		delete i.second;
 
 	logInfo("Destroying Renderer");
 	SDL_DestroyRenderer((SDL_Renderer*)sdl_renderer);

@@ -29,6 +29,7 @@ struct c_pos {
 
 struct c_tex {
 	c_tex();
+	virtual ~c_tex() {}
 	c_tex(const c_tex& src);
 	c_tex& operator=(const c_tex& src);
 
@@ -73,13 +74,13 @@ struct component {
 
 namespace std {
 	template<>
-	struct std::less<std::pair<mpos, c_tex*>> { // for priority_queue
-		bool operator()(const std::pair<mpos, c_tex*>& l, const std::pair<mpos, c_tex*>& r) {
+	struct std::less<std::tuple<bool, mpos, c_tex*>> { // for priority_queue
+		bool operator()(const std::tuple<bool, mpos, c_tex*>& l, const std::tuple<bool, mpos, c_tex*>& r) {
 			// This is flipped so lowest layer is highest priority
-			if (l.second->layer < r.second->layer) return false;
-			if (l.second->layer > r.second->layer) return true;
-			return (l.first.chunk.y * CHUNK_SIZE_METERS + l.first.real.y + l.second->posRect.y + l.second->posRect.h) > 
-				   (r.first.chunk.y * CHUNK_SIZE_METERS + r.first.real.y + r.second->posRect.y + r.second->posRect.h);
+			if (std::get<2>(l)->layer < std::get<2>(r)->layer) return false;
+			if (std::get<2>(l)->layer > std::get<2>(r)->layer) return true;
+			return (std::get<1>(l).chunk.y * CHUNK_SIZE_METERS + std::get<1>(l).real.y + std::get<2>(l)->posRect.y + std::get<2>(l)->posRect.h) >
+				   (std::get<1>(r).chunk.y * CHUNK_SIZE_METERS + std::get<1>(r).real.y + std::get<2>(r)->posRect.y + std::get<2>(r)->posRect.h);
 		}
 	};
 }

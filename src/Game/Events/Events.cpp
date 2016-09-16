@@ -53,10 +53,10 @@ void Events::handleGame(event* ev) {
 			if (evk->flags & flag_key_press) {
 				switch (evk->k) {
 					case key_minus:
-						g->ren.zIn(2);
+						g->ren.zOut(2);
 						break;
 					case key_plus:
-						g->ren.zOut(2);
+						g->ren.zIn(2);
 						break;
 					case key_p:
 						break;

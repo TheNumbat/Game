@@ -3,6 +3,7 @@
 #include "common.h"
 #include <engine.h>
 #include <queue>
+#include <tuple>
 #include "..\Entity\Entity.h"
 
 struct game;
@@ -27,7 +28,8 @@ public:
 	Render(engine* _e, game* _g);
 	~Render();
 
-	void init(); // loads debug textures
+	void init();
+	void kill();
 
 	void endBatch();
 
@@ -41,21 +43,23 @@ public:
 	void stopThread();
 
 private:
-	void renderCTex(std::pair<mpos, c_tex*> t);
+	void renderCTex(std::tuple<bool, mpos, c_tex*> t);
 	v2<r32> mapIntoPxSpace(mpos point, mpos origin);
-	v2<r32> mapPxTLC(mpos point);
+	mpos getTLC();
+	mpos getBRC();
 
 	camera cam;
 
-	std::vector<c_tex> debugTextures;
+	std::vector<c_tex*> debugTextures;
 	enum debugtexturename { // index into debugTextures
 		dt_chunkbounds = 0,
-		dt_camera = 1
+		dt_camera = 1,
+		dt_profiler = 2
 	};
 
 	// for render thread
 		// TODO: c_text
-	std::priority_queue<std::pair<mpos,c_tex*>> texq;
+	std::priority_queue<std::tuple<bool, mpos, c_tex*>> texq;
 	mutex qlock;
 	cond_var condRun;
 	bool running;

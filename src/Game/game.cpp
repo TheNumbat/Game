@@ -41,6 +41,9 @@ game::game(engine* _e)
 	e->audio.loadSound("test","test.mp3");
 	e->audio.play("test");
 
+	logInfo("Loading fonts");
+	e->gfx.loadFont("debug_small", "debug_assets/OpenSans.ttf", 18);
+
 	logInfo("Loading files");
 	e->file.loadFile("test", "test.png", file_binary, file_read);
 
@@ -71,6 +74,7 @@ game::game(engine* _e)
 
 	debug.setFlag(renderChunkbounds);
 	debug.setFlag(renderCamera);
+	debug.setFlag(renderPositionText);
 
 	logInfo("Done initializing game.");
 	logExitSec();
@@ -85,6 +89,8 @@ game::~game() {
 
 	logInfo("Shutting down game...");
 	logEnterSec();
+
+	ren.kill();
 
 	//////////////////////////////////////////////////////////////////////////////
 
@@ -112,6 +118,7 @@ bool game::run() {
 
 	ren.renderDebugHUD();
 	ren.endBatch();
+
 	e->gfx.swapFrame();
 
 	debug.endFrame();
