@@ -35,5 +35,7 @@ private:
 
 	engine* e;
 	game* g;
+
+	friend class Render;
 };
 

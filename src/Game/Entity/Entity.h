@@ -42,6 +42,7 @@ struct c_tex {
 	flipmode flip;
 	color mod;
 	blendmode blend;
+	bool zoom;
 };
 
 struct c_text : public c_tex { // inherited just for member reuse

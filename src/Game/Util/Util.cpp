@@ -106,12 +106,12 @@ void Util::endFrame() {
 	u64 perf = e->time.getPerfFreq();
 	if (fpsCap) {
 		// TODO: actually do something or at least make blocking more accurate
-		if (e->time.get("debug") < perf / (fpsCap - 1)) {
+		/*if (e->time.get("debug") < perf / (fpsCap - 1)) {
 			r32 msperframe = 1000.0f / (fpsCap - 1);
 			r32 mselapsed = 1000.0f * e->time.get("debug") / perf;
 			u8 wait = std::round(msperframe - mselapsed);
 			e->thread.delay(wait <= 2 ? wait : wait - 2 );
-		}
+		}*/
 	}
 
 	lastFrameTime = e->time.get("debug");
@@ -126,6 +126,10 @@ void Util::endFrame() {
 		current = head;
 		resetProfNodesRec(current);
 	}
+}
+
+void Util::toggleChildren() {
+	selected->showChildren = !selected->showChildren;
 }
 
 void Util::beginFunc(const std::string& name) {

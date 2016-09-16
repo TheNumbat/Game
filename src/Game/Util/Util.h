@@ -89,6 +89,7 @@ public:
 	// Vertically - not necessarily to parent/child
 	void selectedNodeUp();
 	void selectedNodeDown();
+	void toggleChildren();
 	
 	void resetProfNodesRec(profNode* place);
 
@@ -112,5 +113,7 @@ private:
 
 	engine* e;
 	game* g;
+
+	friend class Render;
 };
 

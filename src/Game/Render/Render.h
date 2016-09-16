@@ -31,9 +31,9 @@ public:
 	void init();
 	void kill();
 
-	void endBatch();
+	void batchMap();
+	void batchEnd();
 
-	void renderMap();
 	void renderDebugHUD();
 
 	void zIn(r32 factor);
@@ -43,6 +43,7 @@ public:
 	void stopThread();
 
 private:
+	u32 recProfRender(Util::profNode* node, u32 pos, u32 lvl = 0);
 	void renderCTex(std::tuple<bool, mpos, c_tex*> t);
 	v2<r32> mapIntoPxSpace(mpos point, mpos origin);
 	mpos getTLC();
@@ -53,8 +54,7 @@ private:
 	std::vector<c_tex*> debugTextures;
 	enum debugtexturename { // index into debugTextures
 		dt_chunkbounds = 0,
-		dt_camera = 1,
-		dt_profiler = 2
+		dt_camera = 1
 	};
 
 	// for render thread

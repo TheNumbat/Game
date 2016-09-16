@@ -67,14 +67,6 @@ void Render::init() {
 	db->layer = INT16_MAX;
 	db->posRect = r2<r32>(-0.5, -0.5, 1, 1);
 	debugTextures.push_back(db);
-
-	c_text* dt = new c_text();
-	dt->font = "debug_small";
-	dt->layer = INT16_MAX;
-	dt->msg = "Press ~ to show profiler";
-	r32 size = g->e->gfx.getFontSize("debug_small") * PIXELS_TO_METERS;
-	dt->posRect = r2<r32>(0, 0, size * dt->msg.length(), size);
-	debugTextures.push_back(dt);
 }
 
 Render::~Render() {}
@@ -110,7 +102,7 @@ void Render::zIn(r32 factor) {
 	cam.zoom *= factor;
 }
 
-void Render::renderMap() {
+void Render::batchMap() {
 	g->debug.beginFunc();
 
 	cam.update(g);
@@ -172,26 +164,80 @@ void Render::renderMap() {
 	if (g->debug.getFlag(renderCamera)) {
 		texq.push({ false, cam.pos, debugTextures[dt_camera] });
 	}
-
 	e->thread.condSignal(condRun);
 	e->thread.unlockMutex(qlock);
 	g->debug.endFunc();
 }
 
 void Render::renderDebugHUD() {
-	g->debug.beginFunc();
+	s32 lines = 0;
+	s32 fontsize = e->gfx.getFontSize("debug_small");
 
 	e->thread.lockMutex(qlock);
 	if (!g->debug.getFlag(renderDebugUI)) {
-		texq.push({ false, getTLC(), debugTextures[dt_profiler] });
-	}
-	e->thread.condSignal(condRun);
-	e->thread.unlockMutex(qlock);
+		e->gfx.renderText("debug_small", "Press ~ for profiler", r2<s32>(10, 10 + lines * fontsize, 0, 0));
+	} else {
+		e->gfx.renderText("debug_small", "Press tab for console", r2<s32>(10, 10 + lines * fontsize, 0, 0));
+		lines++;
 
-	g->debug.endFunc();
+		r64 avgFrame = 1000.0f * (r64)g->debug.getAvgFrame() / (r64)e->time.getPerfFreq();
+		r64 lastFrame = 1000.0f * (r64)g->debug.getLastFrame() / (r64)e->time.getPerfFreq();
+		std::string msg1 = "Average frame time (ms): " + std::to_string(avgFrame);
+		std::string msg2 = "Last frame time (ms): " + std::to_string(lastFrame);
+
+		e->gfx.renderText("debug_small", msg1, r2<s32>(10, 10 + lines * fontsize, 0, 0));
+		lines++;
+		e->gfx.renderText("debug_small", msg2, r2<s32>(10, 10 + lines * fontsize, 0, 0));
+		lines++;
+
+		e->gfx.renderText("debug_small", "Debug values:", r2<s32>(10, 10 + lines * fontsize, 0, 0));
+		lines++;
+		for (auto& entry : g->debug.values)
+		{
+			e->gfx.renderText("debug_small", "   " + entry.first + " - " + entry.second->getStr(), r2<s32>(10, 10 + lines * fontsize, 0, 0));
+			lines++;
+		}
+
+		lines += recProfRender(g->debug.head, 10 + lines * fontsize);
+
+		if (g->events.state == input_console) {
+		 	int sw, sh;
+		 	e->gfx.getWinDim(sw, sh);
+		 	e->gfx.renderText("debug_small", " >>> " + g->events.inStr, r2<s32>(10, sh - fontsize - 10, 0, 0));
+		}
+	}
+	e->thread.unlockMutex(qlock);
 }
 
-void Render::endBatch() {
+u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl) {
+	if (!node) return 0;
+
+	std::string msg;
+	for (u32 i = 0; i < lvl; i++) {
+		msg += "   ";
+	}
+	msg = msg + node->name + " - self: " + std::to_string(node->self) +
+		  " heir: " + std::to_string(node->heir) + " calls: " + std::to_string(node->calls);
+
+	if (g->debug.selected == node) {
+		e->gfx.renderText("debug_small", msg, r2<s32>(10, pos, 0, 0), blend_alpha, color(50, 100, 255, 0));
+	}
+	else {
+		e->gfx.renderText("debug_small", msg, r2<s32>(10, pos, 0, 0));
+	}
+
+	int numchildren = 0;
+	if (node->showChildren) {
+		for (auto& entry : node->children) {
+			numchildren++;
+			numchildren += recProfRender(entry.second, pos + numchildren * 22, lvl + 1);
+		}
+	}
+
+	return numchildren;
+}
+
+void Render::batchEnd() {
 	e->thread.lockMutex(qlock);
 	e->thread.unlockMutex(qlock);
 }
@@ -237,8 +283,8 @@ void Render::renderCTex(std::tuple<bool, mpos, c_tex*> val) {
 	c_tex* t = std::get<2>(val);
 
 	v2<r32> pxOffset = mapIntoPxSpace(std::get<1>(val), getTLC());
-	r2<r32> pxRect = t->posRect * METERS_TO_PIXELS * cam.zoom + pxOffset;
-	v2<r32> pxRotPt = t->rotPt * METERS_TO_PIXELS * cam.zoom;
+	r2<r32> pxRect = t->posRect * METERS_TO_PIXELS * (t->zoom ? cam.zoom : 1) + pxOffset;
+	v2<r32> pxRotPt = t->rotPt * METERS_TO_PIXELS * (t->zoom ? cam.zoom : 1);
 
 	if (c_text* text = dynamic_cast<c_text*>(t)) {
 		e->gfx.renderTextEx(text->font, text->msg, pxRect.round(), text->srcPxlRect, text->blend, text->mod, pxRotPt.round(), text->rot, text->flip);

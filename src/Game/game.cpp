@@ -17,10 +17,7 @@ game::game(engine* _e)
 
 	logSetContext("GAME");
 	e = _e;
-	e->init("Game", 1280, 720);
-	ren.init();
-
-	u64 perfFreq = e->time.getPerfFreq();
+	e->init("Game", 640, 480);
 
 	//////////////////////////////////////////////////////////////////////////////
 
@@ -42,13 +39,15 @@ game::game(engine* _e)
 	e->audio.play("test");
 
 	logInfo("Loading fonts");
-	e->gfx.loadFont("debug_small", "debug_assets/OpenSans.ttf", 18);
+	e->gfx.loadFont("debug_small", "debug_assets/OpenSans.ttf", 16);
 
 	logInfo("Loading files");
 	e->file.loadFile("test", "test.png", file_binary, file_read);
 
 	logInfo("Done loading resources.");
 	logExitSec();
+
+	ren.init();
 
 	//////////////////////////////////////////////////////////////////////////////
 
@@ -109,15 +108,14 @@ bool game::run() {
 
 	events.handleEvents();
 
-	ren.renderMap();
-	ren.endBatch();
+	ren.batchMap();
+	ren.batchEnd();
 
 	debug.endFunc();
 
 	//////////////////////////////////////////////////////////////////////////////
 
 	ren.renderDebugHUD();
-	ren.endBatch();
 
 	e->gfx.swapFrame();
 
