@@ -238,8 +238,10 @@ u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl) {
 }
 
 void Render::batchEnd() {
+	g->debug.beginFunc();
 	e->thread.lockMutex(qlock);
 	e->thread.unlockMutex(qlock);
+	g->debug.endFunc();
 }
 
 v2<r32> Render::mapIntoPxSpace(mpos point, mpos origin) {
