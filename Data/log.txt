@@ -3,187 +3,89 @@
    ENGINE LOG STARTUP
    ==================
 
-17:13:2717:13:27 [ [INFOINFO\\THREADLOG]: ]: Created thread ID logInitialized log.
+13:48:2313:48:23 [ [INFOINFO\\LOGTHREAD]: ]: Initialized log.Created thread ID log
 
-17:13:27 [INFO\FILE]: Loaded library ID game from gameTemp.dll
-17:13:27 [INFO\DEBUG]: Debug system initialized.
-17:13:27 [INFO\RENDERTHREAD]: Started Render Thread
-17:13:27 [INFO\THREAD]: Created thread ID render
-17:13:27 [INFO\ENGINE]: Initializing engine...
-17:13:27    [INFO\ENGINE]: Initializing SDL
-17:13:27    [INFO\GRAPHICS]: Initializing Graphics...
-17:13:27       [INFO\GRAPHICS]: Initializing SDL Video
-17:13:27       [INFO\GRAPHICS]: Initializing SDL_Image
-17:13:27       [INFO\GRAPHICS]: Initializing SDL_TTF
-17:13:27       [INFO\GRAPHICS]: Creating Window and Renderer
-17:13:27       [INFO\GRAPHICS]: Done initializing graphics.
-17:13:27    [INFO\AUDIO]: Initializing audio...
-17:13:27       [INFO\AUDIO]: Opening audio stream
-17:13:28       [INFO\AUDIO]: Sound initialized
-17:13:28    [INFO\TIME]: Initializing timer...
-17:13:28       [INFO\TIME]: Initializing SDL timer subsystem
-17:13:28       [INFO\TIME]: Done initializing timer.
-17:13:28    [INFO\FILE]: File IO initialized.
-17:13:28    [INFO\INPUT]: Initializing input...
-17:13:28       [INFO\INPUT]: Initializing event system
-17:13:28       [INFO\INPUT]: Getting keyboard state
-17:13:28       [INFO\INPUT]: Input initialized
-17:13:28    [INFO\THREAD]: Threading initialized.
-17:13:28    [INFO\ENGINE]: Done initializing engine.
-17:13:28 [INFO\GAME]: Initializing game...
-17:13:28    [INFO\GAME]: Loading resources...
-17:13:28       [INFO\GAME]: Loading textures
-17:13:28       [INFO\GRPAHICS]: Loaded texture ID: test from test.png
-17:13:28       [INFO\GAME]: Loading sounds
-17:13:28       [INFO\AUDIO]: Loaded sound ID test from path test.mp3
-17:13:28       [INFO\GAME]: Loading fonts
-17:13:28       [INFO\GRPAHICS]: Loaded font ID: debug_small from debug_assets/OpenSans.ttf
-17:13:28       [INFO\GAME]: Loading files
-17:13:28       [INFO\FILE]: Loaded file ID test from path test.png
-17:13:28       [INFO\GAME]: Done loading resources.
-17:13:28    [INFO\GRPAHICS]: Loaded texture ID: debug_chunkbounds from debug_assets/chunkbounds.bmp
-17:13:28    [INFO\GRPAHICS]: Loaded texture ID: debug_camera from debug_assets/camera.png
-17:13:28    [INFO\GAME]: Done initializing game.
-17:13:28 [INFO\CONSOLE]: testing callConsoleFunc
-17:13:28 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 28.527014 ms!
-17:13:29 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 36.415063 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 38.079441 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.195780 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.767343 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.266080 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.823178 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.362741 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.608381 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.899002 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.619756 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.444559 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.007155 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.502116 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.256476 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.135155 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.380205 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.834175 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.641279 ms!
-17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.874954 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.345468 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.063367 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.960075 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.289538 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.473303 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.160453 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.813030 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.227615 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.037149 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.429998 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 16.968499 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.296407 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.990541 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.608524 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 16.917525 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.622825 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.384949 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 43.048787 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 27.662731 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 16.833325 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.884679 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.138388 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.336666 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 42.169400 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 27.931191 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 35.672361 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 33.059876 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 27.448265 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 30.308065 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.584502 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 38.129659 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.204703 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.738035 ms!
-17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 31.673398 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 37.085270 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.331570 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.419356 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 41.793329 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.851877 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.868113 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 33.534118 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.718400 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 39.778934 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.651334 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.519935 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 33.424242 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 28.208336 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 70.598996 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 27.128453 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 41.159371 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 35.363122 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 35.139216 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.911912 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 28.140371 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 39.362462 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.814826 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 29.233091 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 30.783439 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 30.020348 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.600947 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 16.727980 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.770104 ms!
-17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.532440 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.513561 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.457089 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.982304 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.460370 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.946812 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.822587 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.443543 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.544735 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.916983 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.502399 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.091213 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.452558 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 37.971075 ms!
-17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.905278 ms!
-17:13:34 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 37.284255 ms!
-17:13:34 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.531355 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 38.839889 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.635142 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.986388 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.618954 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.199083 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.237432 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.932299 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.149833 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.911202 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.198706 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.573054 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.122599 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.691189 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.652181 ms!
-17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.118659 ms!
-17:13:36 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.297420 ms!
-17:13:36 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 151.228070 ms!
-17:13:36 [INFO\GAME]: Shutting down game...
-17:13:36    [INFO\RENDERTHREAD]: Exiting Render Thread
-17:13:36    [INFO\GAME]: Done destroying game.
-17:13:36 [INFO\ENGINE]: Shutting down engine...
-17:13:36    [INFO\GRPAHICS]: Destroying Graphics
-17:13:36       [INFO\GRPAHICS]: Destroying Renderer
-17:13:36       [INFO\GRPAHICS]: Destroying Window
-17:13:36       [INFO\GRPAHICS]: Quitting SDL Video
-17:13:36       [INFO\GRPAHICS]: Quitting SDL_Image
-17:13:36       [INFO\GRPAHICS]: Quitting SDL_TTF
-17:13:36       [INFO\GRPAHICS]: Done destroying graphics.
-17:13:36    [INFO\AUDIO]: Destroying audio...
-17:13:36       [INFO\AUDIO]: Stopping all sounds
-17:13:36       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
-17:13:36       [INFO\AUDIO]: Quitting SDL_Mixer
-17:13:36       [INFO\AUDIO]: Done destroying audio.
-17:13:36    [INFO\TIME]: Destroying timer...
-17:13:36       [INFO\TIME]: Quitting timer subsystem
-17:13:36       [INFO\TIME]: Done destroying timer.
-17:13:36    [INFO\FILE]: File IO destroyed.
-17:13:36    [INFO\INPUT]: Destroying input...
-17:13:36       [INFO\INPUT]: Quitting subsystem
-17:13:36       [INFO\INPUT]: Done destroying input.
-17:13:36    [INFO\THREAD]: Threading destroyed.
-17:13:36    [INFO\ENGINE]: Done shutting down engine.
-17:13:36    [INFO\LOG]: Shut down log.
+13:48:23 [INFO\FILE]: Loaded library ID game from gameTemp.dll
+13:48:23 [INFO\DEBUG]: Debug system initialized.
+13:48:23 [INFO\ENGINE]: Initializing engine...
+13:48:23    [INFO\ENGINE]: Initializing SDL
+13:48:23    [INFO\GRAPHICS]: Initializing Graphics...
+13:48:23       [INFO\GRAPHICS]: Initializing SDL Video
+13:48:23       [INFO\GRAPHICS]: Initializing SDL_Image
+13:48:23       [INFO\GRAPHICS]: Initializing SDL_TTF
+13:48:23       [INFO\GRAPHICS]: Creating Window and Renderer
+13:48:23       [INFO\GRAPHICS]: Done initializing graphics.
+13:48:23    [INFO\AUDIO]: Initializing audio...
+13:48:23       [INFO\AUDIO]: Opening audio stream
+13:48:24       [INFO\AUDIO]: Sound initialized
+13:48:24    [INFO\TIME]: Initializing timer...
+13:48:24       [INFO\TIME]: Initializing SDL timer subsystem
+13:48:24       [INFO\TIME]: Done initializing timer.
+13:48:24    [INFO\FILE]: File IO initialized.
+13:48:24    [INFO\INPUT]: Initializing input...
+13:48:24       [INFO\INPUT]: Initializing event system
+13:48:24       [INFO\INPUT]: Getting keyboard state
+13:48:24       [INFO\INPUT]: Input initialized
+13:48:24    [INFO\THREAD]: Threading initialized.
+13:48:24    [INFO\ENGINE]: Done initializing engine.
+13:48:24 [INFO\GAME]: Initializing game...
+13:48:24    [INFO\GAME]: Loading resources...
+13:48:24       [INFO\GAME]: Loading textures
+13:48:24       [INFO\GRPAHICS]: Loaded texture ID: test from test.png
+13:48:24       [INFO\GAME]: Loading sounds
+13:48:24       [INFO\AUDIO]: Loaded sound ID test from path test.mp3
+13:48:24       [INFO\GAME]: Loading fonts
+13:48:24       [INFO\GRPAHICS]: Loaded font ID: debug_small from debug_assets/OpenSans.ttf
+13:48:24       [INFO\GAME]: Loading files
+13:48:24       [INFO\FILE]: Loaded file ID test from path test.png
+13:48:24       [INFO\GAME]: Done loading resources.
+13:48:24    [INFO\GRPAHICS]: Loaded texture ID: debug_chunkbounds from debug_assets/chunkbounds.bmp
+13:48:24    [INFO\GRPAHICS]: Loaded texture ID: debug_camera from debug_assets/camera.png
+13:48:24    [INFO\RENDERTHREAD]: Started Render Thread
+13:48:24    [INFO\THREAD]: Created thread ID render
+13:48:24    [INFO\GAME]: Done initializing game.
+13:48:24 [INFO\CONSOLE]: testing callConsoleFunc
+13:48:24 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 36.627991 ms!
+13:48:24 [WARNING\DEBUG]: util.cpp, line 230: Value ID overTimenot found!
+13:48:24 [WARNING\DEBUG]: util.cpp, line 230: Value ID overFramenot found!
+13:48:24 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.609922 ms!
+13:48:25 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 36.587967 ms!
+13:48:26 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 51.636080 ms!
+13:48:27 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.399462 ms!
+13:48:28 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 27.817518 ms!
+13:48:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 43.608329 ms!
+13:48:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.534738 ms!
+13:48:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 36.338009 ms!
+13:48:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.709935 ms!
+13:48:34 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.886477 ms!
+13:48:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.235859 ms!
+13:48:36 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 50.439901 ms!
+13:48:36 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 157.724981 ms!
+13:48:37 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 28.434108 ms!
+13:48:37 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 104.863280 ms!
+13:48:37 [INFO\GAME]: Shutting down game...
+13:48:37    [INFO\RENDERTHREAD]: Exiting Render Thread
+13:48:37    [INFO\GAME]: Done destroying game.
+13:48:37 [INFO\ENGINE]: Shutting down engine...
+13:48:37    [INFO\GRPAHICS]: Destroying Graphics
+13:48:37       [INFO\GRPAHICS]: Destroying Renderer
+13:48:37       [INFO\GRPAHICS]: Destroying Window
+13:48:37       [INFO\GRPAHICS]: Quitting SDL Video
+13:48:37       [INFO\GRPAHICS]: Quitting SDL_Image
+13:48:37       [INFO\GRPAHICS]: Quitting SDL_TTF
+13:48:37       [INFO\GRPAHICS]: Done destroying graphics.
+13:48:37    [INFO\AUDIO]: Destroying audio...
+13:48:37       [INFO\AUDIO]: Stopping all sounds
+13:48:37       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
+13:48:37       [INFO\AUDIO]: Quitting SDL_Mixer
+13:48:37       [INFO\AUDIO]: Done destroying audio.
+13:48:37    [INFO\TIME]: Destroying timer...
+13:48:37       [INFO\TIME]: Quitting timer subsystem
+13:48:37       [INFO\TIME]: Done destroying timer.
+13:48:37    [INFO\FILE]: File IO destroyed.
+13:48:37    [INFO\INPUT]: Destroying input...
+13:48:37       [INFO\INPUT]: Quitting subsystem
+13:48:37       [INFO\INPUT]: Done destroying input.
+13:48:37    [INFO\THREAD]: Threading destroyed.
+13:48:37    [INFO\ENGINE]: Done shutting down engine.
+13:48:37    [INFO\LOG]: Shut down log.

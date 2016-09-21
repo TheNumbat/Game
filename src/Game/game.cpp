@@ -47,8 +47,10 @@ game::game(engine* _e)
 	logInfo("Done loading resources.");
 	logExitSec();
 
-	ren.init();
 	debug.beginThreadProf("main", 0, true);
+	debug.beginThreadProf("render", 1);
+	
+	ren.init();
 
 	//////////////////////////////////////////////////////////////////////////////
 
@@ -120,14 +122,12 @@ bool game::run() {
 	//////////////////////////////////////////////////////////////////////////////
 
 	ren.renderDebugHUD();
-
 	e->gfx.swapFrame();
 
 	debug.endFrame();
 	return running;
 }
 
-#include <iostream>
 void game::startReload() {
 	logSetContext("RELOAD");
 	logInfo("Shutting down threads.");

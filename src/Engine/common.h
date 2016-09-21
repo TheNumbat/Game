@@ -6,7 +6,7 @@
 // Logging Defines
 #define VERBOSE		3				// 0 = nothing, 1 = errors, 2 = warnings, 3 = info
 #define CLOG						// log to console
-#define FLOG		"log.txt"		// log to file
+//#define FLOG		"log.txt"		// log to file
 #define LOGCONTEXT					// log contexts
 #define TIMESTAMPS					// log time stamps
 

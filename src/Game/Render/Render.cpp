@@ -8,8 +8,7 @@ s32 renderThread(void* _g) {
 	logSetContext("RENDERTHREAD");
 	logInfo("Started Render Thread");
 	game* g = (game*)_g;
-	
-	g->debug.beginThreadProf("render", 1);
+
 	while (g->ren.running) {
 		g->debug.beginFunc(1);
 		g->e->thread.lockMutex(g->ren.qlock);
@@ -58,7 +57,6 @@ Render::Render(engine* _e, game* _g) {
 	g = _g;
 	qlock = e->thread.makeMutex();
 	condRun = e->thread.makeCondVar();
-	startThread();
 }
 
 void Render::init() {
@@ -77,6 +75,8 @@ void Render::init() {
 	db->layer = INT16_MAX;
 	db->posRect = r2<r32>(-0.5, -0.5, 1, 1);
 	debugTextures.push_back(db);
+
+	startThread();
 }
 
 Render::~Render() {}
@@ -247,7 +247,7 @@ u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize) 
 	msg = msg + node->name + " - self: " + std::to_string(node->self) +
 		  " heir: " + std::to_string(node->heir) + " calls: " + std::to_string(node->calls);
 
-	if (g->debug.selected == node) {
+	if (g->debug.selected.second == node) {
 		e->gfx.renderText("debug_small", msg, r2<s32>(10, pos, 0, 0), blend_alpha, color(50, 100, 255, 0));
 	}
 	else {

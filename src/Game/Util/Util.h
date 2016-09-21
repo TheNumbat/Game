@@ -107,7 +107,7 @@ private:
 	bool toggleProf;
 	std::map<u8, profNode*> heads;
 	std::map<u8, profNode*> currents;
-	profNode* selected;
+	std::pair<u8, profNode*> selected;
 
 	// TODO: set this up in constructor + reload function
 	std::map<std::string, consoleFunc> consoleFuncs;

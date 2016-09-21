@@ -86,7 +86,7 @@ bool Log::init() {
 	running = true;
 	e->thread.add("log", &logThread, eng);
 
-	logRaw(message("LOG","INFO", "Initialized log.",sec));
+	logRaw(message("LOG", "INFO", "Initialized log.", sec));
 	return true;
 }
 
@@ -101,7 +101,7 @@ bool Log::kill() {
 	e->thread.wait("log",buf);
 	e->thread.freeMutex(qlock);
 	e->thread.freeCondVar(cond);
-	logRaw(message("LOG","INFO", "Shut down log.",sec));
+	logRaw(message("LOG", "INFO", "Shut down log.", sec));
 	return true;
 }
 

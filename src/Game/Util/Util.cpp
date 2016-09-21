@@ -44,7 +44,8 @@ Util::Util(engine* _e, game* _g) {
 
 	trackVal("lastFrameTime", &lastFrameTime);
 
-	selected = NULL;
+	selected.first = 0;
+	selected.second = NULL;
 
 	reloadConsoleFuncs();
 
@@ -58,7 +59,6 @@ Util::~Util() {
 	}
 	heads.clear();
 	currents.clear();
-	selected = NULL;
 }
 
 bool Util::callConsoleFunc(const std::string& input) {
@@ -123,6 +123,11 @@ void Util::endFrame() {
 
 	if (fpsCap && lastFrameTime > perf / fpsCap) {
 		logWarn("Last frame took " + std::to_string(1000.0f * lastFrameTime / (r64) perf) + " ms!");
+		releaseVal("overTime");
+		releaseVal("overFrame");
+		addVal("overTime", 1000.0f * lastFrameTime / (r64) perf);
+		addVal("overFrame", lastFrameTime);
+		toggleProfiler();
 	}
 
 	if (!profilerPaused) {
@@ -133,7 +138,7 @@ void Util::endFrame() {
 }
 
 void Util::toggleChildren() {
-	selected->showChildren = !selected->showChildren;
+	selected.second->showChildren = !selected.second->showChildren;
 }
 
 void Util::beginThreadProf(const std::string& name, u8 thread, bool select) {
@@ -141,7 +146,7 @@ void Util::beginThreadProf(const std::string& name, u8 thread, bool select) {
 		profNode* head = new profNode(name, 0);
 		heads.insert({ thread, head });
 		currents.insert({ thread, head });
-		if (select) selected = head;
+		if (select) selected.second = head;
 	} else {
 		assert(false);
 	}
@@ -275,24 +280,32 @@ void Util::toggleProfiler() {
 
 // TODO: test this
 void Util::selectedNodeUp() {
-	if (selected != heads.find(0)->second) {
+	if (selected.second != heads.find(selected.first)->second) {
 		// If selected: first node of children
-		if (selected->parent->children.begin()->second == selected) {
-			selected = selected->parent;
+		if (selected.second->parent->children.begin()->second == selected.second) {
+			selected.second = selected.second->parent;
 		// Else move up a child
 		} else {
 			// Iterator to previous child
-			auto temp = std::prev(selected->parent->children.find(selected->name));
-			selected = temp->second;
+			auto temp = std::prev(selected.second->parent->children.find(selected.second->name));
+			selected.second = temp->second;
 			// Move to bottom shown node under temp
-			while (selected->showChildren && selected->children.size()) {
-				selected = std::prev(selected->children.end())->second;
+			while (selected.second->showChildren && selected.second->children.size()) {
+				selected.second = std::prev(selected.second->children.end())->second;
 			}
 		}
 	} else {
+		// Move up in threads
+		if (heads.find(selected.first) == heads.begin()) {
+			selected.second = std::prev(heads.end())->second;
+			selected.first = std::prev(heads.end())->first;
+		} else {
+			selected.second = std::prev(heads.find(selected.first))->second;
+			selected.first = std::prev(heads.find(selected.first))->first;
+		}
 		// Move to bottom shown node
-		while (selected->showChildren && selected->children.size()) {
-			selected = std::prev(selected->children.end())->second;
+		while (selected.second->showChildren && selected.second->children.size()) {
+			selected.second = std::prev(selected.second->children.end())->second;
 		}
 	}
 }
@@ -300,26 +313,37 @@ void Util::selectedNodeUp() {
 // TODO: test this
 void Util::selectedNodeDown() {
 	// Move to first child if possible
-	if (selected->showChildren && selected->children.size()) {
-		selected = selected->children.begin()->second;
-	} else if (selected != heads.find(0)->second) {
-		// Move to next child
-		if (std::distance(selected->parent->children.find(selected->name), selected->parent->children.end()) > 1) {
-			selected = std::next(selected->parent->children.find(selected->name))->second;
-		} else {
-			bool found = false;
-			while (!found) {
-				// Move up 
-				selected = selected->parent;
-				if (selected == heads.find(0)->second) {
-					break;
+	if (selected.second->showChildren && selected.second->children.size()) {
+		selected.second = selected.second->children.begin()->second;
+	} else if (selected.second != heads.find(selected.first)->second) {
+		bool found = false;
+		while (!found) {
+			if (selected.second == heads.find(selected.first)->second) {
+				if (heads.find(selected.first) == std::prev(heads.end())) {
+					selected.second = heads.begin()->second;
+					selected.first = heads.begin()->first;
+				} else {
+					selected.second = std::next(heads.find(selected.first))->second;
+					selected.first = std::next(heads.find(selected.first))->first;
 				}
-				// If the parent was not at the end of its parent's children we've found where we want
-				if (std::distance(selected->parent->children.find(selected->name), selected->parent->children.end()) > 1) {
-					selected = std::next(selected->parent->children.find(selected->name))->second;
-					found = true;
-				}
+				break;
 			}
+			// If the parent was not at the end of its parent's children we've found where we want
+			if (std::distance(selected.second->parent->children.find(selected.second->name), selected.second->parent->children.end()) > 1) {
+				selected.second = std::next(selected.second->parent->children.find(selected.second->name))->second;
+				found = true;
+			}
+			if (!found) {
+				selected.second = selected.second->parent;
+			}
+		}
+	} else {
+		if (heads.find(selected.first) == std::prev(heads.end())) {
+			selected.second = heads.begin()->second;
+			selected.first = heads.begin()->first;
+		} else {
+			selected.second = std::next(heads.find(selected.first))->second;
+			selected.first = std::next(heads.find(selected.first))->first;
 		}
 	}
 }
