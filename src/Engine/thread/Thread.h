@@ -49,5 +49,6 @@ public:
 
 private:
 	std::map<std::string, void*> threads;
+	friend struct game;
 };
 

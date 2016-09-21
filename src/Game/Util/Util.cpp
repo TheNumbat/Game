@@ -44,9 +44,7 @@ Util::Util(engine* _e, game* _g) {
 
 	trackVal("lastFrameTime", &lastFrameTime);
 
-	head = new profNode("profiler", 0);
-	current = head;
-	selected = head;
+	selected = NULL;
 
 	reloadConsoleFuncs();
 
@@ -55,7 +53,12 @@ Util::Util(engine* _e, game* _g) {
 
 Util::~Util() {
 	e->time.remove("debug");
-	delete head;
+	for (auto p : heads) {
+		delete p.second;
+	}
+	heads.clear();
+	currents.clear();
+	selected = NULL;
 }
 
 bool Util::callConsoleFunc(const std::string& input) {
@@ -123,8 +126,9 @@ void Util::endFrame() {
 	}
 
 	if (!profilerPaused) {
-		current = head;
-		resetProfNodesRec(current);
+		for (auto head : heads) {
+			resetProfNodesRec(head.second);
+		}
 	}
 }
 
@@ -132,41 +136,58 @@ void Util::toggleChildren() {
 	selected->showChildren = !selected->showChildren;
 }
 
-void Util::beginFunc(const std::string& name) {
+void Util::beginThreadProf(const std::string& name, u8 thread, bool select) {
+	if (heads.find(thread) == heads.end()) {
+		profNode* head = new profNode(name, 0);
+		heads.insert({ thread, head });
+		currents.insert({ thread, head });
+		if (select) selected = head;
+	} else {
+		assert(false);
+	}
+}
+
+void Util::beginFunc(const std::string& name, u8 thread) {
 	if (profilerPaused) return;
 
 	u64 start = e->time.get("debug");
 
-	auto entry = current->children.find(name);
-	if (entry == current->children.end()) {
-		profNode* newNode = new profNode(name, start, current);
-		current->children.insert({ name, newNode });
-		current = newNode;
+	auto centry = currents.find(thread);
+	assert(centry != currents.end());
+
+	auto entry = centry->second->children.find(name);
+	if (entry == centry->second->children.end()) {
+		profNode* newNode = new profNode(name, start, centry->second);
+		centry->second->children.insert({ name, newNode });
+		centry->second = newNode;
 		return;
 	}
 
-	current = entry->second;
-	current->calls++;
-	current->start = start;
+	centry->second = entry->second;
+	centry->second->calls++;
+	centry->second->start = start;
 }
 
-void Util::endFunc() {
+void Util::endFunc(u8 thread) {
 	if (profilerPaused) return;
 
 	u64 end = e->time.get("debug");
 
-	current->heir += end - current->start;
+	auto centry = currents.find(thread);
+	assert(centry != currents.end());
+
+	centry->second->heir += end - centry->second->start;
 
 	u64 timeExceptSelf = 0;
-	for (auto entry : current->children) {
+	for (auto entry : centry->second->children) {
 		timeExceptSelf += entry.second->heir;
 	}
 
-	current->self = current->heir - timeExceptSelf;
+	centry->second->self = centry->second->heir - timeExceptSelf;
 
-	assert(current->parent);
-	if (current->parent) {
-		current = current->parent;
+	assert(centry->second->parent);
+	if (centry->second->parent) {
+		centry->second = centry->second->parent;
 	}
 }
 
@@ -254,7 +275,7 @@ void Util::toggleProfiler() {
 
 // TODO: test this
 void Util::selectedNodeUp() {
-	if (selected != head) {
+	if (selected != heads.find(0)->second) {
 		// If selected: first node of children
 		if (selected->parent->children.begin()->second == selected) {
 			selected = selected->parent;
@@ -281,7 +302,7 @@ void Util::selectedNodeDown() {
 	// Move to first child if possible
 	if (selected->showChildren && selected->children.size()) {
 		selected = selected->children.begin()->second;
-	} else if (selected != head) {
+	} else if (selected != heads.find(0)->second) {
 		// Move to next child
 		if (std::distance(selected->parent->children.find(selected->name), selected->parent->children.end()) > 1) {
 			selected = std::next(selected->parent->children.find(selected->name))->second;
@@ -290,7 +311,7 @@ void Util::selectedNodeDown() {
 			while (!found) {
 				// Move up 
 				selected = selected->parent;
-				if (selected == head) {
+				if (selected == heads.find(0)->second) {
 					break;
 				}
 				// If the parent was not at the end of its parent's children we've found where we want

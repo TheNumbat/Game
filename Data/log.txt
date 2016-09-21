@@ -3,442 +3,187 @@
    ENGINE LOG STARTUP
    ==================
 
-11:00:0711:00:07 [ [INFO\INFOTHREAD\]: LOG]: Created thread ID logInitialized log.
+17:13:2717:13:27 [ [INFOINFO\\THREADLOG]: ]: Created thread ID logInitialized log.
 
-11:00:07 [INFO\FILE]: Loaded library ID game from gameTemp.dll
-11:00:07 [INFO\DEBUG]: Debug system initialized.
-11:00:07 [INFO\THREAD]: Created thread ID render
-11:00:07 [INFO\ENGINE]: Initializing engine...
-11:00:07    [INFO\ENGINE]: Initializing SDL
-11:00:07    [INFO\GRAPHICS]: Initializing Graphics...
-11:00:07       [INFO\GRAPHICS]: Initializing SDL Video
-11:00:07       [INFO\GRAPHICS]: Initializing SDL_Image
-11:00:07       [INFO\GRAPHICS]: Initializing SDL_TTF
-11:00:07       [INFO\GRAPHICS]: Creating Window and Renderer
-11:00:07       [INFO\GRAPHICS]: Done initializing graphics.
-11:00:07    [INFO\AUDIO]: Initializing audio...
-11:00:07       [INFO\AUDIO]: Opening audio stream
-11:00:08       [INFO\AUDIO]: Sound initialized
-11:00:08    [INFO\TIME]: Initializing timer...
-11:00:08       [INFO\TIME]: Initializing SDL timer subsystem
-11:00:08       [INFO\TIME]: Done initializing timer.
-11:00:08    [INFO\FILE]: File IO initialized.
-11:00:08    [INFO\INPUT]: Initializing input...
-11:00:08       [INFO\INPUT]: Initializing event system
-11:00:08       [INFO\INPUT]: Getting keyboard state
-11:00:08       [INFO\INPUT]: Input initialized
-11:00:08    [INFO\THREAD]: Threading initialized.
-11:00:08    [INFO\ENGINE]: Done initializing engine.
-11:00:08 [INFO\GAME]: Initializing game...
-11:00:08    [INFO\GAME]: Loading resources...
-11:00:08       [INFO\GAME]: Loading textures
-11:00:08       [INFO\GRPAHICS]: Loaded texture ID: test from test.png
-11:00:08       [INFO\GAME]: Loading sounds
-11:00:08       [INFO\AUDIO]: Loaded sound ID test from path test.mp3
-11:00:08       [INFO\GAME]: Loading fonts
-11:00:08       [INFO\GRPAHICS]: Loaded font ID: debug_small from debug_assets/OpenSans.ttf
-11:00:08       [INFO\GAME]: Loading files
-11:00:08       [INFO\FILE]: Loaded file ID test from path test.png
-11:00:08       [INFO\GAME]: Done loading resources.
-11:00:08    [INFO\GRPAHICS]: Loaded texture ID: debug_chunkbounds from debug_assets/chunkbounds.bmp
-11:00:08    [INFO\GRPAHICS]: Loaded texture ID: debug_camera from debug_assets/camera.png
-11:00:08    [INFO\GAME]: Done initializing game.
-11:00:08 [INFO\CONSOLE]: testing callConsoleFunc
-11:00:09 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.268489 ms!
-11:00:10 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.508465 ms!
-11:00:11 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 42.872834 ms!
-11:00:11 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.763520 ms!
-11:00:11 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.164298 ms!
-11:00:11 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.433514 ms!
-11:00:11 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.859000 ms!
-11:00:12 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 40.255064 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 39.928078 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.536476 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.605903 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.340039 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.449845 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.950375 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.408428 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.621714 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.904925 ms!
-11:00:13 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 43.227005 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 65.007773 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.329562 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 29.487203 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.822305 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 44.854380 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.571544 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 33.506933 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.391723 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.510210 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.635640 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 51.921190 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.423652 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 33.548089 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.010956 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.035686 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.444724 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.679037 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.567768 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.890695 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.510518 ms!
-11:00:14 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.106528 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 47.600906 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.730080 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.272122 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.933809 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.962883 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.454493 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.549054 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.850954 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.365549 ms!
-11:00:15 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.430706 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.568666 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.127603 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.258104 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 51.609682 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 28.475663 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 39.231063 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 44.293294 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.866387 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.688169 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.437832 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.764370 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.021151 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.164181 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.868087 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.460109 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.652298 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.658010 ms!
-11:00:16 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.862989 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.697538 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.001396 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.114128 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.065892 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.432051 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.397856 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.252652 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 54.730394 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 41.955312 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 52.117913 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 47.477437 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.908511 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.169515 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.914387 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.873018 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.448760 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.757691 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.316889 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.865137 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.069951 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.786387 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.123450 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.092063 ms!
-11:00:17 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.264240 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.196488 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.525101 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.771969 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.171637 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.539874 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.495745 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.315496 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.788700 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.016854 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.273540 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 28.506247 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.579143 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.274860 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 60.685985 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 28.900442 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.130481 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.789693 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.006730 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.180960 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.525526 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.281561 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.600382 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.208028 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.655319 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.625138 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.717667 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.544713 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.989196 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 33.296242 ms!
-11:00:18 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.070658 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.593703 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.634009 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.450600 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.962813 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.018270 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.310045 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.025539 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.781574 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 28.429598 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.168994 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 27.031038 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.096807 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.680074 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.273845 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.804064 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.387782 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 45.244422 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.615933 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.826033 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.754978 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.898316 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.974635 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 30.671675 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.966919 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.667167 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.330104 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.918046 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.214824 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.360806 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.149290 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.146695 ms!
-11:00:19 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 27.739002 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.985255 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.776453 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.442836 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.909361 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.761962 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.536524 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.656785 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.890742 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.686706 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.732771 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.036631 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.326423 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.020395 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 47.656410 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 45.157955 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 27.829622 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.309502 ms!
-11:00:20 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.738764 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 37.396396 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.062472 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.066600 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 51.741461 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.686991 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 30.529705 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.992382 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 28.556088 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.622565 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.780606 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.792264 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.093196 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 57.746512 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.250152 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.977751 ms!
-11:00:21 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.765195 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 34.935700 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.890812 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.935627 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.008900 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.227402 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 27.336123 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.205267 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.048854 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.235639 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.856287 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.472947 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.020560 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.111155 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.553302 ms!
-11:00:22 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.441868 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.005432 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.882033 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.780254 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.218105 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.889962 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.379475 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.912972 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.859898 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.671203 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.321090 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.905963 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.749007 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 34.293812 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.157172 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.148913 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 30.439463 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.346718 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.172158 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.758541 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.344287 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.175391 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.882223 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.635992 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.420181 ms!
-11:00:23 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.865562 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.779261 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.999083 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.551414 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.353587 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 27.800926 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.406376 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.186506 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.808239 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.606401 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.320382 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.116346 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 33.245646 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.303556 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.183342 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 33.465776 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.467994 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.869810 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.516204 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.605148 ms!
-11:00:24 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.908016 ms!
-11:00:25 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 56.702497 ms!
-11:00:25 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.295627 ms!
-11:00:25 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.333880 ms!
-11:00:25 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 28.318212 ms!
-11:00:25 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.341717 ms!
-11:00:25 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 30.841209 ms!
-11:00:25 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.657137 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 26.306459 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.001231 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.438045 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.210151 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.277738 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.680382 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.223839 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.241750 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.401962 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.799108 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 56.014550 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.665231 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.265420 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.083283 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.088335 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.859308 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.519272 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.040430 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.762482 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.569373 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.843732 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.316771 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.625208 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 30.990732 ms!
-11:00:26 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.637668 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.123685 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.695060 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.690104 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.702659 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.393750 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 29.461905 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.566140 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.137490 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.728500 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.117856 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.851756 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.791343 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.270871 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.421054 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 30.092088 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.876937 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.098859 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.744311 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.281869 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 34.725010 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.098104 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.871816 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.094328 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.080028 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.526659 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.592736 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.595756 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.319484 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.634482 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 29.486826 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.709078 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.254848 ms!
-11:00:27 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.265868 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.793986 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.067355 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.706718 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.224216 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.493054 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.704947 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.019615 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 28.218530 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.751957 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.774470 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.389384 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.302328 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.949832 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.177301 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.158777 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.276323 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.830685 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.093408 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.143414 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.834292 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.849964 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 29.505327 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.477951 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.961325 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 29.667687 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.149078 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.412890 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.053385 ms!
-11:00:28 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.164559 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.551037 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.969089 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.263602 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.160310 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.695768 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 29.044300 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.906575 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.955214 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.299025 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 31.683215 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.732511 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.918636 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.306577 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.324323 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.009585 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.137750 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.510471 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.260629 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 32.692490 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 29.161351 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.637125 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.044913 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.166659 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.485785 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 18.933809 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.164936 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 25.951155 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.554600 ms!
-11:00:29 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.106246 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.559886 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.105491 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.892818 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.895886 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.987473 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.500771 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.643332 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.153491 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.146010 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 77: Failed to find funtion name console::print
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 24.425350 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 17.458977 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.298977 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 44.400150 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.672193 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.513609 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.867072 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.057916 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.915568 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 21.381290 ms!
-11:00:30 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 20.555898 ms!
-11:00:31 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 23.106836 ms!
-11:00:31 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.576452 ms!
-11:00:31 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.742848 ms!
-11:00:31 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.640146 ms!
-11:00:31 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 19.784122 ms!
-11:00:31 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 22.252370 ms!
-11:00:31 [WARNING\DEBUG]: util.cpp, line 122: Last frame took 16.835968 ms!
+17:13:27 [INFO\FILE]: Loaded library ID game from gameTemp.dll
+17:13:27 [INFO\DEBUG]: Debug system initialized.
+17:13:27 [INFO\RENDERTHREAD]: Started Render Thread
+17:13:27 [INFO\THREAD]: Created thread ID render
+17:13:27 [INFO\ENGINE]: Initializing engine...
+17:13:27    [INFO\ENGINE]: Initializing SDL
+17:13:27    [INFO\GRAPHICS]: Initializing Graphics...
+17:13:27       [INFO\GRAPHICS]: Initializing SDL Video
+17:13:27       [INFO\GRAPHICS]: Initializing SDL_Image
+17:13:27       [INFO\GRAPHICS]: Initializing SDL_TTF
+17:13:27       [INFO\GRAPHICS]: Creating Window and Renderer
+17:13:27       [INFO\GRAPHICS]: Done initializing graphics.
+17:13:27    [INFO\AUDIO]: Initializing audio...
+17:13:27       [INFO\AUDIO]: Opening audio stream
+17:13:28       [INFO\AUDIO]: Sound initialized
+17:13:28    [INFO\TIME]: Initializing timer...
+17:13:28       [INFO\TIME]: Initializing SDL timer subsystem
+17:13:28       [INFO\TIME]: Done initializing timer.
+17:13:28    [INFO\FILE]: File IO initialized.
+17:13:28    [INFO\INPUT]: Initializing input...
+17:13:28       [INFO\INPUT]: Initializing event system
+17:13:28       [INFO\INPUT]: Getting keyboard state
+17:13:28       [INFO\INPUT]: Input initialized
+17:13:28    [INFO\THREAD]: Threading initialized.
+17:13:28    [INFO\ENGINE]: Done initializing engine.
+17:13:28 [INFO\GAME]: Initializing game...
+17:13:28    [INFO\GAME]: Loading resources...
+17:13:28       [INFO\GAME]: Loading textures
+17:13:28       [INFO\GRPAHICS]: Loaded texture ID: test from test.png
+17:13:28       [INFO\GAME]: Loading sounds
+17:13:28       [INFO\AUDIO]: Loaded sound ID test from path test.mp3
+17:13:28       [INFO\GAME]: Loading fonts
+17:13:28       [INFO\GRPAHICS]: Loaded font ID: debug_small from debug_assets/OpenSans.ttf
+17:13:28       [INFO\GAME]: Loading files
+17:13:28       [INFO\FILE]: Loaded file ID test from path test.png
+17:13:28       [INFO\GAME]: Done loading resources.
+17:13:28    [INFO\GRPAHICS]: Loaded texture ID: debug_chunkbounds from debug_assets/chunkbounds.bmp
+17:13:28    [INFO\GRPAHICS]: Loaded texture ID: debug_camera from debug_assets/camera.png
+17:13:28    [INFO\GAME]: Done initializing game.
+17:13:28 [INFO\CONSOLE]: testing callConsoleFunc
+17:13:28 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 28.527014 ms!
+17:13:29 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 36.415063 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 38.079441 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.195780 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.767343 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.266080 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.823178 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.362741 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.608381 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.899002 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.619756 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.444559 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.007155 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.502116 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.256476 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.135155 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.380205 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.834175 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.641279 ms!
+17:13:30 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.874954 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.345468 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.063367 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.960075 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.289538 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.473303 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 23.160453 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.813030 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.227615 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.037149 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.429998 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 16.968499 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.296407 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.990541 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.608524 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 16.917525 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.622825 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.384949 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 43.048787 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 27.662731 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 16.833325 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.884679 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 24.138388 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.336666 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 42.169400 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 27.931191 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 35.672361 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 33.059876 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 27.448265 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 30.308065 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.584502 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 38.129659 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.204703 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.738035 ms!
+17:13:31 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 31.673398 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 37.085270 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.331570 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.419356 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 41.793329 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.851877 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.868113 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 33.534118 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 26.718400 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 39.778934 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.651334 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.519935 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 33.424242 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 28.208336 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 70.598996 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 27.128453 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 41.159371 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 35.363122 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 35.139216 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 34.911912 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 28.140371 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 39.362462 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 32.814826 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 29.233091 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 30.783439 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 30.020348 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.600947 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 16.727980 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.770104 ms!
+17:13:32 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.532440 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.513561 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.457089 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.982304 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.460370 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.946812 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.822587 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.443543 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.544735 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.916983 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.502399 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.091213 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.452558 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 37.971075 ms!
+17:13:33 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.905278 ms!
+17:13:34 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 37.284255 ms!
+17:13:34 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.531355 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 38.839889 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.635142 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 22.986388 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.618954 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.199083 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.237432 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 18.932299 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 21.149833 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.911202 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.198706 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.573054 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.122599 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 17.691189 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.652181 ms!
+17:13:35 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 20.118659 ms!
+17:13:36 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 19.297420 ms!
+17:13:36 [WARNING\DEBUG]: util.cpp, line 125: Last frame took 151.228070 ms!
+17:13:36 [INFO\GAME]: Shutting down game...
+17:13:36    [INFO\RENDERTHREAD]: Exiting Render Thread
+17:13:36    [INFO\GAME]: Done destroying game.
+17:13:36 [INFO\ENGINE]: Shutting down engine...
+17:13:36    [INFO\GRPAHICS]: Destroying Graphics
+17:13:36       [INFO\GRPAHICS]: Destroying Renderer
+17:13:36       [INFO\GRPAHICS]: Destroying Window
+17:13:36       [INFO\GRPAHICS]: Quitting SDL Video
+17:13:36       [INFO\GRPAHICS]: Quitting SDL_Image
+17:13:36       [INFO\GRPAHICS]: Quitting SDL_TTF
+17:13:36       [INFO\GRPAHICS]: Done destroying graphics.
+17:13:36    [INFO\AUDIO]: Destroying audio...
+17:13:36       [INFO\AUDIO]: Stopping all sounds
+17:13:36       [INFO\AUDIO]: Stopped or begun timeout of all currently playing audio
+17:13:36       [INFO\AUDIO]: Quitting SDL_Mixer
+17:13:36       [INFO\AUDIO]: Done destroying audio.
+17:13:36    [INFO\TIME]: Destroying timer...
+17:13:36       [INFO\TIME]: Quitting timer subsystem
+17:13:36       [INFO\TIME]: Done destroying timer.
+17:13:36    [INFO\FILE]: File IO destroyed.
+17:13:36    [INFO\INPUT]: Destroying input...
+17:13:36       [INFO\INPUT]: Quitting subsystem
+17:13:36       [INFO\INPUT]: Done destroying input.
+17:13:36    [INFO\THREAD]: Threading destroyed.
+17:13:36    [INFO\ENGINE]: Done shutting down engine.
+17:13:36    [INFO\LOG]: Shut down log.

@@ -12,12 +12,12 @@ Events::Events(engine* _e, game* _g) {
 Events::~Events() {}
 
 void Events::handleEvents() {
-	g->debug.beginFunc();
+	g->debug.beginFunc(0);
 
 	event* ev;
 	bool cont = true;
 	while(cont) {
-		ev = e->input.getNext();
+		ev = e->input.getNext(); // this can take some time
 		switch (ev->type) {
 			case evt_bad: continue;
 			case evt_endstream: cont = false;  break;
@@ -44,7 +44,7 @@ void Events::setState(input_state s) {
 }
 
 void Events::handleGame(event* ev) {
-	g->debug.beginFunc();
+	g->debug.beginFunc(0);
 	logSetContext("EVENT");
 
 	switch (ev->type) {
@@ -88,7 +88,7 @@ void Events::handleGame(event* ev) {
 }
 
 void Events::handleProfiler(event* ev) {
-	g->debug.beginFunc();
+	g->debug.beginFunc(0);
 	logSetContext("EVENTS");
 	
 	if (ev->type == evt_window) {
@@ -147,7 +147,7 @@ void Events::handleProfiler(event* ev) {
 }
 
 void Events::handleConsole(event* ev) {
-	g->debug.beginFunc();
+	g->debug.beginFunc(0);
 
 	if (ev->type == evt_key) {
 		event_key* ek = (event_key*) ev;

@@ -13,6 +13,8 @@ s32 renderThread(void* _g);
 const int METERS_TO_PIXELS = 64;
 const r32 PIXELS_TO_METERS = 1.0f / METERS_TO_PIXELS;
 
+typedef std::priority_queue<std::tuple<bool, mpos, c_tex*>> renderBatch;
+
 class Render {
 	class camera {
 		camera();
@@ -32,9 +34,10 @@ public:
 	void kill();
 
 	void batchMap();
-	void batchEnd();
+	void batchBegin(); // will wait for previous batch to finish
+	void end();
 
-	void renderDebugHUD();
+	void renderDebugHUD(); // not threaded
 
 	void zIn(r32 factor);
 	void zOut(r32 factor);
@@ -43,7 +46,7 @@ public:
 	void stopThread();
 
 private:
-	u32 recProfRender(Util::profNode* node, u32 pos, u32 lvl = 0);
+	u32 recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize);
 	void renderCTex(std::tuple<bool, mpos, c_tex*> t);
 	v2<r32> mapIntoPxSpace(mpos point, mpos origin);
 	mpos getTLC();
@@ -58,8 +61,7 @@ private:
 	};
 
 	// for render thread
-		// TODO: c_text
-	std::priority_queue<std::tuple<bool, mpos, c_tex*>> texq;
+	std::queue<renderBatch> batchQueue;
 	mutex qlock;
 	cond_var condRun;
 	bool running;

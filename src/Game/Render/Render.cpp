@@ -5,21 +5,31 @@
 #include <sstream>
 
 s32 renderThread(void* _g) {
+	logSetContext("RENDERTHREAD");
+	logInfo("Started Render Thread");
 	game* g = (game*)_g;
 	
+	g->debug.beginThreadProf("render", 1);
 	while (g->ren.running) {
+		g->debug.beginFunc(1);
 		g->e->thread.lockMutex(g->ren.qlock);
 		g->e->thread.condWait(g->ren.condRun, g->ren.qlock);
-		while (g->ren.texq.size()) {
-			auto t = g->ren.texq.top();
-			g->ren.texq.pop();
-			g->ren.renderCTex(t);
-			if (std::get<0>(t)) {
-				delete std::get<2>(t);
+		if (g->ren.batchQueue.size()) {
+			renderBatch& batch = g->ren.batchQueue.front();
+			while (batch.size()) {
+				auto& t = batch.top();
+				g->ren.renderCTex(t);
+				if (std::get<0>(t)) {
+					delete std::get<2>(t);
+				}
+				batch.pop();
 			}
+			g->ren.batchQueue.pop();
 		}
 		g->e->thread.unlockMutex(g->ren.qlock);
+		g->debug.endFunc(1);
 	}
+	logInfo("Exiting Render Thread");
 	return 0;
 }
 
@@ -103,8 +113,10 @@ void Render::zIn(r32 factor) {
 }
 
 void Render::batchMap() {
-	g->debug.beginFunc();
+	g->debug.beginFunc(0);
 
+	batchQueue.push(renderBatch());
+	renderBatch& batch = batchQueue.back();
 	cam.update(g);
 	
 	// queue map textures
@@ -124,7 +136,7 @@ void Render::batchMap() {
 
 			// Debug: draw chunk boundary
 			if (g->debug.getFlag(renderChunkbounds)) {
-				texq.push({ false, mpos(rpos(), currentCPos), debugTextures[dt_chunkbounds] });
+				batch.push({ false, mpos(rpos(), currentCPos), debugTextures[dt_chunkbounds] });
 			}
 
 			for (entity e : *currentC) {
@@ -144,7 +156,7 @@ void Render::batchMap() {
 					text->layer = INT16_MAX;
 					r32 size = g->e->gfx.getFontSize("debug_small") * PIXELS_TO_METERS;
 					text->posRect = r2<r32>(0, 0, text->msg.length() * size, size);
-					texq.push({ true, pos, text });
+					batch.push({ true, pos, text });
 				}
 				
 				// TODO: Debug: draw collision bounds
@@ -154,7 +166,7 @@ void Render::batchMap() {
 				if (!etexs.size()) continue;
 
 				for (component& c : etexs) {
-					texq.push({ false, pos, c.tex });
+					batch.push({ false, pos, c.tex });
 				}
 			}
 		}
@@ -162,9 +174,23 @@ void Render::batchMap() {
 
 	// Debug: draw camera
 	if (g->debug.getFlag(renderCamera)) {
-		texq.push({ false, cam.pos, debugTextures[dt_camera] });
+		batch.push({ false, cam.pos, debugTextures[dt_camera] });
 	}
+	e->thread.unlockMutex(qlock);
+	g->debug.endFunc();
+}
+
+void Render::batchBegin() {
+	g->debug.beginFunc(0);
+	e->thread.lockMutex(qlock);
 	e->thread.condSignal(condRun);
+	e->thread.unlockMutex(qlock);
+	g->debug.endFunc();
+}
+
+void Render::end() {
+	g->debug.beginFunc(0);
+	e->thread.lockMutex(qlock);
 	e->thread.unlockMutex(qlock);
 	g->debug.endFunc();
 }
@@ -192,13 +218,15 @@ void Render::renderDebugHUD() {
 
 		e->gfx.renderText("debug_small", "Debug values:", r2<s32>(10, 10 + lines * fontsize, 0, 0));
 		lines++;
-		for (auto& entry : g->debug.values)
-		{
+		for (auto& entry : g->debug.values) {
 			e->gfx.renderText("debug_small", "   " + entry.first + " - " + entry.second->getStr(), r2<s32>(10, 10 + lines * fontsize, 0, 0));
 			lines++;
 		}
 
-		lines += recProfRender(g->debug.head, 10 + lines * fontsize);
+		for (auto head : g->debug.heads) {
+			lines += recProfRender(head.second, 10 + lines * fontsize, 0, fontsize);
+			lines++;
+		}
 
 		if (g->events.state == input_console) {
 		 	int sw, sh;
@@ -209,7 +237,7 @@ void Render::renderDebugHUD() {
 	e->thread.unlockMutex(qlock);
 }
 
-u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl) {
+u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize) {
 	if (!node) return 0;
 
 	std::string msg;
@@ -230,18 +258,11 @@ u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl) {
 	if (node->showChildren) {
 		for (auto& entry : node->children) {
 			numchildren++;
-			numchildren += recProfRender(entry.second, pos + numchildren * 22, lvl + 1);
+			numchildren += recProfRender(entry.second, pos + numchildren * fontsize , lvl + 1, fontsize);
 		}
 	}
 
 	return numchildren;
-}
-
-void Render::batchEnd() {
-	g->debug.beginFunc();
-	e->thread.lockMutex(qlock);
-	e->thread.unlockMutex(qlock);
-	g->debug.endFunc();
 }
 
 v2<r32> Render::mapIntoPxSpace(mpos point, mpos origin) {

@@ -106,6 +106,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;ENGINE_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PreprocessToFile>false</PreprocessToFile>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

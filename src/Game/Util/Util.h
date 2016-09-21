@@ -59,9 +59,11 @@ public:
 	void beginFrame();
 	void endFrame();
 
-	void beginFunc(const std::string& name);
-	#define beginFunc() beginFunc(__func__)
-	void endFunc();
+	void beginThreadProf(const std::string& name, u8 thread, bool select = false);
+
+	void beginFunc(const std::string& name, u8 thread = 0);
+	#define beginFunc(t) beginFunc(__func__, t)
+	void endFunc(u8 thread = 0);
 
 	template<typename T>
 	bool trackVal(const std::string& ID, T* val);
@@ -103,8 +105,8 @@ private:
 
 	bool profilerPaused;
 	bool toggleProf;
-	profNode* head;
-	profNode* current;
+	std::map<u8, profNode*> heads;
+	std::map<u8, profNode*> currents;
 	profNode* selected;
 
 	// TODO: set this up in constructor + reload function
