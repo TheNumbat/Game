@@ -8,19 +8,20 @@
 
 struct game;
 
-// Decided to do no ineritance component based system. 
+// Decided to do component based system with no inheritance 
 	// Subject to change - could use single inheritance, inherited components, tree inheritance...?
 
 typedef u32 entity;
 #define e_null ((entity)0)
 
 enum c_type : u8 {
-	ct_pos = 1 << 0,
-	ct_tex = 1 << 1,
-	ct_text = 1 << 2,
-	ct_phys = 1 << 3,
+	ct_pos = 0,
+	ct_tex,
+	ct_text,
+	ct_phys,
 
-	ct_none = 0xff
+	ct_none,
+	ct_count
 };
 
 struct c_pos {
@@ -35,17 +36,19 @@ struct c_tex {
 
 	std::string ID;
 	s16 layer;
-	r2<r32> posRect; // meters
+	r2<r32> posRect; // meters or pixels (set respectMeters)
 	r2<s32> srcPxlRect; // pixels
 	v2<r32> rotPt; // meters
 	r32 rot; // radians
 	flipmode flip;
 	color mod;
 	blendmode blend;
-	bool zoom;
+
+	bool respectZoom;
+	bool respectMeters;
 };
 
-struct c_text : public c_tex { // inherited just for member reuse
+struct c_text : public c_tex { // inherited for reuse
 	// does not use ID member
 	c_text();
 	c_text(const c_text& src);
@@ -73,19 +76,6 @@ struct component {
 	};
 };
 
-namespace std {
-	template<>
-	struct std::less<std::tuple<bool, mpos, c_tex*>> { // for priority_queue
-		bool operator()(const std::tuple<bool, mpos, c_tex*>& l, const std::tuple<bool, mpos, c_tex*>& r) {
-			// This is flipped so lowest layer is highest priority
-			if (std::get<2>(l)->layer < std::get<2>(r)->layer) return false;
-			if (std::get<2>(l)->layer > std::get<2>(r)->layer) return true;
-			return (std::get<1>(l).chunk.y * CHUNK_SIZE_METERS + std::get<1>(l).real.y + std::get<2>(l)->posRect.y + std::get<2>(l)->posRect.h) >
-				   (std::get<1>(r).chunk.y * CHUNK_SIZE_METERS + std::get<1>(r).real.y + std::get<2>(r)->posRect.y + std::get<2>(r)->posRect.h);
-		}
-	};
-}
-
 typedef std::multimap<c_type, component> entitydata;
 
 class entityMgr {
@@ -103,7 +93,7 @@ public:
 private:
 	u32 lastUID;
 
-	// TODO: unordered or no or yes?
+	// TODO: ordered?
 	std::unordered_map<entity, entitydata> edata;
 
 	// SOA entity components - will be accessed by different systems all at once so this should be cache efficient...I think

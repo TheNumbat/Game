@@ -16,7 +16,8 @@ component::component(const component& src) {
 c_tex::c_tex() {
 	layer = 0;
 	rot = 0;
-	zoom = true;
+	respectZoom = true;
+	respectMeters = true;
 	flip = flip_none;
 	blend = blend_alpha;
 	mod = color(255, 255, 255, 0);

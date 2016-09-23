@@ -117,7 +117,8 @@ bool game::run() {
 
 	//////////////////////////////////////////////////////////////////////////////
 
-	ren.renderDebugHUD();
+	ren.batchDebugHUD();
+	ren.render();
 	e->gfx.swapFrame();
 
 	debug.endFrame();

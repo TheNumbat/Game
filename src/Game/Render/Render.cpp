@@ -9,10 +9,10 @@ void Render::render() {
 	if (g->ren.batchQueue.size()) {
 		renderBatch& batch = batchQueue.front();
 		while (batch.size()) {
-			auto& t = batch.top();
-			g->ren.renderCTex(t);
-			if (std::get<0>(t)) {
-				delete std::get<2>(t);
+			const renderable* t = &batch.top();
+			g->ren.renderRenderable(t);
+			if (t->deleteAfter) {
+				delete t->texture;
 			}
 			batch.pop();
 		}
@@ -24,6 +24,12 @@ void Render::render() {
 Render::camera::camera() {
 	zoom = 1;
 	following = e_null;
+}
+
+Render::renderable::renderable(c_tex* t, mpos b, bool del) {
+	texture = t;
+	base = b;
+	deleteAfter = del;
 }
 
 void Render::camera::update(game* g) {
@@ -107,7 +113,7 @@ void Render::batchMap() {
 
 			// Debug: draw chunk boundary
 			if (g->debug.getFlag(renderChunkbounds)) {
-				batch.push({ false, mpos(rpos(), currentCPos), debugTextures[dt_chunkbounds] });
+				batch.push(renderable( debugTextures[dt_chunkbounds], mpos(rpos(), currentCPos), false ));
 			}
 
 			for (entity e : *currentC) {
@@ -127,7 +133,7 @@ void Render::batchMap() {
 					text->layer = INT16_MAX;
 					r32 size = g->e->gfx.getFontSize("debug_small") * PIXELS_TO_METERS;
 					text->posRect = r2<r32>(0, 0, text->msg.length() * size, size);
-					batch.push({ true, pos, text });
+					batch.push(renderable( text, pos, true ));
 				}
 				
 				// TODO: Debug: draw collision bounds
@@ -137,7 +143,7 @@ void Render::batchMap() {
 				if (!etexs.size()) continue;
 
 				for (component& c : etexs) {
-					batch.push({ false, pos, c.tex });
+					batch.push(renderable( c.tex, pos, false ));
 				}
 			}
 		}
@@ -145,35 +151,51 @@ void Render::batchMap() {
 
 	// Debug: draw camera
 	if (g->debug.getFlag(renderCamera)) {
-		batch.push({ false, cam.pos, debugTextures[dt_camera] });
+		batch.push(renderable( debugTextures[dt_camera], cam.pos, false ));
 	}
 	g->debug.endFunc();
 }
 
-void Render::renderDebugHUD() {
+// wew lad
+#define PUSH_TEXT(t,tmsg,rect) t = new c_text(); \
+					t->respectMeters = false; \
+					t->font = "debug_small"; \
+					t->layer = INT16_MAX; \
+					t->msg = tmsg; \
+					t->posRect = rect; \
+					batch.push(renderable(t, mpos(), true)); \
+					lines++;
+
+void Render::batchDebugHUD() {
+	std::string msg;
 	s32 lines = 0;
 	s32 fontsize = e->gfx.getFontSize("debug_small");
+
+	c_text* text;
+
+	batchQueue.push(renderBatch());
+	renderBatch& batch = batchQueue.back();
 
 	if (!g->debug.getFlag(renderDebugUI)) {
 		r64 fps = (r64)e->time.getPerfFreq() / (r64)g->debug.getLastFrame();
 		std::string msg = "fps: " + std::to_string(fps);
-		e->gfx.renderText("debug_small", msg, r2<s32>(10, 10 + lines * fontsize, 0, 0));
+		PUSH_TEXT(text, msg, r2<r32>(10, 10, 0, 0));
 	} else {
 		r64 avgFrame = 1000.0f * (r64)g->debug.getAvgFrame() / (r64)e->time.getPerfFreq();
 		r64 lastFrame = 1000.0f * (r64)g->debug.getLastFrame() / (r64)e->time.getPerfFreq();
-		std::string msg1 = "Average frame time (ms): " + std::to_string(avgFrame);
-		std::string msg2 = "Last frame time (ms): " + std::to_string(lastFrame);
 
-		e->gfx.renderText("debug_small", msg1, r2<s32>(10, 10 + lines * fontsize, 0, 0));
-		lines++;
-		e->gfx.renderText("debug_small", msg2, r2<s32>(10, 10 + lines * fontsize, 0, 0));
-		lines++;
+		msg = "Average frame time (ms): " + std::to_string(avgFrame);
+		PUSH_TEXT(text, msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
 
-		e->gfx.renderText("debug_small", "Debug values:", r2<s32>(10, 10 + lines * fontsize, 0, 0));
-		lines++;
+		msg = "Last frame time (ms): " + std::to_string(lastFrame);
+		PUSH_TEXT(text, msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
+
+		msg = "Debug Values:";
+		PUSH_TEXT(text, msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
+
 		for (auto& entry : g->debug.values) {
-			e->gfx.renderText("debug_small", "   " + entry.first + " - " + entry.second->getStr(), r2<s32>(10, 10 + lines * fontsize, 0, 0));
-			lines++;
+			msg = "   " + entry.first + " - " + entry.second->getStr();
+			PUSH_TEXT(text, msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
 		}
 
 		for (auto head : g->debug.heads) {
@@ -184,10 +206,12 @@ void Render::renderDebugHUD() {
 		if (g->events.state == input_console) {
 		 	int sw, sh;
 		 	e->gfx.getWinDim(sw, sh);
-		 	e->gfx.renderText("debug_small", " >>> " + g->events.inStr, r2<s32>(10, sh - fontsize - 10, 0, 0));
+			msg = " >>> " + g->events.inStr;
+		 	PUSH_TEXT(text, msg, r2<r32>(10, sh - fontsize - 10, 0, 0));
 		}
 	}
 }
+#undef PUSH_TEXT
 
 u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize) {
 	if (!node) return 0;
@@ -199,12 +223,19 @@ u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize) 
 	msg = msg + node->name + " - self: " + std::to_string(node->self) +
 		  " heir: " + std::to_string(node->heir) + " calls: " + std::to_string(node->calls);
 
+	c_text* text = new c_text();
+	text->respectMeters = false;
+	text->font = "debug_small";
+	text->layer = INT16_MAX;
+	text->msg = msg;
+	text->posRect = r2<r32>(10, pos, 0, 0);
+
 	if (g->debug.selected.second == node) {
-		e->gfx.renderText("debug_small", msg, r2<s32>(10, pos, 0, 0), blend_alpha, color(50, 100, 255, 0));
+		text->mod = color(50, 100, 255, 0);
 	}
-	else {
-		e->gfx.renderText("debug_small", msg, r2<s32>(10, pos, 0, 0));
-	}
+
+	renderBatch& batch = batchQueue.back();
+	batch.push(renderable(text, mpos(), true));
 
 	int numchildren = 0;
 	if (node->showChildren) {
@@ -253,13 +284,20 @@ void Render::updateBRC() {
 	BRC = newBRC;
 }
 
-void Render::renderCTex(std::tuple<bool, mpos, c_tex*> val) {
+void Render::renderRenderable(const renderable* r) {
 	g->debug.beginFunc(0);
-	c_tex* t = std::get<2>(val);
+	c_tex* t = r->texture;
 
-	v2<r32> pxOffset = mapIntoPxSpace(std::get<1>(val), TLC);
-	r2<r32> pxRect = t->posRect * METERS_TO_PIXELS * (t->zoom ? cam.zoom : 1) + pxOffset;
-	v2<r32> pxRotPt = t->rotPt * METERS_TO_PIXELS * (t->zoom ? cam.zoom : 1);
+	v2<r32> pxOffset = mapIntoPxSpace(r->base, TLC);
+	r2<r32> pxRect;
+	v2<r32> pxRotPt;
+	if (t->respectMeters) {
+		pxRect = t->posRect * METERS_TO_PIXELS * (t->respectZoom ? cam.zoom : 1) + pxOffset;
+		pxRotPt = t->rotPt * METERS_TO_PIXELS * (t->respectZoom ? cam.zoom : 1);
+	} else {
+		pxRect = t->posRect;
+		pxRotPt = t->rotPt;
+	}
 
 	if (c_text* text = dynamic_cast<c_text*>(t)) {
 		e->gfx.renderTextEx(text->font, text->msg, pxRect.round(), text->srcPxlRect, text->blend, text->mod, pxRotPt.round(), text->rot, text->flip);
