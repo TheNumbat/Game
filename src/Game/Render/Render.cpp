@@ -4,32 +4,21 @@
 #include "Render.h"
 #include <sstream>
 
-s32 renderThread(void* _g) {
-	logSetContext("RENDERTHREAD");
-	logInfo("Started Render Thread");
-	game* g = (game*)_g;
-
-	while (g->ren.running) {
-		g->debug.beginFunc(1);
-		g->e->thread.lockMutex(g->ren.qlock);
-		g->e->thread.condWait(g->ren.condRun, g->ren.qlock);
-		if (g->ren.batchQueue.size()) {
-			renderBatch& batch = g->ren.batchQueue.front();
-			while (batch.size()) {
-				auto& t = batch.top();
-				g->ren.renderCTex(t);
-				if (std::get<0>(t)) {
-					delete std::get<2>(t);
-				}
-				batch.pop();
+void Render::render() {
+	g->debug.beginFunc(0);
+	if (g->ren.batchQueue.size()) {
+		renderBatch& batch = batchQueue.front();
+		while (batch.size()) {
+			auto& t = batch.top();
+			g->ren.renderCTex(t);
+			if (std::get<0>(t)) {
+				delete std::get<2>(t);
 			}
-			g->ren.batchQueue.pop();
+			batch.pop();
 		}
-		g->e->thread.unlockMutex(g->ren.qlock);
-		g->debug.endFunc(1);
+		g->ren.batchQueue.pop();
 	}
-	logInfo("Exiting Render Thread");
-	return 0;
+	g->debug.endFunc(0);
 }
 
 Render::camera::camera() {
@@ -55,8 +44,6 @@ void Render::camera::update(game* g) {
 Render::Render(engine* _e, game* _g) {
 	e = _e;
 	g = _g;
-	qlock = e->thread.makeMutex();
-	condRun = e->thread.makeCondVar();
 }
 
 void Render::init() {
@@ -76,40 +63,28 @@ void Render::init() {
 	db->posRect = r2<r32>(-0.5, -0.5, 1, 1);
 	debugTextures.push_back(db);
 
-	startThread();
+	updateBRC();
+	updateTLC();
 }
 
 Render::~Render() {}
 
 void Render::kill() {
-	stopThread();
-	e->thread.freeMutex(qlock);
-	e->thread.freeCondVar(condRun);
 	for (c_tex* t : debugTextures) {
 		delete t;
 	}
 }
 
-void Render::startThread() {
-	running = true;
-	e->thread.add("render", &renderThread, g);
-}
-
-void Render::stopThread() {
-	e->thread.lockMutex(qlock);
-	running = false;
-	e->thread.condSignal(condRun);
-	e->thread.unlockMutex(qlock);
-	int buf;
-	e->thread.wait("render", buf);
-}
-
 void Render::zOut(r32 factor) {
 	cam.zoom /= factor;
+	updateBRC();
+	updateTLC();
 }
 
 void Render::zIn(r32 factor) {
 	cam.zoom *= factor;
+	updateBRC();
+	updateTLC();
 }
 
 void Render::batchMap() {
@@ -121,11 +96,7 @@ void Render::batchMap() {
 	
 	// queue map textures
 
-	mpos TLC = getTLC();
-	mpos BRC = getBRC();
-
 	// loop through chunks on screen
-	e->thread.lockMutex(qlock);
 	for (s16 relX = TLC.offset.x; relX <= BRC.offset.x; relX++) {
 		for (s16 relY = TLC.offset.y; relY <= BRC.offset.y; relY++) {
 
@@ -176,22 +147,6 @@ void Render::batchMap() {
 	if (g->debug.getFlag(renderCamera)) {
 		batch.push({ false, cam.pos, debugTextures[dt_camera] });
 	}
-	e->thread.unlockMutex(qlock);
-	g->debug.endFunc();
-}
-
-void Render::batchBegin() {
-	g->debug.beginFunc(0);
-	e->thread.lockMutex(qlock);
-	e->thread.condSignal(condRun);
-	e->thread.unlockMutex(qlock);
-	g->debug.endFunc();
-}
-
-void Render::end() {
-	g->debug.beginFunc(0);
-	e->thread.lockMutex(qlock);
-	e->thread.unlockMutex(qlock);
 	g->debug.endFunc();
 }
 
@@ -199,13 +154,11 @@ void Render::renderDebugHUD() {
 	s32 lines = 0;
 	s32 fontsize = e->gfx.getFontSize("debug_small");
 
-	e->thread.lockMutex(qlock);
 	if (!g->debug.getFlag(renderDebugUI)) {
-		e->gfx.renderText("debug_small", "Press ~ for profiler", r2<s32>(10, 10 + lines * fontsize, 0, 0));
+		r64 fps = (r64)e->time.getPerfFreq() / (r64)g->debug.getLastFrame();
+		std::string msg = "fps: " + std::to_string(fps);
+		e->gfx.renderText("debug_small", msg, r2<s32>(10, 10 + lines * fontsize, 0, 0));
 	} else {
-		e->gfx.renderText("debug_small", "Press tab for console", r2<s32>(10, 10 + lines * fontsize, 0, 0));
-		lines++;
-
 		r64 avgFrame = 1000.0f * (r64)g->debug.getAvgFrame() / (r64)e->time.getPerfFreq();
 		r64 lastFrame = 1000.0f * (r64)g->debug.getLastFrame() / (r64)e->time.getPerfFreq();
 		std::string msg1 = "Average frame time (ms): " + std::to_string(avgFrame);
@@ -234,7 +187,6 @@ void Render::renderDebugHUD() {
 		 	e->gfx.renderText("debug_small", " >>> " + g->events.inStr, r2<s32>(10, sh - fontsize - 10, 0, 0));
 		}
 	}
-	e->thread.unlockMutex(qlock);
 }
 
 u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize) {
@@ -275,7 +227,7 @@ v2<r32> Render::mapIntoPxSpace(mpos point, mpos origin) {
 	return pixels;
 }
 
-mpos Render::getTLC() {
+void Render::updateTLC() {
 	s32 wW, wH;
 	e->gfx.getWinDim(wW, wH);
 	r32 halfWMeters = (wW / 2.0f) * (PIXELS_TO_METERS / cam.zoom);
@@ -283,13 +235,12 @@ mpos Render::getTLC() {
 
 	// Get chunk positions of Top Left Corner and Bottom Right Corner of window
 	mpos winOffset(rpos(halfWMeters, halfHMeters, 0), cpos());
-	mpos TLC = cam.pos - winOffset;
+	mpos newTLC = cam.pos - winOffset;
 
-	return TLC;
+	TLC = newTLC;
 }
 
-
-mpos Render::getBRC() {
+void Render::updateBRC() {
 	s32 wW, wH;
 	e->gfx.getWinDim(wW, wH);
 	r32 halfWMeters = (wW / 2.0f) * (PIXELS_TO_METERS / cam.zoom);
@@ -297,15 +248,16 @@ mpos Render::getBRC() {
 
 	// Get chunk positions of Top Left Corner and Bottom Right Corner of window
 	mpos winOffset(rpos(halfWMeters, halfHMeters, 0), cpos());
-	mpos BRC = cam.pos + winOffset;
+	mpos newBRC = cam.pos + winOffset;
 
-	return BRC;
+	BRC = newBRC;
 }
 
 void Render::renderCTex(std::tuple<bool, mpos, c_tex*> val) {
+	g->debug.beginFunc(0);
 	c_tex* t = std::get<2>(val);
 
-	v2<r32> pxOffset = mapIntoPxSpace(std::get<1>(val), getTLC());
+	v2<r32> pxOffset = mapIntoPxSpace(std::get<1>(val), TLC);
 	r2<r32> pxRect = t->posRect * METERS_TO_PIXELS * (t->zoom ? cam.zoom : 1) + pxOffset;
 	v2<r32> pxRotPt = t->rotPt * METERS_TO_PIXELS * (t->zoom ? cam.zoom : 1);
 
@@ -317,4 +269,5 @@ void Render::renderCTex(std::tuple<bool, mpos, c_tex*> val) {
 
 		e->gfx.renderTextureEx(t->ID, pxRect.round(), t->srcPxlRect, pxRotPt.round(), t->rot, t->flip);
 	}
+	g->debug.endFunc(0);
 }

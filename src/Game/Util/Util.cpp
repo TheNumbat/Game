@@ -92,6 +92,11 @@ void Util::reloadConsoleFuncs() {
 	// Add all console functions here
 	ADD_FUNC(console::quit);
 	ADD_FUNC(console::log);
+	ADD_FUNC(console::toggleDebugUI);
+	ADD_FUNC(console::toggleChunkbounds);
+	ADD_FUNC(console::toggleCamera);
+	ADD_FUNC(console::togglePositionText);
+	ADD_FUNC(console::toggleCollisionBounds);
 }
 
 void Util::beginFrame() {
@@ -127,7 +132,6 @@ void Util::endFrame() {
 		releaseVal("overFrame");
 		addVal("overTime", 1000.0f * lastFrameTime / (r64) perf);
 		addVal("overFrame", lastFrameTime);
-		toggleProfiler();
 	}
 
 	if (!profilerPaused) {

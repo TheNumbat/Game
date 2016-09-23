@@ -8,14 +8,11 @@
 
 struct game;
 
-s32 renderThread(void* _g); 
-
 const int METERS_TO_PIXELS = 64;
 const r32 PIXELS_TO_METERS = 1.0f / METERS_TO_PIXELS;
 
-typedef std::priority_queue<std::tuple<bool, mpos, c_tex*>> renderBatch;
-
 class Render {
+	typedef std::priority_queue<std::tuple<bool, mpos, c_tex*>> renderBatch;
 	class camera {
 		camera();
 		void update(game* g);
@@ -33,26 +30,24 @@ public:
 	void init();
 	void kill();
 
+	// not threaded ... feelsbadman
 	void batchMap();
-	void batchBegin(); // will wait for previous batch to finish
-	void end();
-
-	void renderDebugHUD(); // not threaded
+	void render(); // renders next batch 
+	void renderDebugHUD(); 
 
 	void zIn(r32 factor);
 	void zOut(r32 factor);
-
-	void startThread();
-	void stopThread();
 
 private:
 	u32 recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize);
 	void renderCTex(std::tuple<bool, mpos, c_tex*> t);
 	v2<r32> mapIntoPxSpace(mpos point, mpos origin);
-	mpos getTLC();
-	mpos getBRC();
+	
+	void updateTLC();
+	void updateBRC();
 
 	camera cam;
+	mpos TLC, BRC;
 
 	std::vector<c_tex*> debugTextures;
 	enum debugtexturename { // index into debugTextures
@@ -60,15 +55,9 @@ private:
 		dt_camera = 1
 	};
 
-	// for render thread
 	std::queue<renderBatch> batchQueue;
-	mutex qlock;
-	cond_var condRun;
-	bool running;
 
 	engine* e;
 	game* g;
-
-	friend s32 renderThread(void* _g);
 };
 

@@ -48,7 +48,6 @@ game::game(engine* _e)
 	logExitSec();
 
 	debug.beginThreadProf("main", 0, true);
-	debug.beginThreadProf("render", 1);
 	
 	ren.init();
 
@@ -110,12 +109,9 @@ bool game::run() {
 	debug.beginFunc(0);
 
 	ren.batchMap();
-	ren.batchBegin(); // starts rendering batch
+	ren.render(); // renders batch
 
 	events.handleEvents(); // this is updating stuff as the render thread is pulling stuff...wew lad
-
-	// for (int i = 0; i < 1000000; i++); // do work while render thread renders
-	ren.end(); // waits for thread to finish batch
 
 	debug.endFunc();
 
@@ -131,13 +127,10 @@ bool game::run() {
 void game::startReload() {
 	logSetContext("RELOAD");
 	logInfo("Shutting down threads.");
-	ren.stopThread();
-	// am I missing a thread here? it breaks sometimes
 }
 
 void game::endReload() {
 	logSetContext("RELOAD");
 	logInfo("Spawning threads");
 	debug.reloadConsoleFuncs();
-	ren.startThread();
 }

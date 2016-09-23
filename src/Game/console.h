@@ -19,13 +19,38 @@ namespace console {
 		std::stringstream ss(args);
 		std::string context, msg;
 		ss >> context;
-		msg = args.substr(context.size() + 2, args.size());
+		msg = args.substr(context.length() + 2, args.size());
 		if (ss.fail()) {
 			logWarn("Failed to parse input in console func: log");
 			return false;
 		}
 		logChangeContext(context);
 		logInfo(msg);
+		return true;
+	}
+
+	FUNC(toggleDebugUI) {
+		g->debug.toggleFlag(renderDebugUI);		
+		return true;
+	}
+
+	FUNC(toggleChunkbounds) {
+		g->debug.toggleFlag(renderChunkbounds);
+		return true;
+	}
+
+	FUNC(toggleCamera) {
+		g->debug.toggleFlag(renderCamera);
+		return true;
+	}
+
+	FUNC(togglePositionText) {
+		g->debug.toggleFlag(renderPositionText);
+		return true;
+	}
+
+	FUNC(toggleCollisionBounds) {
+		g->debug.toggleFlag(renderCollisionBounds);
 		return true;
 	}
 }
