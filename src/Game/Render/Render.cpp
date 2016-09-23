@@ -213,6 +213,10 @@ void Render::batchDebugHUD() {
 		 	e->gfx.getWinDim(sw, sh);
 			msg = " >>> " + g->events.inStr;
 		 	PUSH_TEXT(msg, r2<r32>(10, sh - fontsize - 10, 0, 0));
+
+			for (int i = 0; i < g->events.chatLog.size() && i < 10; i++) {
+				PUSH_TEXT(g->events.chatLog[i], r2<r32>(10, sh - 10 - (i + 2) * fontsize, 0, 0));
+			}
 		}
 	}
 }

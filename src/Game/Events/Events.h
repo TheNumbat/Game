@@ -18,7 +18,7 @@ public:
 	~Events();
 
 	void handleEvents();
-	void clearStrBuf();
+	void clearLog();
 	void setState(input_state s);
 
 private:
@@ -29,7 +29,9 @@ private:
 	void screenText(event_text* ev, const std::string& exclude);
 
 	std::string inStr;
-	std::vector<std::string> inStrBuf;
+	s16 logLoc;
+	std::vector<std::string> chatLog;
+	static const u32 MAX_CHAT = 100;
 
 	input_state state;
 

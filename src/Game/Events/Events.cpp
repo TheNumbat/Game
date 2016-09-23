@@ -7,6 +7,7 @@ Events::Events(engine* _e, game* _g) {
 	e = _e;
 	g = _g;
 	state = input_game;
+	logLoc = -1;
 }
 
 Events::~Events() {}
@@ -35,8 +36,9 @@ void Events::handleEvents() {
 	g->debug.endFunc();
 }
 
-void Events::clearStrBuf() {
-	inStrBuf.clear();
+void Events::clearLog() {
+	chatLog.clear();
+	logLoc = -1;
 }
 
 void Events::setState(input_state s) {
@@ -157,16 +159,21 @@ void Events::handleConsole(event* ev) {
 			} else if (ek->k == key_enter) {
 				if (inStr == "reload") {
 					g->debug.reloadConsoleFuncs();
-					inStr = "";
-				} else if (inStr == "exit") {
+				}
+				else if (inStr == "exit") {
 					g->debug.clearFlag(renderDebugUI);
 					state = input_game;
 					e->input.endTextIn();
+				} else if(inStr == "clear") {
+					clearLog();
+				} else if(inStr.size()) {
+					g->debug.callConsoleFunc(inStr + " ");
+					logLoc = -1;
+				}
+				if (inStr.size()) {
+					chatLog.insert(chatLog.begin(), inStr);
+					if (chatLog.size() > MAX_CHAT)
 					inStr = "";
-				} else {
-					if (g->debug.callConsoleFunc(inStr + " ")) {
-						inStr = "";
-					}
 				}
 			} else if (ek->k == key_tab) {
 				state = input_profiler;
@@ -175,6 +182,21 @@ void Events::handleConsole(event* ev) {
 				g->debug.clearFlag(renderDebugUI);
 				state = input_game;
 				e->input.endTextIn();
+			} else if (ek->k == key_up) {
+				if (logLoc < (s16)chatLog.size() - 1) {
+					logLoc++;
+					inStr = chatLog[logLoc];
+				}
+			} else if (ek->k == key_down) {
+				if (logLoc > 0) {
+					logLoc--;
+					inStr = chatLog[logLoc];
+				} else if (logLoc == 0) {
+					logLoc--;
+					inStr = "";
+				} else {
+					inStr = "";
+				}
 			}
 
 			if (ek->flags & flag_key_ctrl) {
