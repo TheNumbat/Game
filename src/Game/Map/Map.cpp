@@ -109,7 +109,7 @@ chunk* Map::getChunk(cpos p) {
 	return &entry->second;
 }
 
-bool Map::addEntity(entity e) {
+bool Map::registerEntity(entity e) {
 	logSetContext("MAP");
 
 	component pos = g->emgr.getC(e, ct_pos);

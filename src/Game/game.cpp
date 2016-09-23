@@ -60,6 +60,7 @@ game::game(engine* _e)
 
 	component etex = emgr.addC(e, ct_tex);
 	etex.tex->ID = "test";
+	etex.tex->layer = -1;
 	etex.tex->posRect = r2<r32>(0, 0, 10, 10);
 
 	etex = emgr.addC(e, ct_tex);
@@ -67,11 +68,11 @@ game::game(engine* _e)
 	etex.tex->posRect = r2<r32>(-.5, -.5, 1, 1);
 
 	component etext = emgr.addC(e, ct_text);
-	etext.text->font = "ayy";
-	etext.text->msg = "lmao";
+	etext.text->font = "debug_small";
+	etext.text->msg = "AYYY";
 	etext.text->posRect = r2<r32>(-.5, -.5, 1, 1);
 
-	map.addEntity(e);
+	map.registerEntity(e);
 
 	debug.setFlag(renderChunkbounds);
 	debug.setFlag(renderCamera);

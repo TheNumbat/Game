@@ -139,11 +139,15 @@ void Render::batchMap() {
 				// TODO: Debug: draw collision bounds
 
 				std::vector<component> etexs = g->emgr.getMultiC(e, ct_tex);
+				std::vector<component> etexts = g->emgr.getMultiC(e, ct_text);
 
-				if (!etexs.size()) continue;
+				if (!etexs.size() && !etexts.size()) continue;
 
 				for (component& c : etexs) {
-					batch.push(renderable( c.tex, pos, false ));
+					batch.push(renderable(c.tex, pos, false));
+				}
+				for (component& c : etexts) {
+					batch.push(renderable(c.text, pos, false));
 				}
 			}
 		}
@@ -156,15 +160,16 @@ void Render::batchMap() {
 	g->debug.endFunc();
 }
 
-// wew lad
-#define PUSH_TEXT(t,tmsg,rect) t = new c_text(); \
-					t->respectMeters = false; \
-					t->font = "debug_small"; \
-					t->layer = INT16_MAX; \
-					t->msg = tmsg; \
-					t->posRect = rect; \
-					batch.push(renderable(t, mpos(), true)); \
-					lines++;
+// Only for batchDebugHUD (wew lad)
+#define PUSH_TEXT(tmsg,rect) \
+	text = new c_text(); \
+	text->respectMeters = false; \
+	text->font = "debug_small"; \
+	text->layer = INT16_MAX; \
+	text->msg = tmsg; \
+	text->posRect = rect; \
+	batch.push(renderable(text, mpos(), true)); \
+	lines++;
 
 void Render::batchDebugHUD() {
 	std::string msg;
@@ -179,23 +184,23 @@ void Render::batchDebugHUD() {
 	if (!g->debug.getFlag(renderDebugUI)) {
 		r64 fps = (r64)e->time.getPerfFreq() / (r64)g->debug.getLastFrame();
 		std::string msg = "fps: " + std::to_string(fps);
-		PUSH_TEXT(text, msg, r2<r32>(10, 10, 0, 0));
+		PUSH_TEXT(msg, r2<r32>(10, 10, 0, 0));
 	} else {
 		r64 avgFrame = 1000.0f * (r64)g->debug.getAvgFrame() / (r64)e->time.getPerfFreq();
 		r64 lastFrame = 1000.0f * (r64)g->debug.getLastFrame() / (r64)e->time.getPerfFreq();
 
 		msg = "Average frame time (ms): " + std::to_string(avgFrame);
-		PUSH_TEXT(text, msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
+		PUSH_TEXT(msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
 
 		msg = "Last frame time (ms): " + std::to_string(lastFrame);
-		PUSH_TEXT(text, msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
+		PUSH_TEXT(msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
 
 		msg = "Debug Values:";
-		PUSH_TEXT(text, msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
+		PUSH_TEXT(msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
 
 		for (auto& entry : g->debug.values) {
 			msg = "   " + entry.first + " - " + entry.second->getStr();
-			PUSH_TEXT(text, msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
+			PUSH_TEXT(msg, r2<r32>(10, 10 + lines * fontsize, 0, 0));
 		}
 
 		for (auto head : g->debug.heads) {
@@ -207,7 +212,7 @@ void Render::batchDebugHUD() {
 		 	int sw, sh;
 		 	e->gfx.getWinDim(sw, sh);
 			msg = " >>> " + g->events.inStr;
-		 	PUSH_TEXT(text, msg, r2<r32>(10, sh - fontsize - 10, 0, 0));
+		 	PUSH_TEXT(msg, r2<r32>(10, sh - fontsize - 10, 0, 0));
 		}
 	}
 }

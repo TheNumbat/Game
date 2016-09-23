@@ -38,7 +38,7 @@ struct mpos { // combined position (for entity)
 	mpos(rpos r, cpos c, cpos o = cpos(0, 0, 0));
 	mpos& move(rpos r); // can update offset
 	mpos& move(cpos c); // will update offset
-	mpos& clamp();
+	mpos& clamp(); // clamps real to CHUNK_SIZE_METERS, updates chunk, offset
 
 	// offset will become only result of addition/subtraction
 	mpos operator+(const mpos& other);
@@ -74,7 +74,7 @@ public:
 	chunk* reqChunk(cpos p); // gets or adds chunk (reqiureChunk)
 	chunk* getChunk(cpos p);
 
-	bool addEntity(entity e); // e needs a c_pos
+	bool registerEntity(entity e); // e needs a c_pos
 	bool updateEntity(entity e);
 
 private:
