@@ -173,6 +173,7 @@ void Events::handleConsole(event* ev) {
 				if (inStr.size()) {
 					chatLog.insert(chatLog.begin(), inStr);
 					if (chatLog.size() > MAX_CHAT)
+						chatLog.pop_back();
 					inStr = "";
 				}
 			} else if (ek->k == key_tab) {
