@@ -294,7 +294,8 @@ void Render::renderRenderable(const renderable* r) {
 		pxRotPt = t->rotPt;
 	}
 
-	if (c_text* text = dynamic_cast<c_text*>(t)) {
+	if (t->isText) {
+		c_text* text = (c_text*) t;
 		e->gfx.renderText(text->font, text->msg, pxRect.round());
 	} else {
 		e->gfx.setBlendmode(t->ID, t->blend);

@@ -130,10 +130,14 @@ bool game::run() {
 void game::startReload() {
 	logSetContext("RELOAD");
 	logInfo("Shutting down threads.");
+	//e->gfx.freeFont("debug_small");
+	//e->gfx.freeFont("debug_small_blue");
 }
 
 void game::endReload() {
 	logSetContext("RELOAD");
 	logInfo("Spawning threads");
 	debug.reloadConsoleFuncs();
+	//e->gfx.loadFont("debug_small", "debug_assets/OpenSans.ttf", 12, font_normal);
+	//e->gfx.loadFont("debug_small_blue", "debug_assets/OpenSans.ttf", 12, font_normal, color(50, 100, 255, 255));
 }

@@ -46,6 +46,7 @@ struct c_tex {
 
 	bool respectZoom;
 	bool respectMeters;
+	bool isText; // because dynamic_cast is borked
 };
 
 struct c_text : public c_tex { // inherited for reuse
