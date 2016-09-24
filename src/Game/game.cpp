@@ -39,7 +39,8 @@ game::game(engine* _e)
 	e->audio.play("test");
 
 	logInfo("Loading fonts");
-	e->gfx.loadFont("debug_small", "debug_assets/OpenSans.ttf", 16);
+	e->gfx.loadFont("debug_small", "debug_assets/OpenSans.ttf", 16, font_normal);
+	e->gfx.loadFont("debug_small_blue", "debug_assets/OpenSans.ttf", 16, font_normal, color(50, 100, 255, 255));
 
 	logInfo("Loading files");
 	e->file.loadFile("test", "test.png", file_binary, file_read);

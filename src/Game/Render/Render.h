@@ -59,8 +59,7 @@ private:
 	void renderRenderable(const renderable* r);
 	v2<r32> mapIntoPxSpace(mpos point, mpos origin);
 	
-	void updateTLC();
-	void updateBRC();
+	void updateCorners();
 
 	camera cam;
 	mpos TLC, BRC;

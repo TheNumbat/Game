@@ -39,6 +39,9 @@
     <ClCompile Include="..\..\src\Engine\engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\SDL2-2.0.4\include\SDL_FontCache.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Engine\audio\Audio.h">
