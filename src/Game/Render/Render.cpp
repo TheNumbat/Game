@@ -4,6 +4,8 @@
 #include "Render.h"
 #include <sstream>
 
+#pragma warning (disable: 4244)
+
 void Render::render() {
 	g->debug.beginFunc(0);
 	if (g->ren.batchQueue.size()) {
@@ -45,6 +47,7 @@ void Render::camera::update(game* g) {
 	}
 
 	pos = cpos.pos->pos;
+	g->ren.updateCorners();
 }
 
 Render::Render(engine* _e, game* _g) {
@@ -69,8 +72,7 @@ void Render::init() {
 	db->posRect = r2<r32>(-0.5, -0.5, 1, 1);
 	debugTextures.push_back(db);
 
-	updateBRC();
-	updateTLC();
+	updateCorners();
 }
 
 Render::~Render() {}
@@ -83,14 +85,12 @@ void Render::kill() {
 
 void Render::zOut(r32 factor) {
 	cam.zoom /= factor;
-	updateBRC();
-	updateTLC();
+	updateCorners();
 }
 
 void Render::zIn(r32 factor) {
 	cam.zoom *= factor;
-	updateBRC();
-	updateTLC();
+	updateCorners();
 }
 
 void Render::batchMap() {
@@ -240,7 +240,7 @@ u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize) 
 	text->posRect = r2<r32>(10, pos, 0, 0);
 
 	if (g->debug.selected.second == node) {
-		text->mod = color(50, 100, 255, 0);
+		text->font = "debug_small_blue";
 	}
 
 	renderBatch& batch = batchQueue.back();
@@ -267,7 +267,7 @@ v2<r32> Render::mapIntoPxSpace(mpos point, mpos origin) {
 	return pixels;
 }
 
-void Render::updateTLC() {
+void Render::updateCorners() {
 	s32 wW, wH;
 	e->gfx.getWinDim(wW, wH);
 	r32 halfWMeters = (wW / 2.0f) * (PIXELS_TO_METERS / cam.zoom);
@@ -275,22 +275,8 @@ void Render::updateTLC() {
 
 	// Get chunk positions of Top Left Corner and Bottom Right Corner of window
 	mpos winOffset(rpos(halfWMeters, halfHMeters, 0), cpos());
-	mpos newTLC = cam.pos - winOffset;
-
-	TLC = newTLC;
-}
-
-void Render::updateBRC() {
-	s32 wW, wH;
-	e->gfx.getWinDim(wW, wH);
-	r32 halfWMeters = (wW / 2.0f) * (PIXELS_TO_METERS / cam.zoom);
-	r32 halfHMeters = (wH / 2.0f) * (PIXELS_TO_METERS / cam.zoom);
-
-	// Get chunk positions of Top Left Corner and Bottom Right Corner of window
-	mpos winOffset(rpos(halfWMeters, halfHMeters, 0), cpos());
-	mpos newBRC = cam.pos + winOffset;
-
-	BRC = newBRC;
+	TLC = cam.pos - winOffset;
+	BRC = cam.pos + winOffset;
 }
 
 void Render::renderRenderable(const renderable* r) {
@@ -309,7 +295,7 @@ void Render::renderRenderable(const renderable* r) {
 	}
 
 	if (c_text* text = dynamic_cast<c_text*>(t)) {
-		e->gfx.renderTextEx(text->font, text->msg, pxRect.round(), text->srcPxlRect, text->blend, text->mod, pxRotPt.round(), text->rot, text->flip);
+		e->gfx.renderText(text->font, text->msg, pxRect.round());
 	} else {
 		e->gfx.setBlendmode(t->ID, t->blend);
 		e->gfx.setColorMod(t->ID, t->mod);

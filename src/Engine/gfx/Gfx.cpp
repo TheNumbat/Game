@@ -3,7 +3,7 @@
 #include "..\log\log.h"
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL_FontCache.h>
 #include <dirent.h>
 
 color::color() {
@@ -134,7 +134,7 @@ color texture::getColormod(color c) {
 }
 
 font::font() {
-	sdl_font = NULL;
+	fc_font = NULL;
 	size = 0;
 	good = false;
 }
@@ -143,17 +143,38 @@ font::~font() {
 	free();
 }
 
-bool font::load(const std::string& path, s32 fsize) {
+bool font::load(const std::string& path, void* renderer, s32 fsize, color c, fontstyle style) {
 	free();
 
-	sdl_font = TTF_OpenFont(path.c_str(), fsize);
-	assert(sdl_font);
-	if (!sdl_font) {
+	fc_font = FC_CreateFont();
+	int result;
+	switch (style) {
+	case font_normal:
+		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_NORMAL);
+		break;
+	case font_bold:
+		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_BOLD);
+		break;
+	case font_italic:
+		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_ITALIC);
+		break;
+	case font_outline:
+		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_OUTLINE);
+		break;
+	case font_strikethrough:
+		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_STRIKETHROUGH);
+		break;
+	case font_underline:
+		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_UNDERLINE);
+		break;
+	}
+	assert(result != 0);
+	if (result == 0) {
 		logSetContext("GRAPHICS");
 		logWarn("Failed to load font from path " + path + " error: " + TTF_GetError());
 		return false;
 	}
-
+	
 	file = path;
 	size = fsize;
 	good = true;
@@ -162,18 +183,13 @@ bool font::load(const std::string& path, s32 fsize) {
 
 bool font::free() {
 	if (good) {
-		TTF_CloseFont((TTF_Font*)sdl_font);
-		sdl_font = NULL;
+		FC_FreeFont((FC_Font*)fc_font);
+		fc_font = NULL;
 		size = 0;
 		good = false;
 		return true;
 	}
 	return false;
-}
-
-bool font::loadSize(s32 s) {
-	free();
-	return load(file, s);
 }
 
 s32 font::getSize() {
@@ -341,7 +357,7 @@ bool Gfx::setViewport(r2<s32> port) {
 	return true;
 }
 
-bool Gfx::loadFont(const std::string& fontID, const std::string& path, s32 size) {
+bool Gfx::loadFont(const std::string& fontID, const std::string& path, s32 size, fontstyle style, color c) {
 	logSetContext("GRPAHICS");
 
 	if (fonts.find(fontID) != fonts.end())
@@ -352,7 +368,7 @@ bool Gfx::loadFont(const std::string& fontID, const std::string& path, s32 size)
 
 	font* newF = new font;
 
-	if (!newF->load(path, size))
+	if (!newF->load(path, sdl_renderer, size, c, style))
 	{
 		logWarn("Failed to load font ID: " + fontID + " from " + path);
 		delete newF;
@@ -384,48 +400,6 @@ bool Gfx::loadTexture(const std::string& texID, const std::string& path, blendmo
 
 	textures.insert({texID, newT});
 	logInfo("Loaded texture ID: " + texID + " from " + path);
-	return true;
-}
-
-bool Gfx::addTextTexture(const std::string& texID, const std::string& fontID, const std::string& text, blendmode b, color c) {
-	logSetContext("GRAPHICS");
-
-	if(textures.find(texID) != textures.end()) {
-		logWarn("Texture ID " + texID + " already taken!");
-		return false;
-	}
-
-	auto fontEntry = fonts.find(fontID);
-	if(fontEntry == fonts.end()) {
-		logWarn("Font ID " + fontID + " could not be found!");
-		return false;
-	}
-
-	SDL_Color sdl_color;
-	sdl_color.r = c.r;
-	sdl_color.g = c.g;
-	sdl_color.b = c.b;
-	sdl_color.a = c.a;
-
-	// TODO: more text rendering options
-	SDL_Surface* textSurface = TTF_RenderText_Solid((TTF_Font*)fontEntry->second->sdl_font,text.c_str(),sdl_color);
-
-	assert(textSurface);
-	if(!textSurface) {
-		logWarn("Failed to create surface from font ID " + fontID + " Error: " + TTF_GetError());
-		return false;
-	}
-
-	texture* newT = new texture;
-	if(!newT->load(textSurface,sdl_renderer,b,c)) {
-		SDL_FreeSurface(textSurface);
-		logWarn("Failed to load texture from font surface");
-		delete newT;
-		return false;
-	}
-
-	SDL_FreeSurface(textSurface);
-	textures.insert({texID,newT});
 	return true;
 }
 
@@ -475,24 +449,6 @@ s32 Gfx::getFontSize(const std::string& fontID) {
 	}
 
 	return fontItem->second->getSize();
-}
-
-bool Gfx::setFontSize(const std::string& fontID, s32 size) {
-	logSetContext("GRAPHICS");
-
-	auto fontItem = fonts.find(fontID);
-	if(fontItem == fonts.end()) {
-		logWarn("Can't set font size, could not find loaded texture with ID: " + fontID);
-		return false;
-	}
-
-	if(!fontItem->second->loadSize(size))
-	{
-		logWarn("Failed to set font size for font ID: " + fontID);
-		return false;
-	}
-
-	return true;
 }
 
 bool Gfx::loadTexFolder(const std::string& path) {
@@ -565,7 +521,7 @@ bool Gfx::loadFontFolder(const std::string& path, s32 size) {
 		if (entryName != ".." && entryName != ".") {
 			std::string ext = entryName.substr(entryName.length() - 4, entryName.length());
 			if (ext == ".ttf")
-				loadFont(entryName.substr(0, entryName.length() - 4), dirPath + entryName, size);
+				loadFont(entryName.substr(0, entryName.length() - 4), dirPath + entryName, size, font_normal);
 			else if (ext[0] != '.')
 				loadFontFolder(dirPath + entryName + '/', size);
 		}
@@ -718,38 +674,16 @@ bool Gfx::renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> s
 	return true;
 }
 
-bool Gfx::renderText(const std::string& fontID, const std::string& text, r2<s32> dest_rect, blendmode b, color c) {
+bool Gfx::renderText(const std::string& fontID, const std::string& text, r2<s32> dest_rect) {
 	logSetContext("GRAPHICS");
 
-	if(!addTextTexture("textrender_temp",fontID,text,b,c))
-	{
+	auto fentry = fonts.find(fontID);
+	if (fentry == fonts.end()) {
+		logWarn("Failed to find font ID " + fontID);
 		return false;
 	}
-	if(!renderTexture("textrender_temp",dest_rect))
-	{
-		return false;
-	}
-	if(!freeTexture("textrender_temp"))
-	{
-		return false;
-	}
-	return true;
-}
 
-bool Gfx::renderTextEx(const std::string& fontID, const std::string& text, r2<s32> dest_rect, r2<s32> src_rect, blendmode b, color c, v2<s32> rot_pos32, r32 rot, flipmode flip) {
-	logSetContext("GRAPHICS");
+	FC_Draw((FC_Font*)fentry->second->fc_font, (SDL_Renderer*)sdl_renderer, dest_rect.x, dest_rect.y, text.c_str());
 
-	if(!addTextTexture("textrender_temp",fontID,text,b,c))
-	{
-		return false;
-	}
-	if(!renderTextureEx("textrender_temp",dest_rect,src_rect,rot_pos32,rot,flip))
-	{
-		return false;
-	}
-	if(!freeTexture("textrender_temp"))
-	{
-		return false;
-	}
 	return true;
 }

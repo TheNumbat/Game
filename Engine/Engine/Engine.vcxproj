@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\SDL2-2.0.4\include\SDL_FontCache.c" />
     <ClCompile Include="..\..\src\Engine\audio\Audio.cpp" />
     <ClCompile Include="..\..\src\Engine\engine.cpp" />
     <ClCompile Include="..\..\src\Engine\file\file.cpp" />
