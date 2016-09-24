@@ -55,6 +55,12 @@ Render::Render(engine* _e, game* _g) {
 	g = _g;
 }
 
+void Render::setFollow(entity en) {
+	cam.following = en;
+	cam.update(g);
+	updateCorners();
+}
+
 void Render::init() {
 	e->gfx.loadTexture("debug_chunkbounds", "debug_assets/chunkbounds.bmp");
 	e->gfx.loadTexture("debug_camera", "debug_assets/camera.png");

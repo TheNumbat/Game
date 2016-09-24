@@ -79,6 +79,7 @@ mpos& mpos::operator-=(const mpos& other) {
 Map::Map(engine* _e, game* _g) {
 	e = _e;
 	g = _g;
+	e->time.addTimer("physics");
 }
 
 Map::~Map() {
@@ -123,7 +124,7 @@ bool Map::registerEntity(entity e) {
 	return true;
 }
 
-bool Map::updateEntity(entity e) {
+bool Map::updateEntity(entity e, bool remove) {
 	logSetContext("MAP");
 
 	component pos = g->emgr.getC(e, ct_pos);
@@ -140,9 +141,79 @@ bool Map::updateEntity(entity e) {
 	}
 	chunk* _new = reqChunk(pos.pos->pos.chunk);
 
-	old->erase(e);
+	if (_new == old)
+		return false;
+
 	_new->insert(e);
+	if (remove)
+		old->erase(e);
 
 	pos.pos->pos.offset = cpos(0, 0, 0);
 	return true;
+}
+
+void Map::runPhysics() {
+	g->debug.beginFunc(0);
+
+	// TODO: simulation regions
+	for (auto& entry : chunks) {
+		chunk& c = entry.second;
+
+		bool moved = false;
+		for (auto eEntry = c.begin(); eEntry != c.end(); moved ? eEntry : ++eEntry) {
+			moved = false;
+
+			entity en = *eEntry;
+			component cp(ct_none, NULL);
+
+			cp = g->emgr.getC(en, ct_pos);
+			c_pos* pos = cp.pos;
+			cp = g->emgr.getC(en, ct_phys);
+			c_phys* phys = cp.phys;
+
+			if (!pos || !phys) continue;
+
+			u64 current = e->time.get("physics");
+			u64 dT = current - phys->lastUpdate;
+
+			phys->velocity += phys->accel * (dT / 1000.0f);
+			v2<r32> dP = phys->velocity * (dT / 1000.0f);
+			pos->pos.real += rpos(dP.x, dP.y, 0);
+			pos->pos.clamp();
+
+			if (updateEntity(en, false)) {
+				moved = true;
+				c.erase(eEntry++);
+			}
+
+			phys->lastUpdate = current;
+		}
+	}
+
+	g->debug.endFunc();
+}
+
+bool Map::registerPlayer(u8 id, entity en) {
+	logSetContext("MAP");
+	
+	auto entry = players.find(id);
+	if (entry != players.end()) {
+		logWarn("Player ID " + std::to_string(id) + " already in use!");
+		return false;
+	}
+
+	players.insert({ id, en });
+	return true;
+}
+
+entity Map::getPlayer(u8 id) {
+	logSetContext("MAP");
+
+	auto entry = players.find(id);
+	if (entry == players.end()) {
+		logWarn("Player ID " + std::to_string(id) + " not found!");
+		return false;
+	}
+
+	return entry->second;
 }

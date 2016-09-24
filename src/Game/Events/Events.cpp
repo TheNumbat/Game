@@ -49,6 +49,9 @@ void Events::handleGame(event* ev) {
 	g->debug.beginFunc(0);
 	logSetContext("EVENT");
 
+	entity player = g->map.getPlayer(0);
+	component cphys = g->emgr.getC(player, ct_phys);
+
 	switch (ev->type) {
 		case evt_key:
 			event_key* evk = (event_key*) ev;
@@ -66,6 +69,22 @@ void Events::handleGame(event* ev) {
 						g->debug.toggleFlag(renderDebugUI);
 						state = input_profiler;
 						break;
+					case key_a:
+					case key_left:
+						cphys.phys->velocity = v2<r32>(-2.5f, cphys.phys->velocity.y);
+						break;
+					case key_right:
+					case key_d:
+						cphys.phys->velocity = v2<r32>(2.5f, cphys.phys->velocity.y);
+						break;
+					case key_up:
+					case key_w:
+						cphys.phys->velocity = v2<r32>(cphys.phys->velocity.x, -2.5f);
+						break;
+					case key_down:
+					case key_s:
+						cphys.phys->velocity = v2<r32>(cphys.phys->velocity.x, 2.5f);
+						break;
 				}
 			} else if (evk->flags & flag_key_release) {
 				switch (evk->k) {
@@ -73,11 +92,13 @@ void Events::handleGame(event* ev) {
 					case key_d:
 					case key_left:
 					case key_right:
+						cphys.phys->velocity = v2<r32>(0, cphys.phys->velocity.y);
 						break;
 					case key_w:
 					case key_s:
 					case key_up:
 					case key_down:
+						cphys.phys->velocity = v2<r32>(cphys.phys->velocity.x, 0);
 						break;
 				}
 			} else if (evk->flags & flag_key_repeat) {

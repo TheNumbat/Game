@@ -53,6 +53,7 @@ public:
 
 	void zIn(r32 factor);
 	void zOut(r32 factor);
+	void setFollow(entity en);
 
 private:
 	u32 recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize);

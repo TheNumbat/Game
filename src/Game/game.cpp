@@ -2,16 +2,6 @@
 
 #include "game.h"
 
-s32 threadTest(void* _g) {
-	game* g = (game*) _g;
-	while (g->runThreads) {
-		logSetContext("TEST THREAD");
-		logInfoLvl("TEST THREAD OUTPUT", 0);
-		g->e->thread.delay(1000);
-	}
-	return 0;
-}
-
 game::game(engine* _e) 
 	: events(_e, this), debug(_e, this), map(_e, this), ren(_e, this) {
 
@@ -39,8 +29,8 @@ game::game(engine* _e)
 	e->audio.play("test");
 
 	logInfo("Loading fonts");
-	e->gfx.loadFont("debug_small", "debug_assets/OpenSans.ttf", 16, font_normal);
-	e->gfx.loadFont("debug_small_blue", "debug_assets/OpenSans.ttf", 16, font_normal, color(50, 100, 255, 255));
+	e->gfx.loadFont("debug_small", "debug_assets/OpenSans.ttf", 12, font_normal);
+	e->gfx.loadFont("debug_small_blue", "debug_assets/OpenSans.ttf", 12, font_normal, color(50, 100, 255, 255));
 
 	logInfo("Loading files");
 	e->file.loadFile("test", "test.png", file_binary, file_read);
@@ -54,26 +44,31 @@ game::game(engine* _e)
 
 	//////////////////////////////////////////////////////////////////////////////
 
-	entity e = emgr.create();
-	component epos = emgr.addC(e, ct_pos);
+	entity en = emgr.create();
+	component epos = emgr.addC(en, ct_pos);
 
 	epos.pos->pos.real = rpos(3, 3, 0);
 
-	component etex = emgr.addC(e, ct_tex);
+	component etex = emgr.addC(en, ct_tex);
 	etex.tex->ID = "test";
 	etex.tex->layer = -1;
 	etex.tex->posRect = r2<r32>(0, 0, 10, 10);
 
-	etex = emgr.addC(e, ct_tex);
+	etex = emgr.addC(en, ct_tex);
 	etex.tex->ID = "debug_camera";
 	etex.tex->posRect = r2<r32>(-.5, -.5, 1, 1);
 
-	component etext = emgr.addC(e, ct_text);
+	component etext = emgr.addC(en, ct_text);
 	etext.text->font = "debug_small";
 	etext.text->msg = "AYYY";
 	etext.text->posRect = r2<r32>(-.5, -.5, 1, 1);
 
-	map.registerEntity(e);
+	component ephys = emgr.addC(en, ct_phys);
+	ephys.phys->lastUpdate = e->time.get("physics");
+
+	map.registerEntity(en);
+	map.registerPlayer(0, en);
+	ren.setFollow(en);
 
 	debug.setFlag(renderChunkbounds);
 	debug.setFlag(renderCamera);
@@ -110,10 +105,12 @@ bool game::run() {
 
 	debug.beginFunc(0);
 
+	events.handleEvents();
+
+	map.runPhysics();
+
 	ren.batchMap();
 	ren.render(); // renders batch
-
-	events.handleEvents(); // this is updating stuff as the render thread is pulling stuff...wew lad
 
 	debug.endFunc();
 
@@ -130,14 +127,10 @@ bool game::run() {
 void game::startReload() {
 	logSetContext("RELOAD");
 	logInfo("Shutting down threads.");
-	//e->gfx.freeFont("debug_small");
-	//e->gfx.freeFont("debug_small_blue");
 }
 
 void game::endReload() {
 	logSetContext("RELOAD");
 	logInfo("Spawning threads");
 	debug.reloadConsoleFuncs();
-	//e->gfx.loadFont("debug_small", "debug_assets/OpenSans.ttf", 12, font_normal);
-	//e->gfx.loadFont("debug_small_blue", "debug_assets/OpenSans.ttf", 12, font_normal, color(50, 100, 255, 255));
 }

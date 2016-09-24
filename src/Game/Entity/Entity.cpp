@@ -28,6 +28,12 @@ c_tex::c_tex(const c_tex& src) {
 	*this = src;
 }
 
+c_phys::c_phys() {
+	lastUpdate = 0;
+	velocity = v2<r32>();
+	accel = v2<r32>();
+}
+
 c_tex& c_tex::operator=(const c_tex& src) {
 	if (this != &src) {
 		ID = src.ID;

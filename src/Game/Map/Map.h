@@ -75,10 +75,16 @@ public:
 	chunk* getChunk(cpos p);
 
 	bool registerEntity(entity e); // e needs a c_pos
-	bool updateEntity(entity e);
+	bool updateEntity(entity e, bool remove = true);
 
+	bool registerPlayer(u8 id, entity en);
+	entity getPlayer(u8 id);
+
+	void runPhysics();
+	
 private:
 	std::unordered_map<cpos, chunk> chunks;
+	std::map<u8, entity> players;
 
 	engine* e;
 	game* g;

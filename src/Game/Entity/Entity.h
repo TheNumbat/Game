@@ -59,6 +59,8 @@ struct c_text : public c_tex { // inherited for reuse
 };
 
 struct c_phys {
+	c_phys();
+	u64 lastUpdate;
 	v2<r32> velocity;
 	v2<r32> accel;
 };
