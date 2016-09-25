@@ -220,7 +220,7 @@ void Render::batchDebugHUD() {
 			msg = " >>> " + g->events.inStr;
 		 	PUSH_TEXT(msg, r2<r32>(10, sh - fontsize - 10, 0, 0));
 
-			for (int i = 0; i < g->events.chatLog.size() && i < 10; i++) {
+			for (u32 i = 0; i < g->events.chatLog.size() && i < 10; i++) {
 				PUSH_TEXT(g->events.chatLog[i], r2<r32>(10, sh - 10 - (i + 2) * fontsize, 0, 0));
 			}
 		}
@@ -302,12 +302,12 @@ void Render::renderRenderable(const renderable* r) {
 
 	if (t->isText) {
 		c_text* text = (c_text*) t;
-		e->gfx.renderText(text->font, text->msg, pxRect.round());
+		e->gfx.renderText(text->font, text->msg, pxRect);
 	} else {
 		e->gfx.setBlendmode(t->ID, t->blend);
 		e->gfx.setColorMod(t->ID, t->mod);
 
-		e->gfx.renderTextureEx(t->ID, pxRect.round(), t->srcPxlRect, pxRotPt.round(), t->rot, t->flip);
+		e->gfx.renderTextureEx(t->ID, pxRect, t->srcPxlRect, pxRotPt, t->rot);
 	}
 	g->debug.endFunc(0);
 }

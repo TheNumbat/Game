@@ -37,10 +37,9 @@ struct c_tex {
 	std::string ID;
 	s16 layer;
 	r2<r32> posRect; // meters or pixels (set respectMeters)
-	r2<s32> srcPxlRect; // pixels
+	r2<r32> srcPxlRect; // pixels
 	v2<r32> rotPt; // meters
 	r32 rot; // radians
-	flipmode flip;
 	color mod;
 	blendmode blend;
 

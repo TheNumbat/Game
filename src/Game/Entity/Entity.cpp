@@ -19,9 +19,8 @@ c_tex::c_tex() {
 	respectZoom = true;
 	respectMeters = true;
 	isText = false;
-	flip = flip_none;
 	blend = blend_alpha;
-	mod = color(255, 255, 255, 0);
+	mod = color(255, 255, 255, 255);
 }
 
 c_tex::c_tex(const c_tex& src) {
@@ -42,7 +41,6 @@ c_tex& c_tex::operator=(const c_tex& src) {
 		srcPxlRect = src.srcPxlRect;
 		rotPt = src.rotPt;
 		rot = src.rot;
-		flip = src.flip;
 		mod = src.mod;
 		blend = src.blend;
 		isText = src.isText;
@@ -70,7 +68,6 @@ c_text& c_text::operator=(const c_text& src) {
 		srcPxlRect = src.srcPxlRect;
 		rotPt = src.rotPt;
 		rot = src.rot;
-		flip = src.flip;
 		mod = src.mod;
 		blend = src.blend;
 		isText = src.isText;
