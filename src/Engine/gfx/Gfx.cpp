@@ -2,7 +2,7 @@
 #include "gfx.h"
 #include "..\log\log.h"
 #include <SDL.h>
-#include <SDL_image.h>
+#include <SDL_gpu.h>
 #include <SDL_FontCache.h>
 #include <dirent.h>
 
@@ -21,7 +21,7 @@ color::color(u8 _r, u8 _g, u8 _b, u8 _a) {
 }
 
 texture::texture() {
-	sdl_texture = NULL;
+	image = NULL;
 	blend = blend_alpha;
 	colormod = color(0, 0, 0, 0);
 	good = false;
@@ -31,32 +31,14 @@ texture::~texture() {
 	free();
 }
 
-bool texture::load(const std::string& path, void* renderer, blendmode b, color c) {
+bool texture::load(const std::string& path, blendmode b, color c) {
 	free();
 
-	SDL_Surface* buf = IMG_Load(path.c_str());
-	assert(buf);
-	if (!buf) {
+	image = GPU_LoadImage(path.c_str());
+	assert(image);
+	if (!image) {
 		logSetContext("GRAPHICS");
-		logWarn("Failed to load texture from path " + path + " error: " + IMG_GetError());
-		return false;
-	}
-
-	bool result = load(buf, renderer, b, c);
-	SDL_FreeSurface(buf);
-
-	return result;
-}
-
-bool texture::load(void* surface, void* renderer, blendmode b, color c) {
-	
-	sdl_texture = SDL_CreateTextureFromSurface((SDL_Renderer*)renderer, (SDL_Surface*)surface);
-
-	assert(sdl_texture);
-	if (!sdl_texture) {
-		logSetContext("GRAPHICS");
-		logWarn((std::string)"Failed to create texture from surface. Error: " + SDL_GetError());
-		return false;
+		logWarn("Failed to load texture from path " + path);
 	}
 
 	if (!setBlendmode(b)) {
@@ -74,8 +56,8 @@ bool texture::load(void* surface, void* renderer, blendmode b, color c) {
 
 bool texture::free() {
 	if (good) {
-		SDL_DestroyTexture((SDL_Texture*)sdl_texture);
-		sdl_texture = NULL;
+		GPU_FreeImage((GPU_Image*)image);
+		image = NULL;
 		blend = blend_alpha;
 		colormod = color(0, 0, 0, 0);
 		good = false;
@@ -85,29 +67,19 @@ bool texture::free() {
 }
 
 bool texture::setBlendmode(blendmode b) {
-	s32 result = 1;
-
-	switch (b)
-	{
+	switch (b) {
 		case blend_alpha:
-			result = SDL_SetTextureBlendMode((SDL_Texture*)sdl_texture, SDL_BLENDMODE_BLEND);
+			GPU_SetBlendMode((GPU_Image*)image, GPU_BLEND_NORMAL);
 			break;
 		case blend_additive:
-			result = SDL_SetTextureBlendMode((SDL_Texture*)sdl_texture, SDL_BLENDMODE_ADD);
+			GPU_SetBlendMode((GPU_Image*)image, GPU_BLEND_ADD);
 			break;
 		case blend_modulate:
-			result = SDL_SetTextureBlendMode((SDL_Texture*)sdl_texture, SDL_BLENDMODE_MOD);
+			GPU_SetBlendMode((GPU_Image*)image, GPU_BLEND_MOD_ALPHA);
 			break;
 		case blend_none:
-			result = SDL_SetTextureBlendMode((SDL_Texture*)sdl_texture, SDL_BLENDMODE_NONE);
+			GPU_SetBlendMode((GPU_Image*)image, GPU_BLEND_SET);
 			break;
-	}
-
-	assert(result == 0);
-	if (result != 0) {
-		logSetContext("GRAPHICS");
-		logWarn((std::string)"Failed to set blendmode. Error: " + SDL_GetError());
-		return false;
 	}
 
 	blend = b;
@@ -119,13 +91,7 @@ blendmode texture::getBlendmode() {
 }
 
 bool texture::setColormod(color c) {
-	s32 result = SDL_SetTextureColorMod((SDL_Texture*)sdl_texture, c.r, c.g, c.b);
-	assert(result == 0);
-	if (result != 0) {
-		logSetContext("GRAPHICS");
-		logWarn((std::string)"Failed to color mod. Error: " + SDL_GetError());
-		return false;
-	}
+	GPU_SetRGBA((GPU_Image*)image, c.r, c.g, c.b, c.a);
 	return true;
 }
 
@@ -143,29 +109,29 @@ font::~font() {
 	free();
 }
 
-bool font::load(const std::string& path, void* renderer, s32 fsize, color c, fontstyle style) {
+bool font::load(const std::string& path, s32 fsize, color c, fontstyle style) {
 	free();
 
 	fc_font = FC_CreateFont();
 	int result;
 	switch (style) {
 	case font_normal:
-		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_NORMAL);
+		result = FC_LoadFont((FC_Font*)fc_font, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_NORMAL);
 		break;
 	case font_bold:
-		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_BOLD);
+		result = FC_LoadFont((FC_Font*)fc_font, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_BOLD);
 		break;
 	case font_italic:
-		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_ITALIC);
+		result = FC_LoadFont((FC_Font*)fc_font, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_ITALIC);
 		break;
 	case font_outline:
-		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_OUTLINE);
+		result = FC_LoadFont((FC_Font*)fc_font, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_OUTLINE);
 		break;
 	case font_strikethrough:
-		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_STRIKETHROUGH);
+		result = FC_LoadFont((FC_Font*)fc_font, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_STRIKETHROUGH);
 		break;
 	case font_underline:
-		result = FC_LoadFont((FC_Font*)fc_font, (SDL_Renderer*)renderer, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_UNDERLINE);
+		result = FC_LoadFont((FC_Font*)fc_font, path.c_str(), fsize, FC_MakeColor(c.r, c.g, c.b, c.a), TTF_STYLE_UNDERLINE);
 		break;
 	}
 	assert(result != 0);
@@ -197,8 +163,7 @@ s32 font::getSize() {
 }
 
 Gfx::Gfx() {
-	sdl_renderer = NULL;
-	sdl_window = NULL;
+	window = NULL;
 	good = false;
 }
 
@@ -223,14 +188,6 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 		return false;
 	}
 
-	logInfo("Initializing SDL_Image");
-	result = IMG_Init(IMG_INIT_JPG | IMG_INIT_JPG) != 0;
-	assert(result);
-	if (!result) {
-		logErr((std::string) "Failed to initialize SDL_Image. Error: " + IMG_GetError());
-		return false;
-	}
-
 	logInfo("Initializing SDL_TTF");
 	result = TTF_Init() == 0;
 	assert(result);
@@ -240,19 +197,19 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 	}
 
 	logInfo("Creating Window and Renderer");
-	SDL_Window* temp1;
-	SDL_Renderer* temp2;
-	result = SDL_CreateWindowAndRenderer(width, height, NULL, &temp1, &temp2) == 0;
-	assert(result);
-	if (!result) {
-		logErr((std::string) "Failed to create SDL window and renderer. Error: " + SDL_GetError());
+	GPU_SetDebugLevel(GPU_DEBUG_LEVEL_MAX);
+	window = GPU_Init(width, height, GPU_INIT_DISABLE_VSYNC);
+	Ww = width;
+	Wh = height;
+	assert(window);
+	if (!window) {
+		logErr((std::string) "Failed to create window rendering target.");
 		return false;
 	}
-	sdl_window = temp1;
-	sdl_renderer = temp2;
 
 	logInfo("Done initializing graphics.");
 	logExitSec();
+
 
 	good = true;
 	return true;
@@ -274,18 +231,13 @@ bool Gfx::kill() {
 	for (auto i : fonts)
 		delete i.second;
 
-	logInfo("Destroying Renderer");
-	SDL_DestroyRenderer((SDL_Renderer*)sdl_renderer);
 	logInfo("Destroying Window");
-	SDL_DestroyWindow((SDL_Window*)sdl_window);
-
-	sdl_renderer = NULL;
-	sdl_window = NULL;
+	GPU_Quit();
+	window = NULL;
 
 	logInfo("Quitting SDL Video");
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
-	logInfo("Quitting SDL_Image");
-	IMG_Quit();
+
 	logInfo("Quitting SDL_TTF");
 	TTF_Quit();
 
@@ -300,40 +252,27 @@ bool Gfx::kill() {
 bool Gfx::getWinDim(s32& w, s32& h) {
 	logSetContext("GRPAHICS");
 
-	if (!good) {
-		logWarn("Cannot get window size, graphics not initialized.");
-		return false;
-	}
-
-	assert(sdl_window);
-	SDL_GetWindowSize((SDL_Window*)sdl_window, &w, &h);
+	w = Ww;
+	h = Wh;
 	return true;
 }
 
 bool Gfx::swapFrame(bool clear) {
 	logSetContext("GRPAHICS");
 
-	if (!good) {
-		logWarn("Cannot get display window, graphics not initialized.");
-		return false;
-	}
-
-	SDL_RenderPresent((SDL_Renderer*)sdl_renderer);
+	GPU_Flip((GPU_Target*)window);
 
 	if (clear) {
-		if (SDL_RenderClear((SDL_Renderer*)sdl_renderer)) {
-			logWarn((std::string) "Could not clear renderer, error: " + SDL_GetError());
-			return false;
-		}
+		GPU_Clear((GPU_Target*)window);
 	}
 
 	return true;
 }
 
-bool Gfx::setViewport(r2<s32> port) {
+bool Gfx::setViewport(r2<r32> port) {
 	logSetContext("GRPAHICS");
 
-	SDL_Rect viewport;
+	GPU_Rect viewport;
 
 	if (port.w == 0 || port.h == 0) {
 		s32 w, h;
@@ -349,11 +288,7 @@ bool Gfx::setViewport(r2<s32> port) {
 		viewport.h = port.h;
 	}
 	
-	if (SDL_RenderSetViewport((SDL_Renderer*)sdl_renderer, &viewport) != 0) {
-		logWarn((std::string) "Could not set viewport! Error: " + SDL_GetError());
-		return false;
-	}
-
+	GPU_SetViewport((GPU_Target*)window, viewport);
 	return true;
 }
 
@@ -368,7 +303,7 @@ bool Gfx::loadFont(const std::string& fontID, const std::string& path, s32 size,
 
 	font* newF = new font;
 
-	if (!newF->load(path, sdl_renderer, size, c, style))
+	if (!newF->load(path, size, c, style))
 	{
 		logWarn("Failed to load font ID: " + fontID + " from " + path);
 		delete newF;
@@ -391,7 +326,7 @@ bool Gfx::loadTexture(const std::string& texID, const std::string& path, blendmo
 
 	texture* newT = new texture;
 
-	if (!newT->load(path, sdl_renderer, b, c))
+	if (!newT->load(path, b, c))
 	{
 		logWarn("Failed to load texture ID: " + texID + " from " + path);
 		delete newT;
@@ -559,13 +494,8 @@ bool Gfx::freeFont(const std::string& fontID) {
 	return true;
 }
 
-bool Gfx::renderTexture(const std::string& texID, r2<s32> dest_rect) {
+bool Gfx::renderTexture(const std::string& texID, r2<r32> dest_rect) {
 	logSetContext("GRAPHICS");
-
-	if (!good) {
-		logWarn("Can't render texture, graphics not initialized");
-		return false;
-	}
 
 	auto textureItem = textures.find(texID);
 	if (textureItem == textures.end()) {
@@ -573,41 +503,15 @@ bool Gfx::renderTexture(const std::string& texID, r2<s32> dest_rect) {
 		return false;
 	}
 
-	s32 tw, th;
-	if (SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&tw,&th) != 0) {
-		logWarn((std::string)"Couldn't query texture, SDL_Error: " + SDL_GetError());
-		return false;
-	}
+	GPU_Image* image = (GPU_Image*)textureItem->second->image;
 
-	SDL_Rect sdl_dest_rect;
-	sdl_dest_rect.x = dest_rect.x;
-	sdl_dest_rect.y = dest_rect.y;
-
-	if (dest_rect.w == 0)
-		sdl_dest_rect.w = tw;
-	else
-		sdl_dest_rect.w = dest_rect.w;
-	if (dest_rect.h == 0)
-		sdl_dest_rect.h = th;
-	else
-		sdl_dest_rect.h = dest_rect.h;
-
-	if (SDL_RenderCopy((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,NULL,&sdl_dest_rect) != 0)
-	{
-		logWarn("Failed to Render texture ID: " + texID + ", Error: " + SDL_GetError());
-		return false;
-	}
+	GPU_BlitScale(image, NULL, (GPU_Target*)window, dest_rect.x, dest_rect.y, dest_rect.w / image->w, dest_rect.h / image->h);
 
 	return true;
 }
 
-bool Gfx::renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> src_rect, v2<s32> rot_pos32, r32 rotation, flipmode flip) {
+bool Gfx::renderTextureEx(const std::string& texID, r2<r32> dest_rect, r2<r32> src_rect, v2<r32> rot_pt, r32 rotation) {
 	logSetContext("GRAPHICS");
-
-	if (!good) {
-		logWarn("Can't display texture, graphics not initialized");
-		return false;
-	}
 
 	auto textureItem = textures.find(texID);
 	if (textureItem == textures.end()) {
@@ -615,66 +519,29 @@ bool Gfx::renderTextureEx(const std::string& texID, r2<s32> dest_rect, r2<s32> s
 		return false;
 	}
 
-	s32 tw, th;
-	if (SDL_QueryTexture((SDL_Texture*)textureItem->second->sdl_texture,NULL,NULL,&tw,&th) != 0)
-	{
-		logWarn((std::string)"Couldn't query texture, Error: " + SDL_GetError());
-		return false;
-	}
-
-	SDL_Rect sdl_dest_rect;
-	sdl_dest_rect.x = dest_rect.x;
-	sdl_dest_rect.y = dest_rect.y;
-
-	if (dest_rect.w == 0)
-		sdl_dest_rect.w = tw;
-	else
-		sdl_dest_rect.w = dest_rect.w;
-	if (dest_rect.h == 0)
-		sdl_dest_rect.h = th;
-	else
-		sdl_dest_rect.h = dest_rect.h;
-
-	SDL_Rect sdl_src_rect;
-	sdl_src_rect.x = src_rect.x;
-	sdl_src_rect.y = src_rect.y;
-
-	if (src_rect.w == 0)
-		sdl_src_rect.w = tw;
-	else
-		sdl_src_rect.w = src_rect.w;
-	if (src_rect.h == 0)
-		sdl_src_rect.h = th;
-	else
-		sdl_src_rect.h = src_rect.h;
-
-	SDL_Point sdl_rot_pos32;
-	sdl_rot_pos32.x = rot_pos32.x;
-	sdl_rot_pos32.y = rot_pos32.y;
-
-	SDL_RendererFlip sdl_flip = SDL_FLIP_NONE;
-	switch(flip) {
-		case flip_both:
-			sdl_flip = (SDL_RendererFlip)(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
-			break;
-		case flip_horz:
-			sdl_flip = (SDL_RendererFlip)SDL_FLIP_HORIZONTAL;
-			break;
-		case flip_vert:
-			sdl_flip = (SDL_RendererFlip)SDL_FLIP_VERTICAL;
-			break;	
-	}
-
-	if (SDL_RenderCopyEx((SDL_Renderer*)sdl_renderer,(SDL_Texture*)textureItem->second->sdl_texture,
-						 &sdl_src_rect,&sdl_dest_rect,rotation,&sdl_rot_pos32,sdl_flip) != 0) {
-		logWarn("Failed to Render texture ID: " + texID + ", Error: " + SDL_GetError());
-		return false;
-	}
+	GPU_Image* image = (GPU_Image*)textureItem->second->image;
 	
+	GPU_Rect src;
+	src.x = src_rect.x;
+	src.y = src_rect.y;
+	if (src_rect.w == 0 || src_rect.h == 0) {
+		src.w = image->w;
+		src.h = image->h;
+	} else {
+		src.w = src_rect.w;
+		src.h = src_rect.h;
+	}
+	if (dest_rect.w == 0 || dest_rect.h == 0) {
+		dest_rect.w = image->w;
+		dest_rect.h = image->h;
+	}
+
+	GPU_BlitTransformX(image, &src, (GPU_Target*)window, dest_rect.x, dest_rect.y, rot_pt.x, rot_pt.y, rotation, dest_rect.w / image->w, dest_rect.h / image->h);
+
 	return true;
 }
 
-bool Gfx::renderText(const std::string& fontID, const std::string& text, r2<s32> dest_rect) {
+bool Gfx::renderText(const std::string& fontID, const std::string& text, r2<r32> dest_rect) {
 	logSetContext("GRAPHICS");
 
 	auto fentry = fonts.find(fontID);
@@ -683,7 +550,7 @@ bool Gfx::renderText(const std::string& fontID, const std::string& text, r2<s32>
 		return false;
 	}
 
-	FC_Draw((FC_Font*)fentry->second->fc_font, (SDL_Renderer*)sdl_renderer, dest_rect.x, dest_rect.y, text.c_str());
+	FC_Draw((FC_Font*)fentry->second->fc_font, (GPU_Target*)window, dest_rect.x, dest_rect.y, text.c_str());
 
 	return true;
 }
