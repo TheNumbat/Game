@@ -8,17 +8,18 @@
 
 void Render::render() {
 	g->debug.beginFunc(0);
-	if (g->ren.batchQueue.size()) {
+	if (batchQueue.size()) {
 		renderBatch& batch = batchQueue.front();
+		cam.update(g);
 		while (batch.size()) {
 			const renderable* t = &batch.top();
-			g->ren.renderRenderable(t);
+			renderRenderable(t);
 			if (t->deleteAfter) {
 				delete t->texture;
 			}
 			batch.pop();
 		}
-		g->ren.batchQueue.pop();
+		batchQueue.pop();
 	}
 	g->debug.endFunc(0);
 }
@@ -58,7 +59,6 @@ Render::Render(engine* _e, game* _g) {
 void Render::setFollow(entity en) {
 	cam.following = en;
 	cam.update(g);
-	updateCorners();
 }
 
 void Render::init() {
@@ -104,7 +104,6 @@ void Render::batchMap() {
 
 	batchQueue.push(renderBatch());
 	renderBatch& batch = batchQueue.back();
-	cam.update(g);
 	
 	// queue map textures
 
@@ -263,14 +262,14 @@ u32 Render::recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize) 
 	return numchildren;
 }
 
-v2<r32> Render::mapIntoPxSpace(mpos point, mpos origin) {
+v2<s32> Render::mapIntoPxSpace(mpos point, mpos origin) {
 	v2<r32> realDist(point.real.x - origin.real.x, point.real.y - origin.real.y);
 	v2<r32> chunkDist(point.chunk.x - origin.chunk.x, point.chunk.y - origin.chunk.y);
 
 	v2<r32> meters = chunkDist * CHUNK_SIZE_METERS + realDist;
 	v2<r32> pixels = meters * METERS_TO_PIXELS * cam.zoom;
 
-	return pixels;
+	return pixels.round();
 }
 
 void Render::updateCorners() {
@@ -289,11 +288,11 @@ void Render::renderRenderable(const renderable* r) {
 	g->debug.beginFunc(0);
 	c_tex* t = r->texture;
 
-	v2<r32> pxOffset = mapIntoPxSpace(r->base, TLC);
+	v2<s32> pxOffset = mapIntoPxSpace(r->base, TLC);
 	r2<r32> pxRect;
 	v2<r32> pxRotPt;
 	if (t->respectMeters) {
-		pxRect = t->posRect * METERS_TO_PIXELS * (t->respectZoom ? cam.zoom : 1) + pxOffset;
+		pxRect = t->posRect * METERS_TO_PIXELS * (t->respectZoom ? cam.zoom : 1) + v2<r32>(pxOffset.x,pxOffset.y);
 		pxRotPt = t->rotPt * METERS_TO_PIXELS * (t->respectZoom ? cam.zoom : 1);
 	} else {
 		pxRect = t->posRect;

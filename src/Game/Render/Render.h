@@ -58,7 +58,7 @@ public:
 private:
 	u32 recProfRender(Util::profNode* node, u32 pos, u32 lvl, u32 fontsize);
 	void renderRenderable(const renderable* r);
-	v2<r32> mapIntoPxSpace(mpos point, mpos origin);
+	v2<s32> mapIntoPxSpace(mpos point, mpos origin);
 	
 	void updateCorners();
 

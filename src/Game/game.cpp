@@ -71,7 +71,6 @@ game::game(engine* _e)
 	ren.setFollow(en);
 
 	debug.setFlag(renderChunkbounds);
-	debug.setFlag(renderCamera);
 	debug.setFlag(renderPositionText);
 
 	logInfo("Done initializing game.");

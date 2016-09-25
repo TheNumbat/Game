@@ -126,7 +126,7 @@ void Util::endFrame() {
 	totalFrameTime += lastFrameTime;
 	totalFrames++;
 
-	if (fpsCap && lastFrameTime > (perf / fpsCap) + 5000) {
+	if (fpsCap && lastFrameTime > (perf / fpsCap)) {
 		logWarn("Last frame took " + std::to_string(1000.0f * lastFrameTime / (r64) perf) + " ms!");
 		releaseVal("overTime");
 		releaseVal("overFrame");
