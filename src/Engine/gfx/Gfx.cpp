@@ -198,7 +198,10 @@ bool Gfx::init(const std::string& win, u32 width, u32 height) {
 
 	logInfo("Creating Window and Renderer");
 	GPU_SetDebugLevel(GPU_DEBUG_LEVEL_MAX);
-	window = GPU_Init(width, height, GPU_INIT_DISABLE_VSYNC);
+	window = GPU_Init(width, height, 0);
+	// TODO: tune attributes
+	SDL_GL_SetSwapInterval(0);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 	Ww = width;
 	Wh = height;
 	assert(window);
