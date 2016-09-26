@@ -63,6 +63,7 @@ void Render::setFollow(entity en) {
 
 void Render::init() {
 	e->gfx.loadTexture("debug_chunkbounds", "debug_assets/chunkbounds.bmp");
+	e->gfx.loadTexture("debug_collision", "debug_assets/collision.bmp");
 	e->gfx.loadTexture("debug_camera", "debug_assets/camera.png");
 
 	c_tex* db = new c_tex();
@@ -133,15 +134,31 @@ void Render::batchMap() {
 					posStr << pos.chunk.x << " " << pos.chunk.y << " " << pos.chunk.z
 					   	   << " " << pos.real.x << " " << pos.real.y << " " << pos.real.z;
 					c_text* text = new c_text();
-					text->font = "debug_small";
+					text->font = "debug_small_black";
 					text->msg = posStr.str();
 					text->layer = INT16_MAX;
-					r32 size = g->e->gfx.getFontSize("debug_small") * PIXELS_TO_METERS;
+					r32 size = g->e->gfx.getFontSize("debug_small_black") * PIXELS_TO_METERS;
 					text->posRect = r2<r32>(0, 0, text->msg.length() * size, size);
 					batch.push(renderable( text, pos, true ));
 				}
 				
-				// TODO: Debug: draw collision bounds
+				// Debug: draw collision bounds
+				if (g->debug.getFlag(renderCollisionBounds)) {
+					component cphys = g->emgr.getC(e, ct_phys);
+					if (c_phys* phys = cphys.phys) {
+						for (shape* s : phys->volumes) {
+							// TODO: more than r2 - polygon rendering
+							r2<r32>* r = (r2<r32>*)s;
+							c_tex* t = new c_tex();
+							t->ID = "debug_collision";
+							t->layer = INT16_MAX;
+							t->posRect = *r;
+							//t->posRect = r->sweep_move(*((r2<r32>*)g->emgr.getC(g->map.getPlayer(0),ct_phys).phys->volumes[0]));
+							t->blend = blend_additive;
+							batch.push(renderable(t, pos, true));
+						}
+					}
+				}
 
 				std::vector<component> etexs = g->emgr.getMultiC(e, ct_tex);
 				std::vector<component> etexts = g->emgr.getMultiC(e, ct_text);
@@ -188,7 +205,7 @@ void Render::batchDebugHUD() {
 
 	if (!g->debug.getFlag(renderDebugUI)) {
 		r64 fps = (r64)e->time.getPerfFreq() / (r64)g->debug.getLastFrame();
-		std::string msg = "fps: " + std::to_string(fps);
+		std::string msg = "fps: " + std::to_string((s32)std::round(fps));
 		PUSH_TEXT(msg, r2<r32>(10, 10, 0, 0));
 	} else {
 		r64 avgFrame = 1000.0f * (r64)g->debug.getAvgFrame() / (r64)e->time.getPerfFreq();

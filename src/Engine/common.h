@@ -25,8 +25,7 @@ typedef int64_t		s64;
 typedef uint64_t	u64;
 
 #include "v2.h"
-#include "r2.h"
-#include "seg.h"
+#include "shapes.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 

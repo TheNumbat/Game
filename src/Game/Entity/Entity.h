@@ -2,8 +2,9 @@
 
 #include "common.h"
 #include <engine.h>
-#include "..\Map\Map.h"
+#include <shapes.h>
 #include <map>
+#include "..\Map\Map.h"
 #include "..\sarr.h"
 
 struct game;
@@ -62,6 +63,7 @@ struct c_phys {
 	u64 lastUpdate;
 	v2<r32> velocity;
 	v2<r32> accel;
+	std::vector<shape*> volumes;
 };
 
 struct component {

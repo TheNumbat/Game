@@ -175,12 +175,81 @@ void Map::runPhysics() {
 
 			u64 current = e->time.get("physics");
 			u64 dT = current - phys->lastUpdate;
+			v2<r32> dPTotal = phys->velocity * (dT / 1000.0f);
 
-			phys->velocity += phys->accel * (dT / 1000.0f);
-			v2<r32> dP = phys->velocity * (dT / 1000.0f);
-			pos->pos.real += rpos(dP.x, dP.y, 0);
+			// TODO: acceleration
+
+			// Collision loop
+			if (phys->volumes.empty()) {
+				pos->pos.real += rpos(dPTotal.x, dPTotal.y, 0);
+			} else {
+				while (dT > 0) {
+					// move increment
+					v2<r32> dPincr = phys->velocity * (dT / 1000.0f);
+
+					// velocity is zero, we're done
+					if (!dPincr) break;
+
+					// Origin-based move segment
+					seg sPincr(0, 0, dPincr.x, dPincr.y);
+
+					std::vector<shape*> nearby = getNearbyVolumes(en, pos->pos, dPincr);
+					// nothing to collide with
+					if (nearby.empty()) {
+						phys->velocity += phys->accel * (dT / 1000.0f);
+						pos->pos.real += rpos(dPTotal.x, dPTotal.y, 0);
+						break;
+					}
+
+					// wew lad
+					v2<r32> closestVec = dPincr;
+					seg collidedWith;
+					for (shape* mine : phys->volumes) {
+						// TODO: more than r2
+						r2<r32>* miner = (r2<r32>*)mine;
+						for (shape* other : nearby) {
+							r2<r32>* otherr = (r2<r32>*)other;
+
+							r2<r32> sweptr = otherr->sweep_move(*miner);
+
+							std::vector<seg> segs = sweptr.getSegs();
+							for (seg s : segs) {
+								if (s.includes(v2<r32>(0, 0)) && sweptr.includes(dPTotal)) {
+									closestVec = v2<r32>(0, 0);
+									collidedWith = s;
+									break;
+								}
+								// point where segments intersect, or zero if they don't
+								v2<r32> intersect = s.intersect(sPincr);
+								// if this is closer than the last collision
+								if (intersect.length() < closestVec.length()) {
+									closestVec = intersect;
+									collidedWith = s;
+								}
+							}
+						}
+					}
+
+					// no collision, move full distance
+					if (closestVec == dPTotal) {
+						pos->pos.real += rpos(dPTotal.x, dPTotal.y, 0);
+						dT = 0;
+						// collision
+					} else {
+						u64 tUsed = std::round((r32)dT * std::abs(closestVec.x / dPincr.x));
+						dT -= tUsed;
+						pos->pos.real += rpos(closestVec.x, closestVec.y, 0);
+						phys->velocity = phys->velocity.parallel(collidedWith.vec());
+					}
+
+					for (shape* s : nearby) {
+						delete s;
+					}
+				}
+			}
+
+			// Update position in chunk map
 			pos->pos.clamp();
-
 			if (updateEntity(en, false)) {
 				moved = true;
 				c.erase(eEntry++);
@@ -191,6 +260,51 @@ void Map::runPhysics() {
 	}
 
 	g->debug.endFunc();
+}
+
+std::vector<shape*> Map::getNearbyVolumes(entity exclude, mpos pos, v2<r32> move) {
+	g->debug.beginFunc(0);
+
+	std::vector<shape*> result;
+	v2<s32> chunkArea;
+	if (move.x >= 0) chunkArea.x = std::floor(move.x / CHUNK_SIZE_METERS);
+	else chunkArea.x = std::ceil(move.x / CHUNK_SIZE_METERS);
+	if (move.y >= 0) chunkArea.y = std::floor(move.y / CHUNK_SIZE_METERS);
+	else chunkArea.y = std::ceil(move.y / CHUNK_SIZE_METERS);
+
+	for (s32 x = pos.chunk.x - chunkArea.x; x <= pos.chunk.x + chunkArea.x; x++) {
+		for (s32 y = pos.chunk.y - chunkArea.y; y <= pos.chunk.y + chunkArea.y; y++) {
+			chunk* current = getChunk(cpos(x, y, pos.chunk.z));
+			if (!current) continue;
+
+			for (entity en : *current) {
+				if (en != exclude) {
+					component cph = g->emgr.getC(en, ct_phys);
+					component cp = g->emgr.getC(en, ct_pos);
+					if (!cph.any || !cp.any) continue;
+
+					c_pos* cpos = cp.pos;
+					c_phys* cphys = cph.phys;
+
+					for (shape* s : cphys->volumes) {
+						// TODO: more than r2
+						r2<r32>* r = new r2<r32>();
+						*r = *((r2<r32>*)s) - getDistance(pos, cpos->pos);
+						result.push_back(r);
+					}
+				}
+			}
+		}
+	}
+
+	g->debug.endFunc();
+	return result;
+}
+
+v2<r32> Map::getDistance(mpos one, mpos two) {
+	v2<r32> realD(one.real.x - two.real.x, one.real.y - one.real.y);
+	v2<r32> chunkD(one.chunk.x - two.chunk.x, one.chunk.y - one.chunk.y);
+	return (chunkD * CHUNK_SIZE_METERS) + realD;
 }
 
 bool Map::registerPlayer(u8 id, entity en) {

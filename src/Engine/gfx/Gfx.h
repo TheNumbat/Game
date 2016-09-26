@@ -1,7 +1,6 @@
 #pragma once
 
 #include "..\common.h"
-#include "..\r2.h"
 #include <map>
 
 enum blendmode : u8 {

@@ -83,6 +83,10 @@ public:
 	void runPhysics();
 	
 private:
+	// allocates new shapes, need to delete
+	std::vector<shape*> getNearbyVolumes(entity exclude, mpos pos, v2<r32> move);
+	v2<r32> getDistance(mpos one, mpos two);
+
 	std::unordered_map<cpos, chunk> chunks;
 	std::map<u8, entity> players;
 

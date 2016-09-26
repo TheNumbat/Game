@@ -102,7 +102,7 @@ component entityMgr::getC(entity e, c_type type) {
 
 	auto cEntry = eEntry->second.find(type);
 	if (cEntry == eEntry->second.end()) {
-		logWarn("Failed to find component type " + std::to_string(type) + " in entity ID" + std::to_string((u32) e));
+		logWarn("Failed to find component type " + std::to_string(type) + " in entity ID " + std::to_string((u32) e));
 		return component(ct_none, NULL);
 	}
 
