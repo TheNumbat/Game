@@ -12,4 +12,6 @@ SDL 2.0
 SDL_Image  
 SDL_Mixer  
 SDL_ttf  
+SDL_FontCache  
+SDL_GPU  
 Dirent  
